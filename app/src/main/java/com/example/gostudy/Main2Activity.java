@@ -21,7 +21,7 @@ public class Main2Activity extends AppCompatActivity {
         // menu should be considered as top level destinations.
         System.out.println(0);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications, R.id.navigation_tips)
+                R.id.navigation_home, R.id.navigation_stats, R.id.navigation_notifications, R.id.navigation_tips)
                 .build();
         System.out.println(1);
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
