@@ -24,11 +24,9 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState){
-        System.out.println(1);
+
         View root = inflater.inflate(R.layout.fragment_stats, container, false);
-        System.out.println(2);
         GraphView graph = (GraphView) root.findViewById(R.id.cmgraph);
-        System.out.println(3);
         BarGraphSeries<DataPoint> series = new BarGraphSeries<>(new DataPoint[] {
                 new DataPoint( 49,  4 ),
                 new DataPoint(  59 , 1),
@@ -41,10 +39,8 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
                 new DataPoint( 94, 8),
                 new DataPoint(  100, 3),
         });
-        System.out.println(4);
         graph.addSeries(series);
         // styling
-        System.out.println(5);
         series.setValueDependentColor(new ValueDependentColor<DataPoint>() {
             @Override
             public int get(DataPoint data) {
@@ -56,20 +52,15 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         // draw values on top
         series.setDrawValuesOnTop(true);
         series.setValuesOnTopColor(Color.RED);
-        System.out.println(5);
         Spinner statsSpinner = root.findViewById(R.id.statsSpnr);
         ArrayList<String> courses = new ArrayList<>();
         courses.add("2019/2020 Semester A");
         courses.add("2019/2020 Semester B");
         courses.add("2018/2019 Semester A");
         courses.add("2018/2019 Semester B");
-        System.out.println(6);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_item, courses);
-        System.out.println(7);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        System.out.println(8);
         statsSpinner.setAdapter(arrayAdapter);
-        System.out.println(9);
         return root;
 
 
