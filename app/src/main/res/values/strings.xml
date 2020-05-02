@@ -1,3 +1,4 @@
+
 <resources>
     <string name="app_name">GoStudy</string>
     <string name="title_activity_main2">Main2Activity</string>
@@ -6,3 +7,4 @@
     <string name="title_notifications">Notifications</string>
     <string name="statistics">Statistics</string>
 </resources>
+
