@@ -1,4 +1,3 @@
-
 <resources>
     <string name="app_name">GoStudy</string>
     <string name="title_activity_main2">Main2Activity</string>
@@ -6,5 +5,17 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="statistics">Statistics</string>
+    <string name="title_activity_main_nav">MainNavActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="username">RaghdZeidan1997</string>
+    <string name="email">raghadzeidan@mail.tau.ac.il</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_three_dots">We can do something here. -Raghd</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_tips">Tips</string>
+    <string name="menu_refs">References</string>
+    <string name="menu_daily">Daily</string>
 </resources>
 
