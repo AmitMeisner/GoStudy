@@ -41,7 +41,9 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="28dp"
-            android:text="Choose variant and average." />
+            android:text="Choose variant and average."
+            android:textColor="#2196F3"
+            android:textSize="18sp" />
 
         <Spinner
             android:id="@+id/statsSpnr"
