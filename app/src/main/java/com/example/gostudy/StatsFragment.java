@@ -19,25 +19,25 @@ import com.jjoe64.graphview.series.DataPoint;
 
 import java.util.ArrayList;
 
-public class StatsFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class StatsFragment extends Fragment{
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState){
+                             ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_stats, container, false);
         GraphView graph = (GraphView) root.findViewById(R.id.cmgraph);
-        BarGraphSeries<DataPoint> series = new BarGraphSeries<>(new DataPoint[] {
-                new DataPoint( 49,  4 ),
-                new DataPoint(  59 , 1),
-                new DataPoint(64 , 0),
-                new DataPoint( 69,  9),
-                new DataPoint( 74, 14),
-                new DataPoint(  79, 6),
-                new DataPoint(  84, 18),
-                new DataPoint(  89,  16 ),
-                new DataPoint( 94, 8),
-                new DataPoint(  100, 3),
+        BarGraphSeries<DataPoint> series = new BarGraphSeries<>(new DataPoint[]{
+                new DataPoint(49, 4),
+                new DataPoint(59, 1),
+                new DataPoint(64, 0),
+                new DataPoint(69, 9),
+                new DataPoint(74, 14),
+                new DataPoint(79, 6),
+                new DataPoint(84, 18),
+                new DataPoint(89, 16),
+                new DataPoint(94, 8),
+                new DataPoint(100, 3),
         });
         graph.addSeries(series);
         // styling
@@ -63,16 +63,6 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         statsSpinner.setAdapter(arrayAdapter);
         return root;
 
-
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
 
     }
 }

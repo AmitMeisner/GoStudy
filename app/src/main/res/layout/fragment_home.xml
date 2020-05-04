@@ -71,6 +71,15 @@ tools:context=".MainActivity">
         />
 </LinearLayout>
 
+    <TextView
+        android:id="@+id/error_msg"
+        android:layout_width="306dp"
+        android:layout_height="9dp"
+        android:layout_marginTop="40dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="PLEASE CHOOSE COURSE AND RESOURCE."
+        android:textColor="#FF0000" />
 
 
 </LinearLayout>

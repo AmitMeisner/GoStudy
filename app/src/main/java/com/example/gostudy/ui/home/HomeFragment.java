@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import android.view.ViewGroup;
 import android.os.*;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Chronometer;
@@ -26,18 +27,25 @@ import com.example.gostudy.R;
 
 import java.util.ArrayList;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment{
     Chronometer chronometer;
     ImageButton btStart, btStop;
     private boolean isResume;
     Handler handler_chronometer;
     long tMiliSec, tStart, tBuff, tUpdate = 0L;
     int sec, min, millisec;
+    boolean courseSelected = false;
+    boolean resourceSelected = false;
+    View static_root;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
+        static_root = root;
+
+        //hide error message
+        hide_error_msg();
 
         //create spinner courses
         Spinner courses_Spinner = root.findViewById(R.id.spr_courses);
@@ -52,6 +60,32 @@ public class HomeFragment extends Fragment {
         ArrayAdapter<String> arrayAdapter_courses = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_item, courses);
         arrayAdapter_courses.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         courses_Spinner.setAdapter(arrayAdapter_courses);
+        courses_Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String text = (String) parent.getItemAtPosition(position);
+                if (parent.getId() == R.id.spr_courses){
+                    if (text == "choose course"){
+                        courseSelected = false;
+                    }else{
+                        courseSelected = true;
+                    }
+
+                }
+                else if (parent.getId()==R.id.spr_resource) {
+                    if (text == "choose resource") {
+                        resourceSelected = false;
+                    } else {
+                        resourceSelected = true;
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         //create spinner resource
         Spinner resources_Spinner = root.findViewById(R.id.spr_resource);
@@ -66,6 +100,34 @@ public class HomeFragment extends Fragment {
         ArrayAdapter<String> arrayAdapter_resources = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_item, resources);
         arrayAdapter_resources.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         resources_Spinner.setAdapter(arrayAdapter_resources);
+
+        resources_Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String text = (String) parent.getItemAtPosition(position);
+                if (parent.getId() == R.id.spr_courses){
+                    if (text == "choose course"){
+                        courseSelected = false;
+                    }else{
+                        courseSelected = true;
+                    }
+
+
+                }
+                else if (parent.getId()==R.id.spr_resource){
+                    if (text == "choose resource"){
+                        resourceSelected = false;
+                    }else{
+                        resourceSelected = true;
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
 
         //create chronometer
@@ -88,19 +150,27 @@ public class HomeFragment extends Fragment {
         };
         btStart.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {                                                                                                                                         if (!isResume) {                                                                                                                                             tStart = SystemClock.uptimeMillis();
-                    handler_chronometer.postDelayed(runnable, 0);
-                    chronometer.start();
-                    isResume = true;
-                    btStop.setVisibility(View.GONE);
-                    btStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause));
-                } else {
-                    tBuff += tMiliSec;
-                    handler_chronometer.removeCallbacks(runnable);
-                    chronometer.stop();
-                    isResume = false;
-                    btStop.setVisibility(View.VISIBLE);
-                    btStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
+            public void onClick(View v) {
+
+                if (check_timer_options_validity()){
+                    hide_error_msg();
+                    if (!isResume) {                                                                                                                                             tStart = SystemClock.uptimeMillis();
+                        handler_chronometer.postDelayed(runnable, 0);
+                        chronometer.start();
+                        isResume = true;
+                        btStop.setVisibility(View.GONE);
+                        btStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause));
+                    } else {
+                        tBuff += tMiliSec;
+                        handler_chronometer.removeCallbacks(runnable);
+                        chronometer.stop();
+                        isResume = false;
+                        btStop.setVisibility(View.VISIBLE);
+                        btStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
+                    }
+                }else{
+                    show_error_msg();
+
                 }
             }
         });
@@ -125,5 +195,21 @@ public class HomeFragment extends Fragment {
 
         return root;
 
+    }
+    private boolean check_timer_options_validity(){
+        if (resourceSelected == false || courseSelected == false){
+            return false;
+        }
+        return true;
+    }
+
+    private void show_error_msg(){
+        TextView error_msg = static_root.findViewById(R.id.error_msg);
+        error_msg.setVisibility(View.VISIBLE);
+    }
+
+    private void hide_error_msg(){
+        TextView error_msg = static_root.findViewById(R.id.error_msg);
+        error_msg.setVisibility(View.INVISIBLE);
     }
 }
