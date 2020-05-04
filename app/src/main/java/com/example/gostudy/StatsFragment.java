@@ -64,6 +64,7 @@ public class StatsFragment extends Fragment{
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String text = (String) parent.getItemAtPosition(position);
+                hide_graph();
                 if ("Please select graph variant." != text){
                     variable_selected = true;
                     update_graph_to_be_shown(text);
@@ -96,10 +97,12 @@ public class StatsFragment extends Fragment{
 
                 boolean validity = variable_selected && average_entered;
                 if (!validity){
+                    hide_graph();
                     show_error_msg();
                 }else{
                     average = 0; //Raghd: not important for now.
                     show_graph();
+                    hide_error_msg();
                 }
             }
         });
@@ -201,6 +204,7 @@ public class StatsFragment extends Fragment{
 
         //styling
         weekly_series.setDrawValuesOnTop(true);
+        weekly_series.setColor(Color.BLACK);
         weekly_series.setValuesOnTopColor(Color.RED);
 
         hw_series.setDrawValuesOnTop(true);
@@ -222,7 +226,7 @@ public class StatsFragment extends Fragment{
     }
 
     private void show_error_msg(){
-        TextView error_msg = static_root.findViewById(R.id.error_msg_stats;
+        TextView error_msg = static_root.findViewById(R.id.error_msg_stats);
         error_msg.setVisibility(View.VISIBLE);
     }
 
@@ -238,8 +242,17 @@ public class StatsFragment extends Fragment{
         /*Raghd: this function chooses which grahp to be show later on screen based on what is picked in spinner.
         Ugly looking implementation, consider changing.*/
         if (option == "Weekly Study Hours"){
-            graph_shown =
-
+            graph_shown.addSeries(weekly_series);
         }
+        if (option == "Percentage of HW Solved"){
+            graph_shown.addSeries(hw_series);
+        }
+        if (option == "Percentage of Classes Attended"){
+            graph_shown.addSeries(lectures_series);
+        }
+        if (option == "Percentage of Recitations Attended"){
+            graph_shown.addSeries(recitations_series);
+        }
+
     }
 }
