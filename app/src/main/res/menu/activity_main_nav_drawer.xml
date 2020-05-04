@@ -22,10 +22,10 @@
         <item
             android:id="@+id/navigation_tips"
             android:icon="@drawable/ic_highlight_black_24dp"
-            android:title="Tips" />
+            android:title="@string/menu_tips" />
         <item
             android:id="@+id/navigation_daily"
             android:icon="@drawable/ic_daily"
-            android:title="Daily" />
+            android:title="@string/menu_daily" />
     </group>
 </menu>

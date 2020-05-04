@@ -5,34 +5,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="264dp"
-        android:text="user2"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="188dp" />
+    <Button
+        android:id="@+id/submitTipBtn"
+        android:layout_width="76dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/submitTip"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_tip" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="user3"
-        app:layout_constraintBottom_toTopOf="@+id/textView4"
+    <EditText
+        android:id="@+id/user_tip"
+        android:layout_width="271dp"
+        android:layout_height="43dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/enterTip"
+        android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.732" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="240dp"
-        android:text="user4"
+    <EditText
+        android:id="@+id/result"
+        android:layout_width="339dp"
+        android:layout_height="63dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="@string/empty"
+        android:inputType="textMultiLine"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/submitTipBtn"
+        app:layout_constraintVertical_bias="0.058" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
