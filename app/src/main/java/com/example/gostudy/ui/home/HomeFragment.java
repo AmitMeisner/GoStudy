@@ -66,6 +66,7 @@ public class HomeFragment extends Fragment{
         arrayAdapter_courses.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         courses_Spinner.setAdapter(arrayAdapter_courses);
         courses_Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            //prevent the timer to start if no course is chosen
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String text = (String) parent.getItemAtPosition(position);
@@ -77,6 +78,7 @@ public class HomeFragment extends Fragment{
                     }
 
                 }
+                //prevent the timer to start if no source is chosen
                 else if (parent.getId()==R.id.spr_resource) {
                     if (text == "Choose Resource") {
                         resourceSelected = false;
@@ -111,6 +113,7 @@ public class HomeFragment extends Fragment{
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String text = (String) parent.getItemAtPosition(position);
                 if (parent.getId() == R.id.spr_courses){
+                    //prevent the timer to start if no course is chosen
                     if (text == "Choose Course"){
                         courseSelected = false;
                     }else{
@@ -119,6 +122,7 @@ public class HomeFragment extends Fragment{
 
 
                 }
+                //prevent the timer to start if no resource is chosen
                 else if (parent.getId()==R.id.spr_resource){
                     if (text == "Choose Resource"){
                         resourceSelected = false;
@@ -154,6 +158,7 @@ public class HomeFragment extends Fragment{
                 handler_chronometer.postDelayed(this, 60);
             }
         };
+        //start the chronometer
         btStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -180,6 +185,7 @@ public class HomeFragment extends Fragment{
                 }
             }
         });
+        //set the time manually
 
         btManual.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,7 +197,7 @@ public class HomeFragment extends Fragment{
             }
         });
 
-
+        //stop the timer
         btStop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (!isResume) {
@@ -212,13 +218,14 @@ public class HomeFragment extends Fragment{
         return root;
 
     }
+    //prevent timer to run unless
     private boolean check_timer_options_validity(){
         if (resourceSelected == false || courseSelected == false){
             return false;
         }
         return true;
     }
-
+// if no course or resource is chosen send error msg
     private void show_error_msg(){
         TextView error_msg = static_root.findViewById(R.id.error_msg);
         error_msg.setVisibility(View.VISIBLE);

@@ -98,7 +98,7 @@ public class MainNavActivity extends AppCompatActivity {
 
 
     }
-
+    /** sign out from google and firebase accounts */
     private void signOut() {
         /**
         FirebaseAuth.getInstance().signOut();*/

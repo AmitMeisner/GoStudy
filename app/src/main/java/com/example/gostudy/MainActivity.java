@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        /** log in button, with no google. */
         Button log = findViewById(R.id.login);
         System.out.println(-1);
         log.setOnClickListener(new View.OnClickListener() {
@@ -54,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
                         signIn();
                         break;
                 }
-
             }
         });
 
@@ -73,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -84,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /** google sign in function */
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
@@ -102,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /** handle the google sign in result*/
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
@@ -116,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
             Log.w("Error", "signInResult:failed code=" + e.getStatusCode());
         }
     }
-
+    /** sign in to firebase with google account. */
     private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)
