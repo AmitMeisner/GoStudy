@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
@@ -74,7 +75,7 @@ public class MainNavActivity extends AppCompatActivity {
             String personId = acct.getId();
             Uri personPhoto = acct.getPhotoUrl();
             usrName = (TextView) header.findViewById(R.id.userName);
-            usrName.setText("hello "+personName);
+            usrName.setText("Hello "+personName);
         }
 
         /** set SignOut button */
@@ -97,6 +98,8 @@ public class MainNavActivity extends AppCompatActivity {
     }
 
     private void signOut() {
+        /**
+        FirebaseAuth.getInstance().signOut();*/
         mGoogleSignInClient.signOut()
                 .addOnCompleteListener(this, new OnCompleteListener<Void>() {
                     @Override
