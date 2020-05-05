@@ -16,14 +16,14 @@ Choose course, or choose All courses to see your progress for the desired select
  just fill your study habits form and choose your study preferences
  by tapping “set new plan", and your plan is ready.
  
- #statistics Tab
+ # statistics Tab
  To display the statistics via a criteria, a criteria must be provided,
  in addition to a certain course (optionally, general average). 
   Example: In order to display the graph that depicts data that depicts:
   percentage of homework solved, of the people who have a at least 80 grade, of the course Algorithms,
   the criteria chosen must be “Percentage of HW Solved”, average “80” and course “Algorithms”.
   
- #Tips Tab
+ # Tips Tab
   The user can post a Tip that help him with a specific course, 
 for example : “Try proving Rolle’s Theorem by yourself” for calculus 1.
 Or a general tip for better learning,
