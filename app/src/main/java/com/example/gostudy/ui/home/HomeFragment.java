@@ -3,31 +3,20 @@ package com.example.gostudy.ui.home;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
-
 import android.view.LayoutInflater;
 import android.view.View;
-import java.util.ArrayList;
-import java.util.List;
 import android.view.ViewGroup;
-import android.os.*;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
-import com.example.gostudy.MainActivity;
 import com.example.gostudy.R;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
 
@@ -55,6 +44,7 @@ public class HomeFragment extends Fragment{
         Spinner courses_Spinner = root.findViewById(R.id.spr_courses);
         ArrayList<String> courses = new ArrayList<>();
         courses.add(0, "choose course");
+        courses.add("Algorithms");
         courses.add("Linear algebra 1");
         courses.add("Linear algebra 2");
         courses.add("Introduction into computer science");

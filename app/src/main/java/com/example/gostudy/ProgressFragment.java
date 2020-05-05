@@ -1,18 +1,16 @@
 package com.example.gostudy;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -35,6 +33,7 @@ public class ProgressFragment extends Fragment {
         Spinner coursesSpinner = root.findViewById(R.id.spr_progressCourses);
         ArrayList<String> coursesList = new ArrayList<>();
         coursesList.add(0, "All courses");
+        coursesList.add("Algorithms");
         coursesList.add("Linear algebra 1");
         coursesList.add("Linear algebra 2");
         coursesList.add("Introduction into computer science");
