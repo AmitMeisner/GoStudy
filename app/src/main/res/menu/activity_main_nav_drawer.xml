@@ -23,9 +23,16 @@
             android:id="@+id/navigation_tips"
             android:icon="@drawable/ic_highlight_black_24dp"
             android:title="@string/menu_tips" />
+
         <item
             android:id="@+id/navigation_daily"
             android:icon="@drawable/ic_daily"
             android:title="@string/menu_daily" />
+
+        <item
+            android:id="@+id/navigation_progress"
+            android:icon="@drawable/ic_progress"
+            android:title="Progress" />
+
     </group>
 </menu>

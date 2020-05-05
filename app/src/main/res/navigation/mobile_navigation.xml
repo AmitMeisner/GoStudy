@@ -35,4 +35,10 @@
         android:label="@string/menu_daily"
         tools:layout="@layout/fragment_daily" />
 
+    <fragment
+        android:id="@+id/navigation_progress"
+        android:name="com.example.gostudy.ProgressFragment"
+        android:label="Progress"
+        tools:layout="@layout/fragment_progress" />
+
 </navigation>
