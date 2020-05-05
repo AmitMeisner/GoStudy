@@ -24,10 +24,10 @@
             android:icon="@drawable/ic_highlight_black_24dp"
             android:title="@string/menu_tips" />
 
-        <item
-            android:id="@+id/navigation_daily"
-            android:icon="@drawable/ic_daily"
-            android:title="@string/menu_daily" />
+<!--        <item-->
+<!--            android:id="@+id/navigation_daily"-->
+<!--            android:icon="@drawable/ic_daily"-->
+<!--            android:title="@string/menu_daily" />-->
 
         <item
             android:id="@+id/navigation_progress"
