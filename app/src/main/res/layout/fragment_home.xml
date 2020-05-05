@@ -14,26 +14,11 @@ android:weightSum="12"
 tools:context=".MainActivity">
 
 
-    <TextView
-        android:id="@+id/chooseCourseTextHome"
-        android:layout_width="250dp"
-        android:layout_height="5dp"
-        android:layout_weight="1"
-        android:text="Chose Course:" />
-
     <Spinner
         android:id="@+id/spr_courses"
         android:layout_width="250dp"
         android:layout_height="10dp"
         android:layout_weight="1" />
-
-    <TextView
-        android:id="@+id/chooseResourceTextHome"
-        android:layout_width="250dp"
-        android:layout_height="5dp"
-        android:layout_weight="1"
-        android:layout_marginTop="10dp"
-        android:text="Choose Resource:" />
 
     <Spinner
         android:id="@+id/spr_resource"

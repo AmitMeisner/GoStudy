@@ -54,7 +54,7 @@ public class HomeFragment extends Fragment{
         //create spinner courses
         Spinner courses_Spinner = root.findViewById(R.id.spr_courses);
         ArrayList<String> courses = new ArrayList<>();
-        courses.add(0, "choose course");
+        courses.add(0, "Choose Course");
         courses.add("Algorithms");
         courses.add("Linear algebra 1");
         courses.add("Linear algebra 2");
@@ -70,7 +70,7 @@ public class HomeFragment extends Fragment{
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String text = (String) parent.getItemAtPosition(position);
                 if (parent.getId() == R.id.spr_courses){
-                    if (text == "choose course"){
+                    if (text == "Choose Course"){
                         courseSelected = false;
                     }else{
                         courseSelected = true;
@@ -78,7 +78,7 @@ public class HomeFragment extends Fragment{
 
                 }
                 else if (parent.getId()==R.id.spr_resource) {
-                    if (text == "choose resource") {
+                    if (text == "Choose Resource") {
                         resourceSelected = false;
                     } else {
                         resourceSelected = true;
@@ -95,7 +95,8 @@ public class HomeFragment extends Fragment{
         //create spinner resource
         Spinner resources_Spinner = root.findViewById(R.id.spr_resource);
         ArrayList<String> resources = new ArrayList<>();
-        resources.add(0, "Homeworks");
+        resources.add(0, "Choose Resource");
+        resources.add("Homeworks");
         resources.add("Recitations");
         resources.add("Exams");
         resources.add("Tirgul");
@@ -110,7 +111,7 @@ public class HomeFragment extends Fragment{
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String text = (String) parent.getItemAtPosition(position);
                 if (parent.getId() == R.id.spr_courses){
-                    if (text == "choose course"){
+                    if (text == "Choose Course"){
                         courseSelected = false;
                     }else{
                         courseSelected = true;
@@ -119,7 +120,7 @@ public class HomeFragment extends Fragment{
 
                 }
                 else if (parent.getId()==R.id.spr_resource){
-                    if (text == "choose resource"){
+                    if (text == "Choose Resource"){
                         resourceSelected = false;
                     }else{
                         resourceSelected = true;

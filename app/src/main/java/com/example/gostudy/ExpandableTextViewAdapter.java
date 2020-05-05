@@ -68,6 +68,7 @@ public class ExpandableTextViewAdapter extends BaseExpandableListAdapter {
         return false;
     }
 
+    //getting headlines for collapse window
     @Override
     public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
 
@@ -82,6 +83,7 @@ public class ExpandableTextViewAdapter extends BaseExpandableListAdapter {
         return view;
     }
 
+    //open answers for matched headlines
     @Override
     public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
         final String answer = (String)getChild(i,i1);

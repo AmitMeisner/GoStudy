@@ -79,6 +79,7 @@ public class ProgressFragment extends Fragment {
         };
         timerSemester.schedule(timerTaskSemester,0,50);
 
+        //collapse goals list
         expandableListView=root.findViewById(R.id.weeklyGoalsExpand);
         ExpandableTextViewAdapter adapter = new ExpandableTextViewAdapter(container.getContext());
         expandableListView.setAdapter(adapter);
