@@ -7,6 +7,8 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:layout_gravity="center"
 android:orientation="vertical"
+
+    android:id="@+id/fragment_home"
 android:gravity="center_horizontal"
 android:weightSum="12"
 tools:context=".MainActivity">
@@ -72,13 +74,27 @@ tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/error_msg"
-        android:layout_width="306dp"
-        android:layout_height="9dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:layout_weight="1"
         android:gravity="center"
         android:text="PLEASE CHOOSE COURSE AND RESOURCE."
         android:textColor="#FF0000" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text=" Goal:\n
+         8 Hours Recitations\n
+         6 hours Homeworks\n
+         3 Hours Proofs"
+        android:textSize="20dp"
+        android:background="#76D7C4"
+
+
+
+        />
 
 
 </LinearLayout>

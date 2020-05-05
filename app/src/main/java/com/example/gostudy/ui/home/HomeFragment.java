@@ -3,6 +3,7 @@ package com.example.gostudy.ui.home;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import java.util.ArrayList;
@@ -20,16 +21,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.gostudy.MainActivity;
 import com.example.gostudy.R;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment{
     Chronometer chronometer;
-    ImageButton btStart, btStop;
+    ImageButton btStart, btStop,btManual;
     private boolean isResume;
     Handler handler_chronometer;
     long tMiliSec, tStart, tBuff, tUpdate = 0L;
@@ -133,6 +137,7 @@ public class HomeFragment extends Fragment{
         //create chronometer
         chronometer = root.findViewById(R.id.chronometer);
         btStart = root.findViewById(R.id.btn_start);
+        btManual = root.findViewById(R.id.btn_manual);
         btStop = root.findViewById(R.id.btn_stop);
         handler_chronometer = new Handler();
         final Runnable runnable = new Runnable() {
@@ -172,6 +177,16 @@ public class HomeFragment extends Fragment{
                     show_error_msg();
 
                 }
+            }
+        });
+
+        btManual.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ManualDialog manualDialog = new ManualDialog();
+                manualDialog.show(getChildFragmentManager(),"ManualDialog");
+
             }
         });
 
