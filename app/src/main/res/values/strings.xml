@@ -13,8 +13,9 @@
 
     <!-- tips strings -->
     <string name="empty"></string>
-    <string name="submitTip">Submit</string>
-    <string name="enterTip">Enter a Tip</string>
+    <string name="submitTip">Post</string>
+    <string name="enterTip">Add Tip</string>
+    <string name="search">Search</string>
 
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

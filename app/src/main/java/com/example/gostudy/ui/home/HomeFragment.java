@@ -54,7 +54,9 @@ public class HomeFragment extends Fragment{
         //create spinner courses
         Spinner courses_Spinner = root.findViewById(R.id.spr_courses);
         ArrayList<String> courses = new ArrayList<>();
-        courses.add(0, "Linear algebra 1");
+        courses.add(0, "choose course");
+        courses.add("Algorithms");
+        courses.add("Linear algebra 1");
         courses.add("Linear algebra 2");
         courses.add("Introduction into computer science");
         courses.add("Hedva 1");
