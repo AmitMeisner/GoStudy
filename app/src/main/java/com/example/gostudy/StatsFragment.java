@@ -132,16 +132,16 @@ public class StatsFragment extends Fragment{
 
         hw_series = new BarGraphSeries<>(new DataPoint[]{
                 new DataPoint(0, 67),
-                new DataPoint(10, 65),
-                new DataPoint(20, 68),
-                new DataPoint(30, 68),
-                new DataPoint(40, 75),
-                new DataPoint(50, 82),
-                new DataPoint(60, 79),
-                new DataPoint(70, 89),
-                new DataPoint(80, 88),
-                new DataPoint(90, 92),
-                new DataPoint(100, 91),
+                new DataPoint(10, 64),
+                new DataPoint(20, 78),
+                new DataPoint(30, 76),
+                new DataPoint(40, 78),
+                new DataPoint(50, 81),
+                new DataPoint(60, 83),
+                new DataPoint(70, 82),
+                new DataPoint(80, 85),
+                new DataPoint(90, 86),
+                new DataPoint(100, 92),
         });
 
         lectures_series = new BarGraphSeries<>(new DataPoint[]{
@@ -173,9 +173,13 @@ public class StatsFragment extends Fragment{
         });
 
         //color of bars
+
         hw_series.setValueDependentColor(new ValueDependentColor<DataPoint>() {
             @Override
             public int get(DataPoint data) {
+                if(data.getX() % 2 ==0){
+                    return Color.rgb(00,100,255);
+                }
                 return Color.rgb(00, 00, 255);
             }
 
@@ -183,24 +187,35 @@ public class StatsFragment extends Fragment{
         lectures_series.setValueDependentColor(new ValueDependentColor<DataPoint>() {
             @Override
             public int get(DataPoint data) {
+                if(data.getX() % 2 ==0) {
+                    return Color.rgb(100, 255, 255);
+                }
                 return Color.rgb(00, 255, 255);
+            }
+
+        });
+
+        weekly_series.setValueDependentColor(new ValueDependentColor<DataPoint>() {
+            @Override
+            public int get(DataPoint data) {
+                if(data.getX() % 2 ==0){
+                    return Color.rgb(160,100,100);
+                }
+                return Color.rgb(20, 100,100);
             }
 
         });
         recitations_series.setValueDependentColor(new ValueDependentColor<DataPoint>() {
             @Override
             public int get(DataPoint data) {
+                if(data.getX() % 2 ==0) {
+                    return Color.rgb(00, 255, 100);
+                }
                 return Color.rgb(00, 255, 0);
             }
 
         });
-        weekly_series.setValueDependentColor(new ValueDependentColor<DataPoint>() {
-            @Override
-            public int get(DataPoint data) {
-                return Color.rgb(20, 100,100);
-            }
 
-        });
 
         //styling
         weekly_series.setDrawValuesOnTop(true);
@@ -208,12 +223,15 @@ public class StatsFragment extends Fragment{
         weekly_series.setValuesOnTopColor(Color.RED);
 
         hw_series.setDrawValuesOnTop(true);
+        hw_series.setColor(Color.BLACK);
         hw_series.setValuesOnTopColor(Color.RED);
 
         lectures_series.setDrawValuesOnTop(true);
+        lectures_series.setColor(Color.BLACK);
         lectures_series.setValuesOnTopColor(Color.RED);
 
         recitations_series.setDrawValuesOnTop(true);
+        recitations_series.setColor(Color.BLACK);
         recitations_series.setValuesOnTopColor(Color.RED);
     }
 
@@ -222,6 +240,7 @@ public class StatsFragment extends Fragment{
     }
 
     private void show_graph(){
+        graph_shown.getGridLabelRenderer().setNumHorizontalLabels(10);
         graph_shown.setVisibility(View.VISIBLE);
     }
 
@@ -242,17 +261,45 @@ public class StatsFragment extends Fragment{
         /*Raghd: this function chooses which grahp to be show later on screen based on what is picked in spinner.
         Ugly looking implementation, consider changing.*/
         if (option == "Weekly Study Hours"){
+            set_weekly_hours_graph_axis();
+            graph_shown.removeAllSeries();
             graph_shown.addSeries(weekly_series);
         }
         if (option == "Percentage of HW Solved"){
+            set_percenage_graph_axis();
+            graph_shown.removeAllSeries();
             graph_shown.addSeries(hw_series);
         }
         if (option == "Percentage of Classes Attended"){
+            set_percenage_graph_axis();
+            graph_shown.removeAllSeries();
             graph_shown.addSeries(lectures_series);
         }
         if (option == "Percentage of Recitations Attended"){
+            set_percenage_graph_axis();
+            graph_shown.removeAllSeries();
             graph_shown.addSeries(recitations_series);
         }
 
+        graph_shown.getViewport().setScalable(true);
+        graph_shown.getViewport().setScrollable(true);
+
+    }
+    private void set_percenage_graph_axis(){
+        graph_shown.getViewport().setMinX(0);
+        graph_shown.getViewport().setMaxX(100);
+        graph_shown.getViewport().setMinY(40);
+        graph_shown.getViewport().setMaxY(100);
+        graph_shown.getViewport().setYAxisBoundsManual(true);
+        graph_shown.getViewport().setXAxisBoundsManual(true);
+    }
+
+    private void set_weekly_hours_graph_axis(){
+        graph_shown.getViewport().setMinX(0);
+        graph_shown.getViewport().setMaxX(50);
+        graph_shown.getViewport().setMinY(40);
+        graph_shown.getViewport().setMaxY(100);
+        graph_shown.getViewport().setYAxisBoundsManual(true);
+        graph_shown.getViewport().setXAxisBoundsManual(true);
     }
 }
