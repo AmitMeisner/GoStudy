@@ -17,11 +17,11 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
+//import com.google.firebase.auth.AuthCredential;
+//import com.google.firebase.auth.AuthResult;
+//import com.google.firebase.auth.FirebaseAuth;
+//import com.google.firebase.auth.FirebaseUser;
+//import com.google.firebase.auth.GoogleAuthProvider;
 
 import static com.example.gostudy.R.id.sign_in_button;
 
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     GoogleSignInClient mGoogleSignInClient;
     SignInButton signIn;
     int RC_SIGN_IN=0;
-    private FirebaseAuth mAuth;
+//    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,25 +118,25 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     /** sign in to firebase with google account. */
-    private void firebaseAuthWithGoogle(String idToken) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("TAG", "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w("TAG","signInWithCredential:failure", task.getException());
-                        }
-
-                        // ...
-                    }
-                });
-    }
+//    private void firebaseAuthWithGoogle(String idToken) {
+//        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+//        mAuth.signInWithCredential(credential)
+//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        if (task.isSuccessful()) {
+//                            // Sign in success, update UI with the signed-in user's information
+//                            Log.d("TAG", "signInWithCredential:success");
+//                            FirebaseUser user = mAuth.getCurrentUser();
+//                        } else {
+//                            // If sign in fails, display a message to the user.
+//                            Log.w("TAG","signInWithCredential:failure", task.getException());
+//                        }
+//
+//                        // ...
+//                    }
+//                });
+//    }
 
 
 
