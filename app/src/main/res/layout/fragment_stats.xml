@@ -9,7 +9,7 @@
         android:id="@+id/error_msg_stats"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ERROR: MUST CHOOSE VARIANT AND ENTER AVERAGE."
+        android:text="ERROR: PLEASE FILL REQUIRED DATA"
         android:textColor="#FB0303"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,10 +28,10 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="388dp"
-        android:layout_height="165dp"
-        android:layout_marginTop="76dp"
+        android:layout_width="389dp"
+        android:layout_height="202dp"
         android:layout_gravity="center"
+        android:layout_marginTop="60dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.304"
@@ -42,22 +42,27 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="28dp"
-            android:text="Choose variant and average."
+            android:text="Please Fill Data"
             android:textColor="#2196F3"
             android:textSize="18sp" />
 
         <Spinner
-            android:id="@+id/statsSpnr"
-            android:layout_marginTop="15dp"
-            android:layout_width="409dp"
+            android:id="@+id/statsCoursesSpnr"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+        <Spinner
+            android:id="@+id/statsSpnr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp" />
 
         <EditText
             android:id="@+id/average_input"
             android:layout_width="398dp"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:layout_marginTop="15dp"
+            android:ems="10"
             android:hint="Enter average."
             android:inputType="number" />
 
