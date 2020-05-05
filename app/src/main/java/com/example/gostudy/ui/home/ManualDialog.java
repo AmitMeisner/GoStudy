@@ -24,6 +24,7 @@ public class ManualDialog extends DialogFragment {
         btn_dismiss = view.findViewById(R.id.manualButton_dismiss);
         btn_ok = view.findViewById(R.id.manualButton_ok);
 
+        //dismiss the manual dialog
         btn_dismiss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -31,7 +32,7 @@ public class ManualDialog extends DialogFragment {
 
             }
         });
-
+        //send data of date and duration to server
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
