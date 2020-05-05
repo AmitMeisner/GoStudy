@@ -62,7 +62,7 @@ public class TipsFragment extends Fragment {
         });
 
 
-        //post Tip Button.
+        // TextView for user's tips display.
         TextView tip1=(TextView) root.findViewById(R.id.Tip1);
         TextView tip2=(TextView) root.findViewById(R.id.Tip2);
         TextView tip3=(TextView) root.findViewById(R.id.Tip3);
@@ -77,7 +77,7 @@ public class TipsFragment extends Fragment {
         ArrayList<TextView> tips = new ArrayList<>();
         tips.add(tip1);tips.add(tip2);tips.add(tip3);tips.add(tip4);tips.add(tip5);
         tips.add(tip6);tips.add(tip7);tips.add(tip8);tips.add(tip9);tips.add(tip10);
-
+        
         postBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,7 +88,7 @@ public class TipsFragment extends Fragment {
 
         return root;
     }
-
+    /** Add the user's tip*/
     private void addATip(ArrayList tips, String usrTip) {
             TextView tip=(TextView) tips.get(tipIndex++);
             tip.setText("- "+usrTip);

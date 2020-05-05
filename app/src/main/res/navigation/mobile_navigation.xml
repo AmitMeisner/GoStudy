@@ -29,11 +29,11 @@
         android:label="@string/menu_tips"
         tools:layout="@layout/fragment_tips" />
 
-    <fragment
-        android:id="@+id/navigation_daily"
-        android:name="com.example.gostudy.DailyFragment"
-        android:label="@string/menu_daily"
-        tools:layout="@layout/fragment_daily" />
+<!--    <fragment-->
+<!--        android:id="@+id/navigation_daily"-->
+<!--        android:name="com.example.gostudy.DailyFragment"-->
+<!--        android:label="@string/menu_daily"-->
+<!--        tools:layout="@layout/fragment_daily" />-->
 
     <fragment
         android:id="@+id/navigation_progress"
