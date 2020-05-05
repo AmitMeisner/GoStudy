@@ -1,4 +1,4 @@
-# GoStudy!!! time to track your study habits and GoStusy.
+# GoStudy, time to track your study habits and GoStusy!
 
 # Home Tab
 The function measures study time of a specific course in a specific resource.
