@@ -13,9 +13,13 @@
 
     <!-- tips strings -->
     <string name="empty"></string>
-    <string name="submitTip">Post</string>
+    <string name="Post">Post</string>
     <string name="enterTip">Add Tip</string>
     <string name="search">Search</string>
+
+    <!-- ref strings -->
+    <string name="addLink">Link</string>
+    <string name="description">Description</string>
 
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
