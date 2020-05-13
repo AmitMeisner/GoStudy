@@ -1,0 +1,14 @@
+https://webgradients.com/
+https://github.com/daimajia/NumberProgressBar
+https://github.com/bumptech/glide
+https://github.com/lopspower/CircularImageView
+https://github.com/AppIntro/AppIntro
+https://github.com/PhilJay/MPAndroidChart
+https://github.com/sudeepag/SAConfettiView
+https://material.io/develop/android/components/snackbar/
+https://www.youtube.com/watch?v=k3ipUBBttTw
+https://github.com/Clans/FloatingActionButton
+https://github.com/rcketscientist/ToggleButtons
+https://material.io/design
+https://weeklycoding.com/mpandroidchart-documentation/animations/
+https://github.com/dvdciri/MultiChoiceRecyclerView
