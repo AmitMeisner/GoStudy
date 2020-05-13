@@ -72,8 +72,6 @@ dependencies {
     /** WHEEL PICKER */
     implementation 'cn.aigestudio.wheelpicker:WheelPicker:1.1.3'
 
-    /** Search Filter*/
-//    implementation 'com.github.Yalantis:SearchFilter:v1.0.4'
 
 
     /** not sure if relevant */

@@ -89,79 +89,79 @@ public class StatActivity extends AppCompatActivity {
 
     }
 
-    private void init_courses_spinner(){
-        /*this function initializes the courses spinner via pre-defined courses*/
-        //spinner initialization
-        Spinner statsSpinner = findViewById(R.id.statsCoursesSpnr);
-        ArrayList<String> courses = new ArrayList<>();
-        courses.add("Select Course");
-        courses.add("Algorithms");
-        courses.add("Introduction to CS");
-        courses.add("Calculus 2A");
-        courses.add("Linear Algebra 2A");
-        courses.add("All Courses");
-
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(StatActivity.this, android.R.layout.simple_spinner_item, courses);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        statsSpinner.setAdapter(arrayAdapter);
-
-        statsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String text = (String) parent.getItemAtPosition(position);
-                hide_graph();
-                if ("Select Course" != text){
-                    course_selected = true;
-                    update_graph_to_be_shown(text);
-                }else{
-                    course_selected = false;
-                }
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-    }
-    private void init_criteria_spinner(){
-        /*this function initializes the criteria spinner via pre-defined criterias.*/
-
-        //spinner initialization
-        Spinner statsSpinner = findViewById(R.id.statsSpnr);
-        ArrayList<String> courses = new ArrayList<>();
-        courses.add("Select Criteria");
-        courses.add("Weekly Study Hours");
-        courses.add("Percentage of HW Solved");
-        courses.add("Percentage of Classes Attended");
-        courses.add("Percentage of Recitations Attended");
-
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(StatActivity.this, android.R.layout.simple_spinner_item, courses);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        statsSpinner.setAdapter(arrayAdapter);
-        statsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String text = (String) parent.getItemAtPosition(position);
-                hide_graph();
-                if ("Select Criteria" != text){
-                    variable_selected = true;
-                    update_graph_to_be_shown(text);
-                }else{
-                    variable_selected = false;
-                }
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-    }
+//    private void init_courses_spinner(){
+//        /*this function initializes the courses spinner via pre-defined courses*/
+//        //spinner initialization
+//        Spinner statsSpinner = findViewById(R.id.statsCoursesSpnr);
+//        ArrayList<String> courses = new ArrayList<>();
+//        courses.add("Select Course");
+//        courses.add("Algorithms");
+//        courses.add("Introduction to CS");
+//        courses.add("Calculus 2A");
+//        courses.add("Linear Algebra 2A");
+//        courses.add("All Courses");
+//
+//        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(StatActivity.this, android.R.layout.simple_spinner_item, courses);
+//        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        statsSpinner.setAdapter(arrayAdapter);
+//
+//        statsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                String text = (String) parent.getItemAtPosition(position);
+//                hide_graph();
+//                if ("Select Course" != text){
+//                    course_selected = true;
+//                    update_graph_to_be_shown(text);
+//                }else{
+//                    course_selected = false;
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
+//    }
+//    private void init_criteria_spinner(){
+//        /*this function initializes the criteria spinner via pre-defined criterias.*/
+//
+//        //spinner initialization
+//        Spinner statsSpinner = findViewById(R.id.statsSpnr);
+//        ArrayList<String> courses = new ArrayList<>();
+//        courses.add("Select Criteria");
+//        courses.add("Weekly Study Hours");
+//        courses.add("Percentage of HW Solved");
+//        courses.add("Percentage of Classes Attended");
+//        courses.add("Percentage of Recitations Attended");
+//
+//        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(StatActivity.this, android.R.layout.simple_spinner_item, courses);
+//        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        statsSpinner.setAdapter(arrayAdapter);
+//        statsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                String text = (String) parent.getItemAtPosition(position);
+//                hide_graph();
+//                if ("Select Criteria" != text){
+//                    variable_selected = true;
+//                    update_graph_to_be_shown(text);
+//                }else{
+//                    variable_selected = false;
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
+//    }
     private void init_graph_dummy_database(){
         /*this function initializes the dummy database of which the statistical graphs are going
          * to be displayed on screen.*/
