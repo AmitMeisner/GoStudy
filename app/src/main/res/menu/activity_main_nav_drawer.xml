@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navigation_home"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="@string/title_home" />
+
+        <item
+            android:id="@+id/navigation_stats"
+            android:icon="@drawable/ic_stats_24dp"
+            android:title="@string/statistics" />
+
+        <item
+            android:id="@+id/navigation_refs"
+            android:icon="@drawable/ic_references"
+            android:title="@string/menu_refs" />
+
+        <item
+            android:id="@+id/navigation_tips"
+            android:icon="@drawable/ic_highlight_black_24dp"
+            android:title="@string/menu_tips" />
+
+        <item
+            android:id="@+id/navigation_progress"
+            android:icon="@drawable/ic_progress"
+            android:title="Progress" />
+
+    </group>
+</menu>
+
+    <!--        <item-->
+    <!--            android:id="@+id/navigation_daily"-->
+    <!--            android:icon="@drawable/ic_daily"-->
+    <!--            android:title="@string/menu_daily" />-->

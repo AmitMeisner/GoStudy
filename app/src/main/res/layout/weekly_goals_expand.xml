@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <TextView
+        android:id="@+id/weeklyGoalsView"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_blue_dark"
+        android:gravity="center"
+        android:minHeight="40dp"
+        android:paddingLeft="?android:expandableListPreferredChildPaddingLeft"
+        android:paddingStart="?android:expandableListPreferredChildPaddingLeft"
+        android:text="Weekly Goals"
+        android:textAlignment="center"
+        android:textColor="@color/cardview_dark_background"
+        android:textSize="15dp" />
+
+</LinearLayout>

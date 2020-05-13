@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:layout_gravity="center"
+android:orientation="vertical"
+
+    android:id="@+id/fragment_home"
+android:gravity="center_horizontal"
+android:weightSum="12"
+tools:context=".MainActivity">
+
+
+    <Spinner
+        android:id="@+id/spr_courses"
+        android:layout_width="250dp"
+        android:layout_height="10dp"
+        android:layout_weight="1" />
+
+    <Spinner
+        android:id="@+id/spr_resource"
+        android:layout_width="250dp"
+        android:layout_height="5dp"
+        android:layout_weight="1" />
+
+    <Chronometer
+    android:id="@+id/chronometer"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_weight="2.5"
+    android:background="@drawable/circle"
+    android:format="00:00:00"
+    android:textColor="#FBFCFC "
+    android:gravity="center"
+    android:layout_marginTop="40dp"
+    android:textSize="26sp" />
+
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    >
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#76D7C4"
+        android:id="@+id/btn_start"
+        android:src="@drawable/ic_play"
+        android:textSize="10sp"
+
+        />
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_stop"
+        android:background="#76D7C4"
+        android:src="@drawable/ic_stop"
+        android:textSize="10dp"
+        />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_manual"
+        android:background="#76D7C4"
+        android:src="@drawable/ic_manual"
+        android:textSize="10sp"
+        />
+</LinearLayout>
+
+    <TextView
+        android:id="@+id/error_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="PLEASE CHOOSE COURSE AND RESOURCE."
+        android:textColor="#FF0000" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text=" Goal:\n
+         3/5 Hours Recitations\n
+         2/3 hours Homeworks\n
+         1/1 Hours Proofs"
+        android:textSize="20dp"
+        android:background="#76D7C4"
+
+
+
+        />
+
+
+</LinearLayout>
