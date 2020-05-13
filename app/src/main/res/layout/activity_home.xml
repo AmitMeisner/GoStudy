@@ -49,11 +49,23 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.052" />
 
+    <!--    <Spinner-->
+<!--        android:id="@+id/spr_resource"-->
+<!--        android:layout_width="250dp"-->
+<!--        android:layout_height="20dp"-->
+<!--        android:layout_marginTop="36dp"-->
+<!--        android:layout_weight="1"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.503"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/spr_courses" />-->
+    <!-- Wheel picker -->
+
     <Chronometer
         android:id="@+id/chronometer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="208dp"
         android:layout_weight="2.5"
         android:background="@drawable/circle"
         android:clickable="true"
@@ -65,27 +77,34 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spr_resource" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <Spinner
-        android:id="@+id/spr_resource"
-        android:layout_width="250dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="36dp"
-        android:layout_weight="1"
+
+    <com.aigestudio.wheelpicker.WheelPicker
+        android:id="@+id/activity_wheel_picker"
+        android:layout_width="171dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/chronometer"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spr_courses" />
+        app:layout_constraintHorizontal_bias="0.642"
+        app:layout_constraintStart_toEndOf="@+id/spr_courses"
+        app:layout_constraintTop_toBottomOf="@+id/signOutBtn"
+        app:wheel_atmospheric="true"
+        app:wheel_curtain="true"
+        app:wheel_curtain_color="#7096e6a1"
+        app:wheel_curved="true"
+        app:wheel_item_text_color="@color/Black"
+        app:wheel_visible_item_count="2" />
 
     <Spinner
         android:id="@+id/spr_courses"
-        android:layout_width="250dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="124dp"
+        android:layout_width="172dp"
+        android:layout_height="21dp"
+        android:layout_marginTop="144dp"
         android:layout_weight="1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.23"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -27,10 +27,16 @@ public class ProgressActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_progress);
 
         setNavigationButtons();
-        CreateCoursesSpinner();
+//        CreateCoursesSpinner();
         CreateWeeklyProgressBar();
         CreateSemesterProgressBar();
         CreateCollapseList();
+
+        /** create choose courses spinner */
+        HomeActicity HA = new HomeActicity();
+        Spinner coursesSpinner = findViewById(R.id.spr_progressCourses);
+        HA.CreateCoursesSpinner(coursesSpinner, ProgressActivity.this);
+
 
     }
 
@@ -77,21 +83,7 @@ public class ProgressActivity extends AppCompatActivity  {
         timerWeekly.schedule(timerTaskWeekly,0,50);
     }
 
-    private void CreateCoursesSpinner() {
-        Spinner coursesSpinner = findViewById(R.id.spr_progressCourses);
-        ArrayList<String> coursesList = new ArrayList<>();
-        coursesList.add(0, "All courses");
-        coursesList.add("Algorithms");
-        coursesList.add("Linear algebra 1");
-        coursesList.add("Linear algebra 2");
-        coursesList.add("Introduction into computer science");
-        coursesList.add("Hedva 1");
-        coursesList.add("Hedva 2");
-        coursesList.add("Software project");
-        ArrayAdapter<String> arrayAdapter_courses = new ArrayAdapter<String>(ProgressActivity.this, android.R.layout.simple_spinner_item, coursesList);
-        arrayAdapter_courses.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        coursesSpinner.setAdapter(arrayAdapter_courses);
-    }
+
     private void setNavigationButtons() {
         FloatingActionButton home= findViewById(R.id.HomeNav);
         FloatingActionButton stat= findViewById(R.id.statNav);

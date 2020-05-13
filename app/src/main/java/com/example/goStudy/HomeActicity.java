@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aigestudio.wheelpicker.WheelPicker;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -30,6 +32,7 @@ import com.google.firebase.auth.FirebaseAuth;
 //import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class HomeActicity extends AppCompatActivity {
@@ -40,7 +43,7 @@ public class HomeActicity extends AppCompatActivity {
     Chronometer chronometer;
 
     private boolean courseSelected = false;
-    private boolean resourceSelected = false;
+//    private boolean resourceSelected = false;
 
     long tMiliSec, tStart, tBuff, tUpdate = 0L;
     int sec, min, millisec;
@@ -55,11 +58,26 @@ public class HomeActicity extends AppCompatActivity {
         setNavigationButtons();
         getGooglePersonalInformation();
         setSignOutButton();
-        CreateCoursesSpiner();
-        CreateResourceSpinner();
+
+//        CreateResourceSpinner();
         CreateChronometer();
         setSaveButton();
 
+        /** Create choose courses and choose activity */
+        Spinner courses_Spinner = findViewById(R.id.spr_courses);
+        WheelPicker wheelPicker =(WheelPicker) findViewById(R.id.activity_wheel_picker);
+        CreateCoursesSpinner(courses_Spinner, HomeActicity.this);
+        setResourcesWheelPicker(wheelPicker, this);
+
+    }
+
+    public void setResourcesWheelPicker(WheelPicker wheelPicker , Context context) {
+        List<String> data =new ArrayList<>();
+        String[] activities = context.getResources().getStringArray(R.array.activities);
+        for (String str : activities) {
+            data.add(str);
+        }
+        wheelPicker.setData(data);
     }
 
     private void setSaveButton() {
@@ -93,7 +111,6 @@ public class HomeActicity extends AppCompatActivity {
         resources.add("Exams");
         resources.add("Tirgul");
         resources.add("Extra");
-
         ArrayAdapter<String> arrayAdapter_resources = new ArrayAdapter<String>(HomeActicity.this, android.R.layout.simple_spinner_item, resources);
         arrayAdapter_resources.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         resources_Spinner.setAdapter(arrayAdapter_resources);
@@ -109,9 +126,9 @@ public class HomeActicity extends AppCompatActivity {
 
                 }
                 //prevent the timer to start if no resource is chosen
-                else if (parent.getId()==R.id.spr_resource){
-                    resourceSelected = text != "Choose Resource";
-                }
+//                else if (parent.getId()==R.id.spr_resource){
+//                    resourceSelected = text != "Choose Resource";
+//                }
             }
 
             @Override
@@ -121,19 +138,11 @@ public class HomeActicity extends AppCompatActivity {
         });
     }
 
-    private void CreateCoursesSpiner() {
+    public void CreateCoursesSpinner(Spinner courses_Spinner, Context context) {
         //create spinner courses
-        Spinner courses_Spinner = findViewById(R.id.spr_courses);
-        ArrayList<String> courses = new ArrayList<>();
-        courses.add(0, "Choose Course");
-        courses.add("Algorithms");
-        courses.add("Linear algebra 1");
-        courses.add("Linear algebra 2");
-        courses.add("Introduction into computer science");
-        courses.add("Hedva 1");
-        courses.add("Hedva 2");
-        courses.add("Software project");
-        ArrayAdapter<String> arrayAdapter_courses = new ArrayAdapter<String>(HomeActicity.this, android.R.layout.simple_spinner_item, courses);
+        WelcomeActivity wa = new WelcomeActivity();
+        ArrayList<String> courses = wa.getUserCourses();
+        ArrayAdapter<String> arrayAdapter_courses = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, courses);
         arrayAdapter_courses.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         courses_Spinner.setAdapter(arrayAdapter_courses);
         courses_Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -146,9 +155,9 @@ public class HomeActicity extends AppCompatActivity {
 
                 }
                 //prevent the timer to start if no source is chosen
-                else if (parent.getId()==R.id.spr_resource) {
-                    resourceSelected = text != "Choose Resource";
-                }
+//                else if (parent.getId()==R.id.spr_resource) {
+//                    resourceSelected = text != "Choose Resource";
+//                }
             }
 
             @Override
@@ -356,7 +365,8 @@ public class HomeActicity extends AppCompatActivity {
 
     //prevent timer to run unless
     private boolean check_timer_options_validity(){
-        return resourceSelected != false && courseSelected != false;
+//        return resourceSelected != false && courseSelected != false;
+        return courseSelected != false;
     }
     // if no course or resource is chosen send error msg
     private void show_error_msg(){

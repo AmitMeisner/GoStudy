@@ -3,7 +3,6 @@ package com.example.goStudy;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,13 +14,14 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+
 public class WelcomeActivity extends AppCompatActivity {
 
     boolean Gender ; // false - male , true - female.
     String[] CoursesList;
     boolean[] usersMarkedCourses;   //check boxed that the user marked
-    ArrayList<Integer> userItems = new ArrayList<>(); // contain the name of the courses the user choose
-
+    ArrayList<Integer> userItems = new ArrayList<>(); // contain the indexes of the courses the user choose
+    public static ArrayList<String> selctedCourses= new ArrayList<>();
 
 
     @Override
@@ -73,7 +73,7 @@ public class WelcomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(v.getContext());
-                mBuilder.setTitle(R.string.choose_your_cuurent_year);
+                mBuilder.setTitle(R.string.choose_your_current_courses);
                 mBuilder.setMultiChoiceItems(CoursesList, usersMarkedCourses, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
@@ -88,12 +88,11 @@ public class WelcomeActivity extends AppCompatActivity {
                 mBuilder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String item="";
+                        selctedCourses.add("Choose Course");
                         for(int i=0; i<userItems.size();i++){
-                            item=item+ CoursesList[userItems.get(i)];
+                            selctedCourses.add(CoursesList[userItems.get(i)]);
                         }
-                        setText("courses selected: "+item);
-//                        userSelectedCourses.setText("courses selected: "+item);
+
                     }
                 });
 
@@ -158,13 +157,16 @@ public class WelcomeActivity extends AppCompatActivity {
         /** display courses that the user choose , need to be removed*/
         TextView userSelectedCourses =(TextView) findViewById(R.id.textView4);
         userSelectedCourses.setText(text);
-
     }
 
     /** Choose Past Courses */
     private void CreatePastCourses() {
         /** past courses */
         Button pastCourses = (Button) findViewById(R.id.pastCoursesBtn);
+    }
+
+    public  ArrayList<String> getUserCourses(){
+        return selctedCourses;
     }
 
 }

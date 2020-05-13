@@ -60,6 +60,7 @@
     <string name="current_courses">Current Courses</string>
     <string name="current_semester">Current Semester</string>
     <string name="choose_your_cuurent_year">Choose your current year</string>
+    <string name="choose_your_current_courses">Choose your current courses</string>
     <string name="progress">Progress</string>
     <string name="gender">Gender</string>
     <string name="male">male</string>
@@ -81,12 +82,36 @@
 
     <!--    courses array -->
     <string-array name="courses">
-        <item>Algorithms</item>
+        <!-- first year -->
         <item>Calculus 1</item>
         <item>Linear Algebra 1</item>
+        <item>Computer Science 1001</item>
+        <item>Discrete Mathematics</item>
+        <item>Probability 101</item>
         <item>Calculus 2</item>
         <item>Linear Algebra 2</item>
-        <item>Computational models</item>
+        <item>Software 1</item>
+        <item>Data Structure</item>
+        <!-- Second year -->
+        <item>Statistics</item>
+        <item>Computer Structure</item>
+        <item>Algorithms</item>
+        <item>Software Project</item>
+        <item>Computational Models</item>
+        <item>Operating Systems</item>
+        <item>Logic</item>
+        <item>Complexity</item>
+        <!-- Third year -->
+        <item>Compilation</item>
+    </string-array>
+
+    <!--  activities  -->
+    <string-array name="activities">
+        <item>Homework</item>
+        <item>Recitations</item>
+        <item>Practice</item>
+        <item>Exam</item>
+        <item>Extra</item>
     </string-array>
 
     <!--    years array -->

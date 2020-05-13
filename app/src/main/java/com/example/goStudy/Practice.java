@@ -5,9 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 
+import com.aigestudio.wheelpicker.WheelPicker;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
@@ -30,6 +34,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Practice extends AppCompatActivity {
 
@@ -57,9 +62,31 @@ public class Practice extends AppCompatActivity {
         CreateLineChart3();
         CreateBarChart4();
 
+        CreatWheelPicker();
 
 
 
+
+    }
+
+    private void CreatWheelPicker() {
+//        List<Integer> data = new ArrayList<>();
+//        for (int i = 1000; i < 3000; i++)
+//            data.add(i);
+        List<String> data =new ArrayList<>();
+        String[] activities = getResources().getStringArray(R.array.activities);
+        for (String str : activities) {
+            data.add(str);
+        }
+        WheelPicker wheelPicker =(WheelPicker) findViewById(R.id.wheel_picker);
+//        FrameLayout flContainer = (FrameLayout) findViewById(R.id.container);
+//        WheelPicker wheelPicker = new WheelPicker(this);
+//        FrameLayout.LayoutParams flParams = new FrameLayout.LayoutParams
+//                (ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//        flParams.gravity = Gravity.CENTER;
+//        flContainer.addView(wheelPicker, flParams);
+
+        wheelPicker.setData(data);
     }
 
     /** STACKED BARD CHART */
