@@ -1,18 +1,20 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
+    android.defaultConfig.vectorDrawables.useSupportLibrary = true
 
     defaultConfig {
-        applicationId "com.example.gostudy"
+        applicationId "com.example.goStudy"
         minSdkVersion 16
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-
+        vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -31,26 +33,45 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'com.google.android.material:material:1.1.0'
-    implementation 'com.jjoe64:graphview:4.2.2'
-    implementation 'androidx.vectordrawable:vectordrawable:1.0.1'
+    implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     implementation 'androidx.navigation:navigation-fragment:2.2.2'
     implementation 'androidx.navigation:navigation-ui:2.2.2'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.google.firebase:firebase-database:19.2.1'
-    implementation 'com.google.firebase:firebase-storage:19.1.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
+
+    implementation 'com.google.android.material:material:1.1.0'
+
+
+    /** firebase */
+    implementation 'com.google.firebase:firebase-auth:19.3.1'
     implementation 'com.google.firebase:firebase-analytics:17.2.2'
 
-    implementation 'com.google.firebase:firebase-auth:19.3.1'
+    /** Google sign - in */
     implementation 'com.google.android.gms:play-services-auth:18.0.0'
+
+    /** progress bar lib */
+    implementation 'com.daimajia.numberprogressbar:library:1.4@aar'
+    /** sliding up windows lib*/
+    implementation 'com.sothree.slidinguppanel:library:3.4.0'
+    /**Circular buttons*/
+    implementation 'com.mikhaellopez:circularimageview:4.2.0'
+    /** Charts */
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    /** graphic view (raghd) */
+    implementation 'com.jjoe64:graphview:4.2.2'
+
+    /** MULTI CHOICE RECYCLE VIEW  */
+    implementation 'com.davidecirillo.multichoicerecyclerview:multichoicerecyclerview:2.3.0'
+
+
+    /** not sure if relevant */
+//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
 
 
 }

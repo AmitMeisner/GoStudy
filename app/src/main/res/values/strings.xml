@@ -27,6 +27,9 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
+    <!--welcome page strings-->
+    <string name="welcome">Welcome to goStudy</string>
+
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_activity_main_nav">MainNavActivity</string>
@@ -44,5 +47,56 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="please_choose_course_and_resource">PLEASE CHOOSE COURSE AND RESOURCE.</string>
+    <string name="goal_n_3_5_hours_recitations_n_2_3_hours_homeworks_n_1_1_hours_proofs">Goal:\n 3/5 Hours Recitations\n 2/3 hours Homeworks\n 1/1 Hours Proofs</string>
+    <string name="startbtn">startBtn</string>
+    <string name="stopbtn">stopBtn</string>
+    <string name="editbtn">editBtn</string>
+    <string name="choose_a_nickname">choose a nickname</string>
+    <string name="current_average">Current average</string>
+    <string name="current_year">Current year</string>
+    <string name="explain">you can always change the details in your personal page</string>
+    <string name="past_courses">Past Courses</string>
+    <string name="current_courses">Current Courses</string>
+    <string name="current_semester">Current Semester</string>
+    <string name="choose_your_cuurent_year">Choose your current year</string>
+    <string name="progress">Progress</string>
+    <string name="gender">Gender</string>
+    <string name="male">male</string>
+    <string name="female">female</string>
+    <string name="main_content">main content</string>
+    <string name="action">Action</string>
+    <string name="homework">Homework</string>
+    <string name="study">Study</string>
+    <string name="exam">Exam</string>
+    <string name="tests">Tests</string>
+    <string name="save">Save</string>
+    <string name="activity_saved">Activity Saved</string>
+    <string name="editAct">Edit</string>
+    <string name="todo">TODO</string>
+    <string name="b">B</string>
+    <string name="a">A</string>
+    <string name="practice">practice</string>
+
+
+    <!--    courses array -->
+    <string-array name="courses">
+        <item>Algorithms</item>
+        <item>Calculus 1</item>
+        <item>Linear Algebra 1</item>
+        <item>Calculus 2</item>
+        <item>Linear Algebra 2</item>
+        <item>Computational models</item>
+    </string-array>
+
+    <!--    years array -->
+    <string-array name="years">
+        <item>2</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>over 4</item>
+    </string-array>
+
 </resources>
 
