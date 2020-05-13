@@ -3,42 +3,43 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@id/navigation_home">
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.gostudy.ui.home.HomeFragment"
+        android:name="com.example.goStudy.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home"/>
 
     <fragment
         android:id="@+id/navigation_stats"
-        android:name="com.example.gostudy.StatsFragment"
+        android:name="com.example.goStudy.StatsFragment"
         android:label="@string/statistics"
         tools:layout="@layout/fragment_stats" />
 
     <fragment
         android:id="@+id/navigation_refs"
-        android:name="com.example.gostudy.RefsFragment"
+        android:name="com.example.goStudy.RefsFragment"
         android:label="@string/menu_refs"
         tools:layout="@layout/fragment_refs" />
 
     <fragment
         android:id="@+id/navigation_tips"
-        android:name="com.example.gostudy.TipsFragment"
+        android:name="com.example.goStudy.TipsFragment"
         android:label="@string/menu_tips"
         tools:layout="@layout/fragment_tips" />
 
     <fragment
         android:id="@+id/navigation_progress"
-        android:name="com.example.gostudy.ProgressFragment"
+        android:name="com.example.goStudy.ProgressFragment"
         android:label="Progress"
         tools:layout="@layout/fragment_progress" />
+
 
 </navigation>
 
     <!--    <fragment-->
     <!--        android:id="@+id/navigation_daily"-->
-    <!--        android:name="com.example.gostudy.DailyFragment"-->
+    <!--        android:name="goStudy.DailyFragment"-->
     <!--        android:label="@string/menu_daily"-->
     <!--        tools:layout="@layout/fragment_daily" />-->
