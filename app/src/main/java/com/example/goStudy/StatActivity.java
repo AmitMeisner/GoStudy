@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.aigestudio.wheelpicker.WheelPicker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.ValueDependentColor;
@@ -45,9 +46,22 @@ public class StatActivity extends AppCompatActivity {
         hide_graph();
         hide_error_msg();
 
-        //init spinners
-        init_courses_spinner();
-        init_criteria_spinner();
+//        //init spinners
+//        init_courses_spinner();
+//        init_criteria_spinner();
+
+
+        /** create choose courses spinner */
+        HomeActicity HA = new HomeActicity();
+        Spinner coursesSpinner = findViewById(R.id.spr_courses);
+        HA.CreateCoursesSpinner(coursesSpinner, StatActivity.this);
+
+        /** create choose activity wheel picker*/
+        WheelPicker wheelPicker =(WheelPicker) findViewById(R.id.activity_wheel_picker_stat);
+        HA.setResourcesWheelPicker(wheelPicker, StatActivity.this);
+
+
+
 
         //enter text initliazation
         average_input_et = findViewById(R.id.average_input);

@@ -11,23 +11,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.example.goStudy.Practice2"></activity>
-        <activity android:name="com.example.goStudy.TipsActivity" />
-        <activity android:name="com.example.goStudy.StatActivity" />
-        <activity android:name="com.example.goStudy.ProgressActivity" />
-        <activity android:name="com.example.goStudy.DailyActivity" />
-        <activity android:name="com.example.goStudy.HomeActicity" />
-        <activity android:name="com.example.goStudy.Practice" />
-        <activity android:name="com.example.goStudy.WelcomeActivity" android:noHistory="true"/>
+        <activity android:name=".Practice2" />
+        <activity android:name=".TipsActivity" />
+        <activity android:name=".StatActivity" />
+        <activity android:name=".ProgressActivity" />
+        <activity android:name=".DailyActivity" />
+        <activity android:name=".HomeActicity" />
+        <activity android:name=".Practice" />
         <activity
-            android:name="com.example.goStudy.MainNavActivity"
+            android:name=".WelcomeActivity"
+            android:noHistory="true" />
+        <activity
+            android:name="com.example.oldGoStudy.MainNavActivity"
             android:label="@string/title_activity_main_nav"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.example.goStudy.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            >
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
