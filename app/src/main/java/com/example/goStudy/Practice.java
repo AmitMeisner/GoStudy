@@ -5,11 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 
 import com.aigestudio.wheelpicker.WheelPicker;
 import com.github.mikephil.charting.animation.Easing;
@@ -54,54 +51,82 @@ public class Practice extends AppCompatActivity {
             }
         });
 
-        CreateLineChart();
-        CreateLineChart2();
-        CreatePieChart();
-        CreateBarChart();
-        CreateBarChart2();
-        CreateLineChart3();
-        CreateBarChart4();
+        /** create simple line chart */
+        LineChart simpleLineChart = findViewById(R.id.LineChart);
+        ArrayList<Entry> yValuesSimpleLineChart= new ArrayList<Entry>();
+        setSimpleLineChartData(yValuesSimpleLineChart);
+        createSimpleLineChart(simpleLineChart,yValuesSimpleLineChart);
 
-        CreatWheelPicker();
+        /** create smooth line chart */
+        LineChart smoothChart = findViewById(R.id.SmoothLineChart);
+        ArrayList<Entry> yValuesSmoothChart= new ArrayList<Entry>();
+        setDataSmoothLineChart(yValuesSmoothChart); // create data for the chart.
+        createSmoothLineChart(smoothChart, yValuesSmoothChart,"Data set 1");
+
+        /** create pie chart */
+        PieChart pieChart = (PieChart) findViewById(R.id.PieChart);
+        ArrayList<PieEntry> yValuesPieChart = new ArrayList<>();
+        setPieChartData(yValuesPieChart);
+        createPieChart(pieChart,yValuesPieChart);
 
 
+        /** create simple bar chart*/
+        BarChart simpleBartChart = (BarChart) findViewById(R.id.BarChart);
+        ArrayList<BarEntry> barEntries= new ArrayList<>();
+        setSimpleBarChartData(barEntries);
+        createSimpleBarChart(simpleBartChart, barEntries);
+
+        /** create multi bar chart */
+        BarChart barChart2 = (BarChart) findViewById(R.id.BarChart2);
+        ArrayList<BarEntry> multiBarEntries1= new ArrayList<>();
+        ArrayList<BarEntry> multiBarEntries2= new ArrayList<>();
+        setMultiBarChartData(multiBarEntries1,multiBarEntries2);
+        createMultiBarChart(barChart2,multiBarEntries1,multiBarEntries2);
+
+        /** Create multi line chart */
+        LineChart multiLineChart = findViewById(R.id.MultiLineChart);
+        ArrayList<Entry> yVals1 =  new ArrayList<>();
+        ArrayList<Entry> yVals2 =  new ArrayList<>();
+        ArrayList<Entry> yVals3 =  new ArrayList<>();
+        setMultiLineChartData(yVals1,yVals2,yVals3);
+        createMultiLineChart(multiLineChart,yVals1,yVals2,yVals3);
+
+
+        /** Create Stacked Bar Chart */
+        BarChart stackedBarChart=(BarChart) findViewById(R.id.StackedBarChart);
+        ArrayList<BarEntry> yValuesStackedChart = new ArrayList<>();
+        yValuesStackedChart= setDataStackedChart(10); //create data for the chart.
+        createStackedChart(stackedBarChart, yValuesStackedChart, 40 ,new String[]{"Children", "Adults", "Elders"});
+
+        /** Create Wheel Picker */
+        WheelPicker wheelPicker =(WheelPicker) findViewById(R.id.wheel_picker);
+        String[] itemsInWheelPicker = getResources().getStringArray(R.array.activities);
+        createWheelPicker(wheelPicker, itemsInWheelPicker);
 
 
     }
 
-    private void CreatWheelPicker() {
-//        List<Integer> data = new ArrayList<>();
-//        for (int i = 1000; i < 3000; i++)
-//            data.add(i);
+
+
+
+    /** WHEEL PICKER */
+    /**
+     * create wheel picker
+     * @param wheelPicker the wheel picker in the layout.
+     * @param itemsInWheelPicker array of string with items to display on the wheel picker.
+     */
+    private void createWheelPicker(WheelPicker wheelPicker , String[] itemsInWheelPicker) {
         List<String> data =new ArrayList<>();
-        String[] activities = getResources().getStringArray(R.array.activities);
-        for (String str : activities) {
+        for (String str : itemsInWheelPicker) {
             data.add(str);
         }
-        WheelPicker wheelPicker =(WheelPicker) findViewById(R.id.wheel_picker);
-//        FrameLayout flContainer = (FrameLayout) findViewById(R.id.container);
-//        WheelPicker wheelPicker = new WheelPicker(this);
-//        FrameLayout.LayoutParams flParams = new FrameLayout.LayoutParams
-//                (ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//        flParams.gravity = Gravity.CENTER;
-//        flContainer.addView(wheelPicker, flParams);
-
         wheelPicker.setData(data);
     }
 
-    /** STACKED BARD CHART */
-    private void CreateBarChart4() {
-        BarChart mChart=(BarChart) findViewById(R.id.StackedBarChart);
-
-        mChart.setMaxVisibleValueCount(40);
-
-        StackedChartData(10, mChart);
-    }
-
-    private void StackedChartData(int count, BarChart mChart) {
-
+    /** STACKED CHART */
+    /** Create data for stacked chart */
+    private ArrayList<BarEntry> setDataStackedChart(int count) {
         ArrayList<BarEntry> yValues = new ArrayList<>();
-
         for(int i=0; i<count; i++){
             float val1 =  (float) (Math.random()+count)+20;
             float val2 =  (float) (Math.random()+count)+10;
@@ -109,12 +134,43 @@ public class Practice extends AppCompatActivity {
 
             yValues.add(new BarEntry(i ,new float[]{val1,val2, val3}));
         }
+        return yValues;
+    }
 
+    /**
+     * create stacked chart
+     * @param mChart  BarChart from layout.
+     * @param yValues   array of BarEntry with the information to display in the chart.
+     * @param maxVisibleValueCount  sets the number of maximum visible drawn values on the chart only active
+     *                              when setDrawValues() is enabled
+     * @param yTag name of each color in the chart.
+     */
+    private void createStackedChart(BarChart mChart, ArrayList<BarEntry>   yValues, int maxVisibleValueCount,
+                                    String[] yTag ) {
+
+        mChart.getDescription().setEnabled(false);
+
+
+        mChart.setMaxVisibleValueCount(maxVisibleValueCount);
+
+        StackedChartData(mChart, yValues,yTag);
+    }
+
+
+    /**
+     * add the data to the stacked chart.
+     * @param mChart BarChart from layout
+     * @param yValues   array of BarEntry with the information to display in the chart.
+     * @param yTag name of each color in the chart.
+     */
+    private void StackedChartData(BarChart mChart, ArrayList<BarEntry>   yValues,
+                                  String[] yTag ) {
         BarDataSet set1;
-        set1 = new BarDataSet(yValues,"Statistic of USA");
+        set1 = new BarDataSet(yValues,"");
         set1.setDrawIcons(false);
-        set1.setStackLabels(new String[]{"Children", "Adults", "Elders"});
+        set1.setStackLabels(yTag);
         set1.setColors(ColorTemplate.COLORFUL_COLORS);
+        set1.setDrawValues(true);
 
         BarData data = new BarData(set1);
         /** problem with setting xAxis tags */
@@ -131,27 +187,18 @@ public class Practice extends AppCompatActivity {
 
 
     /** SMOOTH LINE CHART */
-    private void CreateLineChart2() {
-        LineChart mChart = findViewById(R.id.SmoothLineChart);
-
-//        mChart.setOnChartGestureListener(Practice.this);
-//        mChart.setOnChartValueSelectedListener(Practice.this);
-
+    /**
+     * create smooth line chart
+     * @param mChart LineChart from layout.
+     * @param yValues array of Entry with the information to display in the chart.
+     * @param dataName name of the chart.
+     */
+    private void createSmoothLineChart(LineChart mChart, ArrayList<Entry> yValues , String dataName) {
         mChart.setDragEnabled(true);
         mChart.setScaleEnabled(false);
+        mChart.getDescription().setEnabled(false);
 
-        ArrayList<Entry> yValues= new ArrayList<Entry>();
-
-        yValues.add(new Entry(0,10f));
-        yValues.add(new Entry(1,20f));
-        yValues.add(new Entry(2,10f));
-        yValues.add(new Entry(3,20f));
-        yValues.add(new Entry(4,10f));
-        yValues.add(new Entry(5,20f));
-        yValues.add(new Entry(6,10f));
-
-
-        LineDataSet set1 = new LineDataSet(yValues, "Data set 1");
+        LineDataSet set1 = new LineDataSet(yValues, dataName);
 
         set1.setFillAlpha(110);
 
@@ -174,22 +221,32 @@ public class Practice extends AppCompatActivity {
         mChart.setData(data);
     }
 
-    /** BAR CHART */
-    private void CreateBarChart() {
-        BarChart barChart1 = (BarChart) findViewById(R.id.BarChart);
+    /** Create data for smooth line chart */
+    private void setDataSmoothLineChart(ArrayList<Entry> yValues){
+        yValues.add(new Entry(0,10f));
+        yValues.add(new Entry(1,20f));
+        yValues.add(new Entry(2,10f));
+        yValues.add(new Entry(3,20f));
+        yValues.add(new Entry(4,10f));
+        yValues.add(new Entry(5,20f));
+        yValues.add(new Entry(6,10f));
 
-        barChart1.setDrawBarShadow(false);
-        barChart1.setDrawValueAboveBar(true);
-        barChart1.setMaxVisibleValueCount(50);
-        barChart1.setPinchZoom(false);
-        barChart1.setDrawGridBackground(true);
+    }
 
-        ArrayList<BarEntry> barEntries= new ArrayList<>();
+    /** SIMPLE BAR CHART */
+    /**
+     * create simple bar chart
+     * @param mChart BarChart from layout.
+     * @param barEntries array of BarEntry with the information to display in the chart.
+     */
+    private void createSimpleBarChart(BarChart mChart, ArrayList<BarEntry> barEntries) {
+        mChart.setDrawBarShadow(false);
+        mChart.setDrawValueAboveBar(true);
+        mChart.setMaxVisibleValueCount(50);
+        mChart.setPinchZoom(false);
+        mChart.setDrawGridBackground(true);
+        mChart.getDescription().setEnabled(false);
 
-        barEntries.add(new BarEntry(1,40f));
-        barEntries.add(new BarEntry(2,44f));
-        barEntries.add(new BarEntry(3,30f));
-        barEntries.add(new BarEntry(4,36f));
 
         BarDataSet barDataSet= new BarDataSet(barEntries , "Data set1");
         barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
@@ -197,45 +254,44 @@ public class Practice extends AppCompatActivity {
         BarData data=new BarData(barDataSet);
         data.setBarWidth(0.9f);
 
-        barChart1.setData(data);
-        barChart1.animateY(1000, Easing.EaseInOutSine);
+        mChart.setData(data);
+        mChart.animateY(1000, Easing.EaseInOutSine);
 
         /** It suppose to change the tags on the xAxis,
          * but there is a problem with the implementation of IAxisValueFormatter class*/
         String[] months = new String[]{"Jan", "Feb", "Mar", "April", "May", "Jun"};
-        XAxis xAxis = barChart1.getXAxis();
+        XAxis xAxis = mChart.getXAxis();
         xAxis.setValueFormatter(new MyXAxisValueFormatter(months));
 
     }
+    /** set data to simple bar chart */
+    private void setSimpleBarChartData(ArrayList<BarEntry> barEntries) {
+        barEntries.add(new BarEntry(1,40f));
+        barEntries.add(new BarEntry(2,44f));
+        barEntries.add(new BarEntry(3,30f));
+        barEntries.add(new BarEntry(4,36f));
+    }
 
     /** MULTI BAR CHART */
-    private void CreateBarChart2() {
-        BarChart barChart2 = (BarChart) findViewById(R.id.BarChart2);
+    /**
+     * create multi bar chart
+     * @param mChart BarChart from layout.
+     * @param multiBarEntries1 array of BarEntry with the information to display in the first column.
+     * @param multiBarEntries2 array of BarEntry with the information to display in the second column.
+     */
+    private void createMultiBarChart(BarChart mChart,ArrayList<BarEntry> multiBarEntries1, ArrayList<BarEntry> multiBarEntries2) {
+        mChart.setDrawBarShadow(false);
+        mChart.setDrawValueAboveBar(true);
+        mChart.setMaxVisibleValueCount(50);
+        mChart.setPinchZoom(false);
+        mChart.setDrawGridBackground(true);
+        mChart.getDescription().setEnabled(false);
 
-        barChart2.setDrawBarShadow(false);
-        barChart2.setDrawValueAboveBar(true);
-        barChart2.setMaxVisibleValueCount(50);
-        barChart2.setPinchZoom(false);
-        barChart2.setDrawGridBackground(true);
 
-        ArrayList<BarEntry> barEntries= new ArrayList<>();
-
-        barEntries.add(new BarEntry(1,48f));
-        barEntries.add(new BarEntry(2,63f));
-        barEntries.add(new BarEntry(3,21f));
-        barEntries.add(new BarEntry(4,37f));
-
-        ArrayList<BarEntry> barEntries1= new ArrayList<>();
-        //define the second set
-        barEntries1.add(new BarEntry(1,44f));
-        barEntries1.add(new BarEntry(2,54f));
-        barEntries1.add(new BarEntry(3,68f));
-        barEntries1.add(new BarEntry(4,21f));
-
-        BarDataSet barDataSet= new BarDataSet(barEntries , "Data set1");
+        BarDataSet barDataSet= new BarDataSet(multiBarEntries1 , "Data set1");
         barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
 
-        BarDataSet barDataSet1= new BarDataSet(barEntries1 , "Data set2");
+        BarDataSet barDataSet1= new BarDataSet(multiBarEntries2 , "Data set2");
         barDataSet1.setColors(ColorTemplate.COLORFUL_COLORS);
 
         BarData data=new BarData(barDataSet, barDataSet1);
@@ -244,17 +300,17 @@ public class Practice extends AppCompatActivity {
         float barSpace = 0.02f;
         float bandwidth = 0.43f;
 
-        barChart2.setData(data);
+        mChart.setData(data);
 
         data.setBarWidth(bandwidth);
-        barChart2.groupBars(0,groupSpace,barSpace);
+        mChart.groupBars(0,groupSpace,barSpace);
 
 
 
         /** It suppose to change the tags on the xAxis,
          * but there is a problem with the implementation of IAxisValueFormatter class*/
         String[] months = new String[]{"Jan", "Feb", "Mar", "April", "May", "Jun"};
-        XAxis xAxis = barChart2.getXAxis();
+        XAxis xAxis = mChart.getXAxis();
         xAxis.setValueFormatter(new MyXAxisValueFormatter(months));
 
 
@@ -262,12 +318,24 @@ public class Practice extends AppCompatActivity {
         xAxis.setGranularity(1);
         xAxis.setCenterAxisLabels(true);
         xAxis.setAxisMinimum(0);
-
-
-
-
     }
 
+    /** create multi bar chart data */
+    private void setMultiBarChartData(ArrayList<BarEntry> multiBarEntries1, ArrayList<BarEntry> multiBarEntries2) {
+
+        multiBarEntries1.add(new BarEntry(1,48f));
+        multiBarEntries1.add(new BarEntry(2,63f));
+        multiBarEntries1.add(new BarEntry(3,21f));
+        multiBarEntries1.add(new BarEntry(4,37f));
+
+        multiBarEntries2.add(new BarEntry(1,44f));
+        multiBarEntries2.add(new BarEntry(2,54f));
+        multiBarEntries2.add(new BarEntry(3,68f));
+        multiBarEntries2.add(new BarEntry(4,21f));
+    }
+
+
+    /** caused me trouble, I'm not sure how to implement this class. */
     public class MyXAxisValueFormatter extends ValueFormatter implements IAxisValueFormatter {
 
         private String[] mValue;
@@ -281,26 +349,17 @@ public class Practice extends AppCompatActivity {
         }
     }
 
-    /** LINE CHART */
-    void CreateLineChart(){
-        LineChart mChart = findViewById(R.id.LineChart);
-
-//        mChart.setOnChartGestureListener(Practice.this);
-//        mChart.setOnChartValueSelectedListener(Practice.this);
+    /** SIMPLE LINE CHART */
+    /**
+     * create simple line chart.
+     * @param mChart LineChart from layout.
+     * @param yValues array of Entry with the information to display in the chart.
+     */
+    void createSimpleLineChart(LineChart mChart,ArrayList<Entry> yValues ){
 
         mChart.setDragEnabled(true);
         mChart.setScaleEnabled(false);
-
-        ArrayList<Entry> yValues= new ArrayList<Entry>();
-
-        yValues.add(new Entry(0,10f));
-        yValues.add(new Entry(1,20f));
-        yValues.add(new Entry(2,10f));
-        yValues.add(new Entry(3,20f));
-        yValues.add(new Entry(4,10f));
-        yValues.add(new Entry(5,20f));
-        yValues.add(new Entry(6,10f));
-
+        mChart.getDescription().setEnabled(false);
 
         LineDataSet set1 = new LineDataSet(yValues, "Data set 1");
 
@@ -311,7 +370,6 @@ public class Practice extends AppCompatActivity {
         set1.setValueTextSize(20f);
         set1.setValueTextColor(Color.GREEN);
 
-
         ArrayList<ILineDataSet> dataSets= new ArrayList<>();
         dataSets.add(set1);
 
@@ -320,13 +378,30 @@ public class Practice extends AppCompatActivity {
         mChart.setData(data);
     }
 
+    /** create data for simple line chart */
+    private void setSimpleLineChartData(ArrayList<Entry> yValues){
+        yValues.add(new Entry(0,10f));
+        yValues.add(new Entry(1,20f));
+        yValues.add(new Entry(2,10f));
+        yValues.add(new Entry(3,20f));
+        yValues.add(new Entry(4,10f));
+        yValues.add(new Entry(5,20f));
+        yValues.add(new Entry(6,10f));
+
+    }
+
     /** PIE CHART */
-    private void CreatePieChart() {
-        PieChart pieChart = (PieChart) findViewById(R.id.PieChart);
+    /**
+     * create pie chart.
+     * @param pieChart PieChart from layout.
+     * @param yValues array of PieEntry with the information to display in the chart.
+     */
+    private void createPieChart(PieChart pieChart , ArrayList<PieEntry> yValues) {
 
         pieChart.setUsePercentValues(true);
         pieChart.getDescription().setEnabled(false);
         pieChart.setExtraOffsets(5 , 10 , 5 ,5 );
+        pieChart.getDescription().setEnabled(false);
 
         //smoothness of the spin
         pieChart.setDragDecelerationFrictionCoef(0.99f);
@@ -338,16 +413,6 @@ public class Practice extends AppCompatActivity {
         pieChart.setDrawHoleEnabled(true);
         pieChart.setTransparentCircleRadius(61f);
 
-
-
-        ArrayList<PieEntry> yValues = new ArrayList<>();
-
-        yValues.add(new PieEntry(28f, "Israel"));
-        yValues.add(new PieEntry(5f, "USA"));
-        yValues.add(new PieEntry(4f, "UK"));
-        yValues.add(new PieEntry(4f, "India"));
-        yValues.add(new PieEntry(3f, "Russia"));
-        yValues.add(new PieEntry(2f, "Japan"));
 
         PieDataSet dataSet= new PieDataSet(yValues,"Countries");
         dataSet.setSliceSpace(3f);
@@ -361,30 +426,28 @@ public class Practice extends AppCompatActivity {
         pieChart.setData(data);
     }
 
-    /** MULTI LINE CHART */
-    private void CreateLineChart3() {
-            LineChart mChart = findViewById(R.id.MultiLineChart);
-            MultiLineChartData(40,60, mChart);
+    /** create data for pie chart */
+    private void setPieChartData(ArrayList<PieEntry> yValues){
+        yValues.add(new PieEntry(28f, "Israel"));
+        yValues.add(new PieEntry(5f, "USA"));
+        yValues.add(new PieEntry(4f, "UK"));
+        yValues.add(new PieEntry(4f, "India"));
+        yValues.add(new PieEntry(3f, "Russia"));
+        yValues.add(new PieEntry(2f, "Japan"));
+
     }
-    private void MultiLineChartData(int count, int range, LineChart mChart){
 
-        ArrayList<Entry> yVals1 =  new ArrayList<>();
-        for (int i=0; i<count; i++){
-            float val = (float) (Math.random()*range)+250;
-            yVals1.add(new Entry(i,val));
-        }
+    /** MULTI LINE CHART */
+    /**
+     * create multi line chart
+     * @param mChart LineChart from layout.
+     * @param yVals1 array of Entry with the information to display in the first line.
+     * @param yVals2 array of Entry with the information to display in the second line.
+     * @param yVals3 array of Entry with the information to display in the third line.
+     */
+    private void createMultiLineChart(LineChart mChart ,ArrayList<Entry> yVals1, ArrayList<Entry> yVals2,ArrayList<Entry> yVals3 ) {
 
-        ArrayList<Entry> yVals2=  new ArrayList<>();
-        for (int i=0; i<count; i++){
-            float val = (float) (Math.random()*range)+150;
-            yVals2.add(new Entry(i,val));
-        }
-
-        ArrayList<Entry> yVals3 =  new ArrayList<>();
-        for (int i=0; i<count; i++){
-            float val = (float) (Math.random()*range)+50;
-            yVals3.add(new Entry(i,val));
-        }
+        mChart.getDescription().setEnabled(false);
 
         LineDataSet set1, set2, set3;
         set1 = new LineDataSet(yVals1, "Data set1");
@@ -404,6 +467,20 @@ public class Practice extends AppCompatActivity {
 
         LineData data = new LineData(set1, set2, set3);
         mChart.setData(data);
+    }
+
+    /** create data for multi line chart */
+    private void setMultiLineChartData(ArrayList<Entry> yVals1, ArrayList<Entry> yVals2, ArrayList<Entry> yVals3) {
+        int count =40;
+        int range=60;
+        for (int i=0; i<count; i++){
+            float val = (float) (Math.random()*range)+250;
+            yVals1.add(new Entry(i,val));
+            val = (float) (Math.random()*range)+150;
+            yVals2.add(new Entry(i,val));
+            val = (float) (Math.random()*range)+50;
+            yVals3.add(new Entry(i,val));
+        }
     }
 
 

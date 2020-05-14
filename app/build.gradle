@@ -72,6 +72,10 @@ dependencies {
     /** WHEEL PICKER */
     implementation 'cn.aigestudio.wheelpicker:WheelPicker:1.1.3'
 
+    /** NAVIGATION DRAWER */
+    implementation 'nl.psdcompany:duo-navigation-drawer:3.0.0'
+
+
 
 
     /** not sure if relevant */

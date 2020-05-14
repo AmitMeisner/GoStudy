@@ -71,15 +71,15 @@
 
             <!--  Charts -->
 
+
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/PieChart"
                 android:layout_width="match_parent"
                 android:layout_height="282dp"
                 tools:layout_editor_absoluteX="189dp"
-                tools:layout_editor_absoluteY="51dp" >
+                tools:layout_editor_absoluteY="51dp">
 
             </com.github.mikephil.charting.charts.PieChart>
-
 
             <com.github.mikephil.charting.charts.BarChart
                 android:id="@+id/BarChart"
