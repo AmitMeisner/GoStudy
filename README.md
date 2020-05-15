@@ -1,4 +1,4 @@
-# GoStudy, time to track your study habits and GoStusy!
+# GoStudy, time to track your study habits and GoStudy!
 
 # Home Tab
 The function measures study time of a specific course in a specific resource.
@@ -16,7 +16,7 @@ Choose course, or choose All courses to see your progress for the desired select
  just fill your study habits form and choose your study preferences
  by tapping “set new plan", and your plan is ready.
  
- # statistics Tab
+ # Statistics Tab
  To display the statistics via a criteria, a criteria must be provided,
  in addition to a certain course (optionally, general average). 
   Example: In order to display the graph that depicts data that depicts:
