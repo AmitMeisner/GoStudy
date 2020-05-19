@@ -13,7 +13,7 @@ class NeuProgressPieBar extends StatelessWidget {
     final percentage =
         Provider.of<TimerService>(context).currentDuration.inSeconds / 60 * 100;
     return Container(
-      height: 400,
+      height: 200,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: Color.fromRGBO(225, 234, 244, 1),
@@ -41,7 +41,7 @@ class NeuProgressPieBar extends StatelessWidget {
               height: 250,
               child: CustomPaint(
                 painter: NeuProgressPainter(
-                  circleWidth: 60,
+                  circleWidth: 20,
                   completedPercentage: percentage,
                   defaultCircleColor: Colors.transparent,
                 ),

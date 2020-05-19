@@ -47,6 +47,7 @@ class _NeuResetButtonState extends State<NeuResetButton> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 150),
         height: 73,
+        width: 200,
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
           color: Color.fromRGBO(227, 237, 247, 1),

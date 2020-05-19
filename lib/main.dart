@@ -1,12 +1,23 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-
+import 'signIn/google_sign_in.dart';
 
 
 import 'NavigationButtom.dart';
 
-void main() {
-  runApp(MyApp());
+//void main() {
+//  runApp(MyApp());
+//}
+
+void main() {runApp(MaterialApp(
+  initialRoute: '/signIn',
+  routes: {
+    '/signIn': (context)=> SignInDemo(),
+  '/home': (context)=> NavigationButtomPage()
+  },
+//      title: 'Google Sign In',
+//      home: SignInDemo(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
