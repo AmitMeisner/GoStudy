@@ -4,11 +4,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutterapp/HomePage/Timer/resources_buttons.dart';
-import 'course_spinner.dart';
-import 'digitalClock.dart';
-import 'buttonTop.dart';
-import 'progress_pie_bar.dart';
-import 'neu_reset_button.dart';
+import 'Timer/course_spinner.dart';
+import 'Timer/digitalClock.dart';
+import 'Timer/buttonTop.dart';
+import 'Timer/progress_pie_bar.dart';
+import 'Timer/neu_reset_button.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutterapp/signIn/google_sign_in.dart';

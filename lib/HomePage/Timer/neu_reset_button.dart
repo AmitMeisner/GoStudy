@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'HomeMain.dart';
+import '../HomeMain.dart';
 import 'package:provider/provider.dart';
 
 class NeuResetButton extends StatefulWidget {

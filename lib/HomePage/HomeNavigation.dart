@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'Calender/Calender.dart';
 import 'Extra/Extra.dart';
-import 'Timer/HomeMain.dart';
+import 'HomeMain.dart';
 import 'Top20/Top20.dart';
 
 class HomeNavPage extends StatefulWidget {
