@@ -9,12 +9,12 @@ import 'package:flutterapp/Statistics.dart';
 import 'package:flutterapp/Tips/Tips.dart';
 import 'HomePage/HomeNavigation.dart';
 
-class NavigationButtomPage extends StatefulWidget {
+class NavigationBottomPage extends StatefulWidget {
   @override
-  _NavigationButtomState createState() => _NavigationButtomState();
+  _NavigationBottomState createState() => _NavigationBottomState();
 }
 
-class _NavigationButtomState extends State<NavigationButtomPage> {
+class _NavigationBottomState extends State<NavigationBottomPage> {
   int pageIndex = 0;
   GlobalKey _bottomNavigationKey = GlobalKey();
   final ProgressPage _progress = ProgressPage();

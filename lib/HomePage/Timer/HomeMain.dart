@@ -20,14 +20,19 @@ class HomeMainPage extends StatefulWidget{
 }
 
 class _HomeMainPageState extends State<HomeMainPage> {
-  String userName;
 
-  String userEmail;
+  String userName="";
+
+  String userEmail="";
 
   Map userDetails= {};
   
   @override
   Widget build(BuildContext context) {
+    /** getting the user name from google_sign_in.dart to this page */
+    userDetails=ModalRoute.of(context).settings.arguments;
+    userName=userDetails["userName"];
+    userEmail=userDetails["userEmail"];
     final timeService = TimerService();
     return ChangeNotifierProvider<TimerService>(
       create: (_) => timeService,
@@ -36,6 +41,7 @@ class _HomeMainPageState extends State<HomeMainPage> {
           padding: const EdgeInsets.symmetric(horizontal: 35),
           //child: Column(
             children: <Widget>[
+              userDet(context, userName),
               SizedBox(height: MediaQuery.of(context).viewPadding.top + 20),
               courseSpinner(),
               SizedBox(height: MediaQuery.of(context).size.height/20),
@@ -107,3 +113,17 @@ class TimerService extends ChangeNotifier {
   }
 
 
+Widget userDet(BuildContext context, String userName){
+  return Row(
+    children: <Widget>[
+      Text("Hello "+userName, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0)),
+      Spacer(),
+      RaisedButton(
+        child: const Text('SIGN OUT'),
+        onPressed: (){
+          SignInState().signOut(context);
+        },
+      ),
+    ],
+  );
+}

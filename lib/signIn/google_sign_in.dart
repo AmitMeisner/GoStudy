@@ -21,12 +21,12 @@ GoogleSignIn _googleSignIn = GoogleSignIn(
 
 
 
-class SignInDemo extends StatefulWidget {
+class SignIn extends StatefulWidget {
   @override
-  State createState() => SignInDemoState();
+  State createState() => SignInState();
 }
 
-class SignInDemoState extends State<SignInDemo> {
+class SignInState extends State<SignIn> {
   GoogleSignInAccount _currentUser;
   String _contactText;
 
