@@ -88,8 +88,9 @@ class _HomeNavPageState extends State<HomeNavPage> {
 
               ],
             ),
+              ),
           ),
-          body: TabBarView(
+            body: TabBarView(
             children: <Widget>[
               HomeMainPage(),//ff5722
               CalenderPage(),//3f51b5
@@ -97,7 +98,8 @@ class _HomeNavPageState extends State<HomeNavPage> {
               ExtraPage(), //9c27b0
 
             ],
-          )),
+          )
+          ),
     );
   }
 
