@@ -14,7 +14,7 @@ class HomeNavPage extends StatefulWidget {
   _HomeNavPageState createState() => _HomeNavPageState();
 }
 
-Color PrimaryColor =  Color(0xff109618);
+Color primaryColor =  Color(0xff109618);
 
 class _HomeNavPageState extends State<HomeNavPage> {
   @override
@@ -22,29 +22,31 @@ class _HomeNavPageState extends State<HomeNavPage> {
     return DefaultTabController(
       length: 4,
       child: Scaffold(
-          appBar: AppBar(
-            // backgroundColor: Color(0xff109618),
-            backgroundColor: PrimaryColor,
-            title: Text("GoStudyHome"),
-            bottom: TabBar(
-              isScrollable: true,
-              indicatorColor: Colors.white,
-              indicatorWeight: 6.0,
-              onTap: (int index){
-                setState(() {
-                  switch (index) {
-                    case 0:
-                      PrimaryColor= Color(0xffff5722);
-                      break;
-                    case 1:
-                      PrimaryColor= Color(0xff3f51b5);
-                      break;
-                    case 2:
-                      PrimaryColor= Color(0xffe91e63);
-                      break;
-                    case 3:
-                      PrimaryColor= Color(0xff9c27b0);
-                      break;
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(60.0),
+            child: AppBar(
+              // backgroundColor: Color(0xff109618),
+              backgroundColor: primaryColor,
+//            title: Text("GoStudyHome"),
+              bottom: TabBar(
+                isScrollable: true,
+                indicatorColor: Colors.white,
+                indicatorWeight: 6.0,
+                onTap: (int index){
+                  setState(() {
+                    switch (index) {
+                      case 0:
+                        primaryColor= Color(0xffff5722);
+                        break;
+                      case 1:
+                        primaryColor= Color(0xff3f51b5);
+                        break;
+                      case 2:
+                        primaryColor= Color(0xffe91e63);
+                        break;
+                      case 3:
+                        primaryColor= Color(0xff9c27b0);
+                        break;
 
                     default:
                   }
@@ -86,8 +88,9 @@ class _HomeNavPageState extends State<HomeNavPage> {
 
               ],
             ),
+              ),
           ),
-          body: TabBarView(
+            body: TabBarView(
             children: <Widget>[
               HomeMainPage(),//ff5722
               CalenderPage(),//3f51b5
@@ -95,7 +98,8 @@ class _HomeNavPageState extends State<HomeNavPage> {
               ExtraPage(), //9c27b0
 
             ],
-          )),
+          )
+          ),
     );
   }
 

@@ -10,8 +10,22 @@ import 'buttonTop.dart';
 import 'progress_pie_bar.dart';
 import 'neu_reset_button.dart';
 import 'package:provider/provider.dart';
-class HomeMainPage extends StatelessWidget{
 
+import 'package:flutterapp/signIn/google_sign_in.dart';
+
+class HomeMainPage extends StatefulWidget{
+
+  @override
+  _HomeMainPageState createState() => _HomeMainPageState();
+}
+
+class _HomeMainPageState extends State<HomeMainPage> {
+  String userName;
+
+  String userEmail;
+
+  Map userDetails= {};
+  
   @override
   Widget build(BuildContext context) {
     final timeService = TimerService();

@@ -11,7 +11,6 @@ import "package:http/http.dart" as http;
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import '../NavigationButtom.dart';
 
 GoogleSignIn _googleSignIn = GoogleSignIn(
   scopes: <String>[
@@ -170,8 +169,8 @@ class SignInDemoState extends State<SignInDemo> {
 
   @override
   Widget build(BuildContext context) {
-    String a;
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         body: ConstrainedBox(
           constraints: const BoxConstraints.expand(),
           child: _buildBody(),
