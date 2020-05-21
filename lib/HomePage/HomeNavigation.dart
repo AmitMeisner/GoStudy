@@ -3,10 +3,10 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/Nadine/AndroidStudioProjects/flutter_app/lib/HomePage/Calender.dart';
-import 'file:///C:/Users/Nadine/AndroidStudioProjects/flutter_app/lib/HomePage/Extra.dart';
+import 'file:///C:/Users/Nadine/AndroidStudioProjects/flutter_app/lib/HomePage/Calender/Calender.dart';
+import 'file:///C:/Users/Nadine/AndroidStudioProjects/flutter_app/lib/HomePage/Extra/Extra.dart';
 import 'file:///C:/Users/Nadine/AndroidStudioProjects/flutter_app/lib/HomePage/Timer/HomeMain.dart';
-import 'file:///C:/Users/Nadine/AndroidStudioProjects/flutter_app/lib/HomePage/Top20.dart';
+import 'file:///C:/Users/Nadine/AndroidStudioProjects/flutter_app/lib/HomePage/Top20/Top20.dart';
 
 class HomeNavPage extends StatefulWidget {
   final Widget child;
@@ -91,7 +91,7 @@ class _HomeNavPageState extends State<HomeNavPage> {
             children: <Widget>[
               HomeMainPage(),//ff5722
               CalenderPage(),//3f51b5
-              Top20Page(),//e91e63
+              top20Table(),//e91e63
               ExtraPage(), //9c27b0
 
             ],

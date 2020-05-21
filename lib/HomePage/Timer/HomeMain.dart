@@ -2,6 +2,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutterapp/HomePage/Timer/resources_buttons.dart';
+import 'course_spinner.dart';
 import 'digitalClock.dart';
 import 'buttonTop.dart';
 import 'progress_pie_bar.dart';
@@ -15,45 +17,30 @@ class HomeMainPage extends StatelessWidget{
     return ChangeNotifierProvider<TimerService>(
       create: (_) => timeService,
       child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 35.0),
-          child: Column(
+        body: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 35),
+          //child: Column(
             children: <Widget>[
               SizedBox(height: MediaQuery.of(context).viewPadding.top + 20),
-              TimerTitle(),
+              courseSpinner(),
+              SizedBox(height: MediaQuery.of(context).size.height/20),
+              resourcesButtons(),
               SizedBox(height: 60),
               neuDigitalClock(),
-              SizedBox(height: 20),
+              SizedBox(height: MediaQuery.of(context).size.height/20),
               NeuProgressPieBar(),
               SizedBox(height: 25),
               NeuResetButton(),
+              SizedBox(height: 60),
             ],
-          ),
+         // ),
         ),
       ),
     );
   }
 }
 
-class TimerTitle extends StatelessWidget {
-  const TimerTitle({
-    Key key,
-  }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        Text(
-          'HomePage.Timer',
-          style: Theme.of(context).textTheme.headline1,
-        ),
-        Spacer(),
-        NeuHamburgerButton()
-      ],
-    );
-  }
-}
 
 class TimerService extends ChangeNotifier {
   Stopwatch _watch;

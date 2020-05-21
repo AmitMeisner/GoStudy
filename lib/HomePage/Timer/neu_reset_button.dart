@@ -46,7 +46,8 @@ class _NeuResetButtonState extends State<NeuResetButton> {
       onPointerUp: _onPointerUp,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 150),
-        height: 73,
+        height: MediaQuery.of(context).size.height/13,
+        width: MediaQuery.of(context).size.height/5,
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
           color: Color.fromRGBO(227, 237, 247, 1),
@@ -69,7 +70,7 @@ class _NeuResetButtonState extends State<NeuResetButton> {
         child: Center(
           child: Text(
             'Reset',
-            style: Theme.of(context).textTheme.headline4,
+            style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
           ),
         ),
       ),
