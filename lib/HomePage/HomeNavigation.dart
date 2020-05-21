@@ -3,10 +3,10 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'Calender.dart';
-import 'Extra.dart';
+import 'Calender/Calender.dart';
+import 'Extra/Extra.dart';
 import 'Timer/HomeMain.dart';
-import 'Top20.dart';
+import 'Top20/Top20.dart';
 
 class HomeNavPage extends StatefulWidget {
   final Widget child;
@@ -48,53 +48,52 @@ class _HomeNavPageState extends State<HomeNavPage> {
                         primaryColor= Color(0xff9c27b0);
                         break;
 
-                      default:
-                    }
-                  });
-                },
-                tabs: <Widget>[
-                  Tab(
-                    child: Container(
-                      child: Text(
-                        'HOME',
-                        style: TextStyle(color: Colors.white, fontSize: 16.0),
-                      ),
+                    default:
+                  }
+                });
+              },
+              tabs: <Widget>[
+                Tab(
+                  child: Container(
+                    child: Text(
+                      'HOME',
+                      style: TextStyle(color: Colors.white, fontSize: 18.0),
                     ),
                   ),
-                  Tab(
-                    child: Container(
-                      child: Text(
-                        'CALENDER',
-                        style: TextStyle(color: Colors.white, fontSize: 16.0),
-                      ),
+                ),
+                Tab(
+                  child: Container(
+                    child: Text(
+                      'CALENDER',
+                      style: TextStyle(color: Colors.white, fontSize: 18.0),
                     ),
                   ),
-                  Tab(
-                    child: Container(
-                      child: Text(
-                        'TOP20',
-                        style: TextStyle(color: Colors.white, fontSize: 16.0),
-                      ),
+                ),
+                Tab(
+                  child: Container(
+                    child: Text(
+                      'TOP20',
+                      style: TextStyle(color: Colors.white, fontSize: 18.0),
                     ),
                   ),
-                  Tab(
-                    child: Container(
-                      child: Text(
-                        'EXTRA',
-                        style: TextStyle(color: Colors.white, fontSize: 16.0),
-                      ),
+                ),
+                Tab(
+                  child: Container(
+                    child: Text(
+                      'EXTRA',
+                      style: TextStyle(color: Colors.white, fontSize: 18.0),
                     ),
                   ),
+                ),
 
-                ],
-              ),
+              ],
             ),
           ),
           body: TabBarView(
             children: <Widget>[
               HomeMainPage(),//ff5722
               CalenderPage(),//3f51b5
-              Top20Page(),//e91e63
+              top20Table(),//e91e63
               ExtraPage(), //9c27b0
 
             ],

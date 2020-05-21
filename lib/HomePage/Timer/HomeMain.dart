@@ -1,11 +1,16 @@
 
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutterapp/HomePage/Timer/resources_buttons.dart';
+import 'course_spinner.dart';
 import 'digitalClock.dart';
+import 'buttonTop.dart';
 import 'progress_pie_bar.dart';
 import 'neu_reset_button.dart';
 import 'package:provider/provider.dart';
+
 import 'package:flutterapp/signIn/google_sign_in.dart';
 
 class HomeMainPage extends StatefulWidget{
@@ -20,61 +25,37 @@ class _HomeMainPageState extends State<HomeMainPage> {
   String userEmail;
 
   Map userDetails= {};
-
+  
   @override
   Widget build(BuildContext context) {
-    /** getting the user name from google_sign_in.dart to this page */
-    userDetails=ModalRoute.of(context).settings.arguments;
-    userName=userDetails["userName"];
-    userEmail=userDetails["userEmail"];
-//
-//    print("user name is"+userName);
-//    print("user email is"+userEmail);
-
     final timeService = TimerService();
     return ChangeNotifierProvider<TimerService>(
       create: (_) => timeService,
       child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 35.0),
-          child: Column(
+        body: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 35),
+          //child: Column(
             children: <Widget>[
               SizedBox(height: MediaQuery.of(context).viewPadding.top + 20),
-//              TimerTitle(),
-//              SizedBox(height: 5),
-              userDet(context, userName),
+              courseSpinner(),
+              SizedBox(height: MediaQuery.of(context).size.height/20),
+              resourcesButtons(),
+              SizedBox(height: 60),
               neuDigitalClock(),
-//              SizedBox(height: 1),
+              SizedBox(height: MediaQuery.of(context).size.height/20),
               NeuProgressPieBar(),
-//              SizedBox(height: 1),
+              SizedBox(height: 25),
               NeuResetButton(),
+              SizedBox(height: 60),
             ],
-          ),
+         // ),
         ),
       ),
     );
   }
 }
 
-class TimerTitle extends StatelessWidget {
-  const TimerTitle({
-    Key key,
-  }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-//        Text(
-//          'HomePage.Timer',
-////          style: Theme.of(context).textTheme.headline1,
-//        ),
-//        Spacer(),
-//        NeuHamburgerButton()
-      ],
-    );
-  }
-}
 
 class TimerService extends ChangeNotifier {
   Stopwatch _watch;
@@ -125,17 +106,4 @@ class TimerService extends ChangeNotifier {
 
   }
 
-Widget userDet(BuildContext context, String userName){
-  return Row(
-      children: <Widget>[
-        Text("Hello "+userName, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0)),
-        Spacer(),
-        RaisedButton(
-          child: const Text('SIGN OUT'),
-          onPressed: (){
-            SignInDemoState().signOut(context);
-          },
-        ),
-      ],
-    );
-}
+

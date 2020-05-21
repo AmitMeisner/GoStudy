@@ -21,6 +21,9 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+
+  table_calendar: ^2.0.1
+  dropdownfield: ^0.0.2
   provider: ^3.0.0
 #  navigation bar
   curved_navigation_bar: ^0.3.2
