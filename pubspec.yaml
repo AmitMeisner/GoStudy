@@ -22,9 +22,16 @@ environment:
 
 dependencies:
   provider: ^3.0.0
+#  navigation bar
   curved_navigation_bar: ^0.3.2
+#  google sign in
   google_sign_in: ^4.4.6
   http: ^0.12.1
+#  multi choice
+  chips_choice: ^1.2.0
+  dio: ^3.0.9
+#  animated cards
+  animated_card: ^1.0.0+8
   flutter:
     sdk: flutter
 

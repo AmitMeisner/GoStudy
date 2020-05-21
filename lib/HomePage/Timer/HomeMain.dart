@@ -8,9 +8,15 @@ import 'neu_reset_button.dart';
 import 'package:provider/provider.dart';
 import 'package:flutterapp/signIn/google_sign_in.dart';
 
-class HomeMainPage extends StatelessWidget{
+class HomeMainPage extends StatefulWidget{
 
+  @override
+  _HomeMainPageState createState() => _HomeMainPageState();
+}
+
+class _HomeMainPageState extends State<HomeMainPage> {
   String userName;
+
   String userEmail;
 
   Map userDetails= {};

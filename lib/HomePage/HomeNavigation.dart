@@ -14,7 +14,7 @@ class HomeNavPage extends StatefulWidget {
   _HomeNavPageState createState() => _HomeNavPageState();
 }
 
-Color PrimaryColor =  Color(0xff109618);
+Color primaryColor =  Color(0xff109618);
 
 class _HomeNavPageState extends State<HomeNavPage> {
   @override
@@ -26,7 +26,7 @@ class _HomeNavPageState extends State<HomeNavPage> {
             preferredSize: Size.fromHeight(60.0),
             child: AppBar(
               // backgroundColor: Color(0xff109618),
-              backgroundColor: PrimaryColor,
+              backgroundColor: primaryColor,
 //            title: Text("GoStudyHome"),
               bottom: TabBar(
                 isScrollable: true,
@@ -36,16 +36,16 @@ class _HomeNavPageState extends State<HomeNavPage> {
                   setState(() {
                     switch (index) {
                       case 0:
-                        PrimaryColor= Color(0xffff5722);
+                        primaryColor= Color(0xffff5722);
                         break;
                       case 1:
-                        PrimaryColor= Color(0xff3f51b5);
+                        primaryColor= Color(0xff3f51b5);
                         break;
                       case 2:
-                        PrimaryColor= Color(0xffe91e63);
+                        primaryColor= Color(0xffe91e63);
                         break;
                       case 3:
-                        PrimaryColor= Color(0xff9c27b0);
+                        primaryColor= Color(0xff9c27b0);
                         break;
 
                       default:
