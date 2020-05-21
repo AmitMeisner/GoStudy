@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'digital_colon.dart';
-import 'HomeMain.dart';
+import '../HomeMain.dart';
 import 'package:provider/provider.dart';
 
 import 'digital_number.dart';
