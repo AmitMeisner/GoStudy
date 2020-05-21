@@ -26,7 +26,7 @@ class NeuProgressPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     Paint defaultCirclePaint = getPaint(defaultCircleColor);
 
-    Offset center = Offset(size.width / 2, size.height / 2);
+    Offset center = Offset(size.width / 2, size.height / 1.8);
     double radius = min(size.width / 2, size.height / 2);
     Rect boundingSquare = Rect.fromCircle(center: center, radius: radius);
 
@@ -42,13 +42,13 @@ class NeuProgressPainter extends CustomPainter {
       return Paint()
         ..strokeCap = StrokeCap.round
         ..style = PaintingStyle.stroke
-        ..strokeWidth = circleWidth
+        ..strokeWidth = circleWidth*2.1
         ..shader = gradient.createShader(boundingSquare);
     }
 
     canvas.drawCircle(center, radius, defaultCirclePaint);
 
-    double arcAngle = 2 * pi * (completedPercentage / 100);
+    double arcAngle = 2 * pi * (completedPercentage / 100/60 );
     canvas.drawArc(
       Rect.fromCircle(center: center, radius: radius),
       -pi / 2,
@@ -56,8 +56,8 @@ class NeuProgressPainter extends CustomPainter {
       false,
       paint(
         [
-          Color.fromRGBO(255, 219, 129, 1),
-          Color.fromRGBO(255, 126, 29, 1),
+          Color.fromRGBO(124, 252, 0, 1),
+          Color.fromRGBO(124, 252, 0, 1),
         ],
       ),
     );
