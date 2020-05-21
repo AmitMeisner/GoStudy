@@ -11,8 +11,8 @@ import 'NavigationButtom.dart';
 void main() {runApp(MaterialApp(
   initialRoute: '/signIn',
   routes: {
-    '/signIn': (context)=> SignInDemo(),
-  '/home': (context)=> NavigationButtomPage()
+    '/signIn': (context)=> SignIn(),
+  '/home': (context)=> NavigationBottomPage()
   },
 //      title: 'Google Sign In',
 //      home: SignInDemo(),
