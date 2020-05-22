@@ -24,7 +24,8 @@ dependencies:
 
   table_calendar: ^2.0.1
   dropdownfield: ^0.0.2
-  provider: ^3.0.0
+#  provider: ^3.0.0
+  provider: ^4.0.1
 #  navigation bar
   curved_navigation_bar: ^0.3.2
 #  google sign in
@@ -35,6 +36,10 @@ dependencies:
   dio: ^3.0.9
 #  animated cards
   animated_card: ^1.0.0+8
+#  URL launching
+  url_launcher: ^5.4.10
+#  Toast
+  fluttertoast: ^4.0.1
   flutter:
     sdk: flutter
 

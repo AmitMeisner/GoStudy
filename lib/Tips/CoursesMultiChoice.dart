@@ -1,38 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutterapp/Courses.dart';
-import 'package:flutterapp/Tips/TipDialog.dart';
 
 
-
-
-//void main() => runApp(MyApp());
-//
-//class MyApp extends StatelessWidget {
-//  @override
-//  Widget build(BuildContext context) {
-//    return MaterialApp(
-//      title: 'Flutter ChipsChoice',
-//      theme: ThemeData(
-//        primarySwatch: Colors.red,
-//      ),
-//      home: CoursesMultiChoice(),
-//    );
-//  }
-//}
 
 
 class CoursesMultiChoice extends StatefulWidget {
   final Function updateUserTags;
-  CoursesMultiChoice(this.updateUserTags);
+  final double ceiling;
+  CoursesMultiChoice(this.updateUserTags, this.ceiling);
   @override
-  _CoursesMultiChoiceState createState() => _CoursesMultiChoiceState(updateUserTags);
+  _CoursesMultiChoiceState createState() => _CoursesMultiChoiceState(updateUserTags, ceiling);
 }
 
 class _CoursesMultiChoiceState extends State<CoursesMultiChoice> {
 
   Function updateUserTags;
-  _CoursesMultiChoiceState(this.updateUserTags);
+  double ceiling; //distance of title from the top.
+  _CoursesMultiChoiceState(this.updateUserTags, this.ceiling);
 
   int tag = 1;
   List<String> usersTags=["general"];
@@ -45,12 +30,13 @@ class _CoursesMultiChoiceState extends State<CoursesMultiChoice> {
   @override
   Widget build(BuildContext context) {
     updateUserTags(usersTags);
-    return scrollableListMultipleChoice();
+    return scrollableListMultipleChoice(ceiling);
   }
 
-  Widget scrollableListMultipleChoice(){
+  Widget scrollableListMultipleChoice(double ceiling){
     return Content(
       title:"Courses",
+      ceiling: ceiling,
       child: ChipsChoice<String>.multiple(
         value: usersTags,
         options: ChipsChoiceOption.listFrom<String, String>(
@@ -143,19 +129,23 @@ class Content extends StatelessWidget {
 
   final String title;
   final Widget child;
+  final double ceiling;
 
   Content({
     Key key,
     @required this.title,
     @required this.child,
+    @required this.ceiling,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 2,
-      margin: EdgeInsets.fromLTRB(0,10,0,0),
+      margin: EdgeInsets.fromLTRB(0,ceiling,0,0),
       clipBehavior: Clip.antiAliasWithSaveLayer,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(25.0))),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[

@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Tips/CoursesMultiChoice.dart';
 import 'package:flutterapp/Tips/Cards.dart';
-import 'package:flutterapp/Courses.dart';
 import 'package:flutterapp/Tips/TipDialog.dart';
 
 
@@ -26,7 +25,7 @@ class _TipsPageState extends State<TipsPage> {
         child: Center(
           child: Column(
             children: <Widget>[
-              CoursesMultiChoice(updateUserTags),
+              CoursesMultiChoice(updateUserTags,20),
               Cards(),
             ],
           ),
@@ -37,11 +36,19 @@ class _TipsPageState extends State<TipsPage> {
   }
 
   Widget fab(BuildContext context){
-    return FloatingActionButton.extended(
-      onPressed: (){addTip(context, updateState);},
-      label: Icon(Icons.add),
-      backgroundColor: Colors.blueAccent,
-      shape: new CircleBorder(),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: <Widget>[
+        Center(
+          child: FloatingActionButton.extended(
+            onPressed: (){addTip(context, updateState);},
+            label: Text("Add Tip"),
+            backgroundColor: Colors.blueAccent,
+            icon: Icon(Icons.add),
+//            shape: new CircleBorder(),
+          ),
+        )
+      ],
     );
   }
 

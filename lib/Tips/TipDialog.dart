@@ -22,13 +22,13 @@ class _TipDialogState extends State<TipDialog> {
   final myController = TextEditingController();
   final myDescController = TextEditingController();
 
-  bool link=true;
+  bool isLink=false;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding:  EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-      child: mainBodyOfDialog(link),
+      child: mainBodyOfDialog(isLink),
     );
   }
 
@@ -40,8 +40,8 @@ class _TipDialogState extends State<TipDialog> {
     }
   }
 
-  Widget mainBodyOfDialog(bool link){
-    if(link){
+  Widget mainBodyOfDialog(bool isLink){
+    if(!isLink){
       return  Column(
         mainAxisSize: MainAxisSize.min ,
         children: <Widget>[
@@ -76,6 +76,7 @@ class _TipDialogState extends State<TipDialog> {
   }
 
   Widget linkInput(){
+    double borderRadius = 20.0;
     return Container(
       padding: EdgeInsets.fromLTRB(0, 0, 10, 10),
       width: 320,
@@ -83,7 +84,14 @@ class _TipDialogState extends State<TipDialog> {
         children: <Widget>[
           Container(
             height: 50,
-            decoration: BoxDecoration(border: Border.all()),
+            decoration: BoxDecoration(
+                border: Border.all(),
+                borderRadius: new BorderRadius.only(
+                  topLeft:  Radius.circular(borderRadius),
+                  topRight:  Radius.circular(borderRadius),
+                  bottomLeft:  Radius.circular(borderRadius),
+                  bottomRight:  Radius.circular(borderRadius),
+                )),
             child: TextFormField(
               controller: myController,
               autocorrect: false,
@@ -107,12 +115,20 @@ class _TipDialogState extends State<TipDialog> {
   }
 
   Widget descriptionInput(){
+    double borderRadius = 20.0;
     return Container(
       child: Column(
         children: <Widget>[
           Container(
             height: 50,
-            decoration: BoxDecoration(border: Border.all()),
+            decoration: BoxDecoration(
+                border: Border.all(),
+                borderRadius: new BorderRadius.only(
+                  topLeft:  Radius.circular(borderRadius),
+                  topRight:  Radius.circular(borderRadius),
+                  bottomLeft:  Radius.circular(borderRadius),
+                  bottomRight:  Radius.circular(borderRadius),
+                )),
             child: TextFormField(
               controller: myDescController,
               autocorrect: false,
@@ -136,16 +152,24 @@ class _TipDialogState extends State<TipDialog> {
   }
 
   Widget tags(){
-    return CoursesMultiChoice(updateUserTags);
+    return CoursesMultiChoice(updateUserTags,0.0);
   }
 
   Widget textInput(){
+    double borderRadius = 20.0;
     return Container(
       child: Column(
         children: <Widget>[
           Container(
             height: 170,
-            decoration: BoxDecoration(border: Border.all()),
+            decoration: BoxDecoration(
+                border: Border.all(),
+                borderRadius: new BorderRadius.only(
+                  topLeft:  Radius.circular(borderRadius),
+                  topRight:  Radius.circular(borderRadius),
+                  bottomLeft:  Radius.circular(borderRadius),
+                  bottomRight:  Radius.circular(borderRadius),
+                )),
             child: TextFormField(
               controller: myController,
               autocorrect: false,
@@ -172,7 +196,7 @@ class _TipDialogState extends State<TipDialog> {
     return Container(
         alignment: Alignment.bottomRight ,
         child: FlatButton(
-            onPressed: (){addUserTipAndUpdate(callback, link);},
+            onPressed: (){addUserTipAndUpdate(callback, isLink);},
             child: Text("Post"),
           color: Colors.blueAccent,
         )
@@ -182,8 +206,13 @@ class _TipDialogState extends State<TipDialog> {
 
   void addUserTipAndUpdate(Function callback, bool link){
     if( myController.text!="" && myController.text!=null){
-      Cards().addCard(myController.text, usersTags, link,myDescController.text); callback();
+      if(isLink) {
+        Cards().addCard(null, usersTags,isLink, myDescController.text,myController.text);
+      }else{
+        Cards().addCard(myController.text, usersTags,isLink, null,null);
+      }
     }
+    callback();
     Navigator.pop(context);
 
   }
@@ -193,7 +222,7 @@ class _TipDialogState extends State<TipDialog> {
         alignment:Alignment.bottomLeft,
         child: FlatButton(
             color: Colors.grey[200],
-            onPressed: (){link=false ; setState(() {});},
+            onPressed: (){isLink=true ; setState(() {});},
             child: Icon(Icons.link)
         )
     );
@@ -204,7 +233,7 @@ class _TipDialogState extends State<TipDialog> {
         alignment:Alignment.bottomLeft,
         child: FlatButton(
             color: Colors.grey[200],
-            onPressed: (){link=true ; setState(() {});},
+            onPressed: (){isLink=false ; setState(() {});},
             child: Icon(Icons.text_fields)
         )
     );
