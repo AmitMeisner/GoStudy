@@ -5,7 +5,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Progress.dart';
-import 'package:flutterapp/Tips.dart';
+import 'file:///D:/anroid%20studio%20apps/go_Study/lib/Tips/Tips.dart';
 import 'package:flutterapp/Statistics.dart';
 import 'HomePage/HomeNavigation.dart';
 
@@ -45,12 +45,13 @@ class _NavigationButtomState extends State<NavigationButtomPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         bottomNavigationBar: CurvedNavigationBar(
+          height: 50.0,
           key: _bottomNavigationKey,
           items: <Widget>[
-            Icon(Icons.add, size: 30),
-            Icon(Icons.list, size: 30),
-            Icon(Icons.accessibility, size: 30),
-            Icon(Icons.compare_arrows, size: 30),
+            Icon(Icons.home, size: 30),
+            Icon(Icons.insert_chart, size: 30),
+            Icon(Icons.highlight, size: 30),
+            Icon(Icons.show_chart, size: 30),
           ],
           onTap: (int index) {
             setState(() {
