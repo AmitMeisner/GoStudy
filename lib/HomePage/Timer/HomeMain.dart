@@ -3,13 +3,16 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutterapp/HomePage/Timer/resources_buttons.dart';
+
 import 'course_spinner.dart';
 import 'digitalClock.dart';
-import 'buttonTop.dart';
+import 'try.dart';
 import 'progress_pie_bar.dart';
 import 'neu_reset_button.dart';
+
 import 'package:provider/provider.dart';
 class HomeMainPage extends StatelessWidget{
+
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +25,8 @@ class HomeMainPage extends StatelessWidget{
           //child: Column(
             children: <Widget>[
               SizedBox(height: MediaQuery.of(context).viewPadding.top + 20),
-              courseSpinner(),
+              //courseSpinner(),
+              ShowHideDropdown(),
               SizedBox(height: MediaQuery.of(context).size.height/20),
               resourcesButtons(),
               SizedBox(height: 60),
@@ -43,6 +47,7 @@ class HomeMainPage extends StatelessWidget{
 
 
 class TimerService extends ChangeNotifier {
+
   Stopwatch _watch;
   Timer _timer;
 
@@ -64,11 +69,12 @@ class TimerService extends ChangeNotifier {
 
   void start() {
     if (_timer != null) return;
-
+    ShowHideDropdownState.notRunning = false;
     _timer = Timer.periodic(Duration(seconds: 1), _onTick);
     _watch.start();
-
+    //ShowHideDropdownState.notRunning = false ;
     notifyListeners();
+
   }
 
   void stop() {
@@ -76,7 +82,7 @@ class TimerService extends ChangeNotifier {
     _timer = null;
     _watch.stop();
     _currentDuration = _watch.elapsed;
-
+    ShowHideDropdownState.notRunning = false;
     notifyListeners();
   }
 
@@ -84,7 +90,7 @@ class TimerService extends ChangeNotifier {
     stop();
     _watch.reset();
     _currentDuration = Duration.zero;
-
+    ShowHideDropdownState.notRunning = true;
     notifyListeners();
   }
 

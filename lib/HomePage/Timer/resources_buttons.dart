@@ -77,6 +77,6 @@ class _filterChipWidgetState extends State<filterChipWidget> {
           _isSelected = isSelected;
         });
       },
-      selectedColor: Color(0xffeadffd),);
+      selectedColor: Color(0xffaaaffd),);
   }
 }

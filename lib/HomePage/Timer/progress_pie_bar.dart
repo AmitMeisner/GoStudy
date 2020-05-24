@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'progress_painter.dart';
 import 'HomeMain.dart';
 import 'package:provider/provider.dart';
+import 'try.dart';
 
 class NeuProgressPieBar extends StatelessWidget {
   const NeuProgressPieBar({
@@ -101,11 +102,12 @@ class NeuStartButton extends StatefulWidget {
 
 class _NeuStartButtonState extends State<NeuStartButton> {
   bool _isPressed = false;
-  bool _isRunning = false;
+   bool _isRunning = false;
 
   void _onPointerDown() {
     setState(() {
       _isPressed = true;
+
     });
   }
 
@@ -123,7 +125,10 @@ class _NeuStartButtonState extends State<NeuStartButton> {
         _isRunning
             ? Provider.of<TimerService>(context, listen: false).stop()
             : Provider.of<TimerService>(context, listen: false).start();
-        setState(() => _isRunning = !_isRunning);
+
+          //else{ShowHideDropdownState.notRunning = true;}
+          _isRunning = !_isRunning ;
+
       },
       onPointerUp: _onPointerUp,
       child: AnimatedContainer(

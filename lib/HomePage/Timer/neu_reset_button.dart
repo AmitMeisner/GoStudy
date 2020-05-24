@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'HomeMain.dart';
+import 'try.dart';
 import 'package:provider/provider.dart';
 
 class NeuResetButton extends StatefulWidget {
   final double bevel;
   final Offset blurOffset;
+
 
   NeuResetButton({
     Key key,
@@ -19,9 +21,12 @@ class NeuResetButton extends StatefulWidget {
 class _NeuResetButtonState extends State<NeuResetButton> {
   bool _isPressed = false;
 
+
   void _onPointerDown() {
     setState(() {
       _isPressed = true;
+
+
     });
   }
 
@@ -34,15 +39,19 @@ class _NeuResetButtonState extends State<NeuResetButton> {
   @override
   Widget build(BuildContext context) {
     return Listener(
+
       onPointerDown: (_) {
         _onPointerDown();
+
         final isRunning =
             Provider.of<TimerService>(context, listen: false).isRunning;
         Provider.of<TimerService>(context, listen: false).reset();
+
         // If user press reset button when timer is running, start for them
-        if (isRunning)
-          Provider.of<TimerService>(context, listen: false).start();
+        if (isRunning){
+          Provider.of<TimerService>(context, listen: false).start();}
       },
+
       onPointerUp: _onPointerUp,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 150),

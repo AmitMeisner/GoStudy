@@ -14,7 +14,7 @@ class HomeNavPage extends StatefulWidget {
   _HomeNavPageState createState() => _HomeNavPageState();
 }
 
-Color PrimaryColor =  Color(0xff109618);
+Color PrimaryColor =  Color(0xffff5722);
 
 class _HomeNavPageState extends State<HomeNavPage> {
   @override
