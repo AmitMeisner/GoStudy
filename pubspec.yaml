@@ -45,6 +45,9 @@ dependencies:
   url_launcher: ^5.4.10
 #  Toast
   fluttertoast: ^4.0.1
+#  charts
+  syncfusion_flutter_charts: ^18.1.54
+
   flutter:
     sdk: flutter
 

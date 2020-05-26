@@ -46,7 +46,7 @@ class TipDataBase{
 
   //collection reference.
   static  CollectionReference tipsCollection= Firestore.instance.collection("Tips");
-   Stream<QuerySnapshot> tipsCollectionQuery = tipsCollection.orderBy('like count', descending: true)
+   Stream<QuerySnapshot> tipsCollectionQuery = tipsCollection.orderBy('likeCount', descending: true)
   .where('tags',arrayContainsAny: TipsPage.usersTags).snapshots();
 
    List<String> selectedTags=["general"];
@@ -61,8 +61,8 @@ class TipDataBase{
       "tip":tipCard.getTip(),
       "description": tipCard.getDescription(),
       "tags":tipCard.getTags(),
-      "like count": tipCard.getLikesCount(),
-      "is link": tipCard.getIsLink(),
+      "likeCount": tipCard.getLikesCount(),
+      "isLink": tipCard.getIsLink(),
       "link": tipCard.getLink(),
       "date": tipCard.getDate(),
       "likes": tipCard.getLikes(),
@@ -73,12 +73,7 @@ class TipDataBase{
 
   //get sorted tip cards.
   Stream<List<TipCard>> get tips{
-    if(firstCall){
-            return tipsCollection.snapshots().map(_tipCardsFromSnapshot);
-            firstCall=false;
-    }else {
       return tipsCollectionQuery.map(_tipCardsFromSnapshot);
-    }
   }
 
 
@@ -88,9 +83,9 @@ class TipDataBase{
         doc.data["tip"],
         doc.data["description"],
         List.from(doc['tags']),
-        doc.data["like count"],
+        doc.data["likeCount"],
         List.from(doc['likes']),
-        doc.data["is link"],
+        doc.data["isLink"],
         doc.data["link"],
         doc.data["date"],
         doc.data["docId"]
@@ -103,7 +98,7 @@ class TipDataBase{
     DocumentReference doc = tipsCollection.document(card.getDocId());
     List<String> likes=card.getLikes();
     likes.add(FirebaseAPI().getUserUid());
-    await doc.updateData({"like count": card.getLikesCount()+1, "likes": likes});
+    await doc.updateData({"likeCount": card.getLikesCount()+1, "likes": likes});
     return;
   }
 
@@ -111,7 +106,7 @@ class TipDataBase{
     DocumentReference doc = tipsCollection.document(card.getDocId());
     List<String> likes=card.getLikes();
     likes.remove(FirebaseAPI().getUserUid());
-    await doc.updateData({"like count": card.getLikesCount()-1, "likes":likes});
+    await doc.updateData({"likeCount": card.getLikesCount()-1, "likes":likes});
 
     return;
   }
@@ -128,7 +123,7 @@ class TipDataBase{
     selectedTags=userSelectedTags;
     if(userSelectedTags==[]){selectedTags=["general"];}
     tipsCollectionQuery=null;
-    tipsCollectionQuery=tipsCollection.orderBy('like count', descending: true).where('tags',arrayContainsAny: userSelectedTags).snapshots();
+    tipsCollectionQuery=tipsCollection.orderBy('likeCount', descending: true).where('tags',arrayContainsAny: userSelectedTags).snapshots();
     await tipsCollectionQuery.firstWhere((element) => element!=null);
     updateTipsPageState();
   }
