@@ -36,6 +36,7 @@ class Cards extends StatelessWidget {
       return Container(
         color: Colors.white,
         height: 500.0,
+        padding: EdgeInsets.only(bottom: 50.0),
         child: ListView.builder(
           itemCount: _tipCards.length,
           itemBuilder: (context, index) {
@@ -71,8 +72,9 @@ class Cards extends StatelessWidget {
     }else {
       newTip = new TipCard(tip, userDesc, usersTags, 0,emptyList,isLink, link, date,null);
     }
-    _tipCards.add(newTip);
     TipDataBase().addTip(newTip);
+    _tipCards.add(newTip);
+    updateTipsPageState();
   }
 
   // creating the tags widget for the cards.
@@ -278,7 +280,7 @@ void showColoredToast(String msg) {
 // class of the like button.
 class LikeButton extends StatefulWidget {
   final int index;
-  Function updateTipsPageState;
+  final Function updateTipsPageState;
   LikeButton(this.index, this.updateTipsPageState);
   @override
   _LikeButtonState createState() => _LikeButtonState(index, updateTipsPageState);

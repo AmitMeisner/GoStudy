@@ -46,10 +46,11 @@ class TipDataBase{
 
   //collection reference.
   static  CollectionReference tipsCollection= Firestore.instance.collection("Tips");
-  Stream<QuerySnapshot> tipsCollectionQuery = tipsCollection.orderBy('like count', descending: true)
+   Stream<QuerySnapshot> tipsCollectionQuery = tipsCollection.orderBy('like count', descending: true)
   .where('tags',arrayContainsAny: TipsPage.usersTags).snapshots();
 
-  List<String> selectedTags=["general"];
+   List<String> selectedTags=["general"];
+   static bool firstCall=true;
 
 
 
@@ -72,12 +73,16 @@ class TipDataBase{
 
   //get sorted tip cards.
   Stream<List<TipCard>> get tips{
-    return tipsCollectionQuery.map(_tipCardsFromSnapshot);
+    if(firstCall){
+            return tipsCollection.snapshots().map(_tipCardsFromSnapshot);
+            firstCall=false;
+    }else {
+      return tipsCollectionQuery.map(_tipCardsFromSnapshot);
+    }
   }
 
 
   List<TipCard> _tipCardsFromSnapshot(QuerySnapshot snapshot){
-    List<String> abc=["discombobulated"];
     return snapshot.documents.map((doc){
       return TipCard(
         doc.data["tip"],

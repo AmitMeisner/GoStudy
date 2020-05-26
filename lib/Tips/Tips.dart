@@ -39,29 +39,48 @@ class _TipsPageState extends State<TipsPage> {
             ),
           ),
         ),
-        floatingActionButton: fab(context),
+        floatingActionButton: fabAddTip(context),
       ),
     );
   }
 
 
-  //creating the floating action button.
-  Widget fab(BuildContext context){
+  //creating the floating action button for add tip.
+  Widget fabAddTip(BuildContext context){
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
         Center(
-          child: FloatingActionButton.extended(
-            onPressed: (){addTip(context, updateState);},
-            label: Text("Add Tip"),
-            backgroundColor: Colors.blueAccent,
-            icon: Icon(Icons.add),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              fabReload(context),
+              FloatingActionButton.extended(
+                onPressed: (){addTip(context, updateState);},
+                label: Text("Add Tip"),
+                backgroundColor: Colors.blueAccent,
+                icon: Icon(Icons.add),
 //            shape: new CircleBorder(),
+            ),
+            ],
           ),
         )
       ],
     );
   }
+
+
+  //creating the floating action button for reloading.
+  Widget fabReload(BuildContext context){
+    return FloatingActionButton.extended(
+      onPressed: (){updateState();},
+      label: Icon(Icons.autorenew),
+      backgroundColor: Colors.blueAccent,
+      shape: new CircleBorder(),
+      focusElevation: 30.0,
+    );
+  }
+
 
   //updating the state of the tips page, to be used in other classes.
   void updateState(){
