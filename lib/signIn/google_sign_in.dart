@@ -1,24 +1,20 @@
-// Copyright 2019 The Flutter Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
-// ignore_for_file: public_member_api_docs
-
 import 'dart:async';
 import 'dart:convert' show json;
 
+import 'package:firebase_auth/firebase_auth.dart';
 import "package:http/http.dart" as http;
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutterapp/firebase/FirebaseAPI.dart';
 
-
-GoogleSignIn _googleSignIn = GoogleSignIn(
+final GoogleSignIn _googleSignIn = GoogleSignIn(
   scopes: <String>[
     'email',
     'https://www.googleapis.com/auth/contacts.readonly',
   ],
 );
 
+final FirebaseAuth _auth= FirebaseAuth.instance;
 
 
 class SignIn extends StatefulWidget {
@@ -41,13 +37,12 @@ class SignInState extends State<SignIn> {
         _handleGetContact();
       }
     });
-//    _googleSignIn.signInSilently();
-    signInSilent();
+//    signInSilent();
   }
 
   Future<void>  signInSilent() async{
     if((await _googleSignIn.signInSilently())!= null) {
-      Navigator.pushReplacementNamed(context, '/home', arguments: {"userName": _currentUser.displayName , "userEmail": _currentUser.email});
+      Navigator.pushReplacementNamed(context, '/home');
     }
   }
 
@@ -99,14 +94,29 @@ class SignInState extends State<SignIn> {
 
   Future<void> _handleSignIn() async {
     try {
-      await _googleSignIn.signIn();
-      Navigator.pushReplacementNamed(context, '/home',arguments: {"userName": _currentUser.displayName , "userEmail": _currentUser.email});
+      final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+
+      final AuthCredential credential = GoogleAuthProvider.getCredential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+      final FirebaseUser user = (await _auth.signInWithCredential(credential)).user;
+      FirebaseAPI().setUser(user);
+//      Navigator.pushReplacementNamed(context, '/home',arguments: {"userName": _currentUser.displayName , "userEmail": _currentUser.email,});
+      Navigator.pushReplacementNamed(context, '/home');
+
     } catch (error) {
       print(error);
     }
+
   }
 
-  Future<void> _handleSignOut() => _googleSignIn.disconnect();
+  Future<void> _handleSignOut() {
+    _googleSignIn.disconnect();
+    _auth.signOut();
+  }
 
   Widget _buildBody() {
     return Column(

@@ -1,30 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutterapp/Courses.dart';
+import 'package:flutterapp/Tips/Tips.dart';
+import 'package:flutterapp/firebase/FirebaseAPI.dart';
 
 
 
-
+// class of the courses multi choice.
 class CoursesMultiChoice extends StatefulWidget {
+  // updating the users tag list.
   final Function updateUserTags;
+
+  final Function tipsPageSetState;
+
+  // distance of the title from the top.
   final double ceiling;
-  CoursesMultiChoice(this.updateUserTags, this.ceiling);
+
+  //constructor/
+  CoursesMultiChoice(this.updateUserTags, this.ceiling, this.tipsPageSetState);
+
+
   @override
-  _CoursesMultiChoiceState createState() => _CoursesMultiChoiceState(updateUserTags, ceiling);
+  _CoursesMultiChoiceState createState() => _CoursesMultiChoiceState(updateUserTags, ceiling,tipsPageSetState);
 }
 
 class _CoursesMultiChoiceState extends State<CoursesMultiChoice> {
-
+  // updating the users tag list.
   Function updateUserTags;
-  double ceiling; //distance of title from the top.
-  _CoursesMultiChoiceState(this.updateUserTags, this.ceiling);
+
+  final Function tipsPageSetState;
+
+  // distance of the title from the top.
+  double ceiling;
+
+  //constructor.
+  _CoursesMultiChoiceState(this.updateUserTags, this.ceiling, this.tipsPageSetState);
+
 
   int tag = 1;
+
+  //users tags.
   List<String> usersTags=["general"];
 
-
-
-
+  // list of all courses.
   List<String> courses=Courses().getAllCourses();
 
   @override
@@ -33,6 +51,7 @@ class _CoursesMultiChoiceState extends State<CoursesMultiChoice> {
     return scrollableListMultipleChoice(ceiling);
   }
 
+  // creating the multi choice list.
   Widget scrollableListMultipleChoice(double ceiling){
     return Content(
       title:"Courses",
@@ -44,8 +63,11 @@ class _CoursesMultiChoiceState extends State<CoursesMultiChoice> {
           value: (i, v) => v,
           label: (i, v) => v,
         ),
-        onChanged: (val) => setState(() => usersTags = val),
-          itemConfig: ChipsChoiceItemConfig(
+        onChanged: (val) {
+          setState(() => usersTags = val);
+          TipDataBase().setUserSelectedTags(usersTags,tipsPageSetState);
+          },
+        itemConfig: ChipsChoiceItemConfig(
             selectedColor: Colors.green,
             unselectedColor: Colors.black87,
             showCheckmark: true,
@@ -58,7 +80,7 @@ class _CoursesMultiChoiceState extends State<CoursesMultiChoice> {
 
 }
 
-
+// class for the custom chip widget.
 class CustomChip extends StatelessWidget {
 
   final String label;
@@ -125,6 +147,7 @@ class CustomChip extends StatelessWidget {
   }
 }
 
+// class that creates the content of the multi choice.
 class Content extends StatelessWidget {
 
   final String title;
@@ -152,7 +175,7 @@ class Content extends StatelessWidget {
           Container(
             width: double.infinity,
             padding: EdgeInsets.fromLTRB(5, 15, 0, 15),
-            color: /**Color(0xff109618)*/Colors.blueAccent,
+            color: Colors.blueAccent,
             child: Text(
               title,
               style: TextStyle(
@@ -167,6 +190,9 @@ class Content extends StatelessWidget {
     );
   }
 }
+
+/** OTHER OPTION FOR THE COURSES CHOICE */
+
 
 //void _about(BuildContext context) {
 //  showDialog(

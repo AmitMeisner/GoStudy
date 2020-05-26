@@ -31,6 +31,11 @@ dependencies:
 #  google sign in
   google_sign_in: ^4.4.6
   http: ^0.12.1
+#  firebase
+  firebase_auth: ^0.16.0
+  cloud_firestore: ^0.13.6
+#  loading widgets
+  flutter_spinkit: "^4.1.2"
 #  multi choice
   chips_choice: ^1.2.0
   dio: ^3.0.9

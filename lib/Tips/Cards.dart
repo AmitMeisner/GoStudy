@@ -1,61 +1,82 @@
+import 'dart:io';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_card/animated_card.dart';
+import 'package:flutterapp/firebase/FirebaseAPI.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:async';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
+
 
 
 class Cards extends StatelessWidget {
-//  final lista = List.generate(50, (index) => index);
-//   int numbOfCards=1;
-   static final String helpOthers="Add tips and links to help other students.";
-//   static List<String> tips= [helpOthers];
-//   static List<List<String>> tipTags=[null,];
-//   static List<int> numberOfLikes=[0];
-   static List<UsersTipsAndLinks> lst=[UsersTipsAndLinks(helpOthers, null, null, 0, false , null)];
+  // content of the first card in the tips page.
+  static final String _helpOthers="Add tips and links to help other students.";
+  static List<String> emptyList=[];
+  static final int maxLikeCount=100000000;
+  // list of all tip cards.
+  static final _firstTip=[TipCard(_helpOthers, null, null,maxLikeCount , emptyList,false , null,"32/13/3000",null)];
+  static List<TipCard> _tipCards;
 
+
+  Function updateTipsPageState;
+  Cards(this.updateTipsPageState);
 
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      height: 500.0,
-       child:ListView.builder(
-//        itemCount: tips.length,
-        itemCount: lst.length,
-        itemBuilder: (context, index) {
-          return AnimatedCard(
-            direction: AnimatedCardDirection.top, //Initial animation direction
-            initDelay: Duration(milliseconds: 0), //Delay to initial animation
-            duration: Duration(milliseconds: 400), //Initial animation duration
+    _tipCards=null;
+    updateTipList(context);
+      if(_tipCards==null){
+        return Loading();
+      }
+      _tipCards=_firstTip+_tipCards;
+      return Container(
+        color: Colors.white,
+        height: 500.0,
+        child: ListView.builder(
+          itemCount: _tipCards.length,
+          itemBuilder: (context, index) {
+            return AnimatedCard(
+                direction: AnimatedCardDirection.top,
+                //Initial animation direction
+                initDelay: Duration(milliseconds: 0),
+                //Delay to initial animation
+                duration: Duration(milliseconds: 400),
+                //Initial animation duration
 //            onRemove: () => lista.removeAt(index), //Implement this action to active dismiss
-            curve: Curves.decelerate, //Animation curve
-//            child: cardContent(tags, index, tips)
-              child: cardContent(context,tags, index, lst)
-          );
-        },
-      ),
-    );
+                curve: Curves.decelerate,
+                //Animation curve
+                child: cardContent(context, _tags, index, _tipCards, updateTipsPageState)
+            );
+          },
+        ),
+      );
   }
 
-  void addCard(String tip, List<String> usersTags, bool isLink, String userDesc, String link){
-//    tips.add(tip);
-//    tipTags.add(usersTags);
-//    numberOfLikes.add(0);
-    UsersTipsAndLinks newTip;
+  //get the tip cards from firebase.
+  Future<List<TipCard>> updateTipList(BuildContext context) async{
+    _tipCards=Provider.of<List<TipCard>>(context);
+    return _tipCards;
+  }
 
+  // creating a card with the users tip and adding it to the tips list.
+  void addCard(String tip, List<String> usersTags,
+      bool isLink, String userDesc, String link, String date){
+    TipCard newTip;
     if(isLink){
-      newTip=new UsersTipsAndLinks(tip, userDesc, usersTags, 0, isLink , link);
+      newTip=new TipCard(tip, userDesc, usersTags, 0,emptyList, isLink , link, date,null);
     }else {
-      newTip = new UsersTipsAndLinks(tip, userDesc, usersTags, 0, isLink, link);
+      newTip = new TipCard(tip, userDesc, usersTags, 0,emptyList,isLink, link, date,null);
     }
-
-    lst.add(newTip);
+    _tipCards.add(newTip);
+    TipDataBase().addTip(newTip);
   }
 
-  Widget tags(int index){
+  // creating the tags widget for the cards.
+  Widget _tags(int index){
     return Container(
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
@@ -71,8 +92,7 @@ class Cards extends StatelessWidget {
               ],
             ),
             Row(
-//              children: _createChildren(tipTags[index]),
-              children: _createChildren(lst[index].getTags()),
+              children: _createChildren(_tipCards[index].getTags()),
             ),
         ],
         ),
@@ -80,14 +100,15 @@ class Cards extends StatelessWidget {
     );
   }
 
+  // creating list of the users tags.
   List<Widget> _createChildren(List<String> lst) {
     return new List<Widget>.generate(lst.length, (int index) {
-      return courseTag(lst[index].toString());
+      return _courseTag(lst[index].toString());
     });
   }
 
-
-  Widget courseTag(String text){
+  // creating the design for the tags.
+  Widget _courseTag(String text){
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
@@ -101,43 +122,72 @@ class Cards extends StatelessWidget {
 
 }
 
+// class for a tip card.
+// contains the tip, description, tags, like count,
+// if it is a link, link and the date.
+class TipCard {
+  String _tip;
+  String _description;
+  List<String> _tags;
+  int _likesCount;
+  List<String> _likes;
+  bool _isLink;
+  String _link;
+  String _date;
+  String _docId;
 
-class UsersTipsAndLinks {
-  String tip;
-  String description;
-  List<String> tags;
-  int likesCount;
-  bool isLink;
-  String link;
 
-  UsersTipsAndLinks(this.tip, this.description,
-      this.tags, this.likesCount, this.isLink , this.link);
+  TipCard(this._tip, this._description,
+      this._tags, this._likesCount,this._likes, this._isLink ,
+      this._link, this._date, this._docId);
 
-  void setTip(String tip){this.tip=tip;}
-  String getTip(){return this.tip;}
 
-  void setDescription(String description){this.description=description;}
-  String getDescription(){return this.description;}
+  void setTip(String tip){this._tip=tip;}
+  String getTip(){return this._tip;}
 
-  void setTags(List<String> tags){this.tags=tags;}
-  List<String> getTags(){return this.tags;}
+  void setDescription(String description){this._description=description;}
+  String getDescription(){return this._description;}
 
-  void addLike(){this.likesCount++;}
-  void removeLike(){this.likesCount--;}
-  int getLikesCount(){return this.likesCount;}
+  void setTags(List<String> tags){this._tags=tags;}
+  List<String> getTags(){return this._tags;}
 
-  void setIsLink(bool isLink){this.isLink=isLink;}
-  bool getIsLink(){return this.isLink;}
+//  void addLike(){this._likesCount++;}
+//  void removeLike(){this._likesCount--;}
 
-  void setLink(String link){this.link=link;}
-  String getLink(){return this.link;}
+  int getLikesCount(){return this._likesCount;}
+
+
+  void setIsLink(bool isLink){this._isLink=isLink;}
+  bool getIsLink(){return this._isLink;}
+
+  void setLink(String link){this._link=link;}
+  String getLink(){return this._link;}
+
+  String getDate(){
+    return _date;
+  }
+
+  List<String> getLikes(){
+    return this._likes;
+  }
+
+//  void setLikes(List<String> val){
+//    _likes=val;
+//  }
+
+  String getDocId(){
+    return _docId ?? "";
+  }
+
+  void setDocId(String id){
+    _docId=id;
+  }
 
 }
 
 
-
-
-Widget cardContent(BuildContext context,Function tags, int index , List<UsersTipsAndLinks> tips){
+// creating the cards content.
+Widget cardContent(BuildContext context,Function tags, int index , List<TipCard> tips, Function updateTipsPageState){
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 10),
     child: Card(
@@ -145,7 +195,7 @@ Widget cardContent(BuildContext context,Function tags, int index , List<UsersTip
       child: ListTile(
         title: Wrap(
           children: <Widget>[
-            showTagsAndLike( context,tags, index ,tips)
+            showTagsAndLike( context,tags, index ,tips, updateTipsPageState),
           ],
         ),
       ),
@@ -153,14 +203,20 @@ Widget cardContent(BuildContext context,Function tags, int index , List<UsersTip
   );
 }
 
-Widget showTagsAndLike(BuildContext context,Function tags, int index , List<UsersTipsAndLinks> tips){
+// creating the cards tags, date and like for the all the cards, except fot the first one.
+Widget showTagsAndLike(BuildContext context,Function tags, int index , List<TipCard> tips, Function updateTipsPageState){
   if (index!=0) {
     return Wrap(
       children: <Widget>[
         tags(index),
-//        Center(child: Text(tips[index])),
         linkOrTip(context,tips, index),
-        LikeButton(index),
+        Row(
+          children: <Widget>[
+            Text(tips[index].getDate()),
+            Spacer(),
+            LikeButton(index, updateTipsPageState),
+          ],
+        ),
       ],
     );
   }
@@ -171,33 +227,21 @@ Widget showTagsAndLike(BuildContext context,Function tags, int index , List<User
   );
 }
 
-Widget linkOrTip(BuildContext context,List<UsersTipsAndLinks> tips, int index){
+// create the cards content based on it's type (tip or link).
+Widget linkOrTip(BuildContext context,List<TipCard> tips, int index){
   bool isLink=tips[index].getIsLink();
   if(isLink){
     return linkHandle(context,tips, index);
-
   }else {
     return Center(child: Text(tips[index].getTip()));
   }
 }
 
-
-Widget linkHandle(BuildContext context,List<UsersTipsAndLinks> tips, int index){
-  UsersTipsAndLinks tipCard=tips[index];
+// create the link in the card.
+Widget linkHandle(BuildContext context,List<TipCard> tips, int index){
+  TipCard tipCard=tips[index];
   return Column(
     children: <Widget>[
-//      Row(
-//          children:<Widget>[
-//            Text("Description:",
-//                style: TextStyle(
-//                    fontWeight: FontWeight.bold,
-//                    backgroundColor: Colors.grey[300]
-//                )
-//            ),
-//            Text(" "+tipCard.getDescription()),
-//          ]
-//      ),
-//      Text(tipCard.getLink()),
       Center(
         child: RichText(
           text:TextSpan(
@@ -211,48 +255,57 @@ Widget linkHandle(BuildContext context,List<UsersTipsAndLinks> tips, int index){
   );
 }
 
+// handle launching the link in the card.
 Future launchURL(BuildContext context,String url)async{
   if(await canLaunch(url)){
     await launch(url, forceSafariVC: true,forceWebView: false);
 
   }else{
-//    Scaffold.of(context).showSnackBar(SnackBar(content: Text("Can't Open This Link")));
-  showColoredToast();
+  showColoredToast("Can't Open This Link");
   }
 }
 
-
-void showColoredToast() {
+// display error to the user.
+void showColoredToast(String msg) {
   Fluttertoast.showToast(
-      msg: "Can't Open This Link",
+      msg: msg,
       toastLength: Toast.LENGTH_SHORT,
       backgroundColor: Colors.grey,
       gravity: ToastGravity.CENTER,
       textColor: Colors.white);
 }
 
+// class of the like button.
 class LikeButton extends StatefulWidget {
   final int index;
-  const LikeButton(this.index);
+  Function updateTipsPageState;
+  LikeButton(this.index, this.updateTipsPageState);
   @override
-  _LikeButtonState createState() => _LikeButtonState(index);
+  _LikeButtonState createState() => _LikeButtonState(index, updateTipsPageState);
 }
 
 class _LikeButtonState extends State<LikeButton> {
+  TipCard card;
   bool alreadySaved=false;
+  Function updateTipsPageState;
   int index;
-  _LikeButtonState(this.index);
+  _LikeButtonState(this.index, this.updateTipsPageState);
   @override
   Widget build(BuildContext context) {
+    card= Cards._tipCards[index];
+    alreadySaved=TipDataBase().isLiked(card);
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
-        Text(Cards.lst[index].getLikesCount().toString()),
+        Text(card.getLikesCount().toString()),
         IconButton(
             onPressed: (){
-              alreadySaved? Cards.lst[index].removeLike() : Cards.lst[index].addLike();
-              alreadySaved=alreadySaved? false:true;
-              setState(() {});
+                if(alreadySaved){
+                TipDataBase().removeLike(card);
+                }else{
+                TipDataBase().addLike(card);
+                }
+                updateTipsPageState();
             },
             icon: Icon(Icons.thumb_up, color: alreadySaved? Colors.blue: null),
 

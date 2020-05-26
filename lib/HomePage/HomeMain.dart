@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutterapp/HomePage/Timer/resources_buttons.dart';
+import 'package:flutterapp/firebase/FirebaseAPI.dart';
 import 'Timer/course_spinner.dart';
 import 'Timer/digitalClock.dart';
 import 'Timer/buttonTop.dart';
@@ -21,18 +22,18 @@ class HomeMainPage extends StatefulWidget{
 
 class _HomeMainPageState extends State<HomeMainPage> {
 
-  String userName="";
+  //  String userName="";
+//  String userEmail="";
 
-  String userEmail="";
-
-  Map userDetails= {};
+//  Map userDetails= {};
   
   @override
   Widget build(BuildContext context) {
-    /** getting the user name from google_sign_in.dart to this page */
-    userDetails=ModalRoute.of(context).settings.arguments;
-    userName=userDetails["userName"];
-    userEmail=userDetails["userEmail"];
+//    /** getting the user name from google_sign_in.dart to this page */
+//    userDetails=ModalRoute.of(context).settings.arguments;
+    String userName=FirebaseAPI().getUserName();
+    String userEmail=FirebaseAPI().getUserEmail();
+
     final timeService = TimerService();
     return ChangeNotifierProvider<TimerService>(
       create: (_) => timeService,
@@ -59,6 +60,9 @@ class _HomeMainPageState extends State<HomeMainPage> {
       ),
     );
   }
+
+
+
 }
 
 
@@ -127,3 +131,5 @@ Widget userDet(BuildContext context, String userName){
     ],
   );
 }
+
+
