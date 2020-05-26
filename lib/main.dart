@@ -8,16 +8,25 @@ import 'NavigationButtom.dart';
 //  runApp(MyApp());
 //}
 
-void main() {runApp(MaterialApp(
-  initialRoute: '/signIn',
-  routes: {
-    '/signIn': (context)=> SignInDemo(),
-  '/home': (context)=> NavigationButtomPage()
-  },
+//void main() {runApp(MaterialApp(
+ // initialRoute: '/signIn',
+ // routes: {
+   // '/signIn': (context)=> SignInDemo(),
+ // '/home': (context)=> NavigationButtomPage()
+  //},
 //      title: 'Google Sign In',
 //      home: SignInDemo(),
-    ),
-  );
+  //  ),
+ // );
+//}
+
+void main() {runApp(MyApp(
+
+
+//      title: 'Google Sign In',
+//      home: SignInDemo(),
+),
+);
 }
 
 class MyApp extends StatelessWidget {

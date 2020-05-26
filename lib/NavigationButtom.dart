@@ -5,7 +5,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Progress.dart';
-import 'file:///D:/anroid%20studio%20apps/go_Study/lib/Tips/Tips.dart';
+import 'Tips/Tips.dart';
 import 'package:flutterapp/Statistics.dart';
 import 'HomePage/HomeNavigation.dart';
 

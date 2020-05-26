@@ -7,7 +7,7 @@ import 'package:flutterapp/HomePage/Timer/resources_buttons.dart';
 
 import 'course_spinner.dart';
 import 'digitalClock.dart';
-import 'try.dart';
+import 'newTry.dart';
 import 'progress_pie_bar.dart';
 import 'neu_reset_button.dart';
 
@@ -52,6 +52,7 @@ class TimerService extends ChangeNotifier {
   Stopwatch _watch;
   Timer _timer;
 
+
   Duration get currentDuration => _currentDuration;
   Duration _currentDuration = Duration.zero;
 
@@ -70,7 +71,7 @@ class TimerService extends ChangeNotifier {
 
   void start() {
     if (_timer != null) return;
-    ShowHideDropdownState.notRunning = false;
+    ShowHideDropdownState.timernNotRunning = false;
     _timer = Timer.periodic(Duration(seconds: 1), _onTick);
     _watch.start();
     //ShowHideDropdownState.notRunning = false ;
@@ -83,7 +84,7 @@ class TimerService extends ChangeNotifier {
     _timer = null;
     _watch.stop();
     _currentDuration = _watch.elapsed;
-    ShowHideDropdownState.notRunning = false;
+    ShowHideDropdownState.timernNotRunning = false;
     notifyListeners();
   }
 
@@ -91,7 +92,7 @@ class TimerService extends ChangeNotifier {
     stop();
     _watch.reset();
     _currentDuration = Duration.zero;
-    ShowHideDropdownState.notRunning = true;
+    ShowHideDropdownState.timernNotRunning = true;
     notifyListeners();
   }
 

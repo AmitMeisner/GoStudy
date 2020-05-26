@@ -19,16 +19,16 @@ class ShowHideDropdownState extends State<ShowHideDropdown> {
   ]; //The list of values we want on the dropdown
 
   String _selectedValue = "";
-  bool _isDropdownVisible = true;
-  static bool notRunning = false;
+
+  static bool timernNotRunning = true;
+  bool _isPressed = true;
   @override
   Widget build(BuildContext context) {
-
-        return Column(
+    return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            notRunning
+            timernNotRunning
                 ? DropdownButton<String>(
               items: _dropdownValues
                   .map((data) => DropdownMenuItem<String>(
@@ -38,23 +38,22 @@ class ShowHideDropdownState extends State<ShowHideDropdown> {
                   .toList(),
               onChanged: (String value) {
                 setState(() => _selectedValue = value);
+                    _isPressed = true;},
 
-              },
               hint: Text('Dropdown'),
             )
                 : SizedBox(),
             SizedBox(
-              height: 80.0,
-              width: 80.0,
+              height: 25.0,
             ),
             RaisedButton(
-
               color: Colors.red,
-              child: Text(notRunning ? "course is chosen" : "chane course"),
+              child: Text(timernNotRunning ? " choose course" : "stop timer before"),
               onPressed: () {
-                setState(() => notRunning= notRunning);
+                setState(() => _isPressed = _isPressed);
               },
             ),
+
           ],
 
 

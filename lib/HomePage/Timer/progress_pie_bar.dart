@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'progress_painter.dart';
 import 'HomeMain.dart';
 import 'package:provider/provider.dart';
-import 'try.dart';
+
 
 class NeuProgressPieBar extends StatelessWidget {
   const NeuProgressPieBar({

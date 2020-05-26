@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'HomeMain.dart';
-import 'try.dart';
+import 'newTry.dart';
 import 'package:provider/provider.dart';
 
 class NeuResetButton extends StatefulWidget {
@@ -49,7 +49,8 @@ class _NeuResetButtonState extends State<NeuResetButton> {
 
         // If user press reset button when timer is running, start for them
         if (isRunning){
-          Provider.of<TimerService>(context, listen: false).start();}
+          Provider.of<TimerService>(context, listen: false).start();
+       }
       },
 
       onPointerUp: _onPointerUp,
