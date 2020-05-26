@@ -156,9 +156,9 @@ class _TipDialogState extends State<TipDialog> {
        Cards(tipsPageSetState).addCard(null, usersTags,isLink, descriptionController.text,linkController.text,  getDate());
     }else{
       if(tipController.text==""){showColoredToast("Enter a tip");return;}
-      Cards(tipsPageSetState).addCard(tipController.text, usersTags,isLink, null,null,  getDate());
-
+       Cards(tipsPageSetState).addCard(tipController.text, usersTags,isLink, null,null,  getDate());
     }
+    print("here1");
     tipsPageSetState();
     Navigator.pop(context);
 
