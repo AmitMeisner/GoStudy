@@ -14,9 +14,14 @@ class HomeNavPage extends StatefulWidget {
   _HomeNavPageState createState() => _HomeNavPageState();
 }
 
+
+
 Color primaryColor =  Color(0xff109618);
 
 class _HomeNavPageState extends State<HomeNavPage> {
+
+
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -36,7 +41,8 @@ class _HomeNavPageState extends State<HomeNavPage> {
                   setState(() {
                     switch (index) {
                       case 0:
-                        primaryColor= Color(0xffff5722);
+//                        primaryColor= Color(0xffff5722);
+                        primaryColor=  Color(0xff109618);
                         break;
                       case 1:
                         primaryColor= Color(0xff3f51b5);
@@ -47,7 +53,6 @@ class _HomeNavPageState extends State<HomeNavPage> {
                       case 3:
                         primaryColor= Color(0xff9c27b0);
                         break;
-
                     default:
                   }
                 });
@@ -90,7 +95,7 @@ class _HomeNavPageState extends State<HomeNavPage> {
             ),
               ),
           ),
-            body: TabBarView(
+            body:TabBarView(
             children: <Widget>[
               HomeMainPage(),//ff5722
               CalenderPage(),//3f51b5
