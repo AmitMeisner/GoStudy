@@ -133,7 +133,7 @@ class TipDataBase{
     doc.delete();
   }
 
-  
+
 
 }
 

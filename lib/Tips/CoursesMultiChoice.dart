@@ -61,7 +61,7 @@ class _CoursesMultiChoiceState extends State<CoursesMultiChoice> {
   // creating the multi choice list.
   Widget scrollableListMultipleChoice(double ceiling){
     return Content(
-      title:"Courses",
+      title: "Courses",
       ceiling: ceiling,
       child: ChipsChoice<String>.multiple(
         value: usersTags,
@@ -171,6 +171,7 @@ class Content extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.grey[300],
       elevation: 2,
       margin: EdgeInsets.fromLTRB(0,ceiling,0,0),
       clipBehavior: Clip.antiAliasWithSaveLayer,
