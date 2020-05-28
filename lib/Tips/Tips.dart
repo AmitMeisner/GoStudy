@@ -33,7 +33,7 @@ class _TipsPageState extends State<TipsPage> {
           child: Center(
             child: Column(
               children: <Widget>[
-                CoursesMultiChoice(updateUserTags,20,updateState),
+                CoursesMultiChoice(updateUserTags,20,updateState, true),
                 Cards(updateState),
               ],
             ),
@@ -54,14 +54,14 @@ class _TipsPageState extends State<TipsPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              fabReload(context),
               FloatingActionButton.extended(
                 onPressed: (){addTip(context, updateState);},
                 label: Text("Add Tip"),
                 backgroundColor: Colors.blueAccent,
                 icon: Icon(Icons.add),
 //            shape: new CircleBorder(),
-            ),
+              ),
+              fabReload(context),
             ],
           ),
         )

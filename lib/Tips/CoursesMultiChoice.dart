@@ -11,17 +11,22 @@ class CoursesMultiChoice extends StatefulWidget {
   // updating the users tag list.
   final Function updateUserTags;
 
+  // for refreshing the tips page.
   final Function tipsPageSetState;
 
   // distance of the title from the top.
   final double ceiling;
 
+  //indicates that this is the multi choice from the tips page
+  //and not the tipDialog.
+  final bool tipsPage;
+
   //constructor/
-  CoursesMultiChoice(this.updateUserTags, this.ceiling, this.tipsPageSetState);
+  CoursesMultiChoice(this.updateUserTags, this.ceiling, this.tipsPageSetState, this.tipsPage);
 
 
   @override
-  _CoursesMultiChoiceState createState() => _CoursesMultiChoiceState(updateUserTags, ceiling,tipsPageSetState);
+  _CoursesMultiChoiceState createState() => _CoursesMultiChoiceState(updateUserTags, ceiling,tipsPageSetState, tipsPage);
 }
 
 class _CoursesMultiChoiceState extends State<CoursesMultiChoice> {
@@ -33,8 +38,10 @@ class _CoursesMultiChoiceState extends State<CoursesMultiChoice> {
   // distance of the title from the top.
   double ceiling;
 
+  bool tipsPage;
+
   //constructor.
-  _CoursesMultiChoiceState(this.updateUserTags, this.ceiling, this.tipsPageSetState);
+  _CoursesMultiChoiceState(this.updateUserTags, this.ceiling, this.tipsPageSetState, this.tipsPage);
 
 
   int tag = 1;
@@ -65,7 +72,7 @@ class _CoursesMultiChoiceState extends State<CoursesMultiChoice> {
         ),
         onChanged: (val) {
           setState(() => usersTags = val);
-          TipDataBase().setUserSelectedTags(usersTags,tipsPageSetState);
+          if(tipsPage){TipDataBase().setUserSelectedTags(usersTags,tipsPageSetState);}
           },
         itemConfig: ChipsChoiceItemConfig(
             selectedColor: Colors.green,

@@ -17,7 +17,7 @@ class Cards extends StatelessWidget {
   static List<String> emptyList=[];
   static final int maxLikeCount=100000000;
   // list of all tip cards.
-  static final _firstTip=[TipCard(_helpOthers, null, null,maxLikeCount , emptyList,false , null,"32/13/3000",null)];
+  static final _firstTip=[TipCard(_helpOthers, null, null,maxLikeCount , emptyList,false , null,"32/13/3000",null,null)];
   static List<TipCard> _tipCards;
 
 
@@ -26,15 +26,15 @@ class Cards extends StatelessWidget {
 
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     _tipCards=null;
-    updateTipList(context);
+     updateTipList(context);
       if(_tipCards==null){
         return Loading();
       }
       _tipCards=_firstTip+_tipCards;
       return Container(
-        color: Colors.white,
+        color: Colors.grey[300],
         height: 500.0,
         padding: EdgeInsets.only(bottom: 50.0),
         child: ListView.builder(
@@ -47,17 +47,29 @@ class Cards extends StatelessWidget {
                 //Delay to initial animation
                 duration: Duration(milliseconds: 400),
                 //Initial animation duration
-//            onRemove: () => lista.removeAt(index), //Implement this action to active dismiss
+                onRemove: (FirebaseAPI().getUid()==_tipCards[index].getUid()) ? ()=>removeTip(_tipCards[index],updateTipsPageState):null,
                 curve: Curves.decelerate,
                 //Animation curve
-                child: cardContent(context, _tags, index, _tipCards, updateTipsPageState)
+                child: cardContent(context, _tags, index, _tipCards, updateTipsPageState),
             );
           },
         ),
       );
   }
 
+
+  void removeTip(TipCard tipCard,Function updateTipsPageState ){
+    TipDataBase().deleteTipCard(tipCard);
+    updateTipsPageState();
+  }
+
   //get the tip cards from firebase.
+//  Future<List<TipCard>> updateTipList(BuildContext context) async{
+//    _tipCards=Provider.of<List<TipCard>>(context);
+//    return _tipCards;
+//  }
+
+
   Future<List<TipCard>> updateTipList(BuildContext context) async{
     _tipCards=Provider.of<List<TipCard>>(context);
     return _tipCards;
@@ -67,10 +79,11 @@ class Cards extends StatelessWidget {
   void addCard(String tip, List<String> usersTags,
       bool isLink, String userDesc, String link, String date){
     TipCard newTip;
+    String uid=FirebaseAPI().getUid();
     if(isLink){
-      newTip=new TipCard(tip, userDesc, usersTags, 0,emptyList, isLink , link, date,null);
+      newTip=new TipCard(tip, userDesc, usersTags, 0,emptyList, isLink , link, date,null, uid);
     }else {
-      newTip = new TipCard(tip, userDesc, usersTags, 0,emptyList,isLink, link, date,null);
+      newTip = new TipCard(tip, userDesc, usersTags, 0,emptyList,isLink, link, date,null, uid);
     }
     TipDataBase().addTip(newTip);
     _tipCards.add(newTip);
@@ -89,8 +102,11 @@ class Cards extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 Container(
-                    decoration: BoxDecoration(border: Border.all(width: 2)),
-                    child: Text(" tags ", style: TextStyle(backgroundColor: Colors.grey[300]))),
+                    decoration: BoxDecoration(
+                        border: Border.all(width: 2),
+                        borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Text(" tags ", style: TextStyle(backgroundColor: Colors.white))),
               ],
             ),
             Row(
@@ -116,7 +132,7 @@ class Cards extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Icon(Icons.label_important, size: 14,),
-          Text(text, style: TextStyle(backgroundColor: Colors.grey[300], fontWeight: FontWeight.bold))
+          Text(text, style: TextStyle( fontWeight: FontWeight.bold))
         ],
       ),
     );
@@ -137,12 +153,11 @@ class TipCard {
   String _link;
   String _date;
   String _docId;
-
+  String uid;
 
   TipCard(this._tip, this._description,
       this._tags, this._likesCount,this._likes, this._isLink ,
-      this._link, this._date, this._docId);
-
+      this._link, this._date, this._docId, this.uid);
 
   void setTip(String tip){this._tip=tip;}
   String getTip(){return this._tip;}
@@ -152,12 +167,7 @@ class TipCard {
 
   void setTags(List<String> tags){this._tags=tags;}
   List<String> getTags(){return this._tags;}
-
-//  void addLike(){this._likesCount++;}
-//  void removeLike(){this._likesCount--;}
-
   int getLikesCount(){return this._likesCount;}
-
 
   void setIsLink(bool isLink){this._isLink=isLink;}
   bool getIsLink(){return this._isLink;}
@@ -173,16 +183,16 @@ class TipCard {
     return this._likes;
   }
 
-//  void setLikes(List<String> val){
-//    _likes=val;
-//  }
-
   String getDocId(){
     return _docId ?? "";
   }
 
   void setDocId(String id){
     _docId=id;
+  }
+
+  String getUid(){
+    return uid;
   }
 
 }
@@ -193,6 +203,7 @@ Widget cardContent(BuildContext context,Function tags, int index , List<TipCard>
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 10),
     child: Card(
+      color: cardColor( index, tips),
       elevation: 5,
       child: ListTile(
         title: Wrap(
@@ -204,6 +215,15 @@ Widget cardContent(BuildContext context,Function tags, int index , List<TipCard>
     ),
   );
 }
+
+ Color cardColor(int index, List<TipCard> tips){
+  if(index!=0 && FirebaseAPI().getUid()==tips[index].getUid()){
+    return Colors.blue[100];
+  }
+  return Colors.white;
+ }
+
+
 
 // creating the cards tags, date and like for the all the cards, except fot the first one.
 Widget showTagsAndLike(BuildContext context,Function tags, int index , List<TipCard> tips, Function updateTipsPageState){
