@@ -1,5 +1,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/HomePage/HomeMain.dart';
 import 'package:flutterapp/Tips/CoursesMultiChoice.dart';
@@ -47,24 +48,17 @@ class _TipsPageState extends State<TipsPage> {
 
   //creating the floating action button for add tip.
   Widget fabAddTip(BuildContext context){
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              FloatingActionButton.extended(
-                onPressed: (){addTip(context, updateState);},
-                label: Text("Add Tip"),
-                backgroundColor: Colors.blueAccent,
-                icon: Icon(Icons.add),
+        FloatingActionButton.extended(
+          onPressed: (){addTip(context, updateState);},
+          label: Text("Add Tip"),
+          backgroundColor: Colors.blueAccent,
+          icon: Icon(Icons.add),
 //            shape: new CircleBorder(),
-              ),
-              fabReload(context),
-            ],
-          ),
-        )
+        ),
+        fabReload(context),
       ],
     );
   }

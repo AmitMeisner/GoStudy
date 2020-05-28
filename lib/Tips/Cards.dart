@@ -35,7 +35,7 @@ class Cards extends StatelessWidget {
       _tipCards=_firstTip+_tipCards;
       return Container(
         color: Colors.grey[300],
-        height: 500.0,
+        height: 535.0,
         padding: EdgeInsets.only(bottom: 50.0),
         child: ListView.builder(
           itemCount: _tipCards.length,
@@ -95,7 +95,7 @@ class Cards extends StatelessWidget {
     return Container(
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
-        padding: EdgeInsets.fromLTRB(0, 0, 0,10),
+        padding: EdgeInsets.only(bottom: 10),
         child: Row(
           children: <Widget>[
             Row(
