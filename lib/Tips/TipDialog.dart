@@ -84,7 +84,7 @@ class _TipDialogState extends State<TipDialog> {
 
   //creating the courses choices in the dialog.
   Widget tags(){
-    return CoursesMultiChoice(updateUserTags,0.0, tipsPageSetState);
+    return CoursesMultiChoice(updateUserTags,0.0, tipsPageSetState, false);
   }
 
   //creating the text input in the dialog.
@@ -158,7 +158,6 @@ class _TipDialogState extends State<TipDialog> {
       if(tipController.text==""){showColoredToast("Enter a tip");return;}
        Cards(tipsPageSetState).addCard(tipController.text, usersTags,isLink, null,null,  getDate());
     }
-    print("here1");
     tipsPageSetState();
     Navigator.pop(context);
 
