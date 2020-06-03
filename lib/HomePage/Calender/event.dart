@@ -1,5 +1,4 @@
 import 'package:firebase_helpers/firebase_helpers.dart';
-import 'package:flutterapp/firebase/FirebaseAPI.dart';
 
 class EventModel extends DatabaseItem{
   final String id;
@@ -11,7 +10,6 @@ class EventModel extends DatabaseItem{
 
   factory EventModel.fromMap(Map data) {
     return EventModel(
-      id:   data['id'],
       title: data['title'],
       description: data['description'],
       eventDate: data['event_date'],
@@ -20,7 +18,7 @@ class EventModel extends DatabaseItem{
 
   factory EventModel.fromDS(String id, Map<String,dynamic> data) {
     return EventModel(
-      id: data['id'],
+      id: id,
       title: data['title'],
       description: data['description'],
       eventDate: data['event_date'].toDate(),

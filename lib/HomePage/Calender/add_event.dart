@@ -1,5 +1,3 @@
-import 'package:flutterapp/firebase/FirebaseAPI.dart';
-
 import 'event.dart';
 import 'package:flutter/material.dart';
 import 'event_firestore_service.dart';
@@ -102,18 +100,16 @@ class _AddEventPageState extends State<AddEventPage> {
                           processing = true;
                         });
                         if(widget.note != null) {
-                          await eventDBS.updateData(widget.note.id, {
-                            "id": widget.note.id,
+                          await eventDBS.updateData(widget.note.id,{
                             "title": _title.text,
                             "description": _description.text,
-                            "eventDate": widget.note.eventDate
+                            "event_date": widget.note.eventDate
                           });
                         }else{
                           await eventDBS.createItem(EventModel(
-                            id:FirebaseAPI().getUserName(),
                               title: _title.text,
                               description: _description.text,
-                              eventDate: _eventDate
+                              eventDate: DateTime.now()
                           ));
                         }
                         Navigator.pop(context);

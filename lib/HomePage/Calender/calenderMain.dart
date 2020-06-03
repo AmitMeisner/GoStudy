@@ -35,8 +35,8 @@ class calenderPage22 extends StatefulWidget {
 
 class CalenderPageState extends State<calenderPage22> {
   CalendarController _controller;
-  Map<DateTime, List<EventModel>> _events;
-  static List<EventModel> _selectedEvents;
+  Map<DateTime, List<dynamic>> _events;
+  List<dynamic> _selectedEvents;
 
   @override
   void initState() {
@@ -45,7 +45,6 @@ class CalenderPageState extends State<calenderPage22> {
     _events = {};
     _selectedEvents = [];
   }
-
   Map <DateTime,List<EventModel>> groupEvents (List<EventModel> events){
     Map <DateTime,List<EventModel>> data = {};
     events.forEach((event) {
@@ -61,7 +60,7 @@ class CalenderPageState extends State<calenderPage22> {
       appBar: AppBar(
         title: Text('Flutter Calendar'),
       ),
-      body: StreamBuilder<List<EventModel>>(
+        body: StreamBuilder<List<EventModel>>(
         stream: eventDBS.streamList(),
         builder: (context, snapshot) {
           if(snapshot.hasData){
@@ -115,7 +114,7 @@ class CalenderPageState extends State<calenderPage22> {
                         margin: const EdgeInsets.all(4.0),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                            color: Colors.orange,
+                            color: Colors.yellow,
                             borderRadius: BorderRadius.circular(10.0)),
                         child: Text(
                           date.day.toString(),
@@ -124,10 +123,14 @@ class CalenderPageState extends State<calenderPage22> {
                   ),
                   calendarController: _controller,
                 ),
-
-              //  Cards( ),
                 ..._selectedEvents.map((event) => ListTile(
-                  title: Text(event.title),
+                  leading: Icon(
+                    Icons.event,
+                  ),
+                  trailing: Icon(Icons.keyboard_arrow_right),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
+                  //selected: true,
+                  title: Text(event.title,),
                   onTap: () {
                     Navigator.push(
                         context,
@@ -147,80 +150,5 @@ class CalenderPageState extends State<calenderPage22> {
         onPressed: () => Navigator.pushNamed(context, 'add_event'),
       ),
     );
-  }}
-
-
-// build the cards
-
-  class Cards extends StatelessWidget {
-
-    static List<String> emptyList = [];
-    static final int maxLikeCount = 100000000;
-
-    // list of all tip cards.
-    List<EventModel> eventsCard = [];
-
-    List<EventModel> updateEventsList() {
-      eventsCard = CalenderPageState._selectedEvents;
-      return eventsCard;
-    }
-
-    @override
-    Widget build(BuildContext context) {
-
-      updateEventsList();
-
-      return Container(
-        color: Colors.white,
-
-        height: 500.0,
-        padding: EdgeInsets.only(bottom: 50.0),
-        child: ListView.builder(
-          itemCount: eventsCard.length,
-          itemBuilder: (context, index) {
-            return AnimatedCard(
-                direction: AnimatedCardDirection.top,
-                //Initial animation direction
-                initDelay: Duration(milliseconds: 0),
-                //Delay to initial animation
-                duration: Duration(milliseconds: 400),
-                //Initial animation duration
-//            onRemove: () => lista.removeAt(index), //Implement this action to active dismiss
-                curve: Curves.decelerate,
-                //Animation curve
-                child: cardContent(index,context,eventsCard)
-            );
-          },
-        ),
-      );
-    }
-
-    Widget cardContent(int index, BuildContext context,List<EventModel> eventsCard){
-      return Container(
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        child: Card(
-          elevation: 5,
-          child: ListTile(
-            title: Wrap(
-              children: <Widget>[
-                showTagsAndLike( index,context,eventsCard),
-              ],
-            ),
-          ),
-        ),
-      );
-    }
-
-    Widget showTagsAndLike( int index,BuildContext context,List<EventModel> eventsCard){
-      return  Wrap(
-        children: <Widget>[
-          Center(child: Text(eventsCard[index].title)),
-          Center(child: Text(eventsCard[index].description)),
-
-
-        ],
-      );
-    }
-
-
   }
+}
