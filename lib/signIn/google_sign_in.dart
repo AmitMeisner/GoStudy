@@ -2,10 +2,12 @@ import 'dart:async';
 import 'dart:convert' show json;
 
 import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:firebase_helpers/firebase_helpers.dart';
 import "package:http/http.dart" as http;
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
+
 
 final GoogleSignIn _googleSignIn = GoogleSignIn(
   scopes: <String>[
@@ -104,6 +106,7 @@ class SignInState extends State<SignIn> {
       );
       final FirebaseUser user = (await _auth.signInWithCredential(credential)).user;
       FirebaseAPI().setUser(user);
+
 //      Navigator.pushReplacementNamed(context, '/home',arguments: {"userName": _currentUser.displayName , "userEmail": _currentUser.email,});
       Navigator.pushReplacementNamed(context, '/home');
 

@@ -19,11 +19,12 @@ class neuDigitalClock extends StatelessWidget {
     final hours = currentDuration.inHours;
     // Outer white container
     return Container(
-      height: MediaQuery.of(context).size.height/8,
-      width: MediaQuery.of(context).size.height/4,
+      width: 20,
+      height: MediaQuery.of(context).size.height/12,
+
       decoration: BoxDecoration(
-        color:Color.fromRGBO(124, 252, 0, 1),
-        borderRadius: BorderRadius.circular(25),
+        color:Color.fromRGBO(217, 230, 243, 1),
+        borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
             blurRadius: 15,
@@ -41,8 +42,8 @@ class neuDigitalClock extends StatelessWidget {
       child: Center(
         child: LayoutBuilder(
           builder: (context, constraints) => Container(
-            height: constraints.maxHeight * 0.65,
-            width: constraints.maxWidth * 0.65,
+            height: constraints.maxHeight * 0.8,
+            width: constraints.maxWidth * 0.8,
             decoration: BoxDecoration(
               gradient: LinearGradient(colors: [
                 Color.fromRGBO(203, 211, 196, 1),
@@ -64,7 +65,9 @@ class neuDigitalClock extends StatelessWidget {
           ),
         ),
       ),
+
     );
+
   }
 }
 
@@ -92,7 +95,7 @@ class DigitalClock extends StatelessWidget {
     return Center(
       child: Container(
         // color: Colors.green,
-        height: height * 0.47,
+        height: height * 0.7,
         width: width * 0.70,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -119,11 +122,11 @@ class DigitalClock extends StatelessWidget {
 
     return [
       DigitalNumberWithBG(
-        height: height * 0.35,
+        height: height * 0.6,
         value: tenDigit,
       ),
       DigitalNumberWithBG(
-        height: height * 0.35,
+        height: height * 0.6,
         value: digit,
       ),
     ];

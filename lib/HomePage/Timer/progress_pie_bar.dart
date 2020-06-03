@@ -13,29 +13,29 @@ class NeuProgressPieBar extends StatelessWidget {
     final percentage =
         Provider.of<TimerService>(context).currentDuration.inSeconds / 60 * 100;
     return Container(
-      height: MediaQuery.of(context).size.height/3.5,
-      width: MediaQuery.of(context).size.height/2.5,
+      height: MediaQuery.of(context).size.height/5,
+      width: MediaQuery.of(context).size.height/5,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: Colors.black,
+        color: Color.fromRGBO(225, 234, 244, 1),
         boxShadow: [
           //blur outside the circle top half
           BoxShadow(
-            blurRadius: 30,
+            blurRadius: 15,
             offset: Offset(-5, -5),
-            color: Colors.yellowAccent[100],
+            color: Colors.white,
           ),
           //blur outside the circle bottom half
           BoxShadow(
-            blurRadius: 30,
+            blurRadius: 20,
             offset: Offset(10.5, 10.5),
-            color: Colors.yellowAccent[100],
+            color: Colors.white30,
           )
         ],
         //first border(the outer one)
         border: Border.all(
-          width: MediaQuery.of(context).size.height/55,
-          color:Color.fromRGBO(124, 252, 0, 1),
+          width: MediaQuery.of(context).size.height/35,
+          color:Theme.of(context).backgroundColor,
           //color: Theme.of(context).backgroundColor,
         ),
       ),
@@ -46,7 +46,7 @@ class NeuProgressPieBar extends StatelessWidget {
 
                 painter: NeuProgressPainter(
 
-                  circleWidth: MediaQuery.of(context).size.height/40,
+                  circleWidth: MediaQuery.of(context).size.height/55,
                   completedPercentage: percentage,
                   defaultCircleColor: Colors.transparent,
                 ),
@@ -56,8 +56,8 @@ class NeuProgressPieBar extends StatelessWidget {
 
           Center(
             child: Container(
-              height:MediaQuery.of(context).size.height/5,
-              width: MediaQuery.of(context).size.height/5,
+              height:MediaQuery.of(context).size.height/6,
+              width: MediaQuery.of(context).size.height/6,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 gradient: LinearGradient(
@@ -71,8 +71,8 @@ class NeuProgressPieBar extends StatelessWidget {
                 ),
                 //second border
                 border: Border.all(
-                  width: MediaQuery.of(context).size.height/55,
-                  color:Color.fromRGBO(124, 252, 0, 1),
+                  width: MediaQuery.of(context).size.height/60,
+                  color:Theme.of(context).backgroundColor,
                   //color: Theme.of(context).backgroundColor,
                 ),
               ),
@@ -123,12 +123,14 @@ class _NeuStartButtonState extends State<NeuStartButton> {
         _isRunning
             ? Provider.of<TimerService>(context, listen: false).stop()
             : Provider.of<TimerService>(context, listen: false).start();
-        setState(() => _isRunning = !_isRunning);
+        setState((){
+          _isRunning = !_isRunning;
+      });
       },
       onPointerUp: _onPointerUp,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 150),
-        height: 95,
+        height: 85,
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
@@ -149,6 +151,7 @@ class _NeuStartButtonState extends State<NeuStartButton> {
             )
           ],
         ),
+
         child: Center(
             child: Icon(
               _isRunning ? Icons.stop : Icons.play_arrow,

@@ -20,7 +20,7 @@ class CalenderPage extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: calenderPage(),
+      home: calenderPage22(),
       routes: {
         "add_event": (_) => AddEventPage(),
       },
@@ -28,12 +28,12 @@ class CalenderPage extends StatelessWidget {
   }
 }
 
-class calenderPage extends StatefulWidget {
+class calenderPage22 extends StatefulWidget {
   @override
   CalenderPageState createState() => CalenderPageState();
 }
 
-class CalenderPageState extends State<calenderPage> {
+class CalenderPageState extends State<calenderPage22> {
   CalendarController _controller;
   Map<DateTime, List<EventModel>> _events;
   static List<EventModel> _selectedEvents;
@@ -125,18 +125,18 @@ class CalenderPageState extends State<calenderPage> {
                   calendarController: _controller,
                 ),
 
-                Cards( ),
-//                ..._selectedEvents.map((event) => ListTile(
-//                  title: Text(event.title),
-//                  onTap: () {
-//                    Navigator.push(
-//                        context,
-//                        MaterialPageRoute(
-//                            builder: (_) => EventDetailsPage(
-//                              event: event,
-//                            )));
-//                  },
-//                )),
+              //  Cards( ),
+                ..._selectedEvents.map((event) => ListTile(
+                  title: Text(event.title),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => EventDetailsPage(
+                              event: event,
+                            )));
+                  },
+                )),
               ],
             ),
           );

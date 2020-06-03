@@ -9,13 +9,13 @@ class TipDialog extends StatefulWidget {
   final Function tipsPageSetState;
   TipDialog(this.tipsPageSetState);
   @override
-  _TipDialogState createState() => _TipDialogState(tipsPageSetState);
+  TipDialogState createState() => TipDialogState(tipsPageSetState);
 }
 
-class _TipDialogState extends State<TipDialog> {
+class TipDialogState extends State<TipDialog> {
   //  for calling call setState in the tips page
   Function tipsPageSetState;
-  _TipDialogState(this.tipsPageSetState);
+  TipDialogState(this.tipsPageSetState);
 
   //list of the users tags.
   List<String> usersTags=["general"];
@@ -164,7 +164,7 @@ class _TipDialogState extends State<TipDialog> {
   }
 
   //return the date in the form day/month/year.
-  String getDate(){
+  static String getDate(){
     DateTime now = new DateTime.now();
     DateTime date = new DateTime(now.year, now.month, now.day);
     String day=date.day.toString();

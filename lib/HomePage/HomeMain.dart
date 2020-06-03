@@ -3,30 +3,32 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutterapp/HomePage/Timer/resources_buttons.dart';
+import 'Timer/dialog_helper.dart';
+import 'Timer/enterTime.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
-import 'Timer/course_spinner.dart';
+import 'Timer/coursesResources.dart';
 import 'Timer/digitalClock.dart';
-import 'Timer/buttonTop.dart';
 import 'Timer/progress_pie_bar.dart';
-import 'Timer/neu_reset_button.dart';
+import 'Timer/buttomButtons.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutterapp/signIn/google_sign_in.dart';
 
+
+
 class HomeMainPage extends StatefulWidget{
 
   @override
-  _HomeMainPageState createState() => _HomeMainPageState();
+  HomeMainPageState createState() => HomeMainPageState();
 }
 
-class _HomeMainPageState extends State<HomeMainPage> {
+class HomeMainPageState extends State<HomeMainPage> {
 
   //  String userName="";
 //  String userEmail="";
 
 //  Map userDetails= {};
-  
+
   @override
   Widget build(BuildContext context) {
 //    /** getting the user name from google_sign_in.dart to this page */
@@ -39,21 +41,30 @@ class _HomeMainPageState extends State<HomeMainPage> {
       create: (_) => timeService,
       child: Scaffold(
         body: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 35),
+          padding: const EdgeInsets.symmetric(horizontal:20 ),
           //child: Column(
             children: <Widget>[
               userDet(context, userName),
-              SizedBox(height: MediaQuery.of(context).viewPadding.top + 20),
-              courseSpinner(),
-              SizedBox(height: MediaQuery.of(context).size.height/20),
-              resourcesButtons(),
-              SizedBox(height: 60),
+              SizedBox(height: MediaQuery.of(context).viewPadding.top + 50),
+              ShowHideDropdown(),
+              SizedBox(height: MediaQuery.of(context).size.height/14),
+              //resourcesButtons(),
+              //ActionChipDisplay(),
+              //SizedBox(height: 60),
               neuDigitalClock(),
-              SizedBox(height: MediaQuery.of(context).size.height/20),
+              SizedBox(height: MediaQuery.of(context).size.height/17),
               NeuProgressPieBar(),
-              SizedBox(height: 25),
-              NeuResetButton(),
-              SizedBox(height: 60),
+              SizedBox(height: 55),
+              //NeuResetButton(),
+             // SizedBox(height: 60),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    NeuResetButton(),
+                    enterTimeButton(),
+                    ]
+              )
+
             ],
          // ),
         ),
@@ -68,20 +79,20 @@ class _HomeMainPageState extends State<HomeMainPage> {
 
 
 class TimerService extends ChangeNotifier {
-  Stopwatch _watch;
+ static Stopwatch watch;
   Timer _timer;
 
-  Duration get currentDuration => _currentDuration;
-  Duration _currentDuration = Duration.zero;
-
+  Duration get currentDuration => currentDurationTime;
+  static Duration currentDurationTime = Duration.zero;
+  static Duration SendTime = Duration.zero;
   bool get isRunning => _timer != null;
 
   TimerService() {
-    _watch = Stopwatch();
+    watch = Stopwatch();
   }
 
   void _onTick(Timer timer) {
-    _currentDuration = _watch.elapsed;
+    currentDurationTime = watch.elapsed;
 
     // notify all listening widgets
     notifyListeners();
@@ -91,7 +102,7 @@ class TimerService extends ChangeNotifier {
     if (_timer != null) return;
 
     _timer = Timer.periodic(Duration(seconds: 1), _onTick);
-    _watch.start();
+    watch.start();
 
     notifyListeners();
   }
@@ -99,16 +110,16 @@ class TimerService extends ChangeNotifier {
   void stop() {
     _timer?.cancel();
     _timer = null;
-    _watch.stop();
-    _currentDuration = _watch.elapsed;
-
+    watch.stop();
+    currentDurationTime = watch.elapsed;
+     SendTime =  currentDurationTime;
     notifyListeners();
   }
 
   void reset() {
     stop();
-    _watch.reset();
-    _currentDuration = Duration.zero;
+    watch.reset();
+    currentDurationTime = Duration.zero;
 
     notifyListeners();
   }
@@ -118,18 +129,24 @@ class TimerService extends ChangeNotifier {
 
 
 Widget userDet(BuildContext context, String userName){
-  return Row(
+  return Container(
+    child: Row(
     children: <Widget>[
-      Text("Hello "+userName, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0)),
+      Text("Hello "+userName, style: TextStyle(color: Colors.blueGrey, fontSize: 15.0)),
       Spacer(),
       RaisedButton(
         child: const Text('SIGN OUT'),
-        onPressed: (){
-          SignInState().signOut(context);
+        textColor: Colors.blue,
+        onPressed: () async {
+          return await DialogHelperExit.exit(context);
+         // SignInState().signOut(context);
         },
       ),
-    ],
+    ],),
   );
 }
+
+
+
 
 

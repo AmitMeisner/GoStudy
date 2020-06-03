@@ -12,7 +12,7 @@ class DigitalColon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      size: Size(height / 2.0, height),
+      size: Size(height / 2.0, height/2),
       painter: _DigitalColonPainter(height, color),
     );
   }
