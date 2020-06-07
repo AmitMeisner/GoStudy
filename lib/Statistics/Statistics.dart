@@ -313,6 +313,9 @@ class Graphs extends StatefulWidget {
 
 class _GraphsState extends State<Graphs> {
   List<String> items = new List.generate(100, (index) => 'Hello $index');
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  List<Map<String, Object>> _data1 = [{ 'name': 'Please wait', 'value': 0 }];
   @override
   Widget build(BuildContext context) {
     return Container(
