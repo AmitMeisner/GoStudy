@@ -41,7 +41,9 @@ class FirebaseAPI{
 
 }
 
+class StatisticsDataBase{
 
+}
 class TipDataBase{
 
   //collection reference.

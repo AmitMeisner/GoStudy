@@ -67,11 +67,17 @@ class _CoursesMultiChoiceState extends State<CoursesMultiChoice> {
         value: usersTags,
         options: ChipsChoiceOption.listFrom<String, String>(
           source: courses,
-          value: (i, v) => v,
-          label: (i, v) => v,
+          value: (i, v) {
+            return v;
+          },
+          label: (i, v) {
+            return v;
+          },
         ),
         onChanged: (val) {
-          setState(() => usersTags = val);
+          setState(() {
+            return usersTags = val;
+          });
           if(tipsPage){TipDataBase().setUserSelectedTags(usersTags,tipsPageSetState);}
           },
         itemConfig: ChipsChoiceItemConfig(
