@@ -266,6 +266,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ),
             ChipsChoice<String>.multiple(
+
               value: ["general"],
               options: ChipsChoiceOption.listFrom<String, String>(
                 source: courses,
@@ -317,7 +318,6 @@ class _GraphsState extends State<Graphs> {
   List<Map<String, Object>> _data1 = [{ 'name': 'Please wait', 'value': 0 }];
 
   getData1() async {
-    await Future.delayed(Duration(seconds: 4));
 
     const dataObj = [{
       'name': 'Jan',
@@ -347,12 +347,127 @@ class _GraphsState extends State<Graphs> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 535.0,
+      height: MediaQuery.of(context).size.height * 0.8,
       child: ListView.builder(
         itemExtent: 80,
         itemBuilder: (context, i){
           return ListTile(
-            title: Text('hey'),
+            title: Container(
+              height: 50,
+              width: 50,
+              child: Echarts(
+                option: '''
+                        {
+                          dataset: {
+                            dimensions: ['name', 'value'],
+                            source: ${jsonEncode(_data1)},
+                          },
+                          color: ['#3398DB'],
+                          legend: {
+                            data: ['直接访问', '背景'],
+                            show: false,
+                          },
+                          grid: {
+                            left: '0%',
+                            right: '0%',
+                            bottom: '5%',
+                            top: '7%',
+                            height: '85%',
+                            containLabel: true,
+                            z: 22,
+                          },
+                          xAxis: [{
+                            type: 'category',
+                            gridIndex: 0,
+                            axisTick: {
+                              show: false,
+                            },
+                            axisLine: {
+                              lineStyle: {
+                                color: '#0c3b71',
+                              },
+                            },
+                            axisLabel: {
+                              show: true,
+                              color: 'rgb(170,170,170)',
+                              formatter: function xFormatter(value, index) {
+                                if (index === 6) {
+                                  return `\${value}\\n*`;
+                                }
+                                return value;
+                              },
+                            },
+                          }],
+                          yAxis: {
+                            type: 'value',
+                            gridIndex: 0,
+                            splitLine: {
+                              show: false,
+                            },
+                            axisTick: {
+                                show: false,
+                            },
+                            axisLine: {
+                              lineStyle: {
+                                color: '#0c3b71',
+                              },
+                            },
+                            axisLabel: {
+                              color: 'rgb(170,170,170)',
+                            },
+                            splitNumber: 12,
+                            splitArea: {
+                              show: true,
+                              areaStyle: {
+                                color: ['rgba(250,250,250,0.0)', 'rgba(250,250,250,0.05)'],
+                              },
+                            },
+                          },
+                          series: [{
+                            name: '合格率',
+                            type: 'bar',
+                            barWidth: '50%',
+                            xAxisIndex: 0,
+                            yAxisIndex: 0,
+                            itemStyle: {
+                              normal: {
+                                barBorderRadius: 5,
+                                color: {
+                                  type: 'linear',
+                                  x: 0,
+                                  y: 0,
+                                  x2: 0,
+                                  y2: 1,
+                                  colorStops: [
+                                    {
+                                      offset: 0, color: '#00feff',
+                                    },
+                                    {
+                                      offset: 1, color: '#027eff',
+                                    },
+                                    {
+                                      offset: 1, color: '#0286ff',
+                                    },
+                                  ],
+                                },
+                              },
+                            },
+                            zlevel: 11,
+                          }],
+                        }
+                      ''',
+                extraScript: '''
+                        chart.on('click', (params) => {
+                          if(params.componentType === 'series') {
+                            Messager.postMessage(JSON.stringify({
+                              type: 'select',
+                              payload: params.dataIndex,
+                            }));
+                          }
+                        });
+                      ''',
+              ),
+            ),
           );
         }
       ),
