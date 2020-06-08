@@ -78,11 +78,11 @@ class top20Table extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return top20TableState();
+    return Top20TableState();
   }
 }
 
-class top20TableState extends State<top20Table> {
+class Top20TableState extends State<top20Table> {
   ScrollController _leftHandSideListViewScrollController = ScrollController();
   ScrollController _rightHandSideListViewScrollController = ScrollController();
   ScrollController _rightHorizontalScrollController = ScrollController();

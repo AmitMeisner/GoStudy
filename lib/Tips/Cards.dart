@@ -63,13 +63,8 @@ class Cards extends StatelessWidget {
     updateTipsPageState();
   }
 
+
   //get the tip cards from firebase.
-//  Future<List<TipCard>> updateTipList(BuildContext context) async{
-//    _tipCards=Provider.of<List<TipCard>>(context);
-//    return _tipCards;
-//  }
-
-
   Future<List<TipCard>> updateTipList(BuildContext context) async{
     _tipCards=Provider.of<List<TipCard>>(context);
     return _tipCards;

@@ -1,6 +1,9 @@
 
 class Courses {
-  final List<String> allCourses=["general","Calculus 1", "Calculus 2","Statistic", "Linear Algebra 1","Linear Algebra 2","CS 101", "Algorithms"];
+  final List<String> allCourses=["Calculus 1", "Linear Algebra 1", "CS 101" , "Discrete mathematics",
+                                "Probability", "Calculus 2", "Linear Algebra 2", "Software 1", "Data Structures",
+                                "Statistics", "Computer Structure", "Algorithms", "Software Project", "Computational models",
+                                "Operating Systems", "Logic","Complexity","Compilation"];
   static List<String> userCourses=[];
 
   // return a list of all courses.

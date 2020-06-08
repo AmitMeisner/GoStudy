@@ -44,7 +44,8 @@ class SignInState extends State<SignIn> {
 
   Future<void>  signInSilent() async{
     if((await _googleSignIn.signInSilently())!= null) {
-      Navigator.pushReplacementNamed(context, '/home');
+      Navigator.pushReplacementNamed(context, '/getInfo');
+//      Navigator.pushReplacementNamed(context, '/home');
     }
   }
 
@@ -107,9 +108,12 @@ class SignInState extends State<SignIn> {
       final FirebaseUser user = (await _auth.signInWithCredential(credential)).user;
       FirebaseAPI().setUser(user);
 
-//      Navigator.pushReplacementNamed(context, '/home',arguments: {"userName": _currentUser.displayName , "userEmail": _currentUser.email,});
-      Navigator.pushReplacementNamed(context, '/home');
+      if(await UserDataBase().hasData()){
+        Navigator.pushReplacementNamed(context, '/home');
+      }else{
+        Navigator.pushReplacementNamed(context, '/getInfo');
 
+      }
     } catch (error) {
       print(error);
     }

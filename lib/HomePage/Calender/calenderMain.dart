@@ -16,10 +16,6 @@ class CalenderPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Calendar',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
       home: calenderPage22(),
       routes: {
         "add_event": (_) => AddEventPage(),
@@ -57,9 +53,6 @@ class CalenderPageState extends State<calenderPage22> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Flutter Calendar'),
-      ),
         body: StreamBuilder<List<EventModel>>(
         stream: eventDBS.streamList(),
         builder: (context, snapshot) {

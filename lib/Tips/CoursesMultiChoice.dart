@@ -50,7 +50,7 @@ class _CoursesMultiChoiceState extends State<CoursesMultiChoice> {
   List<String> usersTags=["general"];
 
   // list of all courses.
-  List<String> courses=Courses().getAllCourses();
+  List<String> courses=["general"]+Courses().getUserCourses();
 
   @override
   Widget build(BuildContext context) {
