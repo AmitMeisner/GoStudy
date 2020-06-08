@@ -224,19 +224,9 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(
-        title: Text('Statistics'),
-      ),
       backgroundColor: Colors.white,
       body: CollapsingList(),
     );
-  }
-  //updating the users courses choice in the tip page.
-  void updateUserTags(List<String> newUserTags){
-    usersTags.clear();
-    for(int i=0;i<newUserTags.length;i++){
-      usersTags.add(newUserTags[i]);
-    }
   }
 }
 
@@ -448,10 +438,100 @@ class CollapsingList extends StatefulWidget {
   _CollapsingListState createState() => _CollapsingListState();
 }
 
+class StatsChipsChoiceCourses extends StatefulWidget {
+  @override
+  _StatsChipsChoiceStateCourses createState() => _StatsChipsChoiceStateCourses();
+}
+
+class _StatsChipsChoiceStateCourses extends State<StatsChipsChoiceCourses> {
+  List<String> coursesSelected = [];
+  List<String> userCourses=Courses().getUserCourses();
+  List<String> allCourses = Courses().getAllCourses();
+  List<String> otherCourses;
+
+  void _initResources(){
+    otherCourses = ListSubtraction(allCourses, userCourses);
+  }
+  @override
+  Widget build(BuildContext context) {
+    _initResources();
+    return ChipsChoice<String>.multiple(
+      value: coursesSelected,
+      options: ChipsChoiceOption.listFrom<String, String>(
+        source: userCourses + otherCourses,
+        value: (i, v) {
+          return v;
+        },
+        label: (i, v) => v,
+      ),
+      onChanged: (val) {
+        print(val);
+        setState(() {
+          return coursesSelected = val;
+        });
+        //if(tipsPage){TipDataBase().setUserSelectedTags(usersTags,tipsPageSetState);}
+        // update stats database by selected tags
+      },
+      itemConfig: ChipsChoiceItemConfig(
+        selectedColor: Colors.green,
+        unselectedColor: Colors.black87,
+        showCheckmark: true,
+      ),
+    );
+  }
+}
+
+List<String> ListSubtraction(List<String> allCourses, List<String> userCourses) {
+
+  List<String> returnList = []..addAll(allCourses);
+  for(int i=0;i<userCourses.length;i++){
+    if (returnList.contains(userCourses[i])){
+      returnList.remove(userCourses[i]);
+    }
+  }
+  return returnList;
+}
+class StatsChipsChoiceCriterias extends StatefulWidget {
+  @override
+  _StatsChipsChoiceCriteriasState createState() => _StatsChipsChoiceCriteriasState();
+}
+
+class _StatsChipsChoiceCriteriasState extends State<StatsChipsChoiceCriterias> {
+  List<String> criteriasSelected = [];
+  List<String> criterias = Courses().criterias;
+  @override
+  Widget build(BuildContext context) {
+    return ChipsChoice<String>.multiple(
+      value: criteriasSelected,
+      options: ChipsChoiceOption.listFrom<String, String>(
+        source: criterias,
+        value: (i, v) {
+          return v;
+        },
+        label: (i, v) => v,
+      ),
+      onChanged: (val) {
+        print(val);
+        setState(() {
+          return criteriasSelected = val;
+        });
+        //if(tipsPage){TipDataBase().setUserSelectedTags(usersTags,tipsPageSetState);}
+        // update stats database by selected tags
+      },
+      itemConfig: ChipsChoiceItemConfig(
+        selectedColor: Colors.green,
+        unselectedColor: Colors.black87,
+        showCheckmark: true,
+      ),
+    );
+  }
+}
+
+
 class _CollapsingListState extends State<CollapsingList> {
   var lastSevenDaysData;
-  List<String> usersTags = TipsPage.usersTags;
-  List<String> courses=Courses().getAllCourses();
+  int numberOfItems = 11;
+  ScrollController _scrollController = ScrollController();
   SliverPersistentHeader makeChipsOptions(String headerText) {
     return SliverPersistentHeader(
       pinned: true,
@@ -462,52 +542,8 @@ class _CollapsingListState extends State<CollapsingList> {
           color: Colors.blue,
           child: Column(
             children: [
-              ChipsChoice<String>.multiple(
-                value: ["general"],
-                options: ChipsChoiceOption.listFrom<String, String>(
-                  source: courses,
-                  value: (i, v) {
-                    return v;
-                  },
-                  label: (i, v) => v,
-                ),
-                onChanged: (val) {
-                  print(val);
-                  setState(() {
-                    return usersTags = val;
-                  });
-                  //if(tipsPage){TipDataBase().setUserSelectedTags(usersTags,tipsPageSetState);}
-                  // update stats database by selected tags
-                },
-                itemConfig: ChipsChoiceItemConfig(
-                  selectedColor: Colors.green,
-                  unselectedColor: Colors.black87,
-                  showCheckmark: true,
-                ),
-              ),
-              ChipsChoice<String>.multiple(
-                value: ["general"],
-                options: ChipsChoiceOption.listFrom<String, String>(
-                  source: courses,
-                  value: (i, v) {
-                    return v;
-                  },
-                  label: (i, v) => v,
-                ),
-                onChanged: (val) {
-                  print(val);
-                  setState(() {
-                    return usersTags = val;
-                  });
-                  //if(tipsPage){TipDataBase().setUserSelectedTags(usersTags,tipsPageSetState);}
-                  // update stats database by selected tags
-                },
-                itemConfig: ChipsChoiceItemConfig(
-                  selectedColor: Colors.green,
-                  unselectedColor: Colors.black87,
-                  showCheckmark: true,
-                ),
-              ),
+              StatsChipsChoiceCourses(),
+              StatsChipsChoiceCriterias(),
             ],
           ),
         ),
@@ -583,12 +619,26 @@ class _CollapsingListState extends State<CollapsingList> {
   void initState() {
     super.initState();
     this.getLastSevenDaysData();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent){
+       _getMoreItems();
+      }
+    });
+  }
+
+  void _getMoreItems(){
+
   }
 
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
+
       slivers: <Widget>[
+    SliverAppBar(
+    title: Text('Statistics'),
+    ),
+        makeChipsOptions('Debug'),
         SliverFixedExtentList(
           itemExtent: 150.0,
           delegate: SliverChildListDelegate(
@@ -597,7 +647,8 @@ class _CollapsingListState extends State<CollapsingList> {
             ],
           ),
         ),
-        makeChipsOptions('hey'),
+
+
         SliverFixedExtentList(
             itemExtent: 50.0,
             delegate:
@@ -605,7 +656,10 @@ class _CollapsingListState extends State<CollapsingList> {
               return new Container(
                 child: new Text('List item $index'),
               );
-            }, childCount: 100)),
+            },
+                childCount: numberOfItems,
+            )
+        ),
       ],
     );
   }

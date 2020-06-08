@@ -6,6 +6,9 @@ class Courses {
                                 "Operating Systems", "Logic","Complexity","Compilation"];
   static List<String> userCourses=[];
 
+  final List<String> criterias = ["Percentage of HW Solved", "Percentage of  Recitations Attended","Percentage of Classes Attended", "Percentage of HW Solved Before exams","Extra"];
+
+
   // return a list of all courses.
   List<String> getAllCourses(){
     List<String> courses= new List<String>.from(allCourses);
