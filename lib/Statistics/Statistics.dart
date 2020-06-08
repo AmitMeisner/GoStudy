@@ -3,7 +3,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-
+import 'dart:math' as math;
+import 'package:flutter/src/painting/edge_insets.dart';
 import 'package:flutterapp/Tips/CoursesMultiChoice.dart';
 import 'package:flutterapp/Tips/Tips.dart';
 import 'package:flutterapp/Courses.dart';
@@ -227,75 +228,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text('Statistics'),
       ),
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Card(
-              child: Padding(
-                padding: EdgeInsets.all(6.0),
-                child: Column(
-                  children: <Widget>[
-                    WeeklyProgressCard('Last Week\'s Progress'),
-                  ]
-                ),
-              )
-            ),
-            Divider(),
-            ChipsChoice<String>.multiple(
-            value: ["general"],
-            options: ChipsChoiceOption.listFrom<String, String>(
-            source: courses,
-            value: (i, v) {
-              return v;
-            },
-            label: (i, v) => v,
-            ),
-            onChanged: (val) {
-              print(val);
-            setState(() {
-              return usersTags = val;
-            });
-            //if(tipsPage){TipDataBase().setUserSelectedTags(usersTags,tipsPageSetState);}
-              // update stats database by selected tags
-            },
-            itemConfig: ChipsChoiceItemConfig(
-            selectedColor: Colors.green,
-            unselectedColor: Colors.black87,
-            showCheckmark: true,
-            ),
-            ),
-            ChipsChoice<String>.multiple(
-
-              value: ["general"],
-              options: ChipsChoiceOption.listFrom<String, String>(
-                source: courses,
-                value: (i, v) {
-                  return v;
-                },
-                label: (i, v) => v,
-              ),
-              onChanged: (val) {
-                print(val);
-                setState(() {
-                  return usersTags = val;
-                });
-                //if(tipsPage){TipDataBase().setUserSelectedTags(usersTags,tipsPageSetState);}
-                // update stats database by selected tags
-              },
-              itemConfig: ChipsChoiceItemConfig(
-                selectedColor: Colors.green,
-                unselectedColor: Colors.black87,
-                showCheckmark: true,
-              ),
-            ),
-            Container(
-              child: Graphs(),
-            ),
-
-          ],
-        ),
-      ),
+      body: CollapsingList(),
     );
   }
   //updating the users courses choice in the tip page.
@@ -306,6 +239,8 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 }
+
+
 
 class Graphs extends StatefulWidget {
   @override
@@ -475,6 +410,207 @@ class _GraphsState extends State<Graphs> {
   }
 }
 
+
+class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  _SliverAppBarDelegate({
+    @required this.minHeight,
+    @required this.maxHeight,
+    @required this.child,
+  });
+  final double minHeight;
+  final double maxHeight;
+  final Widget child;
+
+
+  @override
+  double get minExtent => minHeight;
+
+  @override
+  double get maxExtent => math.max(maxHeight, minHeight);
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return new SizedBox.expand(child: child);
+  }
+
+  @override
+  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
+    return maxHeight != oldDelegate.maxHeight ||
+        minHeight != oldDelegate.minHeight ||
+        child != oldDelegate.child;
+  }
+}
+
+class CollapsingList extends StatefulWidget {
+
+  @override
+  _CollapsingListState createState() => _CollapsingListState();
+}
+
+class _CollapsingListState extends State<CollapsingList> {
+  var lastSevenDaysData;
+  List<String> usersTags = TipsPage.usersTags;
+  List<String> courses=Courses().getAllCourses();
+  SliverPersistentHeader makeChipsOptions(String headerText) {
+    return SliverPersistentHeader(
+      pinned: true,
+      delegate: _SliverAppBarDelegate(
+        minHeight: 120.0,
+        maxHeight: 120.0,
+        child: Container(
+          color: Colors.blue,
+          child: Column(
+            children: [
+              ChipsChoice<String>.multiple(
+                value: ["general"],
+                options: ChipsChoiceOption.listFrom<String, String>(
+                  source: courses,
+                  value: (i, v) {
+                    return v;
+                  },
+                  label: (i, v) => v,
+                ),
+                onChanged: (val) {
+                  print(val);
+                  setState(() {
+                    return usersTags = val;
+                  });
+                  //if(tipsPage){TipDataBase().setUserSelectedTags(usersTags,tipsPageSetState);}
+                  // update stats database by selected tags
+                },
+                itemConfig: ChipsChoiceItemConfig(
+                  selectedColor: Colors.green,
+                  unselectedColor: Colors.black87,
+                  showCheckmark: true,
+                ),
+              ),
+              ChipsChoice<String>.multiple(
+                value: ["general"],
+                options: ChipsChoiceOption.listFrom<String, String>(
+                  source: courses,
+                  value: (i, v) {
+                    return v;
+                  },
+                  label: (i, v) => v,
+                ),
+                onChanged: (val) {
+                  print(val);
+                  setState(() {
+                    return usersTags = val;
+                  });
+                  //if(tipsPage){TipDataBase().setUserSelectedTags(usersTags,tipsPageSetState);}
+                  // update stats database by selected tags
+                },
+                itemConfig: ChipsChoiceItemConfig(
+                  selectedColor: Colors.green,
+                  unselectedColor: Colors.black87,
+                  showCheckmark: true,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Sparkline lastSevenDaysSparkline(){
+    //return last 7 days of progress in a sparkline form.
+    return new Sparkline(
+      data: lastSevenDaysData,
+      lineColor: Color(0xffff6101),
+      pointsMode: PointsMode.all,
+      pointSize: 8.0,
+    );
+  }
+
+  Material WeeklyProgressCard(String title) {
+    return Material(
+      color: Colors.white,
+      elevation: 14.0,
+      borderRadius: BorderRadius.circular(5.0),
+      shadowColor: Color(0x802196F3),
+      child: Center(
+        child: Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+
+                children: <Widget>[
+
+                  Padding(
+                    padding: EdgeInsets.all(1.0),
+                    child: Text(title, style: TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.blueAccent,
+                    ),),
+                  ),
+                  SizedBox(height:20.0),
+                  Padding(
+                    padding: EdgeInsets.all(1.0),
+                    child: Container(
+                        height: 60,
+                        width: 300,
+                        child: lastSevenDaysSparkline()
+                    ),
+                  ),
+                  SizedBox(height:15.0),
+
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  getLastSevenDaysData() async {
+    //await Future.delayed(Duration(seconds: 4));
+    //Dynamically load last 7 days of user's progress and load them into last seven days variable
+    lastSevenDaysData = [0.0, 1.0, 2.0, 1.75, 1.5, 0.0, 1.0, 1.5, 0.0, 0.0, 2.0];
+  }
+
+  void updateState(){
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    this.getLastSevenDaysData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomScrollView(
+      slivers: <Widget>[
+        SliverFixedExtentList(
+          itemExtent: 150.0,
+          delegate: SliverChildListDelegate(
+            [
+              WeeklyProgressCard('Last Week\'s Progress')
+            ],
+          ),
+        ),
+        makeChipsOptions('hey'),
+        SliverFixedExtentList(
+            itemExtent: 50.0,
+            delegate:
+            SliverChildBuilderDelegate((BuildContext context, int index) {
+              return new Container(
+                child: new Text('List item $index'),
+              );
+            }, childCount: 100)),
+      ],
+    );
+  }
+}
+
 //StaggeredGridView.count(
 //crossAxisCount: 4,
 //crossAxisSpacing: 6.0,
@@ -509,4 +645,74 @@ class _GraphsState extends State<Graphs> {
 //StaggeredTile.extent(2, 120.0),
 //StaggeredTile.extent(4, 250.0),
 //],
+//),
+
+//SingleChildScrollView(
+//child: Column(
+//mainAxisAlignment: MainAxisAlignment.start,
+//children: <Widget>[
+//Card(
+//child: Padding(
+//padding: EdgeInsets.all(6.0),
+//child: Column(
+//children: <Widget>[
+//WeeklyProgressCard('Last Week\'s Progress'),
+//]
+//),
+//)
+//),
+//Divider(),
+//ChipsChoice<String>.multiple(
+//value: ["general"],
+//options: ChipsChoiceOption.listFrom<String, String>(
+//source: courses,
+//value: (i, v) {
+//return v;
+//},
+//label: (i, v) => v,
+//),
+//onChanged: (val) {
+//print(val);
+//setState(() {
+//return usersTags = val;
+//});
+////if(tipsPage){TipDataBase().setUserSelectedTags(usersTags,tipsPageSetState);}
+//// update stats database by selected tags
+//},
+//itemConfig: ChipsChoiceItemConfig(
+//selectedColor: Colors.green,
+//unselectedColor: Colors.black87,
+//showCheckmark: true,
+//),
+//),
+//ChipsChoice<String>.multiple(
+//
+//value: ["general"],
+//options: ChipsChoiceOption.listFrom<String, String>(
+//source: courses,
+//value: (i, v) {
+//return v;
+//},
+//label: (i, v) => v,
+//),
+//onChanged: (val) {
+//print(val);
+//setState(() {
+//return usersTags = val;
+//});
+////if(tipsPage){TipDataBase().setUserSelectedTags(usersTags,tipsPageSetState);}
+//// update stats database by selected tags
+//},
+//itemConfig: ChipsChoiceItemConfig(
+//selectedColor: Colors.green,
+//unselectedColor: Colors.black87,
+//showCheckmark: true,
+//),
+//),
+//Container(
+//child: Graphs(),
+//),
+//
+//],
+//),
 //),
