@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/HomePage/HomeMain.dart';
+import 'package:flutterapp/Courses.dart';
 import 'progress_pie_bar.dart';
 
 class ShowHideDropdown extends StatefulWidget {
@@ -10,13 +11,7 @@ class ShowHideDropdown extends StatefulWidget {
 }
 
 class ShowHideDropdownState extends State<ShowHideDropdown> {
-  final List<String> _dropdownValues = [
-    "Hedva",
-    "Hedva2",
-    "Linear",
-    "Linear2",
-    "Statistics"
-  ]; //The list of values we want on the dropdown
+  final List<String> _dropdownValues = Courses().getUserCourses(); //The list of values we want on the dropdown
 
   static String selectedValue = "Select course";
   static bool notRunning = false;

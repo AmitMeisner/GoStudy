@@ -8,7 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutterapp/Tips/Cards.dart';
 import 'package:flutterapp/Tips/Tips.dart';
-
+import 'package:flutterapp/FirstInfo/InformationPage.dart';
 
 class FirebaseAPI{
 
@@ -136,6 +136,74 @@ class TipDataBase{
 
 
 }
+
+class UserDataBase {
+
+  //collection reference.
+  static  CollectionReference usersCollection= Firestore.instance.collection("Users");
+  static User user;
+
+
+  //add user card.
+  Future addUser(User user) async{
+    Map<String, dynamic> userMap = {
+      "nickname":user.getNickname(),
+      "avg":user.getAverage(),
+      "friends":user.getFriends(),
+      "courses":user.getCourses(),
+      "avgGoal":user.getAvgGoal(),
+      "dailyGoal":user.getDailyGoal(),
+      "year":user.getYear(),
+      "semester":user.getSemester(),
+      "dedication":user.getDedication(),
+    };
+    return await usersCollection.document(FirebaseAPI().getUid()).setData(userMap);
+  }
+
+
+
+
+
+  //get user
+  User getUser(){
+    DocumentReference userDoc=  usersCollection.document(FirebaseAPI().getUid());
+    userDoc.get().then((doc) {
+      user = User(
+        doc.data["nickname"],
+        doc.data["avg"],
+        List.from(doc.data["friends"]),
+        List.from(doc.data["courses"]),
+        doc.data["avgGoal"],
+        doc.data["dailyGoal"],
+        doc.data["year"],
+        doc.data["semester"],
+        doc.data["dedication"],
+      );
+    }
+    );
+    return user;
+  }
+
+
+
+  Future<bool> hasData()async{
+    DocumentReference userDoc=  usersCollection.document(FirebaseAPI().getUid());
+    bool exist=false;
+    await userDoc.get().then((doc) {
+      if (doc.exists){ exist=true;}
+    });
+    return exist;
+  }
+
+
+  Future<void> updateUser(User user) async{
+    DocumentReference userDoc=  usersCollection.document(FirebaseAPI().getUid());
+    await addUser(user);
+    return;
+  }
+
+}
+
 
 class Loading extends StatelessWidget {
   @override

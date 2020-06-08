@@ -19,7 +19,7 @@ class HomeNavPage extends StatefulWidget {
 
 
 
-Color primaryColor =  Color(0xff109618);
+Color primaryColor =  Colors.blueAccent;
 
 class _HomeNavPageState extends State<HomeNavPage> {
 
@@ -40,26 +40,25 @@ class _HomeNavPageState extends State<HomeNavPage> {
                 isScrollable: true,
                 indicatorColor: Colors.white,
                 indicatorWeight: 6.0,
-                onTap: (int index){
-                  setState(() {
-                    switch (index) {
-                      case 0:
-//                        primaryColor= Color(0xffff5722);
-                        primaryColor=  Color(0xff109618);
-                        break;
-                      case 1:
-                        primaryColor= Color(0xff3f51b5);
-                        break;
-                      case 2:
-                        primaryColor= Color(0xffe91e63);
-                        break;
-                      case 3:
-                        primaryColor= Color(0xff9c27b0);
-                        break;
-                    default:
-                  }
-                });
-              },
+//                onTap: (int index){
+//                  setState(() {
+//                    switch (index) {
+//                      case 0:
+//                        primaryColor=  Color(0xff109618);
+//                        break;
+//                      case 1:
+//                        primaryColor= Color(0xff3f51b5);
+//                        break;
+//                      case 2:
+//                        primaryColor= Color(0xffe91e63);
+//                        break;
+//                      case 3:
+//                        primaryColor= Color(0xff9c27b0);
+//                        break;
+//                    default:
+//                  }
+//                });
+//              },
               tabs: <Widget>[
                 Tab(
                   child: Container(
