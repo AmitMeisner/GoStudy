@@ -198,7 +198,7 @@ class _InformationPageState extends State<InformationPage> {
     );
   }
 
-  void updateInfo(){
+  void updateInfo()async{
      nickName=nicknameController.text;
      avg=averageController.text;
      year=_YearInputState.year;
@@ -209,18 +209,20 @@ class _InformationPageState extends State<InformationPage> {
      }
      _CoursesInputState._courses.clear();
      dedication=_DedicationInputState._dedication;
+     bool hasData= await UserDataBase().hasData();
      if(validate(nickName, avg, courses, year, semester)) {
        User user = User(
            nickName,
            avg,
-           [],
+           hasData? (await UserDataBase().getUser()).getFriends():[],
            courses,
-           0,
-           0,
+           hasData? (await UserDataBase().getUser()).getAvgGoal():[],
+           hasData? (await UserDataBase().getUser()).getDailyGoal():[],
            year,
            semester,
            dedication,
-           []);
+         hasData? (await UserDataBase().getUser()).getGoals():[]
+       );
        UserDataBase().addUser(user);
        Courses().setUserCourses(courses);
        Navigator.pushReplacementNamed(context, '/home');

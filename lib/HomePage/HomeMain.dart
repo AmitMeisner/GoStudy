@@ -37,7 +37,7 @@ class HomeMainPageState extends State<HomeMainPage> {
           //child: Column(
           children: <Widget>[
             userDet(context, userName),
-            SizedBox(height: MediaQuery.of(context).viewPadding.top + 50),
+            SizedBox(height: MediaQuery.of(context).viewPadding.top + 23),
             ShowHideDropdown(),
             SizedBox(height: MediaQuery.of(context).size.height / 25),
             //resourcesButtons(),
