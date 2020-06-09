@@ -156,6 +156,7 @@ class UserDataBase {
       "year":user.getYear(),
       "semester":user.getSemester(),
       "dedication":user.getDedication(),
+      "Goals":user.getGoals()
     };
     return await usersCollection.document(FirebaseAPI().getUid()).setData(userMap);
   }
@@ -165,9 +166,9 @@ class UserDataBase {
 
 
   //get user
-  User getUser(){
+  Future<User> getUser()async{
     DocumentReference userDoc=  usersCollection.document(FirebaseAPI().getUid());
-    userDoc.get().then((doc) {
+    await userDoc.get().then((doc) {
       user = User(
         doc.data["nickname"],
         doc.data["avg"],
@@ -178,6 +179,7 @@ class UserDataBase {
         doc.data["year"],
         doc.data["semester"],
         doc.data["dedication"],
+        doc.data["Goals"]
       );
     }
     );
