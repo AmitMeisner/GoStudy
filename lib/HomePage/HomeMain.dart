@@ -22,15 +22,9 @@ class HomeMainPage extends StatefulWidget {
 }
 
 class HomeMainPageState extends State<HomeMainPage> {
-  //  String userName="";
-//  String userEmail="";
-
-//  Map userDetails= {};
 
   @override
   Widget build(BuildContext context) {
-//    /** getting the user name from google_sign_in.dart to this page */
-//    userDetails=ModalRoute.of(context).settings.arguments;
     String userName = FirebaseAPI().getUserName();
     String userEmail = FirebaseAPI().getUserEmail();
 
