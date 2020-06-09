@@ -155,7 +155,7 @@ class _NeuStartButtonState extends State<NeuStartButton> {
         child: Center(
             child: Icon(
               _isRunning ? Icons.stop : Icons.play_arrow,
-              size: 60,
+              size: 50,
               color: _isRunning
                   ? Colors.redAccent.shade400
                   : Colors.greenAccent.shade400,
