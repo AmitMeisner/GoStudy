@@ -167,20 +167,18 @@ class TimerService extends ChangeNotifier {
 Widget userDet(BuildContext context, String userName) {
   return Container(
     child: Row(
-      children: <Widget>[
-//      Text("Hello "+userName, style: TextStyle(color: Colors.blueGrey, fontSize: 15.0)),
-        personalInfo(context, userName),
-        Spacer(),
-        RaisedButton(
-          child: const Text('SIGN OUT'),
-          textColor: Colors.blue,
-          onPressed: () async {
-            return await DialogHelperExit.exit(context);
-            // SignInState().signOut(context);
-          },
-        ),
-      ],
-    ),
+    children: <Widget>[
+      personalInfo(context, userName),
+      Spacer(),
+      RaisedButton(
+        child: const Text('SIGN OUT'),
+        textColor: Colors.blue,
+        onPressed: () async {
+          return await DialogHelperExit.exit(context);
+         // SignInState().signOut(context);
+        },
+      ),
+    ],),
   );
 }
 

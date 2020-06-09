@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert' show json;
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutterapp/FirstInfo/InformationPage.dart';
 //import 'package:firebase_helpers/firebase_helpers.dart';
 import "package:http/http.dart" as http;
 import 'package:flutter/material.dart';
@@ -112,7 +113,6 @@ class SignInState extends State<SignIn> {
         Navigator.pushReplacementNamed(context, '/home');
       }else{
         Navigator.pushReplacementNamed(context, '/getInfo');
-
       }
     } catch (error) {
       print(error);
