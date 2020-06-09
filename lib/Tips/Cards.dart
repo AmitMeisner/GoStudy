@@ -71,8 +71,7 @@ class Cards extends StatelessWidget {
   }
 
   // creating a card with the users tip and adding it to the tips list.
-  void addCard(String tip, List<String> usersTags,
-      bool isLink, String userDesc, String link, String date){
+  void addCard(String tip, List<String> usersTags, bool isLink, String userDesc, String link, String date){
     TipCard newTip;
     String uid=FirebaseAPI().getUid();
     if(isLink){

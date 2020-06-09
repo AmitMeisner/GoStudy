@@ -58,6 +58,7 @@ class CalenderPageState extends State<calenderPage22> {
         builder: (context, snapshot) {
           if(snapshot.hasData){
             List<EventModel> allEvents = snapshot.data;
+
             if(allEvents.isNotEmpty){
               _events = groupEvents(allEvents);
             }

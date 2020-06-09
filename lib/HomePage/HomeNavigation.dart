@@ -3,11 +3,12 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterapp/Tips/Tips.dart';
 import 'Calender/calenderMain.dart';
 //import 'Calender/main.dart';
 import 'Calender/calenderMain.dart';
 import 'CalenderNew/Calender.dart';
-import 'Extra/Extra.dart';
+import 'Extra/time.dart';
 import 'HomeMain.dart';
 import 'Top20/Top20.dart';
 
@@ -102,7 +103,7 @@ class _HomeNavPageState extends State<HomeNavPage> {
               HomeMainPage(),//ff5722
               CalenderPage(),//3f51b5
               top20Table(),//e91e63
-              ExtraPage(), //9c27b0
+              TimesPage(), //9c27b0
 
             ],
           )

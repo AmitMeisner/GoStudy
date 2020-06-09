@@ -5,6 +5,7 @@ import '../../Tips/TipDialog.dart';
 import 'package:flutter/material.dart';
 import '../HomeMain.dart';
 import 'package:provider/provider.dart';
+import '../Extra/cards.dart';
 import 'coursesResources.dart';
 import 'dialog_helper.dart';
 import 'enterTimeDialog.dart';
@@ -26,15 +27,20 @@ class enterTimeButton extends StatefulWidget {
   enterTimeState createState() => enterTimeState();
 }
 
-
+DateTime getDate() {
+  DateTime now = new DateTime.now();
+  DateTime date = new DateTime(now.year, now.month, now.day);
+  return date;
+}
 
 class enterTimeState extends State<enterTimeButton> {
   static String course ;
   static String resource ;
-  String date =  TipDialogState.getDate();
+  DateTime date = getDate();
+  //String date =  TipDialogState.getDate();
   static String duration ;
   String uid=  FirebaseAPI().getUid();
-  String docId ;
+  String docId = null ;
   bool _isPressed = false;
 
 
@@ -56,7 +62,7 @@ class enterTimeState extends State<enterTimeButton> {
            await DialogHelperTime.enterTime(context);
            if (TimeConfirmationDialog.toEnterTime == true) {
              TimeCard newTime = new TimeCard(
-                 course, resource, uid, date, duration);
+                 course, resource, uid,docId, date, duration);
              TimeDataBase().addTime(newTime);
            }
          }});
@@ -115,5 +121,6 @@ extension ColorUtils on Color {
   Color mix(Color another, double amount) {
     return Color.lerp(this, another, amount);
   }
+
 
 }

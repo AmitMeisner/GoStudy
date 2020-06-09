@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'event.dart';
 import 'package:flutter/material.dart';
 import 'event_firestore_service.dart';
@@ -15,6 +17,7 @@ class _AddEventPageState extends State<AddEventPage> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   TextEditingController _title;
   TextEditingController _description;
+  final db = Firestore.instance;
   DateTime _eventDate;
   final _formKey = GlobalKey<FormState>();
   final _key = GlobalKey<ScaffoldState>();
@@ -109,7 +112,7 @@ class _AddEventPageState extends State<AddEventPage> {
                           await eventDBS.createItem(EventModel(
                               title: _title.text,
                               description: _description.text,
-                              eventDate: DateTime.now()
+                              eventDate: _eventDate
                           ));
                         }
                         Navigator.pop(context);
