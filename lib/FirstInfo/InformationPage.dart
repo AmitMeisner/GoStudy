@@ -17,9 +17,10 @@ class User{
   int _year;
   int _semester;
   int _dedication;
+  List<Set> _goal=[{"Algorithms", Activities.HomeWork,7.5}];
 
   User(this._nickname, this._avg, this._friends,this._courses, this._avgGoal, this._dailyGoal,
-      this._year, this._semester, this._dedication);
+      this._year, this._semester, this._dedication,this._goal);
 
   void setNickname(String name){
     this._nickname=name;
@@ -52,7 +53,7 @@ class User{
     this._courses=courses;
   }
 
-  List<String> getCourses(){
+  List<dynamic> getCourses(){
     return this._courses;
   }
 
@@ -97,8 +98,24 @@ class User{
     return _dedication;
   }
 
+  void addGoal(String course , Activities activity, double time){
+    _goal.add({course,activity,time});
+  }
+
+  double getGoal(String course , Activities activity){
+    Set res=_goal.where((element) => (element.elementAt(0)==course && element.elementAt(1)==activity)).toSet();
+    return (res.elementAt(0).elementAt(2));
+  }
+
+  List<Set> getGoals(){
+    return _goal;
+  }
+
 }
 
+enum Activities{
+  HomeWork, Recitation , Lectures , Exams
+}
 
 class InformationPage extends StatefulWidget {
   @override
@@ -117,18 +134,30 @@ class _InformationPageState extends State<InformationPage> {
   int semester;
   List<String> courses=[];
   int dedication;
+  bool check=true;
   static User user;
 
 
   Future<void> initial() async{
-    if(await UserDataBase().hasData()){
-     user=UserDataBase().getUser();
+    bool hasData=await UserDataBase().hasData();
+    if(hasData){
+     user=await UserDataBase().getUser();
+     setState(() {
+       nicknameController.text=user.getNickname();
+       averageController.text=user.getAverage();
+       _YearInputState.year=user.getYear();
+       _SemesterInputState.semester=user.getSemester();
+       _CoursesInputState().updateCourses(user.getCourses());
+       _DedicationInputState._dedication=user.getDedication();
+     });
     }
+    check=false;
   }
+
 
   @override
   Widget build(BuildContext context) {
-    initial();
+    if(check){initial();}
     return Scaffold(
       appBar: AppBar(
         title: Text("Personal Information"),
@@ -192,7 +221,8 @@ class _InformationPageState extends State<InformationPage> {
            0,
            year,
            semester,
-           dedication);
+           dedication,
+           []);
        UserDataBase().addUser(user);
        Courses().setUserCourses(courses);
        Navigator.pushReplacementNamed(context, '/home');
@@ -359,6 +389,7 @@ class _YearInputState extends State<YearInput> {
       ),
     );
   }
+
 }
 
 
@@ -484,6 +515,13 @@ class _CoursesInputState extends State<CoursesInput> {
           ),
         ),
       );
+  }
+
+
+  void updateCourses(List<dynamic> userCourses){
+    for(String course in userCourses) {
+      _courses.add(course);
+    }
   }
 }
 
