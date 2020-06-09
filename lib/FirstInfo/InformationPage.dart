@@ -174,10 +174,8 @@ class _InformationPageState extends State<InformationPage> {
             SizedBox(height: 20.0),
             SemesterInput(),
             SizedBox(height: 20.0),
-//            inputDecoration("Dedication",dedicationController, 3.0, TextInputType.number),
             DedicationInput(),
             SizedBox(height: 20.0),
-//            inputDecoration("Courses",coursesController, 3.0, TextInputType.text ),
             CoursesInput(),
             SizedBox(height: 20.0),
             Row(

@@ -49,7 +49,7 @@ class _CourseChoiceState extends State<CourseChoice> {
   List<String> userCourse=["Calculus 2"];
 
   // list of all courses.
-  List<String> courses=Courses().getAllCourses();
+  List<String> courses=Courses().getUserCourses();
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +71,7 @@ class _CourseChoiceState extends State<CourseChoice> {
           ),
           onChanged: (val) {
             setState(() => userCourse = val);
-            if(timesPage){TimeDataBase().setUserSelectedCourse(userCourse,tipsPageSetState);}
+            if(timesPage){TimeDataBase().setUserSelectedCourse(userCourse[0],tipsPageSetState);}
           },
           itemConfig: ChipsChoiceItemConfig(
             selectedColor: Colors.green,

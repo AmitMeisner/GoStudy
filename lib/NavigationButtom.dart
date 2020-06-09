@@ -18,7 +18,7 @@ class _NavigationBottomState extends State<NavigationBottomPage> {
   int pageIndex = 0;
   GlobalKey _bottomNavigationKey = GlobalKey();
   final ProgressPage _progress = ProgressPage();
-//  final TipsPage _tips = TipsPage();
+  final TipsPage _tips = TipsPage();
   final HomeNavPage _home = HomeNavPage();
   final StatisticsPage _statistics = StatisticsPage();
 
@@ -32,8 +32,7 @@ class _NavigationBottomState extends State<NavigationBottomPage> {
         return _statistics;
         break;
       case 2:
-        //return _tips;
-      return _statistics;
+        return _tips;
         break;
       case 3:
         return _progress;

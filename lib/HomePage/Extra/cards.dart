@@ -1,12 +1,9 @@
-import 'dart:io';
 
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_card/animated_card.dart';
 import 'package:flutterapp/HomePage/Timer/fireBase/TimeCard.dart';
 import 'package:flutterapp/HomePage/Timer/fireBase/fireBase_api.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'dart:async';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
@@ -34,7 +31,7 @@ class cards extends StatelessWidget {
     if(_timeCards==null){
       return Loading();
     }
-    _timeCards=_firstTip+_timeCards;
+    _timeCards=_timeCards;
     return Container(
       color: Colors.grey[300],
       height: 535.0,
@@ -153,13 +150,13 @@ Widget cardContent(BuildContext context,Function tags, int index , List<TimeCard
 
 // creating the cards tags, date and like for the all the cards, except fot the first one.
 Widget showTagsAndLike(BuildContext context,Function tags, int index , List<TimeCard> times, Function updateTipsPageState){
-  if (index!=0) {
     return Wrap(
       children: <Widget>[
         tags(index),
         Row(
           children: <Widget>[
-            Text(times[index].getDate().toString()),
+            Text(times[index].getDate().toString().substring(0,10)),
+            Text(" "+times[index].getTime().toString()),
             Spacer(),
             Text(times[index].getResource()),
 
@@ -167,12 +164,7 @@ Widget showTagsAndLike(BuildContext context,Function tags, int index , List<Time
         ),
       ],
     );
-  }
-  return  Wrap(
-    children: <Widget>[
-      Center(child: Text(times[index].getTime())),
-    ],
-  );
+
 }
 
 

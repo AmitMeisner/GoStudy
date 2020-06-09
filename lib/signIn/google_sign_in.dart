@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
 
+import '../Courses.dart';
+
 
 final GoogleSignIn _googleSignIn = GoogleSignIn(
   scopes: <String>[
@@ -110,6 +112,11 @@ class SignInState extends State<SignIn> {
       FirebaseAPI().setUser(user);
 
       if(await UserDataBase().hasData()){
+        List<String> courses=[];
+        for(var course in (await UserDataBase().getUser()).getCourses()){
+          courses.add(course.toString());
+        }
+        Courses().setUserCourses(courses);
         Navigator.pushReplacementNamed(context, '/home');
       }else{
         Navigator.pushReplacementNamed(context, '/getInfo');
