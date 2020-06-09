@@ -216,12 +216,12 @@ class _InformationPageState extends State<InformationPage> {
            avg,
            hasData? (await UserDataBase().getUser()).getFriends():[],
            courses,
-           hasData? (await UserDataBase().getUser()).getAvgGoal():[],
-           hasData? (await UserDataBase().getUser()).getDailyGoal():[],
+           hasData? (await UserDataBase().getUser()).getAvgGoal():0,
+           hasData? (await UserDataBase().getUser()).getDailyGoal():0,
            year,
            semester,
            dedication,
-         hasData? (await UserDataBase().getUser()).getGoals():[]
+           hasData? (await UserDataBase().getUser()).getGoals():[]
        );
        UserDataBase().addUser(user);
        Courses().setUserCourses(courses);
@@ -322,9 +322,9 @@ class _YearInputState extends State<YearInput> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Text("Year :", style: TextStyle(fontWeight: FontWeight.bold),),
-          SizedBox(width: 50),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
@@ -406,9 +406,9 @@ class _YearInputState extends State<YearInput> {
      return Padding(
        padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
        child: Row(
+         mainAxisAlignment: MainAxisAlignment.spaceBetween,
          children: <Widget>[
            Text("Semester :", style: TextStyle(fontWeight: FontWeight.bold),),
-           SizedBox(width: 190),
            Row(
              mainAxisAlignment: MainAxisAlignment.end,
              children: <Widget>[
@@ -550,9 +550,9 @@ class _DedicationInputState extends State<DedicationInput> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(15,0,0,0),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Text("Dedication", style: TextStyle(fontWeight: FontWeight.bold)),
-          SizedBox(width: 130),
           Slider(
             activeColor: Colors.black,
             inactiveColor: Colors.grey,
