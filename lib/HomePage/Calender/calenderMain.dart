@@ -87,7 +87,7 @@ class CalenderPageState extends State<calenderPage22> {
                     formatButtonTextStyle: TextStyle(color: Colors.white),
                     formatButtonShowsNext: false,
                   ),
-                  startingDayOfWeek: StartingDayOfWeek.monday,
+                  startingDayOfWeek: StartingDayOfWeek.sunday,
                   onDaySelected: (date, events) {
                     setState(() {
                       _selectedEvents = events;
