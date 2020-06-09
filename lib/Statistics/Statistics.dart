@@ -7,6 +7,7 @@ import 'dart:math' as math;
 import 'package:flutter/src/painting/edge_insets.dart';
 import 'package:flutterapp/Tips/CoursesMultiChoice.dart';
 import 'package:flutterapp/Tips/Tips.dart';
+import 'package:flutterapp/Statistics/StatisticsDataBase.dart';
 import 'package:flutterapp/Courses.dart';
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter_echarts/flutter_echarts.dart';
@@ -364,22 +365,27 @@ List<String> ListSubtraction(List<String> allCourses, List<String> userCourses) 
 
 
 
-
+void clearDisplayedGraphs(){
+  LoadMoreGraphsButton.graphsList.clear();
+  LoadMoreGraphsButton.counter = 0 ;
+}
 
 
 class CriteriasChipsChoice extends StatefulWidget {
+  static List<String> criteriasSelected = [];
   @override
   _CriteriasChipsChoiceState createState() => _CriteriasChipsChoiceState();
 }
 
+
 class _CriteriasChipsChoiceState extends State<CriteriasChipsChoice> {
-  List<String> criteriasSelected = [];
+
   List<String> criterias = Courses().criterias;
 
   @override
   Widget build(BuildContext context) {
     return ChipsChoice<String>.multiple(
-      value: criteriasSelected,
+      value: CriteriasChipsChoice.criteriasSelected,
       options: ChipsChoiceOption.listFrom<String, String>(
         source: criterias,
         value: (i, v) {
@@ -389,11 +395,11 @@ class _CriteriasChipsChoiceState extends State<CriteriasChipsChoice> {
       ),
       onChanged: (val) {
         print(val);
+        clearDisplayedGraphs();
+        CLPicking.statsPageUpdateState();
         setState(() {
-          return criteriasSelected = val;
+          return CriteriasChipsChoice.criteriasSelected = val;
         });
-        //if(tipsPage){TipDataBase().setUserSelectedTags(usersTags,tipsPageSetState);}
-        // update stats database by selected tags
       },
       itemConfig: ChipsChoiceItemConfig(
         selectedColor: Colors.green,
@@ -436,12 +442,13 @@ class _EmptyChipsChoiceState extends State<EmptyChipsChoice> {
 
 
 class CoursesChipsChoice extends StatefulWidget {
+  static List<String> coursesSelected = [];
   @override
   _CoursesChipsChoiceState createState() => _CoursesChipsChoiceState();
 }
 
 class _CoursesChipsChoiceState extends State<CoursesChipsChoice> {
-  List<String> coursesSelected = [];
+
   List<String> userCourses=Courses().getUserCourses();
   List<String> allCourses = Courses().getAllCourses();
   List<String> otherCourses;
@@ -455,7 +462,7 @@ class _CoursesChipsChoiceState extends State<CoursesChipsChoice> {
   Widget build(BuildContext context) {
     _initResources();
     return ChipsChoice<String>.multiple(
-      value: coursesSelected,
+      value: CoursesChipsChoice.coursesSelected,
       options: ChipsChoiceOption.listFrom<String, String>(
         source: userCourses + otherCourses,
         value: (i, v) {
@@ -465,8 +472,10 @@ class _CoursesChipsChoiceState extends State<CoursesChipsChoice> {
       ),
       onChanged: (val) {
         print(val);
+        clearDisplayedGraphs();
+        CLPicking.statsPageUpdateState();
         setState(() {
-          return coursesSelected = val;
+          return CoursesChipsChoice.coursesSelected = val;
         });
 
       },
@@ -533,17 +542,25 @@ class _RefreshGraphsButtonState extends State<RefreshGraphsButton> {
           child: new Icon(Icons.clear),
           backgroundColor: new Color(0xFFE57373),
           onPressed: (){
-            LoadMoreGraphsButton.graphsList.clear();
+            clearDisplayedGraphs();
             this.statsPageUpdateState();
           },
       ),
     );
   }
 }
+class MyGraph extends StatelessWidget {
+  StatisticsDataBase dbApi = new StatisticsDataBase(LoadMoreGraphsButton.counter,CoursesChipsChoice.coursesSelected,  CriteriasChipsChoice.criteriasSelected);
+  @override
+  Widget build(BuildContext context) {
+    return Text('Graph number ${LoadMoreGraphsButton.counter} with Courses: ${CoursesChipsChoice.coursesSelected} and Criterias: ${CriteriasChipsChoice.criteriasSelected}');
+  }
+}
 
 
 class LoadMoreGraphsButton extends StatefulWidget {
   static List<Widget> graphsList = [];
+  static int counter = 0;
   final Function statsPageUpdateState;
 
   LoadMoreGraphsButton(this.statsPageUpdateState);
@@ -553,7 +570,7 @@ class LoadMoreGraphsButton extends StatefulWidget {
 }
 
 class _LoadMoreGraphsButtonState extends State<LoadMoreGraphsButton> {
-  int counter = 0;
+
   final Function statsPageUpdateState;
 
   _LoadMoreGraphsButtonState(this.statsPageUpdateState);
@@ -567,13 +584,17 @@ class _LoadMoreGraphsButtonState extends State<LoadMoreGraphsButton> {
             height: 5.0,
             child: FloatingActionButton.extended(
               onPressed: () {
+
                 setState((){
-                  LoadMoreGraphsButton.graphsList.add(Text('${counter}'));
+                  LoadMoreGraphsButton.counter ++;
+                  LoadMoreGraphsButton.graphsList.add(MyGraph());
                 });
                 this.statsPageUpdateState();
 
-                ChipsSecondBar.graphsBeingDisplayed = true;
-                ChipsSecondBar.secondBarUpdateState();
+
+                //updating the bars state after clicking Load (potentionally hiding, not full made decision)
+                //ChipsSecondBar.graphsBeingDisplayed = true;
+                //ChipsSecondBar.secondBarUpdateState();
 
                 //this.barsSectionUpdateState();
                 print(LoadMoreGraphsButton);
@@ -616,11 +637,155 @@ class _ActionRowState extends State<ActionRow> {
 }
 
 class CLPicking extends StatefulWidget {
+  static Function statsPageUpdateState;
   @override
   _CLPickingState createState() => _CLPickingState();
 }
 
 class _CLPickingState extends State<CLPicking> {
+  var lastSevenDaysData;
+  int numberOfItems = 11;
+  ScrollController _scrollController = ScrollController();
+  SliverPersistentHeader makeChipsOptions(String headerText) {
+    return SliverPersistentHeader(
+      pinned: true,
+      delegate: _SliverAppBarDelegate(
+        minHeight: 120.0,
+        maxHeight: 120.0,
+        child: Container(
+          color: Colors.blue,
+          child: Column(
+            children: [
+              ChipsFirstBar(),
+              ChipsSecondBar(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+  Sparkline lastSevenDaysSparkline(){
+    //return last 7 days of progress in a sparkline form.
+    return new Sparkline(
+      data: lastSevenDaysData,
+      lineColor: Color(0xffff6101),
+      pointsMode: PointsMode.all,
+      pointSize: 8.0,
+    );
+  }
+
+  Material WeeklyProgressCard(String title) {
+    return Material(
+      color: Colors.white,
+      elevation: 14.0,
+      borderRadius: BorderRadius.circular(5.0),
+      shadowColor: Color(0x802196F3),
+      child: Center(
+        child: Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+
+                children: <Widget>[
+
+                  Padding(
+                    padding: EdgeInsets.all(1.0),
+                    child: Text(title, style: TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.blueAccent,
+                    ),),
+                  ),
+                  SizedBox(height:20.0),
+                  Padding(
+                    padding: EdgeInsets.all(1.0),
+                    child: Container(
+                        height: 60,
+                        width: 300,
+                        child: lastSevenDaysSparkline()
+                    ),
+                  ),
+                  SizedBox(height:15.0),
+
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  getLastSevenDaysData(
+
+      ) async {
+    //await Future.delayed(Duration(seconds: 4));
+    //Dynamically load last 7 days of user's progress and load them into last seven days variable
+    lastSevenDaysData = [0.0, 1.0, 2.0, 1.75, 1.5, 0.0, 1.0, 1.5, 0.0, 0.0, 2.0];
+  }
+
+  void updateState(){
+    setState(() {
+
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    CLPicking.statsPageUpdateState = updateState;
+    this.getLastSevenDaysData();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent){
+        _getMoreItems();
+      }
+    });
+  }
+
+  void _getMoreItems(){
+
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomScrollView(
+
+      slivers: <Widget>[
+        SliverAppBar(
+          title: Text('Statistics'),
+        ),
+        makeChipsOptions('Debug'),
+        SliverFixedExtentList(
+          itemExtent: 150.0,
+          delegate: SliverChildListDelegate(
+            [
+              WeeklyProgressCard('Last Week\'s Progress'),
+            ],
+          ),
+        ),
+
+
+        SliverFixedExtentList(
+            itemExtent: 50.0,
+            delegate:
+            SliverChildListDelegate(
+                LoadMoreGraphsButton.graphsList + [ActionRow(updateState)]
+
+            )
+        ),
+      ],
+    );
+  }
+}
+
+class CLScrolling extends StatefulWidget {
+  @override
+  _CLScrollingState createState() => _CLScrollingState();
+}
+
+class _CLScrollingState extends State<CLScrolling> {
   var lastSevenDaysData;
   int numberOfItems = 11;
   ScrollController _scrollController = ScrollController();
@@ -766,154 +931,26 @@ class _CLPickingState extends State<CLPicking> {
 }
 
 
-
 class CollapsingList extends StatefulWidget {
-
+  static Function updateState;
   @override
   _CollapsingListState createState() => _CollapsingListState();
 }
 class _CollapsingListState extends State<CollapsingList> {
-  var lastSevenDaysData;
-  int numberOfItems = 11;
-  ScrollController _scrollController = ScrollController();
-  SliverPersistentHeader makeChipsOptions(String headerText) {
-    return SliverPersistentHeader(
-      pinned: true,
-      delegate: _SliverAppBarDelegate(
-        minHeight: 120.0,
-        maxHeight: 120.0,
-        child: Container(
-          color: Colors.blue,
-          child: Column(
-            children: [
-              ChipsFirstBar(),
-              ChipsSecondBar(),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-  Sparkline lastSevenDaysSparkline(){
-    //return last 7 days of progress in a sparkline form.
-    return new Sparkline(
-      data: lastSevenDaysData,
-      lineColor: Color(0xffff6101),
-      pointsMode: PointsMode.all,
-      pointSize: 8.0,
-    );
-  }
 
-  Material WeeklyProgressCard(String title) {
-    return Material(
-      color: Colors.white,
-      elevation: 14.0,
-      borderRadius: BorderRadius.circular(5.0),
-      shadowColor: Color(0x802196F3),
-      child: Center(
-        child: Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-
-                children: <Widget>[
-
-                  Padding(
-                    padding: EdgeInsets.all(1.0),
-                    child: Text(title, style: TextStyle(
-                      fontSize: 20.0,
-                      color: Colors.blueAccent,
-                    ),),
-                  ),
-                  SizedBox(height:20.0),
-                  Padding(
-                    padding: EdgeInsets.all(1.0),
-                    child: Container(
-                        height: 60,
-                        width: 300,
-                        child: lastSevenDaysSparkline()
-                    ),
-                  ),
-                  SizedBox(height:15.0),
-
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  getLastSevenDaysData(
-      
-      ) async {
-    //await Future.delayed(Duration(seconds: 4));
-    //Dynamically load last 7 days of user's progress and load them into last seven days variable
-    lastSevenDaysData = [0.0, 1.0, 2.0, 1.75, 1.5, 0.0, 1.0, 1.5, 0.0, 0.0, 2.0];
-  }
-
-  void updateState(){
+  clUpdateState(){
     setState(() {
 
     });
   }
 
   @override
-  void initState() {
-    super.initState();
-    this.getLastSevenDaysData();
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent){
-       _getMoreItems();
-      }
-    });
-  }
-
-  void _getMoreItems(){
-
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-
-      slivers: <Widget>[
-    SliverAppBar(
-    title: Text('Statistics'),
-    ),
-        makeChipsOptions('Debug'),
-        SliverFixedExtentList(
-          itemExtent: 150.0,
-          delegate: SliverChildListDelegate(
-            [
-              WeeklyProgressCard('Last Week\'s Progress'),
-            ],
-          ),
-        ),
-
-        SliverFixedExtentList(
-          itemExtent: 25.0,
-          delegate: SliverChildListDelegate(
-            [
-              
-            ],
-          ),
-        ),
-
-        SliverFixedExtentList(
-            itemExtent: 50.0,
-            delegate:
-            SliverChildListDelegate(
-              LoadMoreGraphsButton.graphsList + [ActionRow(updateState)]
-
-            )
-        ),
-      ],
-    );
+    CollapsingList.updateState = clUpdateState();
+    if  (ChipsSecondBar.graphsBeingDisplayed){
+      return CLScrolling();
+    }
+    return CLPicking();
   }
 }
 /*back up*/

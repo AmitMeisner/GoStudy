@@ -6,7 +6,7 @@ class Courses {
                                 "Operating Systems", "Logic","Complexity","Compilation"];
   static List<String> userCourses=[];
 
-  final List<String> criterias = ["Percentage of HW Solved", "Percentage of  Recitations Attended","Percentage of Classes Attended", "Percentage of HW Solved Before exams","Extra"];
+  final List<String> criterias = ["Overall Average","Percentage of HW Solved", "Percentage of  Recitations Attended","Percentage of Classes Attended", "Percentage of HW Solved Before exams","Extra"];
 
 
   // return a list of all courses.
