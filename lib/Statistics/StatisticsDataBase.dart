@@ -93,7 +93,51 @@ class GroupedBarChart extends StatelessWidget {
       ),
     ];
   }
+  static List<charts.Series<OrdinalSales, String>> _myCreateSampleData() {
+    final desktopSalesData = [
+      new OrdinalSales('Calculus 1', 80),
+      new OrdinalSales('Calculus 2', 85),
+      new OrdinalSales('Discrete', 90),
+      new OrdinalSales('CS 101', 100),
+    ];
+
+    final tableSalesData = [
+      new OrdinalSales('Calculus 1', 92),
+      new OrdinalSales('Calculus 2', 81),
+      new OrdinalSales('Discrete', 79),
+      new OrdinalSales('CS 101', 90),
+    ];
+
+    final mobileSalesData = [
+      new OrdinalSales('Calculus 1', 83),
+      new OrdinalSales('Calculus 2', 82),
+      new OrdinalSales('Discrete', 86),
+      new OrdinalSales('CS 101', 95),
+    ];
+
+    return [
+      new charts.Series<OrdinalSales, String>(
+        id: 'Desktop',
+        domainFn: (OrdinalSales sales, _) => sales.year,
+        measureFn: (OrdinalSales sales, _) => sales.sales,
+        data: desktopSalesData,
+      ),
+      new charts.Series<OrdinalSales, String>(
+        id: 'Tablet',
+        domainFn: (OrdinalSales sales, _) => sales.year,
+        measureFn: (OrdinalSales sales, _) => sales.sales,
+        data: tableSalesData,
+      ),
+      new charts.Series<OrdinalSales, String>(
+        id: 'Mobile',
+        domainFn: (OrdinalSales sales, _) => sales.year,
+        measureFn: (OrdinalSales sales, _) => sales.sales,
+        data: mobileSalesData,
+      ),
+    ];
+  }
 }
+
 
 /// Sample ordinal data type.
 class OrdinalSales {
@@ -111,6 +155,71 @@ class StatisticsDataBase{
   StatisticsDataBase(this.itemsCount, this.coursesSelected, this.criteriasSelected);
 
   Widget returnGraphFromApi(){
+    if (this.itemsCount % 3 == 0){
+      return Container(
+        child: Echarts(
+          extensions: [darkThemeScript],
+          theme: 'dark',
+          option: '''
+                    {
+                      legend: {
+                        data: ['Homework', 'Recitations', 'Exams', 'Else', 'Lectures']
+                      },
+                      grid: {
+                        left: '3%',
+                        right: '8%',
+                        bottom: '3%',
+                        containLabel: true
+                      },
+                      xAxis: {
+                        type: 'value'
+                      },
+                      yAxis: {
+                        type: 'category',
+                        data: ['Calculus 1', 'Calculus 2', 'CS 101', 'Discrete Math', 'Workshop', 'Compilation', 'Complexity']
+                      },
+                      series: [
+                        {//
+                          name: 'Homework',
+                          type: 'bar',
+                          stack: 'total',
+                          data: [8, 7, 4, 10, 7, 8, 11]
+                        },
+                        {
+                          name: 'Recitations',
+                          type: 'bar',
+                          stack: 'total',
+                          data: [4, 4, 4, 8, 6, 5, 8]
+                        },
+                        {
+                          name: 'Exams',
+                          type: 'bar',
+                          stack: 'total',
+                          data: [7, 5, 6, 8, 7, 3, 9]
+                        },
+                        {
+                          name: 'Else',
+                          type: 'bar',
+                          stack: 'total',
+                          data: [8, 9, 4, 8, 5, 4, 4]
+                        },
+                        {
+                          name: 'Lectures',
+                          type: 'bar',
+                          stack: 'total',
+                          data: [6, 6, 6, 6, 3, 7, 8]
+                        }
+                      ]
+                    }
+                  ''',
+        ),
+        width: 300,
+        height: 250,
+      );
+    }
+    if (this.itemsCount % 3 == 1){
+      return GroupedBarChart(GroupedBarChart._myCreateSampleData());
+    }
     return GroupedBarChart(GroupedBarChart._createSampleData());
 
   }

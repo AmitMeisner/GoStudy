@@ -18,11 +18,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:number_display/number_display.dart';
 //import 'package:nu';
 
-import 'liquid_script.dart' show liquidScript;
-import 'gl_script.dart' show glScript;
-import 'dark_theme_script.dart' show darkThemeScript;
-
-//https://pub.dev/packages/flutter_echarts
+//import 'liquid_script.dart' show liquidScript;
+//import 'gl_script.dart' show glScript;
+//import 'dark_theme_script.dart' show darkThemeScript;
 
 final display = createDisplay(decimal: 2);
 
@@ -230,62 +228,6 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 
-
-class Graphs extends StatefulWidget {
-  @override
-  _GraphsState createState() => _GraphsState();
-}
-
-class _GraphsState extends State<Graphs> {
-  List<String> items = new List.generate(100, (index) => 'Hello $index');
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  List<Map<String, Object>> _data1 = [{ 'name': 'Please wait', 'value': 0 }];
-
-  getData1() async {
-
-    const dataObj = [{
-      'name': 'Jan',
-      'value': 8726.2453,
-    }, {
-      'name': 'Feb',
-      'value': 2445.2453,
-    }, {
-      'name': 'Mar',
-      'value': 6636.2400,
-    }, {
-      'name': 'Apr',
-      'value': 4774.2453,
-    }, {
-      'name': 'May',
-      'value': 1066.2453,
-    }, {
-      'name': 'Jun',
-      'value': 4576.9932,
-    }, {
-      'name': 'Jul',
-      'value': 8926.9823,
-    }];
-
-    this.setState(() { this._data1 = dataObj;});
-  }
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: ListView.builder(
-        itemExtent: 80,
-        itemBuilder: (context, i){
-          return ListTile(
-            title: Container(
-              height: 50,
-              width: 50,
-              child: Text('DEBUG')
-            ),
-          );
-        }
-      ),
-    );
-  }
-}
 
 
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
@@ -951,117 +893,3 @@ class _CollapsingListState extends State<CollapsingList> {
     return CLPicking();
   }
 }
-/*back up*/
-//delegate:
-//SliverChildBuilderDelegate((BuildContext context, int index) {
-//return new Container(
-//child: new Text('List item $index'),
-//);
-//},
-//childCount: numberOfItems,
-//)
-//StaggeredGridView.count(
-//crossAxisCount: 4,
-//crossAxisSpacing: 6.0,
-//mainAxisSpacing: 6.0,
-//children: <Widget>[
-//Padding(
-//padding: const EdgeInsets.all(6.0),
-//child: mychart1Items("Last Weeks Progress","421.3M","+12.9% of target"),
-//),
-//Padding(
-//padding: const EdgeInsets.all(6.0),
-//child: myCircularItems("Quarterly Profits","68.7M"),
-//),
-//Padding(
-//padding: const EdgeInsets.only(right:6.0),
-//child: myTextItems("Mktg. Spend","48.6M"),
-//),
-//Padding(
-//padding: const EdgeInsets.only(right:8.0),
-//child: myTextItems("Users","25.5M"),
-//),
-//Padding(
-//padding: const EdgeInsets.all(6.0),
-//child: mychart2Items("Conversion","0.9M","+19% of target"),
-//),
-//
-//],
-//staggeredTiles: [
-//StaggeredTile.extent(4, 250.0),
-//StaggeredTile.extent(2, 250.0),
-//StaggeredTile.extent(2, 120.0),
-//StaggeredTile.extent(2, 120.0),
-//StaggeredTile.extent(4, 250.0),
-//],
-//),
-
-//SingleChildScrollView(
-//child: Column(
-//mainAxisAlignment: MainAxisAlignment.start,
-//children: <Widget>[
-//Card(
-//child: Padding(
-//padding: EdgeInsets.all(6.0),
-//child: Column(
-//children: <Widget>[
-//WeeklyProgressCard('Last Week\'s Progress'),
-//]
-//),
-//)
-//),
-//Divider(),
-//ChipsChoice<String>.multiple(
-//value: ["general"],
-//options: ChipsChoiceOption.listFrom<String, String>(
-//source: courses,
-//value: (i, v) {
-//return v;
-//},
-//label: (i, v) => v,
-//),
-//onChanged: (val) {
-//print(val);
-//setState(() {
-//return usersTags = val;
-//});
-////if(tipsPage){TipDataBase().setUserSelectedTags(usersTags,tipsPageSetState);}
-//// update stats database by selected tags
-//},
-//itemConfig: ChipsChoiceItemConfig(
-//selectedColor: Colors.green,
-//unselectedColor: Colors.black87,
-//showCheckmark: true,
-//),
-//),
-//ChipsChoice<String>.multiple(
-//
-//value: ["general"],
-//options: ChipsChoiceOption.listFrom<String, String>(
-//source: courses,
-//value: (i, v) {
-//return v;
-//},
-//label: (i, v) => v,
-//),
-//onChanged: (val) {
-//print(val);
-//setState(() {
-//return usersTags = val;
-//});
-////if(tipsPage){TipDataBase().setUserSelectedTags(usersTags,tipsPageSetState);}
-//// update stats database by selected tags
-//},
-//itemConfig: ChipsChoiceItemConfig(
-//selectedColor: Colors.green,
-//unselectedColor: Colors.black87,
-//showCheckmark: true,
-//),
-//),
-//Container(
-//child: Graphs(),
-//),
-//
-//],
-//),
-//),
