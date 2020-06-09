@@ -184,7 +184,7 @@ class UserDataBase {
         doc.data["year"],
         doc.data["semester"],
         doc.data["dedication"],
-        doc.data["Goals"]
+        List<Set<dynamic>>.from(doc.data["Goals"])
       );
     }
     );
