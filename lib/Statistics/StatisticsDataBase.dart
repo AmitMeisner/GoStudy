@@ -32,6 +32,7 @@ class StatisticsDataBase{
   StatisticsDataBase(this.itemsCount, this.coursesSelected, this.criteriasSelected);
 
   Widget returnGraphFromApi(){
+    return Text('hi ${this.itemsCount}');
 
   }
 }

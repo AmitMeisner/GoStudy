@@ -553,7 +553,7 @@ class MyGraph extends StatelessWidget {
   StatisticsDataBase dbApi = new StatisticsDataBase(LoadMoreGraphsButton.counter,CoursesChipsChoice.coursesSelected,  CriteriasChipsChoice.criteriasSelected);
   @override
   Widget build(BuildContext context) {
-    return Text('Graph number ${LoadMoreGraphsButton.counter} with Courses: ${CoursesChipsChoice.coursesSelected} and Criterias: ${CriteriasChipsChoice.criteriasSelected}');
+    return dbApi.returnGraphFromApi();
   }
 }
 
