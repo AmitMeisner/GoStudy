@@ -133,19 +133,22 @@ class SignInState extends State<SignIn> {
   }
 
   Widget _buildBody() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: <Widget>[
-        Image.asset('images/go_study_logo.jpg'),
-        FlatButton(
-          child: Image.asset(
-            'images/google_sign_in_button.png',
-            width: 200.0,
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          Image.asset('images/go_study_logo.jpg'),
+          FlatButton(
+            child: Image.asset(
+              'images/google_sign_in_button.png',
+              width: 200.0,
+            ),
+            padding: EdgeInsets.all(0.0),
+            onPressed: _handleSignIn,
           ),
-          padding: EdgeInsets.all(0.0),
-          onPressed: _handleSignIn,
-        ),
-      ],
+        ],
+      ),
     );
 
 
