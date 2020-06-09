@@ -29,6 +29,11 @@ class FirebaseAPI{
     return user.displayName;
   }
 
+  //get user first name.
+  String getUserFirstName(){
+    return user.displayName.split(" ")[0];
+  }
+
   //get User Email.
   String getUserEmail(){
     return user.email;
