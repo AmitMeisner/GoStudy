@@ -718,9 +718,7 @@ class _CLPickingState extends State<CLPicking> {
     );
   }
 
-  getLastSevenDaysData(
-
-      ) async {
+  getLastSevenDaysData() async {
     //await Future.delayed(Duration(seconds: 4));
     //Dynamically load last 7 days of user's progress and load them into last seven days variable
     lastSevenDaysData = [0.0, 1.0, 2.0, 1.75, 1.5, 0.0, 1.0, 1.5, 0.0, 0.0, 2.0];
@@ -768,7 +766,7 @@ class _CLPickingState extends State<CLPicking> {
 
 
         SliverFixedExtentList(
-            itemExtent: 50.0,
+            itemExtent: 300.0,
             delegate:
             SliverChildListDelegate(
                 LoadMoreGraphsButton.graphsList + [ActionRow(updateState)]
