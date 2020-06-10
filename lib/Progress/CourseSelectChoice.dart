@@ -25,7 +25,7 @@ class _CoursesSelectChoiceState extends State<CourseSelectChoice> {
     return Container(
       height: 70,
       child: Scaffold(
-        backgroundColor: Colors.blueAccent,
+//        backgroundColor: Colors.blueAccent,
         body: Container(
             height: 70.0,
             child: ListView(

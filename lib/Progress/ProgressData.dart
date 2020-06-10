@@ -19,7 +19,7 @@ class _ProgressDataState extends State<ProgressData> {
       return Container(
           height: MediaQuery.of(context).size.height - 150,
           child: Scaffold(
-              backgroundColor: Colors.blueAccent,
+//              backgroundColor: Colors.blueAccent,
               body: Column(
                 children: [
                   Container(
