@@ -148,7 +148,7 @@ class _ProgressDataState extends State<ProgressData> {
       shape:
           RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15)),
       content: Text(
-          "You're 43 hours away of GoStudy from people who got 90.\n\n GoStudy Tip: 53 hours from next Rank."),
+          "You're 43 hours away of goStudying Logic to get 90 on average.\n\n GoStudy Tip: 53 hours from next Rank."),
       actions: [
         okButton,
       ],
