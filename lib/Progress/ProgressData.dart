@@ -77,6 +77,7 @@ class _ProgressDataState extends State<ProgressData> {
                       radius: 200,
                       lineWidth: 13,
                       animation: true,
+                      animationDuration: 2000,
                       percent: 0.7,
                       progressColor: Colors.black,
                       center: Text(
