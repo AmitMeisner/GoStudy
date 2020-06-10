@@ -22,8 +22,8 @@ class _ProgressPageState extends State<ProgressPage> {
       ),
         body: ListView(
       children: <Widget>[
-        CourseSelectChoice(updateState),
-        ProgressData(),
+          CourseSelectChoice(updateState),
+          ProgressData(),
       ],
     ));
   }

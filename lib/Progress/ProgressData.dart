@@ -201,35 +201,38 @@ class _ProgressDataState extends State<ProgressData> {
     TextEditingController controller = TextEditingController();
 
     return showDialog(context: context, builder: (context){
-      return AlertDialog(
-        title: Text("Set New Plan"),
-        content: Container(
-          height: MediaQuery.of(context).size.height/3.2,
-          child: Column(
-            children: [
-              SizedBox(height: MediaQuery.of(context).size.height / 25),
-              Text('Enter Excepted Average:'),
-              TextField(
-                controller: controller,
-                decoration: InputDecoration(
-                  hintText: "hint: 100"
+      return SingleChildScrollView(
+        child: AlertDialog(
+          title: Text("Set New Plan"),
+          content: Container(
+            height: MediaQuery.of(context).size.height/3.2,
+            child: Column(
+              children: [
+                SizedBox(height: MediaQuery.of(context).size.height / 25),
+                Text('Enter Excepted Average:'),
+                TextField(
+                  controller: controller,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    hintText: "hint: 100",
+                  ),
                 ),
-              ),
-              SizedBox(height: MediaQuery.of(context).size.height / 25),
-              Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: Text("Be Dedicated, set your's:"),
-              ),
-                  DedicationInput(),
-            ],
+//              SizedBox(height: MediaQuery.of(context).size.height / 25),
+                Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: Text("Be Dedicated, set your's:"),
+                ),
+                    DedicationInput(),
+              ],
+            ),
           ),
+          actions: <Widget>[
+            MaterialButton(
+              child: Text("Submit"),
+              onPressed: (){Navigator.of(context).pop(context);},
+            )
+          ],
         ),
-        actions: <Widget>[
-          MaterialButton(
-            child: Text("Submit"),
-            onPressed: (){Navigator.of(context).pop(context);},
-          )
-        ],
       );
     });
   }
