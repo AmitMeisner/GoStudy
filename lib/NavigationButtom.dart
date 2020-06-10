@@ -4,7 +4,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterapp/Progress.dart';
+import 'package:flutterapp/Progress/Progress.dart';
 import 'Statistics/Statistics.dart';
 import 'package:flutterapp/Tips/Tips.dart';
 import 'HomePage/HomeNavigation.dart';

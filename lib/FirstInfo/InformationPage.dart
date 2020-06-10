@@ -552,7 +552,7 @@ class _DedicationInputState extends State<DedicationInput> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Text("Dedication", style: TextStyle(fontWeight: FontWeight.bold)),
+          Text("Dedication :", style: TextStyle(fontWeight: FontWeight.bold)),
           Slider(
             activeColor: Colors.black,
             inactiveColor: Colors.grey,
