@@ -8,11 +8,16 @@ class Courses {
 
   final List<String> criterias = ["Overall Average","Percentage of HW Solved", "Percentage of  Recitations Attended","Percentage of Classes Attended", "Percentage of HW Solved Before exams","Extra"];
 
-
+  final List<String> allResources = ["Lectures", "Recitations", "Homeworks", "Exams", "Extra"];
   // return a list of all courses.
   List<String> getAllCourses(){
     List<String> courses= new List<String>.from(allCourses);
     return courses;
+  }
+  // return a list of resources.
+  List<String> getAllResources(){
+    List<String> resources= new List<String>.from(allResources);
+    return resources;
   }
 
   //return a list of the users courses.

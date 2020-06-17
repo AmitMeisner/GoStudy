@@ -10,6 +10,7 @@ import 'Calender/calenderMain.dart';
 import 'CalenderNew/Calender.dart';
 import 'Extra/time.dart';
 import 'HomeMain.dart';
+import 'Timer/fireBase/fireBase_calculation.dart';
 import 'Top20/Top20.dart';
 
 class HomeNavPage extends StatefulWidget {
@@ -102,7 +103,7 @@ class _HomeNavPageState extends State<HomeNavPage> {
             children: <Widget>[
               HomeMainPage(),//ff5722
               CalenderPage(),//3f51b5
-              top20Table(),//e91e63
+              calculation(),//e91e63
               TimesPage(), //9c27b0
 
             ],

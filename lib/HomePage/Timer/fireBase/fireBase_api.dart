@@ -45,7 +45,7 @@ class TimeDataBase{
         doc.data["resource"],
         doc.data["uid"],
         doc.data["docId"],
-        DateTime.parse(doc.data["date"].toDate().toString()),
+        doc.data["date"],
         doc.data["time"],
       );
     }).toList();

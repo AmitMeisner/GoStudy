@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:animated_card/animated_card.dart';
 import 'package:flutterapp/HomePage/Timer/fireBase/TimeCard.dart';
@@ -70,7 +69,7 @@ class cards extends StatelessWidget {
   }
 
   // creating a card with the users tip and adding it to the tips list.
-  void addCard(String course, String resource, DateTime date, String time){
+  void addCard(String course, String resource, String date, String time){
     TimeCard newTime;
     String uid=FirebaseAPI().getUid();
     newTime = new TimeCard(course, resource,uid,null,date,time);
@@ -150,20 +149,20 @@ Widget cardContent(BuildContext context,Function tags, int index , List<TimeCard
 
 // creating the cards tags, date and like for the all the cards, except fot the first one.
 Widget showTagsAndLike(BuildContext context,Function tags, int index , List<TimeCard> times, Function updateTipsPageState){
-    return Wrap(
-      children: <Widget>[
-        tags(index),
-        Row(
-          children: <Widget>[
-            Text(times[index].getDate().toString().substring(0,10)),
-            Text(" "+times[index].getTime().toString()),
-            Spacer(),
-            Text(times[index].getResource()),
+  return Wrap(
+    children: <Widget>[
+      tags(index),
+      Row(
+        children: <Widget>[
+          Text(times[index].getDate().toString().substring(0,10)),
+          Text(" "+times[index].getTime().toString()),
+          Spacer(),
+          Text(times[index].getResource()),
 
-          ],
-        ),
-      ],
-    );
+        ],
+      ),
+    ],
+  );
 
 }
 
@@ -178,5 +177,3 @@ void showColoredToast(String msg) {
       gravity: ToastGravity.CENTER,
       textColor: Colors.white);
 }
-
-

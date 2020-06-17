@@ -40,7 +40,7 @@ class TimesPageState extends State<TimesPage> {
           child: Center(
             child: Column(
               children: <Widget>[
-                CourseChoice(updateUserCourse, 20, updateState, true),
+                CourseChoice(updateUserCourse, 20, updateState, true,false),
                 cards(updateState),
               ],
             ),
@@ -113,4 +113,3 @@ class TimesPageState extends State<TimesPage> {
     );
   }
 }
-

@@ -1,8 +1,10 @@
+import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Tips/CoursesMultiChoice.dart';
 import 'package:flutterapp/Tips/Cards.dart';
 import 'package:flutterapp/Tips/Tips.dart';
+import 'package:intl/intl.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'cards.dart';
@@ -18,16 +20,11 @@ class TimeDialog extends StatefulWidget {
 class TimeDialogState extends State<TimeDialog> {
   //  for calling call setState in the tips page
   Function timesPageSetState;
+  DateTime _selectedate;
   TimeDialogState(this.timesPageSetState);
 
   //list of the users tags.
-  String userCourse="general";
-
-  // controllers for getting the users input.
-  final timeController = TextEditingController();
-  final descriptionController = TextEditingController();
-
-
+  List<String> userCourse=[""];
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +35,11 @@ class TimeDialogState extends State<TimeDialog> {
   }
 
   // method to update the list of users tags, to be used from other classes.
-  void updateUserTags(String newCourse){
-    userCourse = newCourse;
+  void updateUserTags(List<String> newUserTags){
+    userCourse.clear();
+    for(int i=0;i<newUserTags.length;i++){
+      userCourse.add(newUserTags[i]);
+    }
   }
 
   // creating the dialog body content.
@@ -48,8 +48,24 @@ class TimeDialogState extends State<TimeDialog> {
       mainAxisSize: MainAxisSize.min ,
       children: <Widget>[
         tags(),
-        textInput(),
-        Container(),
+        resources(),
+        Container(
+          width:double.infinity,
+          height: 100,
+          child: DatePicker(
+            DateTime.now().add(Duration(days: -7)),
+            initialSelectedDate: DateTime.now(),
+            daysCount: 8,
+            selectionColor: Colors.black,
+            selectedTextColor: Colors.white,
+            onDateChange: (date) {
+              // New date selected
+              setState(() {
+                _selectedate = date;
+              });
+            },
+          ),
+        ),
         Row(
           children: <Widget>[
             Spacer(),
@@ -61,27 +77,14 @@ class TimeDialogState extends State<TimeDialog> {
     );
   }
 
-
-  //creating the description input in the dialog.
-  Widget descriptionInput(){
-    return inputDecoration( "Enter a description.",descriptionController, 32.0,1);
-  }
-
   //creating the courses choices in the dialog.
   Widget tags(){
-    return CourseChoice(updateUserTags,0.0, timesPageSetState, false);
+    return CourseChoice(updateUserTags,0.0, timesPageSetState, false,false);
+  }
+  Widget resources(){
+    return CourseChoice(updateUserTags,0.0, timesPageSetState, false,true);
   }
 
-  //creating the text input in the dialog.
-  Widget textInput(){
-    return Container(
-      child: Column(
-        children: <Widget>[
-          inputDecoration("Select tags and enter time.",timeController, 32.0,10),
-        ],
-      ),
-    );
-  }
 
   //creating the decoration for the text, description and link inputs.
   Widget inputDecoration(String hint,TextEditingController controller, double borderRadius, int lines){
@@ -135,18 +138,18 @@ class TimeDialogState extends State<TimeDialog> {
   //handle pressing the post button.
   void addUserTimeAndUpdate(BuildContext context){
     if(userCourse==""){showColoredToast("Select one course");return;}
-    if(timeController.text==""){showColoredToast("Enter a time");return;}
-    cards(timesPageSetState).addCard(userCourse,null, getDate(),timeController.text,);
+    //cards(timesPageSetState).addCard(userCourse[0],null, getDate(),timeController.text,);
     timesPageSetState();
     Navigator.pop(context);
 
   }
 
   //return the date in the form day/month/year.
-  static DateTime getDate(){
-    DateTime now = new DateTime.now();
-    DateTime date = new DateTime(now.year, now.month, now.day);
-    return date;
+  static String getDate(){
+    var now = new DateTime.now();
+    var formatter = new DateFormat('yyyy-MM-dd');
+    String formatted = formatter.format(now);
+    return formatted;
   }
 
   //display message to the user.
@@ -160,18 +163,4 @@ class TimeDialogState extends State<TimeDialog> {
   }
 
 
-  //creating the text button that changes the dialog to a text mode.
-  Widget textButton(){
-    return  Container(
-        alignment:Alignment.bottomLeft,
-        child: FlatButton(
-            color: Colors.grey[200],
-            onPressed: (){setState(() {});},
-            child: Icon(Icons.text_fields)
-        )
-    );
-  }
-
 }
-
-

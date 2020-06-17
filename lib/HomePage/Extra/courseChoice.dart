@@ -21,13 +21,14 @@ class CourseChoice extends StatefulWidget {
   //indicates that this is the multi choice from the tips page
   //and not the tipDialog.
   final bool tipsPage;
+  final bool addResource;
 
   //constructor/
-  CourseChoice(this.updateUserCourse, this.ceiling, this.timesPageSetState, this.tipsPage);
+  CourseChoice(this.updateUserCourse, this.ceiling, this.timesPageSetState, this.tipsPage, this.addResource);
 
 
   @override
-  _CourseChoiceState createState() => _CourseChoiceState(updateUserCourse, ceiling,timesPageSetState, tipsPage);
+  _CourseChoiceState createState() => _CourseChoiceState(updateUserCourse, ceiling,timesPageSetState, tipsPage,addResource);
 }
 
 class _CourseChoiceState extends State<CourseChoice> {
@@ -38,39 +39,41 @@ class _CourseChoiceState extends State<CourseChoice> {
 
   // distance of the title from the top.
   double ceiling;
-
+  bool addResource;
   bool timesPage;
 
   //constructor.
-  _CourseChoiceState(this.updateUserTags, this.ceiling, this.tipsPageSetState, this.timesPage);
+  _CourseChoiceState(this.updateUserTags, this.ceiling, this.tipsPageSetState, this.timesPage, this.addResource);
 
 
-  //users tags.
-  List<String> userCourse=["Calculus 2"];
 
   // list of all courses.
   List<String> courses=Courses().getUserCourses();
+  List<String> resources=Courses().getAllResources();
+  List<String> userCourse=[""];
+
 
   @override
   Widget build(BuildContext context) {
     updateUserTags(userCourse);
-    return scrollableListMultipleChoice(ceiling);
+    if(addResource){
+    return scrollableListSingleleChoice(ceiling,resources);}
+    else{
+      return scrollableListSingleleChoice(ceiling,courses);}
+
   }
 
   // creating the multi choice list.
-  Widget scrollableListMultipleChoice(double ceiling){
-    return Content(
-      title: "Courses",
-      ceiling: ceiling,
-      child: ChipsChoice<String>.multiple(
-          value:userCourse ,
+  Widget scrollableListSingleleChoice(double ceiling, listSource){
+    return ChipsChoice<String>.single(
+          value:userCourse[0] ,
           options: ChipsChoiceOption.listFrom<String, String>(
-            source: courses,
+            source: listSource,
             value: (i, v) => v,
             label: (i, v) => v,
           ),
           onChanged: (val) {
-            setState(() => userCourse = val);
+            setState(() => userCourse[0] = val);
             if(timesPage){TimeDataBase().setUserSelectedCourse(userCourse[0],tipsPageSetState);}
           },
           itemConfig: ChipsChoiceItemConfig(
@@ -78,7 +81,7 @@ class _CourseChoiceState extends State<CourseChoice> {
             unselectedColor: Colors.black87,
             showCheckmark: true,
           )
-      ),
+
     );
   }
 
@@ -197,291 +200,3 @@ class Content extends StatelessWidget {
     );
   }
 }
-
-/** OTHER OPTION FOR THE COURSES CHOICE */
-
-
-//void _about(BuildContext context) {
-//  showDialog(
-//    context: context,
-//    builder: (_) => Dialog(
-//      child: Column(
-//        mainAxisSize: MainAxisSize.min,
-//        children: <Widget>[
-//          ListTile(
-//            title: Text(
-//              'chips_choice',
-//              style: Theme.of(context).textTheme.headline.copyWith(color: Colors.black87),
-//            ),
-//            subtitle: Text('by davigmacode'),
-//            trailing: IconButton(
-//              icon: Icon(Icons.close),
-//              onPressed: () => Navigator.pop(context),
-//            ),
-//          ),
-//          Flexible(
-//            fit: FlexFit.loose,
-//            child: Container(
-//              padding: EdgeInsets.symmetric(horizontal: 15),
-//              child: Column(
-//                mainAxisSize: MainAxisSize.min,
-//                children: <Widget>[
-//                  Text(
-//                    'Easy way to provide a single or multiple choice chips.',
-//                    style: Theme.of(context).textTheme.body1.copyWith(color: Colors.black54),
-//                  ),
-//                  Container(height: 15),
-//                ],
-//              ),
-//            ),
-//          ),
-//        ],
-//      ),
-//    ),
-//  );
-//}
-
-
-//
-//Widget scrollableListSingleChoice(){
-//  return Content(
-//    title: 'Scrollable List Single Choice',
-//    child: ChipsChoice<int>.single(
-//      value: tag,
-//      options: ChipsChoiceOption.listFrom<int, String>(
-//        source: options,
-//        value: (i, v) => i,
-//        label: (i, v) => v,
-//      ),
-//      onChanged: (val) => setState(() => tag = val),
-//    ),
-//  );
-//}
-
-
-//  Widget wrappedListSingleChoice(){
-//    return Content(
-//      title: 'Wrapped List Single Choice',
-//      child: ChipsChoice<int>.single(
-//        value: tag,
-//        options: ChipsChoiceOption.listFrom<int, String>(
-//          source: options,
-//          value: (i, v) => i,
-//          label: (i, v) => v,
-//        ),
-//        onChanged: (val) => setState(() => tag = val),
-//        isWrapped: true,
-//      ),
-//    ) ;
-//  }
-//
-//  Widget wrappedListMultipleChoice(){
-//    return Content(
-//      title: 'Wrapped List Multiple Choice',
-//      child: ChipsChoice<String>.multiple(
-//        value: tags,
-//        options: ChipsChoiceOption.listFrom<String, String>(
-//          source: options,
-//          value: (i, v) => v,
-//          label: (i, v) => v,
-//        ),
-//        onChanged: (val) => setState(() => tags = val),
-//        isWrapped: true,
-//      ),
-//    );
-//  }
-//
-//  Widget disabledChoiceItem(){
-//    return Content(
-//      title: 'Disabled Choice Item',
-//      child: ChipsChoice<int>.single(
-//        value: tag,
-//        options: ChipsChoiceOption.listFrom<int, String>(
-//          source: options,
-//          value: (i, v) => i,
-//          label: (i, v) => v,
-//          disabled: (i, v) => [0, 2, 5].contains(i),
-//        ),
-//        onChanged: (val) => setState(() => tag = val),
-//        isWrapped: true,
-//      ),
-//    );
-//  }
-//
-//  Widget hiddenChoiceItem(){
-//    return Content(
-//      title: 'Hidden Choice Item',
-//      child: ChipsChoice<String>.multiple(
-//        value: tags,
-//        options: ChipsChoiceOption.listFrom<String, String>(
-//          source: options,
-//          value: (i, v) => v,
-//          label: (i, v) => v,
-//          hidden: (i, v) => ['Science', 'Politics', 'News', 'Tech'].contains(v),
-//        ),
-//        onChanged: (val) => setState(() => tags = val),
-//        isWrapped: true,
-//      ),
-//    );
-//  }
-//
-//  Widget appendAnItemToOptions(){
-//    return Content(
-//      title: 'Append an Item to Options',
-//      child: ChipsChoice<int>.single(
-//        value: tag,
-//        options: ChipsChoiceOption.listFrom<int, String>(
-//          source: options,
-//          value: (i, v) => i,
-//          label: (i, v) => v,
-//        )..insert(0, ChipsChoiceOption<int>(value: -1, label: 'All')),
-//        onChanged: (val) => setState(() => tag = val),
-//      ),
-//    );
-//  }
-//
-//  Widget selectedWithoutCheckMarkAndBrightnessDark(){
-//    return Content(
-//      title: 'Selected without Checkmark and Brightness Dark',
-//      child: ChipsChoice<int>.single(
-//        value: tag,
-//        onChanged: (val) => setState(() => tag = val),
-//        options: ChipsChoiceOption.listFrom<int, String>(
-//          source: options,
-//          value: (i, v) => i,
-//          label: (i, v) => v,
-//        )..insert(0, ChipsChoiceOption<int>(value: -1, label: 'All')),
-//        itemConfig: const ChipsChoiceItemConfig(
-//          showCheckmark: false,
-//          labelStyle: TextStyle(
-//              fontSize: 20
-//          ),
-//          selectedBrightness: Brightness.dark,
-//          // unselectedBrightness: Brightness.dark,
-//        ),
-//      ),
-//    );
-//  }
-//
-//  Widget asyncOptionsAndBrightnessDark(){
-//    return Content(
-//      title: 'Async Options and Brightness Dark',
-//      child: FutureBuilder<List<ChipsChoiceOption<String>>>(
-//        initialData: [],
-//        future: usersMemoizer.runOnce(getUsers),
-//        builder: (context, snapshot) {
-//          if (snapshot.connectionState == ConnectionState.waiting) {
-//            return Padding(
-//              padding: const EdgeInsets.all(20),
-//              child: Center(
-//                child: SizedBox(
-//                    width: 20,
-//                    height: 20,
-//                    child: CircularProgressIndicator(
-//                      strokeWidth: 2,
-//                    )
-//                ),
-//              ),
-//            );
-//          } else {
-//            if (!snapshot.hasError) {
-//              return ChipsChoice<String>.single(
-//                value: user,
-//                options: snapshot.data,
-//                onChanged: (val) => setState(() => user = val),
-//                itemConfig: ChipsChoiceItemConfig(
-//                  selectedColor: Colors.green,
-//                  unselectedColor: Colors.blueGrey,
-//                  selectedBrightness: Brightness.dark,
-//                  unselectedBrightness: Brightness.dark,
-//                  showCheckmark: false,
-//                ),
-//              );
-//            } else {
-//              return Container(
-//                padding: const EdgeInsets.all(25),
-//                child: Text(
-//                  snapshot.error.toString(),
-//                  style: const TextStyle(color: Colors.red),
-//                ),
-//              );
-//            }
-//          }
-//        },
-//      ),
-//    );
-//  }
-//
-//  Widget worksWithFormFieldAndValidator(){
-//    return Content(
-//      title: 'Works with FormField and Validator',
-//      child: FormField<List<String>>(
-//        autovalidate: true,
-//        initialValue: tags,
-//        validator: (value) {
-//          if (value.isEmpty) {
-//            return 'Please select some categories';
-//          }
-//          if (value.length > 5) {
-//            return "Can't select more than 5 categories";
-//          }
-//          return null;
-//        },
-//        builder: (state) {
-//          return Column(
-//            children: <Widget>[
-//              Container(
-//                alignment: Alignment.centerLeft,
-//                child: ChipsChoice<String>.multiple(
-//                  value: state.value,
-//                  options: ChipsChoiceOption.listFrom<String, String>(
-//                    source: options,
-//                    value: (i, v) => v,
-//                    label: (i, v) => v,
-//                  ),
-//                  onChanged: (val) => state.didChange(val),
-//                  itemConfig: ChipsChoiceItemConfig(
-//                    selectedColor: Colors.indigo,
-//                    selectedBrightness: Brightness.dark,
-//                    unselectedColor: Colors.indigo,
-//                    unselectedBorderOpacity: .3,
-//                  ),
-//                  isWrapped: true,
-//                ),
-//              ),
-//              Container(
-//                  padding: EdgeInsets.fromLTRB(15, 0, 15, 15),
-//                  alignment: Alignment.centerLeft,
-//                  child: Text(
-//                    state.errorText ?? state.value.length.toString() + '/5 selected',
-//                    style: TextStyle(
-//                        color: state.hasError
-//                            ? Colors.redAccent
-//                            : Colors.green
-//                    ),
-//                  )
-//              )
-//            ],
-//          );
-//        },
-//      ),
-//    );
-//  }
-//
-//  Widget customChoiceWidget(){
-//    return Content(
-//      title: 'Custom Choice Widget',
-//      child: ChipsChoice<String>.multiple(
-//        value: tags,
-//        options: ChipsChoiceOption.listFrom<String, String>(
-//          source: options,
-//          value: (i, v) => v,
-//          label: (i, v) => v,
-//        ),
-//        itemBuilder: (item, selected, select) {
-//          return CustomChip(item.label, selected, select);
-//        },
-//        onChanged: (val) => setState(() => tags = val),
-//      ),
-//    );
-//  }

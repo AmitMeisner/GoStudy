@@ -7,7 +7,7 @@ class TimeCard {
   String course;
   String resource;
   String uid;
-  DateTime date;
+  String date;
   String time;
   String docId;
 
@@ -17,7 +17,7 @@ class TimeCard {
  String getCourse(){return this.course;}
   String getResource(){return this.resource;}
   String getUid(){return this.uid;}
-  DateTime getDate(){return this.date;}
+  String getDate(){return this.date;}
   String getTime(){return this.time;}
 
   String getDocId(){
