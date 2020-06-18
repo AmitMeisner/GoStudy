@@ -22,7 +22,9 @@ class TimeDataBase{
     Map<String, dynamic> timeMap = {
       "course":timeCard.getCourse(),
       "resource": timeCard.getResource(),
-      "time": timeCard.getTime(),
+      "hours": timeCard.getHours(),
+      "minutes": timeCard.getMinutes(),
+      "seconds": timeCard.getSeconds(),
       "date": timeCard.getDate(),
       "docId": doc.documentID,
       "uid": timeCard.getUid(),
@@ -46,7 +48,9 @@ class TimeDataBase{
         doc.data["uid"],
         doc.data["docId"],
         doc.data["date"],
-        doc.data["time"],
+        doc.data["hours"],
+        doc.data["minutes"],
+        doc.data["seconds"],
       );
     }).toList();
   }

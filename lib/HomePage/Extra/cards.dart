@@ -15,7 +15,7 @@ class cards extends StatelessWidget {
   static List<String> emptyList=[];
   static final int maxLikeCount=100000000;
   // list of all tip cards.
-  static final _firstTip=[TimeCard( null, null,null,null,null,null)];
+  static final _firstTip=[TimeCard( null, null,null,null,null,0,0,0)];
   static List<TimeCard> _timeCards;
 
 
@@ -69,10 +69,10 @@ class cards extends StatelessWidget {
   }
 
   // creating a card with the users tip and adding it to the tips list.
-  void addCard(String course, String resource, String date, String time){
+  void addCard(String course, String resource, DateTime date, int hours, int minutes, int seconds){
     TimeCard newTime;
     String uid=FirebaseAPI().getUid();
-    newTime = new TimeCard(course, resource,uid,null,date,time);
+    newTime = new TimeCard(course, resource,uid,null,date,hours, minutes, seconds);
     TimeDataBase().addTime(newTime);
     _timeCards.add(newTime);
     updateTimesPageState();
@@ -155,7 +155,9 @@ Widget showTagsAndLike(BuildContext context,Function tags, int index , List<Time
       Row(
         children: <Widget>[
           Text(times[index].getDate().toString().substring(0,10)),
-          Text(" "+times[index].getTime().toString()),
+          Text("hours: "+times[index].getHours().toString()),
+          Text("minutes: "+times[index].getMinutes().toString()),
+          Text("seconds: "+times[index].getSeconds().toString()),
           Spacer(),
           Text(times[index].getResource()),
 

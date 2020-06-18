@@ -27,20 +27,19 @@ class enterTimeButton extends StatefulWidget {
   enterTimeState createState() => enterTimeState();
 }
 
-String getDate() {
-  var now = new DateTime.now();
-  var formatter = new DateFormat('yyyy-MM-dd');
-  String formatted = formatter.format(now);
-  return formatted;
+DateTime getDate() {
+  DateTime now = new DateTime.now();
+  DateTime date = new DateTime(now.year, now.month, now.day);
+  return date;
 }
 
 class enterTimeState extends State<enterTimeButton> {
   static String course ;
   static String resource ;
-  String date = getDate();
+  DateTime date = getDate();
   //String date =  TipDialogState.getDate();
-  static String duration ;
   String uid=  FirebaseAPI().getUid();
+  int hours; int minutes; int seconds;
   String docId = null ;
   bool _isPressed = false;
 
@@ -54,16 +53,19 @@ class enterTimeState extends State<enterTimeButton> {
 
         course = ShowHideDropdownState.selectedValue;
         resource = ShowHideDropdownState.resource;
+        hours = TimerService.currentDurationTime.inHours;
+        minutes = TimerService.currentDurationTime.inMinutes;
+        seconds = TimerService.currentDurationTime.inSeconds;
+        print( "check seconds  $seconds ");
 
-        duration = format(TimerService.currentDurationTime);
-         if(course== "Select course" || resource == "Select resource" || duration == "00:00:00"){
+         if(course== "Select course" || resource == "Select resource" ){//|| duration == "00:00:00"){
            await DialogHelperMissingData.showError(context);
          }
          else {
            await DialogHelperTime.enterTime(context);
            if (TimeConfirmationDialog.toEnterTime == true) {
              TimeCard newTime = new TimeCard(
-                 course, resource, uid,docId, date, duration);
+                 course, resource, uid,docId, date, hours, minutes, seconds);
              TimeDataBase().addTime(newTime);
            }
          }});

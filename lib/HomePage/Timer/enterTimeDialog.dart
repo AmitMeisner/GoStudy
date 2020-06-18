@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/HomePage/Timer/enterTime.dart';
 import 'package:flutterapp/signIn/google_sign_in.dart';
 
+import '../HomeMain.dart';
 import 'enterTime.dart';
 import 'enterTime.dart';
 
@@ -51,7 +52,7 @@ class TimeConfirmationDialog extends StatelessWidget {
         SizedBox(height: 30,),
         Padding(
           padding: const EdgeInsets.only(right: 16, left: 16),
-          child: Text( enterTimeState.course +"   "+enterTimeState.resource+ "   "+ enterTimeState.duration 
+          child: Text( enterTimeState.course +"   "+enterTimeState.resource+ "   "+ TimerService.currentDurationTime.toString()
            ,
             style: TextStyle(fontSize: 18,color: Colors.white), textAlign: TextAlign.center,),
         ),
