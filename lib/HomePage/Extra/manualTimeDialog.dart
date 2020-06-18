@@ -144,13 +144,12 @@ class TimeDialogState extends State<TimeDialog> {
 
   }
 
-  //return the date in the form day/month/year.
-  static String getDate(){
-    var now = new DateTime.now();
-    var formatter = new DateFormat('yyyy-MM-dd');
-    String formatted = formatter.format(now);
-    return formatted;
-  }
+//  //return the date in the form day/month/year.
+//  static String convertDateToString(DateTime dateTime){
+//    var formatter = new DateFormat('yyyy-MM-dd');
+//    String formatted = formatter.format(dateTime);
+//    return formatted;
+//  }
 
   //display message to the user.
   void showColoredToast(String msg) {

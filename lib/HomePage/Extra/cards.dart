@@ -69,7 +69,7 @@ class cards extends StatelessWidget {
   }
 
   // creating a card with the users tip and adding it to the tips list.
-  void addCard(String course, String resource, DateTime date, int hours, int minutes, int seconds){
+  void addCard(String course, String resource, String date, int hours, int minutes, int seconds){
     TimeCard newTime;
     String uid=FirebaseAPI().getUid();
     newTime = new TimeCard(course, resource,uid,null,date,hours, minutes, seconds);

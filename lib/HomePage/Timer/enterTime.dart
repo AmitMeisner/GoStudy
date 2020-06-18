@@ -27,16 +27,17 @@ class enterTimeButton extends StatefulWidget {
   enterTimeState createState() => enterTimeState();
 }
 
-DateTime getDate() {
-  DateTime now = new DateTime.now();
-  DateTime date = new DateTime(now.year, now.month, now.day);
-  return date;
+ String getDate() {
+  var now = new DateTime.now();
+  var formatter = new DateFormat('yyyy-MM-dd');
+  String formatted = formatter.format(now);
+  return formatted;
 }
 
 class enterTimeState extends State<enterTimeButton> {
   static String course ;
   static String resource ;
-  DateTime date = getDate();
+  String date = getDate();
   //String date =  TipDialogState.getDate();
   String uid=  FirebaseAPI().getUid();
   int hours; int minutes; int seconds;

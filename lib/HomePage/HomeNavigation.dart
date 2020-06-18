@@ -103,7 +103,8 @@ class _HomeNavPageState extends State<HomeNavPage> {
             children: <Widget>[
               HomeMainPage(),//ff5722
               CalenderPage(),//3f51b5
-              calculation(),//e91e63
+              //calculation(),//e91e63
+              top20Table(),
               TimesPage(), //9c27b0
 
             ],
