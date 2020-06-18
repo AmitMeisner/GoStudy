@@ -18,6 +18,7 @@ class calculationState extends State<calculation> {
   Duration durationCourseResource = Duration.zero;
   Duration timesUser = Duration.zero;
   Duration timesUserWeek = Duration.zero;
+  DateTime lastWeek = DateTime.now().add(Duration(days: -7));
   String uid=  FirebaseAPI().getUid();
 
 
@@ -73,10 +74,8 @@ class calculationState extends State<calculation> {
   }
 
   // get sum of times for user from last week
-  void querySumUserWeek() {
-    DateTime lastWeek = DateTime.now().add(Duration(days: -7));
-    String lastWeekString = convertDateToString(lastWeek);
-    print("last week"+lastWeek.toString());
+  void querySumUserWeek( DateTime startingTime) {
+    String lastWeekString = convertDateToString(startingTime);
     Firestore.instance
         .collection('Times')
         .where('uid', isEqualTo:uid )
@@ -131,7 +130,7 @@ class calculationState extends State<calculation> {
             padding: const EdgeInsets.all(5.0),
             textColor: Colors.white,
             color: Colors.blue,
-            onPressed: ()=>querySumUserWeek(),
+            onPressed: ()=>querySumUserWeek(lastWeek),
             child: new Text(" total time for user for last week is: $timesUserWeek"),
           ),
 
