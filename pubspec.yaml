@@ -55,6 +55,14 @@ dependencies:
   number_display: ^2.2.1
 #  courses multi select
   multiselect_formfield: ^0.1.3
+#  progressBar
+  simple_progress_bar: ^0.0.4
+#  tables
+  horizontal_data_table: ^1.0.5+3
+#  charts2
+  fl_chart: ^0.10.0
+  flutter_svg: ^0.17.0
+
   google_fonts:
   percent_indicator: ^2.1.1
   nice_button: ^0.1.7
@@ -87,6 +95,7 @@ flutter:
   assets:
    - images/
    - images/top20new.jpeg
+   - images/CLOCK-copy.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -99,6 +108,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+  fonts:
+   - family: Piedra
+     fonts:
+       - asset: fonts/Piedra-Regular.ttf
   # fonts:
   #   - family: Schyler
   #     fonts:

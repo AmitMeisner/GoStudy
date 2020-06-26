@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterapp/Global.dart';
 import 'package:flutterapp/Tips/CoursesMultiChoice.dart';
 import 'package:flutterapp/Tips/Cards.dart';
 import 'package:flutterapp/Tips/Tips.dart';
@@ -84,7 +85,7 @@ class TipDialogState extends State<TipDialog> {
 
   //creating the courses choices in the dialog.
   Widget tags(){
-    return CoursesMultiChoice(updateUserTags,0.0, tipsPageSetState, false);
+    return CoursesMultiChoice(updateUserTags, tipsPageSetState, false);
   }
 
   //creating the text input in the dialog.
@@ -142,7 +143,7 @@ class TipDialogState extends State<TipDialog> {
         child: FlatButton(
             onPressed: (){addUserTipAndUpdate(context, isLink);},
             child: Text("Post"),
-          color: Colors.blueAccent,
+          color: Global.getBackgroundColor(0),
         )
     );
   }
@@ -153,10 +154,10 @@ class TipDialogState extends State<TipDialog> {
     if(isLink){
       if(descriptionController.text==""){showColoredToast("Enter a description"); return;}
       if(linkController.text==""){showColoredToast("Enter a link");return;}
-       Cards(tipsPageSetState).addCard(null, usersTags,isLink, descriptionController.text,linkController.text,  getDate());
+       Cards(tipsPageSetState).addCard(null, usersTags,isLink, descriptionController.text,linkController.text,DateTime.now());
     }else{
       if(tipController.text==""){showColoredToast("Enter a tip");return;}
-       Cards(tipsPageSetState).addCard(tipController.text, usersTags,isLink, null,null,  getDate());
+       Cards(tipsPageSetState).addCard(tipController.text, usersTags,isLink, null,null,  DateTime.now());
     }
     tipsPageSetState();
     Navigator.pop(context);
@@ -164,14 +165,14 @@ class TipDialogState extends State<TipDialog> {
   }
 
   //return the date in the form day/month/year.
-  static String getDate(){
-    DateTime now = new DateTime.now();
-    DateTime date = new DateTime(now.year, now.month, now.day);
-    String day=date.day.toString();
-    String month=date.month.toString();
-    String year=date.year.toString();
-    return (day+"/"+month+"/"+year);
-  }
+//  static String getDate(){
+//    DateTime now = new DateTime.now();
+//    DateTime date = new DateTime(now.year, now.month, now.day);
+//    String day=date.day.toString();
+//    String month=date.month.toString();
+//    String year=date.year.toString();
+//    return (day+"/"+month+"/"+year);
+//  }
 
   //display message to the user.
   void showColoredToast(String msg) {

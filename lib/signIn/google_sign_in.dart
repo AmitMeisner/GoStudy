@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
 
-import '../Courses.dart';
+import '../Global.dart';
 
 
 final GoogleSignIn _googleSignIn = GoogleSignIn(
@@ -30,6 +30,7 @@ class SignIn extends StatefulWidget {
 class SignInState extends State<SignIn> {
   GoogleSignInAccount _currentUser;
   String _contactText;
+  bool silent=true;
 
   @override
   void initState() {
@@ -42,14 +43,16 @@ class SignInState extends State<SignIn> {
         _handleGetContact();
       }
     });
-//    signInSilent();
+    signInSilent();
   }
 
   Future<void>  signInSilent() async{
     if((await _googleSignIn.signInSilently())!= null) {
-      Navigator.pushReplacementNamed(context, '/getInfo');
-//      Navigator.pushReplacementNamed(context, '/home');
+      _handleSignIn();
+      return;
     }
+    silent=false;
+    setState(() {});
   }
 
   Future<void> _handleGetContact() async {
@@ -116,7 +119,7 @@ class SignInState extends State<SignIn> {
         for(var course in (await UserDataBase().getUser()).getCourses()){
           courses.add(course.toString());
         }
-        Courses().setUserCourses(courses);
+        Global().setUserCourses(courses);
         Navigator.pushReplacementNamed(context, '/home');
       }else{
         Navigator.pushReplacementNamed(context, '/getInfo');
@@ -130,25 +133,31 @@ class SignInState extends State<SignIn> {
   Future<void> _handleSignOut() {
     _googleSignIn.disconnect();
     _auth.signOut();
+    return null;
   }
 
   Widget _buildBody() {
+    if (silent){
+      return Loading();
+    }
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Image.asset('images/go_study_logo.jpg'),
-            FlatButton(
-              child: Image.asset(
-                'images/google_sign_in_button.png',
-                width: 200.0,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Image.asset('images/go_study_logo.jpg'),
+              FlatButton(
+                child: Image.asset(
+                  'images/google_sign_in_button.png',
+                  width: 200.0,
+                ),
+                padding: EdgeInsets.all(0.0),
+                onPressed: _handleSignIn,
               ),
-              padding: EdgeInsets.all(0.0),
-              onPressed: _handleSignIn,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

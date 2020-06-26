@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutterapp/Progress/CourseSelectChoice.dart';
 import 'package:flutterapp/Progress/ProgressData.dart';
+import 'package:flutterapp/firebase/FirebaseAPI.dart';
+import 'package:provider/provider.dart';
 
 class ProgressPage extends StatefulWidget {
   @override
@@ -10,21 +11,20 @@ class ProgressPage extends StatefulWidget {
 }
 
 class _ProgressPageState extends State<ProgressPage> {
-  void updateState() {
-    setState(() {});
+  void updateState(){
+     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Progress"),
-      ),
-        body: ListView(
-      children: <Widget>[
-          CourseSelectChoice(updateState),
-          ProgressData(),
-      ],
-    ));
+    return StreamProvider<List<UserStatForCourse>>.value(
+      value: AllUserDataBase().usersStats,
+      child: Scaffold(
+          body: ListView(
+            children: <Widget>[
+            ProgressData(updateState),
+        ],
+      )),
+    );
   }
 }

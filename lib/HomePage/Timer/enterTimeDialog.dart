@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutterapp/HomePage/Timer/enterTime.dart';
-import 'package:flutterapp/signIn/google_sign_in.dart';
+import 'package:flutterapp/HomePage/Timer/coursesResources.dart';
 
-import '../HomeMain.dart';
-import 'enterTime.dart';
-import 'enterTime.dart';
 
 class TimeConfirmationDialog extends StatelessWidget {
   static bool toEnterTime = false;
@@ -28,50 +24,46 @@ class TimeConfirmationDialog extends StatelessWidget {
         shape: BoxShape.rectangle,
         borderRadius: BorderRadius.all(Radius.circular(12))
     ),
-    child: Column(
-      children: <Widget>[
-        Container(
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Image.asset('images/time.png', height:130 , width: 130,),
+    child: SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          Container(
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Image.asset('images/time.png', height:130 , width: 130,),
+            ),
+            width: double.infinity,
+            decoration: BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.rectangle,
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12))
+            ),
           ),
-          width: double.infinity,
-          decoration: BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12))
+          SizedBox(height: 25,),
+          Padding(
+            padding: const EdgeInsets.only(right: 10, left: 10),
+            child: Text('Do you want to enter time?  you can always delete/update the time entered later',
+            style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),),
           ),
-        ),
-        SizedBox(height: 25,),
-        Padding(
-          padding: const EdgeInsets.only(right: 10, left: 10),
-          child: Text('Do you want to enter time?  you can always delete/update the time entered later',
-          style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),),
-        ),
-
-        SizedBox(height: 30,),
-        Padding(
-          padding: const EdgeInsets.only(right: 16, left: 16),
-          child: Text( enterTimeState.course +"   "+enterTimeState.resource+ "   "+ TimerService.currentDurationTime.toString()
-           ,
-            style: TextStyle(fontSize: 18,color: Colors.white), textAlign: TextAlign.center,),
-        ),
-        SizedBox(height: 40,),
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            FlatButton(onPressed: (){
-              toEnterTime = false;
-              Navigator.of(context).pop();
-            }, child: Text('No'),textColor: Colors.white,),
-            SizedBox(width: 8,),
-            RaisedButton(onPressed: (){
-              toEnterTime = true;
-              return Navigator.of(context).pop(true);
-            }, child: Text('Yes'), color: Colors.white, textColor: Colors.redAccent,)
-          ],
-        )
-      ],
+          SizedBox(height: 30,),
+          ShowHideDropdown(),
+          SizedBox(height: 40,),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              FlatButton(onPressed: (){
+                toEnterTime = false;
+                Navigator.of(context).pop();
+              }, child: Text('No'),textColor: Colors.white,),
+              SizedBox(width: 8,),
+              RaisedButton(onPressed: (){
+                toEnterTime = true;
+                return Navigator.of(context).pop(true);
+              }, child: Text('Yes'), color: Colors.white, textColor: Colors.redAccent,)
+            ],
+          )
+        ],
+      ),
     ),
   );
 }

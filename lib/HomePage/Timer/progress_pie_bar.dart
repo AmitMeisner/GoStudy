@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../Global.dart';
 import 'progress_painter.dart';
 import '../HomeMain.dart';
 import 'package:provider/provider.dart';
@@ -11,10 +12,10 @@ class NeuProgressPieBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final percentage =
-        Provider.of<TimerService>(context).currentDuration.inSeconds / 60 * 100;
+        (Provider.of<TimerService>(context).currentDuration.inSeconds%60 / 60)* 100;
     return Container(
       height: MediaQuery.of(context).size.height/5,
-      width: MediaQuery.of(context).size.height/5,
+//      width: MediaQuery.of(context).size.height/5,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: Color.fromRGBO(225, 234, 244, 1),
@@ -35,7 +36,8 @@ class NeuProgressPieBar extends StatelessWidget {
         //first border(the outer one)
         border: Border.all(
           width: MediaQuery.of(context).size.height/35,
-          color:Theme.of(context).backgroundColor,
+//          color:Theme.of(context).backgroundColor,
+          color: Global.getBackgroundColor(0),
           //color: Theme.of(context).backgroundColor,
         ),
       ),
@@ -43,11 +45,11 @@ class NeuProgressPieBar extends StatelessWidget {
         children: <Widget>[
           Center(
             child: CustomPaint(
-
                 painter: NeuProgressPainter(
-
                   circleWidth: MediaQuery.of(context).size.height/55,
                   completedPercentage: percentage,
+                  percentageCompletedCircleColor1:Colors.red,
+                  percentageCompletedCircleColor2: Colors.green,
                   defaultCircleColor: Colors.transparent,
                 ),
                 child: Center(),
@@ -72,7 +74,8 @@ class NeuProgressPieBar extends StatelessWidget {
                 //second border
                 border: Border.all(
                   width: MediaQuery.of(context).size.height/60,
-                  color:Theme.of(context).backgroundColor,
+//                  color:Theme.of(context).backgroundColor,
+                  color: Global.getBackgroundColor(500),
                   //color: Theme.of(context).backgroundColor,
                 ),
               ),

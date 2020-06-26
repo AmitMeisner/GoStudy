@@ -2,19 +2,17 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../Global.dart';
 import 'Timer/dialog_helper.dart';
 import 'Timer/enterTime.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
-import 'Timer/coursesResources.dart';
 import 'Timer/digitalClock.dart';
 import 'Timer/progress_pie_bar.dart';
 import 'Timer/buttomButtons.dart';
 import 'package:provider/provider.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import 'package:flutterapp/signIn/google_sign_in.dart';
 
 class HomeMainPage extends StatefulWidget {
   @override
@@ -25,53 +23,66 @@ class HomeMainPageState extends State<HomeMainPage> {
 
   @override
   Widget build(BuildContext context) {
-    String userName = FirebaseAPI().getUserName();
-    String userEmail = FirebaseAPI().getUserEmail();
-
     final timeService = TimerService();
     return ChangeNotifierProvider<TimerService>(
       create: (_) => timeService,
       child: Scaffold(
-        body: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          //child: Column(
-          children: <Widget>[
-            userDet(context, userName),
-            SizedBox(height: MediaQuery.of(context).viewPadding.top + 23),
-            ShowHideDropdown(),
-            SizedBox(height: MediaQuery.of(context).size.height / 25),
-            //resourcesButtons(),
-            //ActionChipDisplay(),
-            //SizedBox(height: 60),
-            neuDigitalClock(),
-            SizedBox(height: MediaQuery.of(context).size.height / 25),
-            motivationSentence(),
-            SizedBox(height: MediaQuery.of(context).size.height / 80),
-            NeuProgressPieBar(),
-            SizedBox(height: 55),
-            //NeuResetButton(),
-            // SizedBox(height: 60),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  NeuResetButton(),
-                  enterTimeButton(),
-                ])
-          ],
-          // ),
+        backgroundColor: Global.getBackgroundColor(0),
+        body: SafeArea(
+          child: Container(
+            color: Colors.white,
+            child: ListView(
+              padding: const EdgeInsets.all(15),
+              children: <Widget>[
+//            userDet(context, userName),
+//                SizedBox(height: MediaQuery.of(context).viewPadding.top + 23),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        SizedBox(width: 6.0,),
+                        Notification(),
+                        SizedBox(width: 6.0,),
+                        FriendsButton(),
+                      ],
+                    ),
+                    Settings(),
+                  ],
+                ),
+//            ShowHideDropdown(),
+                SizedBox(height: MediaQuery.of(context).size.height / 10),
+                neuDigitalClock(),
+//            SizedBox(height: MediaQuery.of(context).size.height / 80),
+//            NeuProgressPieBar(),
+                SizedBox(height: MediaQuery.of(context).size.height / 25),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      NeuResetButton(),
+                      NeuProgressPieBar(),
+                      EnterTimeButton(),
+                    ]),
+                SizedBox(height: MediaQuery.of(context).size.height / 25),
+                MotivationSentence(),
+
+              ],
+              // ),
+            ),
+          ),
         ),
       ),
     );
   }
 }
 
-class motivationSentence extends StatefulWidget {
+class MotivationSentence extends StatefulWidget {
 
   @override
-  State<StatefulWidget> createState() => motivationSentenceState();
+  State<StatefulWidget> createState() => MotivationSentenceState();
 }
 
-class motivationSentenceState extends State<motivationSentence> {
+class MotivationSentenceState extends State<MotivationSentence> {
   Random random = new Random();
   String sentence = "";
   int len = 0;
@@ -105,9 +116,10 @@ class motivationSentenceState extends State<motivationSentence> {
   Widget build(BuildContext context) {
     return Text(sentence,
     textAlign: TextAlign.center,
-    style: GoogleFonts.bebasNeue(
-      fontSize: 30
-    ));
+//    style: GoogleFonts.bebasNeue(
+//      fontSize: 30)
+    style: TextStyle(fontFamily: 'Piedra', fontSize: 30.0),
+    );
   }
 }
 
@@ -158,30 +170,119 @@ class TimerService extends ChangeNotifier {
   }
 }
 
-Widget userDet(BuildContext context, String userName) {
-  return Container(
-    child: Row(
-    children: <Widget>[
-      personalInfo(context, userName),
-      Spacer(),
-      RaisedButton(
-        child: const Text('SIGN OUT'),
-        textColor: Colors.blue,
-        onPressed: () async {
-          return await DialogHelperExit.exit(context);
-         // SignInState().signOut(context);
-        },
-      ),
-    ],),
-  );
+//Widget userDet(BuildContext context, String userName) {
+//  return Container(
+//    child: Row(
+//    children: <Widget>[
+//      personalInfo(context, userName),
+//      Spacer(),
+//      RaisedButton(
+//        child: const Text('SIGN OUT'),
+//        textColor: Colors.blue,
+//        onPressed: () async {
+//          return await DialogHelperExit.exit(context);
+//         // SignInState().signOut(context);
+//        },
+//      ),
+//    ],),
+//  );
+//}
+
+
+class Notification extends StatefulWidget {
+  @override
+  _NotificationState createState() => _NotificationState();
 }
 
-Widget personalInfo(BuildContext context, String userName) {
-  return RaisedButton(
-    child: Text("Hello " + userName,
-        style: TextStyle(color: Colors.blueGrey, fontSize: 15.0)),
-    onPressed: () {
-      Navigator.pushReplacementNamed(context, '/getInfo');
-    },
-  );
+class _NotificationState extends State<Notification> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(shape: BoxShape.circle,color: Global.backgroundPageColor),
+      child: PopupMenuButton<String>(
+        onSelected: (index){},
+        icon: Icon(Icons.notifications,color: Colors.black,),
+        itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[],
+      ),
+    );
+  }
 }
+
+class Settings extends StatefulWidget {
+  @override
+  _SettingsState createState() => _SettingsState();
+}
+
+class _SettingsState extends State<Settings> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(shape: BoxShape.circle,color: Global.backgroundPageColor),
+      child: PopupMenuButton<String>(
+
+        onSelected: (index)async{
+          switch (int.parse(index)){
+            case 0:
+              Navigator.pushNamed(context, '/getInfo');
+              return;
+            case 1:
+              Navigator.pushNamed(context, '/history');
+              return;
+            case 2:
+              return await DialogHelperExit.exit(context);
+          }
+        },
+        icon: Icon(Icons.settings,color: Colors.black,),
+        itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+          PopupMenuItem(value:'0',child: menuEntry("Personal Information", Icon(Icons.assignment_ind,color: Colors.black,))),
+          PopupMenuItem(value:'1',child: menuEntry("Activity History", Icon(Icons.history,color: Colors.black))),
+          PopupMenuItem(value:'2',child: menuEntry("Log Out", Icon(Icons.exit_to_app,color: Colors.black))),
+        ],
+      ),
+    );
+  }
+
+
+  Widget menuEntry(String title,Icon icn){
+    return Row(
+//      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        icn,
+        SizedBox(width: 6.0,),
+        Text(title, style: TextStyle(color: Colors.black, fontSize: 15.0)),
+      ],
+    );
+  }
+
+}
+
+
+class FriendsButton extends StatefulWidget {
+  @override
+  _FriendsButtonState createState() => _FriendsButtonState();
+}
+
+class _FriendsButtonState extends State<FriendsButton> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(shape: BoxShape.circle,color: Global.backgroundPageColor),
+      child: IconButton(
+        onPressed: (){Navigator.pushNamed(context, '/friends');},
+        icon: Icon(Icons.group,color: Colors.black,),
+      ),
+    );
+  }
+}
+
+
+
+//Widget personalInfo(BuildContext context, String userName) {
+//  return RaisedButton(
+//    child: Text("Hello " + userName,
+//        style: TextStyle(color: Colors.black, fontSize: 15.0)),
+//    onPressed: () {
+//      Navigator.pushReplacementNamed(context, '/getInfo');
+//    },
+//  );
+//}
