@@ -16,6 +16,7 @@ import 'package:provider/provider.dart';
 
 import 'cards.dart';
 import 'courseChoice.dart';
+import 'infoBlock.dart';
 import 'manualTimeDialog.dart';
 
 class TimesPage extends StatefulWidget {
@@ -35,11 +36,12 @@ class TimesPageState extends State<TimesPage> {
     return StreamProvider<List<TimeCard>>.value(
       value: TimeDataBase().times,
       child: Scaffold(
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Center(
             child: Column(
               children: <Widget>[
+                infoBlock(),
                 CourseChoice(updateUserCourse, 20, updateState, true,false),
                 cards(updateState),
               ],
@@ -66,7 +68,7 @@ class TimesPageState extends State<TimesPage> {
           icon: Icon(Icons.add),
 //            shape: new CircleBorder(),
         ),
-        fabReload(context),
+//        fabReload(context),
       ],
     );
   }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:chips_choice/chips_choice.dart';
-import 'package:flutterapp/Courses.dart';
+import 'package:flutterapp/Global.dart';
 import 'package:flutterapp/Tips/Tips.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
 
@@ -14,19 +14,18 @@ class CoursesMultiChoice extends StatefulWidget {
   // for refreshing the tips page.
   final Function tipsPageSetState;
 
-  // distance of the title from the top.
-  final double ceiling;
+
 
   //indicates that this is the multi choice from the tips page
   //and not the tipDialog.
   final bool tipsPage;
 
   //constructor/
-  CoursesMultiChoice(this.updateUserTags, this.ceiling, this.tipsPageSetState, this.tipsPage);
+  CoursesMultiChoice(this.updateUserTags, this.tipsPageSetState, this.tipsPage);
 
 
   @override
-  _CoursesMultiChoiceState createState() => _CoursesMultiChoiceState(updateUserTags, ceiling,tipsPageSetState, tipsPage);
+  _CoursesMultiChoiceState createState() => _CoursesMultiChoiceState(updateUserTags,tipsPageSetState, tipsPage);
 }
 
 class _CoursesMultiChoiceState extends State<CoursesMultiChoice> {
@@ -36,12 +35,11 @@ class _CoursesMultiChoiceState extends State<CoursesMultiChoice> {
   final Function tipsPageSetState;
 
   // distance of the title from the top.
-  double ceiling;
 
   bool tipsPage;
 
   //constructor.
-  _CoursesMultiChoiceState(this.updateUserTags, this.ceiling, this.tipsPageSetState, this.tipsPage);
+  _CoursesMultiChoiceState(this.updateUserTags, this.tipsPageSetState, this.tipsPage);
 
 
   int tag = 1;
@@ -50,41 +48,47 @@ class _CoursesMultiChoiceState extends State<CoursesMultiChoice> {
   List<String> usersTags=["general"];
 
   // list of all courses.
-  List<String> courses=["general"]+Courses().getUserCourses();
+  List<String> courses=["general"]+Global().getUserCourses();
 
   @override
   Widget build(BuildContext context) {
     updateUserTags(usersTags);
-    return scrollableListMultipleChoice(ceiling);
+    return scrollableListMultipleChoice();
   }
 
   // creating the multi choice list.
-  Widget scrollableListMultipleChoice(double ceiling){
-    return Content(
-      title: "Courses",
-      ceiling: ceiling,
-      child: ChipsChoice<String>.multiple(
-        value: usersTags,
-        options: ChipsChoiceOption.listFrom<String, String>(
-          source: courses,
-          value: (i, v) {
-            return v;
-          },
-          label: (i, v) {
-            return v;
-          },
+  Widget scrollableListMultipleChoice(){
+    return SafeArea(
+      child: Container(
+        height: MediaQuery.of(context).size.height/11,
+        width: double.infinity,
+        child: Content(
+          title: "",
+          ceiling: 0,
+          child: ChipsChoice<String>.multiple(
+            value: usersTags,
+            options: ChipsChoiceOption.listFrom<String, String>(
+              source: courses,
+              value: (i, v) {
+                return v;
+              },
+              label: (i, v) {
+                return v;
+              },
+            ),
+            onChanged: (val) {
+              setState(() {
+                return usersTags = val;
+              });
+              if(tipsPage){TipDataBase().setUserSelectedTags(usersTags,tipsPageSetState);}
+              },
+            itemConfig: ChipsChoiceItemConfig(
+                selectedColor: Colors.green,
+                unselectedColor: Colors.black87,
+                showCheckmark: true,
+              )
+          ),
         ),
-        onChanged: (val) {
-          setState(() {
-            return usersTags = val;
-          });
-          if(tipsPage){TipDataBase().setUserSelectedTags(usersTags,tipsPageSetState);}
-          },
-        itemConfig: ChipsChoiceItemConfig(
-            selectedColor: Colors.green,
-            unselectedColor: Colors.black87,
-            showCheckmark: true,
-          )
       ),
     );
   }
@@ -177,27 +181,27 @@ class Content extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.grey[300],
+      color:  Global.backgroundPageColor,
       elevation: 2,
       margin: EdgeInsets.fromLTRB(0,ceiling,0,0),
       clipBehavior: Clip.antiAliasWithSaveLayer,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(25.0))),
+//      shape: RoundedRectangleBorder(
+//          borderRadius: BorderRadius.vertical(top: Radius.circular(25.0))),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Container(
-            width: double.infinity,
-            padding: EdgeInsets.fromLTRB(5, 15, 0, 15),
-            color: Colors.blueAccent,
-            child: Text(
-              title,
-              style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500
-              ),
-            ),
-          ),
+//          Container(
+//            width: double.infinity,
+//            padding: EdgeInsets.fromLTRB(5, 15, 0, 15),
+//            color: Global.getBackgroundColor(0),
+//            child: Text(
+//              title,
+//              style: TextStyle(
+//                  color: Colors.black,
+//                  fontWeight: FontWeight.w500
+//              ),
+//            ),
+//          ),
           child,
         ],
       ),

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_card/animated_card.dart';
@@ -9,15 +10,17 @@ import 'dart:async';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
+import '../Global.dart';
+
 
 
 class Cards extends StatelessWidget {
   // content of the first card in the tips page.
   static final String _helpOthers="Add tips and links to help other students.";
-  static List<String> emptyList=[];
+  static final List<String> emptyList=[];
   static final int maxLikeCount=100000000;
   // list of all tip cards.
-  static final _firstTip=[TipCard(_helpOthers, null, null,maxLikeCount , emptyList,false , null,"32/13/3000",null,null)];
+  static final _firstTip=[TipCard(_helpOthers, null, null,maxLikeCount , emptyList,false , null,DateTime.now(),null,null,[])];
   static List<TipCard> _tipCards;
 
 
@@ -34,8 +37,9 @@ class Cards extends StatelessWidget {
       }
       _tipCards=_firstTip+_tipCards;
       return Container(
-        color: Colors.grey[300],
-        height: 535.0,
+        color: Global.backgroundPageColor,
+//        height: 535.0,
+        height: MediaQuery.of(context).size.height/1.35,
         padding: EdgeInsets.only(bottom: 50.0),
         child: ListView.builder(
           itemCount: _tipCards.length,
@@ -71,17 +75,34 @@ class Cards extends StatelessWidget {
   }
 
   // creating a card with the users tip and adding it to the tips list.
-  void addCard(String tip, List<String> usersTags, bool isLink, String userDesc, String link, String date){
+  void addCard(String tip, List<String> usersTags, bool isLink, String userDesc, String link, DateTime date){
     TipCard newTip;
     String uid=FirebaseAPI().getUid();
     if(isLink){
-      newTip=new TipCard(tip, userDesc, usersTags, 0,emptyList, isLink , link, date,null, uid);
+      newTip=new TipCard(tip, userDesc, usersTags, 0,emptyList, isLink , link, date,null, uid,createSearchTokens(userDesc));
     }else {
-      newTip = new TipCard(tip, userDesc, usersTags, 0,emptyList,isLink, link, date,null, uid);
+      newTip = new TipCard(tip, userDesc, usersTags, 0,emptyList,isLink, link, date,null, uid,createSearchTokens(tip));
     }
     TipDataBase().addTip(newTip);
     _tipCards.add(newTip);
     updateTipsPageState();
+  }
+
+  List<String> createSearchTokens(String tip){
+    List<String> res=tip.toUpperCase().split(" ");
+    List<String> tmp=[];
+    int len;
+    for(String elem in res){
+      print(elem);
+      len=elem.length;
+      for(int firstIndex=0; firstIndex<(len-1);firstIndex++){
+        for(int lastIndex=firstIndex+1;lastIndex<=len;lastIndex++){
+          tmp.add(elem.substring(firstIndex,lastIndex).toUpperCase());
+        }
+      }
+    }
+    res.addAll(tmp);
+    return res;
   }
 
   // creating the tags widget for the cards.
@@ -92,17 +113,17 @@ class Cards extends StatelessWidget {
         padding: EdgeInsets.only(bottom: 10),
         child: Row(
           children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(width: 2),
-                        borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Text(" tags ", style: TextStyle(backgroundColor: Colors.white))),
-              ],
-            ),
+//            Row(
+//              mainAxisAlignment: MainAxisAlignment.spaceAround,
+//              children: <Widget>[
+//                Container(
+//                    decoration: BoxDecoration(
+//                        border: Border.all(width: 2),
+//                        borderRadius: BorderRadius.circular(5),
+//                    ),
+//                    child: Text(" tags ", style: TextStyle(backgroundColor: Colors.white))),
+//              ],
+//            ),
             Row(
               children: _createChildren(_tipCards[index].getTags()),
             ),
@@ -145,13 +166,14 @@ class TipCard {
   List<String> _likes;
   bool _isLink;
   String _link;
-  String _date;
+  DateTime _date;
   String _docId;
   String uid;
+  List<String> _search=[];
 
   TipCard(this._tip, this._description,
       this._tags, this._likesCount,this._likes, this._isLink ,
-      this._link, this._date, this._docId, this.uid);
+      this._link, this._date, this._docId, this.uid,this._search);
 
   void setTip(String tip){this._tip=tip;}
   String getTip(){return this._tip;}
@@ -169,7 +191,7 @@ class TipCard {
   void setLink(String link){this._link=link;}
   String getLink(){return this._link;}
 
-  String getDate(){
+  DateTime getDate(){
     return _date;
   }
 
@@ -189,13 +211,21 @@ class TipCard {
     return uid;
   }
 
+  void setSearch(List<String> lst){
+    this._search=lst;
+  }
+
+  List<String> getSearch(){
+    return this._search;
+  }
+
 }
 
 
 // creating the cards content.
 Widget cardContent(BuildContext context,Function tags, int index , List<TipCard> tips, Function updateTipsPageState){
   return Container(
-    padding: EdgeInsets.symmetric(horizontal: 10),
+    padding: EdgeInsets.symmetric(horizontal: 5),
     child: Card(
       color: cardColor( index, tips),
       elevation: 5,
@@ -210,9 +240,9 @@ Widget cardContent(BuildContext context,Function tags, int index , List<TipCard>
   );
 }
 
- Color cardColor(int index, List<TipCard> tips){
+Color cardColor(int index, List<TipCard> tips){
   if(index!=0 && FirebaseAPI().getUid()==tips[index].getUid()){
-    return Colors.blue[100];
+    return Global.getBackgroundColor(100);
   }
   return Colors.white;
  }
@@ -228,7 +258,7 @@ Widget showTagsAndLike(BuildContext context,Function tags, int index , List<TipC
         linkOrTip(context,tips, index),
         Row(
           children: <Widget>[
-            Text(tips[index].getDate()),
+            Text(createDateForm(tips[index].getDate().toString())),
             Spacer(),
             LikeButton(index, updateTipsPageState),
           ],
@@ -242,6 +272,18 @@ Widget showTagsAndLike(BuildContext context,Function tags, int index , List<TipC
     ],
   );
 }
+
+
+
+String createDateForm(String str){
+  if(str==null || str.length<11){return "";}
+  String day=str.substring(8,10);
+  String month=str.substring(5,7);
+  String year=str.substring(0,4);
+  return(day+"/"+month+"/"+year);
+}
+
+
 
 // create the cards content based on it's type (tip or link).
 Widget linkOrTip(BuildContext context,List<TipCard> tips, int index){
@@ -262,7 +304,7 @@ Widget linkHandle(BuildContext context,List<TipCard> tips, int index){
         child: RichText(
           text:TextSpan(
             text: tipCard.getDescription(),
-            style: TextStyle(color: Colors.blue),
+            style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold ,fontStyle: FontStyle.italic ),
             recognizer: TapGestureRecognizer()..onTap=(){launchURL(context,tipCard.getLink());}
           )
         ),
@@ -286,7 +328,7 @@ void showColoredToast(String msg) {
   Fluttertoast.showToast(
       msg: msg,
       toastLength: Toast.LENGTH_SHORT,
-      backgroundColor: Colors.grey,
+      backgroundColor: Global.backgroundPageColor,
       gravity: ToastGravity.CENTER,
       textColor: Colors.white);
 }

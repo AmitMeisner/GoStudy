@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:chips_choice/chips_choice.dart';
-import 'package:flutterapp/Courses.dart';
 import 'package:flutterapp/HomePage/Timer/fireBase/fireBase_api.dart';
 import 'package:flutterapp/Tips/Tips.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
+
+import '../../Global.dart';
 
 
 
@@ -33,7 +34,7 @@ class CourseChoice extends StatefulWidget {
 
 class _CourseChoiceState extends State<CourseChoice> {
   // updating the users tag list.
-  Function updateUserTags;
+  Function updateUserCourse;
 
   final Function tipsPageSetState;
 
@@ -43,41 +44,44 @@ class _CourseChoiceState extends State<CourseChoice> {
   bool timesPage;
 
   //constructor.
-  _CourseChoiceState(this.updateUserTags, this.ceiling, this.tipsPageSetState, this.timesPage, this.addResource);
+  _CourseChoiceState(this.updateUserCourse, this.ceiling, this.tipsPageSetState, this.timesPage, this.addResource);
 
 
 
   // list of all courses.
-  List<String> courses=Courses().getUserCourses();
-  List<String> resources=Courses().getAllResources();
+  List<String> courses=Global().getUserCourses();
+  List<String> resources=Global().getAllResources();
   List<String> userCourse=[""];
+  List<String> userResource=[""];
 
 
   @override
   Widget build(BuildContext context) {
-    updateUserTags(userCourse);
+    updateUserCourse(userCourse);
+    updateUserCourse(userResource);
     if(addResource){
-    return scrollableListSingleleChoice(ceiling,resources);}
+    return scrollableListChoice(ceiling,resources,userResource);}
     else{
-      return scrollableListSingleleChoice(ceiling,courses);}
+      return scrollableListChoice(ceiling,courses,userCourse);}
 
   }
 
   // creating the multi choice list.
-  Widget scrollableListSingleleChoice(double ceiling, listSource){
+  Widget scrollableListChoice(double ceiling, List<String> listSource,List<String> chosenList){
     return ChipsChoice<String>.single(
-          value:userCourse[0] ,
+          value:chosenList[0] ,
           options: ChipsChoiceOption.listFrom<String, String>(
             source: listSource,
             value: (i, v) => v,
             label: (i, v) => v,
           ),
           onChanged: (val) {
-            setState(() => userCourse[0] = val);
-            if(timesPage){TimeDataBase().setUserSelectedCourse(userCourse[0],tipsPageSetState);}
+            setState(() => chosenList[0] = val);
+            if(timesPage){TimeDataBase().setUserSelectedCourse(chosenList[0],tipsPageSetState);}
           },
           itemConfig: ChipsChoiceItemConfig(
-            selectedColor: Colors.green,
+
+            selectedColor: Colors.red,
             unselectedColor: Colors.black87,
             showCheckmark: true,
           )
@@ -87,116 +91,75 @@ class _CourseChoiceState extends State<CourseChoice> {
 
 
 
+
 }
+
 
 // class for the custom chip widget.
-class CustomChip extends StatelessWidget {
+//class CustomChip extends StatelessWidget {
+//
+//  final String label;
+//  final bool selected;
+//  final Function(bool selected) onSelect;
 
-  final String label;
-  final bool selected;
-  final Function(bool selected) onSelect;
+//  CustomChip(
+//      this.label,
+//      this.selected,
+//      this.onSelect,
+//      { Key key }
+//      ) : super(key: key);
+//
+//  @override
+//  Widget build(BuildContext context) {
+//    return AnimatedContainer(
+//      color: Colors.yellow,
+//      height: 100,
+//      width: 70,
+//      margin: EdgeInsets.symmetric(
+//        vertical: 15,
+//        horizontal: 5,
+//      ),
+//      duration: Duration(milliseconds: 300),
+//      decoration: BoxDecoration(
+//        color: selected ? Colors.black : Colors.transparent,
+//        borderRadius: BorderRadius.circular(15),
+//        border: Border.all(
+//          color: selected ? Colors.black: Colors.grey,
+//          width: 1,
+//        ),
+//      ),
+//      child: InkWell(
+//        onTap: () => onSelect(!selected),
+//        child: Stack(
+//          alignment: Alignment.center,
+//          children: <Widget>[
+//            Visibility(
+//                visible: selected,
+////                child: Icon(
+////                  Icons.check_circle_outline,
+////                  color: Colors.yellow,
+////                  size: 32,
+////                )
+//            ),
+//            Positioned(
+//              left: 9,
+//              right: 9,
+//              bottom: 7,
+//              child: Container(
+//                child: Text(
+//                  label,
+//                  maxLines: 1,
+//                  overflow: TextOverflow.ellipsis,
+//                  style: TextStyle(
+//                    color: selected ? Colors.white : Colors.black45,
+//                  ),
+//                ),
+//              ),
+//            ),
+//          ],
+//        ),
+//      ),
+//    );
+//  }
+//}
 
-  CustomChip(
-      this.label,
-      this.selected,
-      this.onSelect,
-      { Key key }
-      ) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedContainer(
-      height: 100,
-      width: 70,
-      margin: EdgeInsets.symmetric(
-        vertical: 15,
-        horizontal: 5,
-      ),
-      duration: Duration(milliseconds: 300),
-      decoration: BoxDecoration(
-        color: selected ? Colors.green : Colors.transparent,
-        borderRadius: BorderRadius.circular(15),
-        border: Border.all(
-          color: selected ? Colors.green : Colors.grey,
-          width: 1,
-        ),
-      ),
-      child: InkWell(
-        onTap: () => onSelect(!selected),
-        child: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            Visibility(
-                visible: selected,
-                child: Icon(
-                  Icons.check_circle_outline,
-                  color: Colors.white,
-                  size: 32,
-                )
-            ),
-            Positioned(
-              left: 9,
-              right: 9,
-              bottom: 7,
-              child: Container(
-                child: Text(
-                  label,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: selected ? Colors.white : Colors.black45,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// class that creates the content of the multi choice.
-class Content extends StatelessWidget {
-
-  final String title;
-  final Widget child;
-  final double ceiling;
-
-  Content({
-    Key key,
-    @required this.title,
-    @required this.child,
-    @required this.ceiling,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      color: Colors.grey[300],
-      elevation: 2,
-      margin: EdgeInsets.fromLTRB(0,ceiling,0,0),
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(25.0))),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            width: double.infinity,
-            padding: EdgeInsets.fromLTRB(5, 15, 0, 15),
-            color: Colors.blueAccent,
-            child: Text(
-              title,
-              style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500
-              ),
-            ),
-          ),
-          child,
-        ],
-      ),
-    );
-  }
-}

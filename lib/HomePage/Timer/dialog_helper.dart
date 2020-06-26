@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'ResetAssertionDialog.dart';
 import 'enterTimeDialog.dart';
 import 'exit_confirmation_dialog.dart';
 import 'missingData_dialog.dart';
@@ -19,4 +20,10 @@ class DialogHelperMissingData {
 
   static showError(context) => showDialog(context: context, builder: (context) => MissingDataDialog());
 }
+
+class DialogHelperResetAssertion {
+
+  static showError(context) => showDialog(context: context, builder: (context) => ResetAssertionDialog());
+}
+
 

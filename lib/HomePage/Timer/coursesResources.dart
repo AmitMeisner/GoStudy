@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/HomePage/HomeMain.dart';
-import 'package:flutterapp/Courses.dart';
+import 'package:flutterapp/Global.dart';
 import 'progress_pie_bar.dart';
 
 class ShowHideDropdown extends StatefulWidget {
@@ -11,7 +11,7 @@ class ShowHideDropdown extends StatefulWidget {
 }
 
 class ShowHideDropdownState extends State<ShowHideDropdown> {
-  final List<String> _dropdownValues = Courses().getUserCourses(); //The list of values we want on the dropdown
+  final List<String> _dropdownValues = Global().getUserCourses(); //The list of values we want on the dropdown
 
   static String selectedValue = "Select course";
   static bool notRunning = false;
@@ -21,7 +21,7 @@ class ShowHideDropdownState extends State<ShowHideDropdown> {
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
-      mainAxisSize: MainAxisSize.max,
+      mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         DropdownButton<String>(
           items: _dropdownValues
@@ -73,9 +73,9 @@ class ShowHideDropdownState extends State<ShowHideDropdown> {
 
                         ),
                         new FlatButton(
-                          child: Text("Homeworks"),
+                          child: Text("HomeWorks"),
                           onPressed: () {
-                            setState(() => resource = "Homeworks");
+                            setState(() => resource = "HomeWorks");
                             Navigator.of(context).pop();
                           },
                         ),

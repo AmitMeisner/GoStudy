@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import '../../Global.dart';
 import '../HomeMain.dart';
 import 'package:provider/provider.dart';
+
+import 'dialog_helper.dart';
+
 
 class NeuResetButton extends StatefulWidget {
   final double bevel;
   final Offset blurOffset;
+  static bool reset=false;
 
   NeuResetButton({
     Key key,
@@ -35,24 +40,31 @@ class _NeuResetButtonState extends State<NeuResetButton> {
   @override
   Widget build(BuildContext context) {
     return Listener(
-      onPointerDown: (_) {
-        _onPointerDown();
-        final isRunning =
-            Provider.of<TimerService>(context, listen: false).isRunning;
-        Provider.of<TimerService>(context, listen: false).reset();
-        // If user press reset button when timer is running, start for them
-        if (isRunning)
-          Provider.of<TimerService>(context, listen: false).start();
+      onPointerDown: (_) async{
+        await DialogHelperResetAssertion.showError(context);
+        if(NeuResetButton.reset) {
+          _onPointerDown();
+          final isRunning =
+              Provider
+                  .of<TimerService>(context, listen: false)
+                  .isRunning;
+          Provider.of<TimerService>(context, listen: false).reset();
+          // If user press reset button when timer is running, start for them
+          if (isRunning)
+            Provider.of<TimerService>(context, listen: false).start();
+        }
       },
       onPointerUp: _onPointerUp,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 150),
         height: MediaQuery.of(context).size.height/20,
-        width: 150,
+//        width: 150,
         //padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
-          color: Color.fromRGBO(227, 237, 247, 1),
-          borderRadius: BorderRadius.circular(15),
+//          color: Color.fromRGBO(227, 237, 247, 1),
+          color: Global.getBackgroundColor(200),
+//          borderRadius: BorderRadius.circular(15),
+          shape: BoxShape.circle,
           boxShadow: _isPressed
               ? null
               : [
@@ -68,17 +80,21 @@ class _NeuResetButtonState extends State<NeuResetButton> {
             )
           ],
         ),
-        child: Center(
-          child: Text(
-            "Reset",
-            style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
-          ),
+        child: Container(
+          height: 35.0,
+          width: 35.0,
+          child: Icon(Icons.refresh,size: 30.0,),
+//          Text(
+//            "Reset",
+//            style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
+//          ),
 
         ),
       ),
     );
   }
 }
+
 
 extension ColorUtils on Color {
   Color mix(Color another, double amount) {

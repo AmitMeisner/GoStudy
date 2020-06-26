@@ -1,24 +1,31 @@
 import 'package:flutter/material.dart';
 
-class CourseSelectChoice extends StatefulWidget {
-  final Function progressPageSetState;
+import '../Global.dart';
 
-  CourseSelectChoice(this.progressPageSetState);
+class CourseSelectChoice extends StatefulWidget {
+  final Function initialProgressPage;
+
+  CourseSelectChoice(this.initialProgressPage);
 
   @override
   State<StatefulWidget> createState() {
-    return _CoursesSelectChoiceState(progressPageSetState);
+    return _CoursesSelectChoiceState(initialProgressPage);
   }
 }
 
 class _CoursesSelectChoiceState extends State<CourseSelectChoice> {
-  final Function progressPageState;
+  final Function initialProgressPage;
 
-  _CoursesSelectChoiceState(this.progressPageState);
+  _CoursesSelectChoiceState(this.initialProgressPage);
 
 //  List<String> courses=["general"]+Courses.getUserCourses();
-  List<String> courses = ["General", "Calculus 2", "Algorithms","Logic","Software 1","Complexity","Computational Models"];
-  int _currChip = 1;
+  List<String> courses = Global().getUserCourses();
+  int _currChip = 0;
+  @override
+  void initState() {
+    initialProgressPage(courses[_currChip]);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +45,11 @@ class _CoursesSelectChoiceState extends State<CourseSelectChoice> {
                     padding: EdgeInsets.symmetric(horizontal: 8),
                     label: Text(courses[i]),
                     selected: _currChip == i,
+                    selectedColor: Global.getBackgroundColor(200),
                     onSelected: (bool selected) {
                       setState(() {
                         _currChip = i;
+                        initialProgressPage(courses[i]);
                       });
                     },
                   );

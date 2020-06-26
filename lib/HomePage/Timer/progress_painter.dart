@@ -4,13 +4,15 @@ import 'dart:math';
 class NeuProgressPainter extends CustomPainter {
   //
   Color defaultCircleColor;
-  Color percentageCompletedCircleColor;
+  Color percentageCompletedCircleColor1;
+  Color percentageCompletedCircleColor2;
   double completedPercentage;
   double circleWidth;
 
   NeuProgressPainter(
       {this.defaultCircleColor,
-        this.percentageCompletedCircleColor,
+        this.percentageCompletedCircleColor1,
+        this.percentageCompletedCircleColor2,
         this.completedPercentage,
         this.circleWidth});
 
@@ -34,8 +36,8 @@ class NeuProgressPainter extends CustomPainter {
         List<Color> colors,
         ) {
       final Gradient gradient = LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomRight,
+        begin: Alignment.centerRight,
+        end: Alignment.centerLeft,
         colors: colors,
       );
 
@@ -56,8 +58,8 @@ class NeuProgressPainter extends CustomPainter {
       false,
       paint(
         [
-          Color.fromRGBO(217, 230, 243, 1),
-          Color.fromRGBO(217, 230, 243, 1),
+          percentageCompletedCircleColor1,
+          percentageCompletedCircleColor2,
         ],
       ),
     );

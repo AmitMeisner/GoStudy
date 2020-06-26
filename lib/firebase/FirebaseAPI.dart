@@ -10,6 +10,8 @@ import 'package:flutterapp/HomePage/Extra/cards.dart';
 import 'package:flutterapp/Tips/Cards.dart';
 import 'package:flutterapp/Tips/Tips.dart';
 import 'package:flutterapp/FirstInfo/InformationPage.dart';
+import 'dart:math';
+
 
 class FirebaseAPI{
 
@@ -50,15 +52,21 @@ class FirebaseAPI{
 class StatisticsDataBase{
 
 }
+
 class TipDataBase{
 
   //collection reference.
   static  CollectionReference tipsCollection= Firestore.instance.collection("Tips");
-   Stream<QuerySnapshot> tipsCollectionQuery = tipsCollection.orderBy('likeCount', descending: true)
+  static Stream<QuerySnapshot> tipsCollectionQuery = tipsCollection.orderBy(sort, descending: true)
   .where('tags',arrayContainsAny: selectedTags).snapshots();
+
+//  Stream<QuerySnapshot> tipsCollectionQuery = tipsCollection.orderBy('date', descending: true)
+//      .where('tags',arrayContainsAny: selectedTags).snapshots();
 
    static List<String> selectedTags=["general"];
    static bool firstCall=true;
+   static String sort="likeCount";
+
 
 
   //add tip card.
@@ -75,6 +83,7 @@ class TipDataBase{
       "likes": tipCard.getLikes(),
       "docId": doc.documentID,
       "uid": tipCard.getUid(),
+      "search": tipCard.getSearch(),
       };
     return await doc.updateData(tipMap);
   }
@@ -95,9 +104,11 @@ class TipDataBase{
         List.from(doc['likes']),
         doc.data["isLink"],
         doc.data["link"],
-        doc.data["date"],
+//        DateTime.fromMicrosecondsSinceEpoch(doc.data["date"]),
+        DateTime.parse(doc.data["date"].toDate().toString()),
         doc.data["docId"],
         doc.data["uid"],
+        List.from(doc.data["search"])
       );
     }).toList();
   }
@@ -141,7 +152,35 @@ class TipDataBase{
     doc.delete();
   }
 
+  void sortBy(int index,Function setTipsPageState, bool isSearch){
+    switch(index){
+      case 0:
+        sort="likeCount";
 
+        tipsCollectionQuery = isSearch? tipsCollectionQuery:tipsCollection.orderBy('likeCount', descending: true)
+            .where('tags',arrayContainsAny: selectedTags).snapshots();
+
+            break;
+      case 1:
+        sort="date";
+
+        tipsCollectionQuery = isSearch? tipsCollectionQuery:tipsCollection.orderBy('date', descending: true)
+            .where('tags',arrayContainsAny: selectedTags).snapshots();
+
+            break;
+      default:
+        tipsCollectionQuery = tipsCollection.orderBy(sort, descending: true)
+            .where('tags',arrayContainsAny: selectedTags).snapshots();
+
+    }
+    setTipsPageState();
+
+  }
+
+  void search(String searchInput, Function setTipsPageState){
+    tipsCollectionQuery = tipsCollection.orderBy(sort, descending: true).where("search",arrayContainsAny: [searchInput.toUpperCase()]).snapshots();
+    setTipsPageState();
+  }
 
 }
 
@@ -153,8 +192,9 @@ class UserDataBase {
 
 
   //add user card.
-  Future addUser(User user) async{
+  Future<void> addUser(User user) async{
     Map<String, dynamic> userMap = {
+      "uid":FirebaseAPI().getUid(),
       "nickname":user.getNickname(),
       "avg":user.getAverage(),
       "friends":user.getFriends(),
@@ -164,20 +204,23 @@ class UserDataBase {
       "year":user.getYear(),
       "semester":user.getSemester(),
       "dedication":user.getDedication(),
-      "Goals":user.getGoals()
+      "Goals":user.getGoals(),
+      "Times":user.getTimes(),
+      "friendRequestSent":user.getFriendRequestSent(),
+      "friendRequestReceive": user.getFriendRequestReceive(),
+      "searchNickname":user.getSearchNickname(),
+      "Gender": user.getGender(),
+      "Rank":user.getRank()
     };
     return await usersCollection.document(FirebaseAPI().getUid()).setData(userMap);
   }
-
-
-
-
 
   //get user
   Future<User> getUser()async{
     DocumentReference userDoc=  usersCollection.document(FirebaseAPI().getUid());
     await userDoc.get().then((doc) {
       user = User(
+        doc.data["uid"],
         doc.data["nickname"],
         doc.data["avg"],
         List.from(doc.data["friends"]),
@@ -187,7 +230,13 @@ class UserDataBase {
         doc.data["year"],
         doc.data["semester"],
         doc.data["dedication"],
-        List<Set<dynamic>>.from(doc.data["Goals"])
+        List<String>.from(doc.data["Goals"]),
+        List<String>.from(doc.data["Times"]),
+        List<String>.from(doc.data["friendRequestSent"]),
+        List<String>.from(doc.data["friendRequestReceive"]),
+        List<String>.from(doc.data["searchNickname"]),
+        doc.data["Rank"],
+        doc.data["Gender"],
       );
     }
     );
@@ -212,24 +261,342 @@ class UserDataBase {
     return;
   }
 
-}
-
-
-class Loading extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 500.0,
-      color: Colors.white,
-      child: Padding(
-        padding: const EdgeInsets.all(150.0),
-        child: SpinKitSpinningCircle(
-            color: Colors.blueAccent,
-            size: 50.0,
-          ),
-      ),
-
-    );
+  Future<bool> validNickname(String nickname)async {
+    Stream<QuerySnapshot> userDoc=usersCollection.where("nickname",isEqualTo: nickname).snapshots();
+    QuerySnapshot l=await userDoc.first;
+    if(l.documents.length==0 || (l.documents.length==1 && l.documents[0].data['uid']==FirebaseAPI().getUid())){return true;}
+    return false;
   }
+
+
+  Future<String> getUserNickname(String uid)async{
+    DocumentReference userDoc=  usersCollection.document(uid);
+    String res;
+    await userDoc.get().then((value){
+      res=value.data["nickname"];
+    });
+    return res;
+  }
+
+  Future<List<String>> getUserFriendsList(String uid)async{
+    DocumentReference userDoc=  usersCollection.document(uid);
+    List<String> res=[];
+    await userDoc.get().then((value){
+      res=List<String>.from(value.data["friends"]);
+    });
+    return res;
+  }
+
+
+  Future<List<String>> getUserFriendReqReceive(String uid)async{
+    DocumentReference userDoc=  usersCollection.document(uid);
+    List<String> res=[];
+    await userDoc.get().then((value){
+      res=List<String>.from(value.data["friendRequestReceive"]);
+    });
+    return res;
+  }
+
+
+  Future<List<String>> getUserFriendReqSent(String uid)async{
+    DocumentReference userDoc=  usersCollection.document(uid);
+    List<String> res=[];
+    await userDoc.get().then((value){
+      res=List<String>.from(value.data["friendRequestSent"]);
+    });
+    return res;
+  }
+
 }
 
+class FriendsDataBase{
+  //collection reference.
+  static  CollectionReference usersCollection= Firestore.instance.collection("Users");
+  static Stream<QuerySnapshot> usersCollectionQuery = usersCollection.orderBy('nickname').snapshots();
+
+  //get sorted users cards.
+  Stream<List<User>> get users{
+    return usersCollectionQuery.map(_usersCardsFromSnapshot);
+  }
+
+  List<User> _usersCardsFromSnapshot(QuerySnapshot snapshot){
+    return snapshot.documents.map((doc){
+      return User(
+          doc.data["uid"],
+          doc.data["nickname"],
+          doc.data["avg"],
+          List.from(doc.data["friends"]),
+          List.from(doc.data["courses"]),
+          doc.data["avgGoal"],
+          doc.data["dailyGoal"],
+          doc.data["year"],
+          doc.data["semester"],
+          doc.data["dedication"],
+          List<String>.from(doc.data["Goals"]),
+          List<String>.from(doc.data["Times"]),
+          List<String>.from(doc.data["friendRequestSent"]),
+          List<String>.from(doc.data["friendRequestReceive"]),
+          List<String>.from(doc.data["searchNickname"]),
+         doc.data["Rank"],
+         doc.data["Gender"],
+      );
+    }).toList();
+  }
+
+  void searchUsers(String searchInput, Function setFriendPageState){
+    usersCollectionQuery= searchInput.isEmpty?
+    usersCollection.orderBy('nickname').snapshots():usersCollection.where('searchNickname',arrayContainsAny: [searchInput.toUpperCase()]).snapshots();
+    setFriendPageState();
+  }
+
+  void sendFriendRequest(User friendUser, Function setFriendsPageStat)async{
+     DocumentReference friend=usersCollection.document(friendUser.getUid());
+     List<String> freindReqRecieve = friendUser.getFriendRequestReceive();
+     DocumentReference user = usersCollection.document(FirebaseAPI().getUid());
+     List<String> userReqSent = friendUser.getFriendRequestSent();
+     if(!freindReqRecieve.contains(FirebaseAPI().getUid())) {
+       freindReqRecieve.add(FirebaseAPI().getUid());
+       await friend.updateData({"friendRequestReceive": freindReqRecieve});
+       userReqSent.add(friendUser.getUid());
+       await user.updateData({"friendRequestSent": userReqSent});
+     }else{
+       freindReqRecieve.remove(FirebaseAPI().getUid());
+       await friend.updateData({"friendRequestReceive": freindReqRecieve});
+       userReqSent.remove(friendUser.getUid());
+       await user.updateData({"friendRequestSent": userReqSent});
+     }
+     await setFriendsPageStat();
+  }
+
+  List<String> nicknameSearch(String nickname){
+    List<String> res=[];
+    int len=nickname.length;
+    for(int firstIndex=0; firstIndex<(len-1);firstIndex++){
+      for(int lastIndex=firstIndex+1;lastIndex<=len;lastIndex++){
+        res.add(nickname.substring(firstIndex,lastIndex).toUpperCase());
+      }
+    }
+    return res;
+  }
+
+  void friendRequestAnswer(bool accept, String friendUid, Function initialFriendPage)async{
+    DocumentReference friend=usersCollection.document(friendUid);
+    DocumentReference user=usersCollection.document(FirebaseAPI().getUid());
+    List<String> friendReqSent;
+    List<String> userFriendReqReceive;
+    await friend.get().then((value) => friendReqSent=List<String>.from(value.data["friendRequestSent"]));
+    await user.get().then((value) => userFriendReqReceive=List<String>.from(value.data["friendRequestReceive"]));
+    friendReqSent.remove(FirebaseAPI().getUid());
+    userFriendReqReceive.remove(friendUid);
+    friend.updateData({"friendRequestSent":friendReqSent});
+    user.updateData({"friendRequestReceive":userFriendReqReceive});
+
+    if(accept){
+      List<String> friendFriends;
+      List<String> userFriends;
+      await friend.get().then((value) => friendFriends=List<String>.from(value.data["friends"]));
+      await user.get().then((value) => userFriends=List<String>.from(value.data["friends"]));
+      friendFriends.add(FirebaseAPI().getUid());
+      userFriends.add(friendUid);
+      friend.updateData({"friends":friendFriends});
+      user.updateData({"friends":userFriends});
+    }
+    await initialFriendPage();
+
+    return;
+  }
+
+  Future<double> getFriendProgress(String uid)async{
+    DocumentReference doc=usersCollection.document(uid);
+    List<String> times=[];
+    List<String> goals=[];
+    List<String> tmp=[];
+    double res=0.0;
+    await doc.get().then((value){
+      times=List.from(value.data["Times"]);
+      goals=List.from(value.data["Goals"]);
+    });
+
+
+    for(String elem in times){
+      tmp=elem.split("_");
+      if(tmp[0]=="totalTime"){
+        res=double.parse(tmp[1]);
+        break;
+      }
+    }
+
+
+    for(String elem in goals){
+      tmp=elem.split("_");
+      if(tmp[0]=="SemesterHours"){
+        res=double.parse((res/double.parse(tmp[1])).toStringAsFixed(2));
+        break;
+      }
+    }
+    return res*100;
+
+
+  }
+
+  Future<int> getFriendRank(String uid)async{
+    DocumentReference doc=usersCollection.document(uid);
+    int res=1;
+    await doc.get().then((value){
+      res=value.data["Rank"];
+    });
+
+    return res;
+  }
+
+}
+
+
+class AllUserDataBase {
+
+  //collection reference.
+  static  CollectionReference usersDataCollection= Firestore.instance.collection("AllUsers");
+  static Stream<QuerySnapshot> usersDataCollectionQuery = usersDataCollection.where('avg',isGreaterThan: 0).snapshots();
+
+
+  //add user card.
+  Future<void> addUserData(UserStatForCourse user) async{
+    Map<String, dynamic> userMap = {
+      "avg":user.getAvg(),
+      "course":user.getCourse(),
+      "examTime":user.getExamTime(),
+      "extraTime":user.getExtraTime(),
+      "grade":user.getGrade(),
+      "hwTime":user.getHWTime(),
+      "lectureTime":user.getLectureTime(),
+      "recTime":user.getRecTime(),
+    };
+    return await usersDataCollection.document().setData(userMap);
+  }
+
+
+  Stream<List<UserStatForCourse>> get usersStats{
+    return usersDataCollectionQuery.map(_usersDataCardsFromSnapshot);
+  }
+
+  List<UserStatForCourse> _usersDataCardsFromSnapshot(QuerySnapshot snapshot){
+    return snapshot.documents.map((doc){
+      return UserStatForCourse(
+        doc.data['course'],
+        doc.data['avg'],
+        doc.data['hwTime'],
+        doc.data['lectureTime'],
+        doc.data['recTime'],
+        doc.data['examTime'],
+        doc.data['extraTime'],
+        doc.data['grade'],
+      );
+    }).toList();
+  }
+
+  Future<void> sortUsersDataByGrades(int dedication, Function updateProgressPage)async{
+    usersDataCollectionQuery=null;
+    switch(dedication){
+      case 0:
+        usersDataCollectionQuery = usersDataCollection.where('grade',isGreaterThan: 0).snapshots();
+        break;
+      case 1:
+        usersDataCollectionQuery = usersDataCollection.where('grade',isGreaterThan: 70).where('grade',isLessThan: 80).snapshots();
+        break;
+      case 2:
+        usersDataCollectionQuery = usersDataCollection.where('grade',isGreaterThan: 80).where('grade',isLessThan: 90).snapshots();
+        break;
+      case 3:
+        usersDataCollectionQuery = usersDataCollection.where('grade',isGreaterThan: 90).where('grade',isLessThan: 100).snapshots();
+        break;
+    }
+    updateProgressPage();
+    await usersDataCollectionQuery.first;
+  }
+
+  Future<String> getWeek()async{
+    DocumentReference week=Firestore.instance.collection("AllUsers").document("week");
+    String res="";
+    await week.get().then((value) => res=value.data["weekNumber"].toString());
+    return res;
+  }
+
+}
+
+class UserStatForCourse{
+  String _course;
+  double _avg;
+  double _hwTime;
+  double _lectureTime;
+  double _recTime;
+  double _examTime;
+  double _extraTime;
+  double _grade;
+
+  UserStatForCourse(this._course,this._avg,this._hwTime,this._lectureTime,this._recTime,this._examTime,this._extraTime,this._grade);
+
+  void setCourse(String course){
+    this._course=course;
+  }
+
+  String getCourse(){
+    return this._course;
+  }
+
+  void setAvg(double avg){
+    this._avg=avg;
+  }
+
+  double getAvg(){
+    return this._avg;
+  }
+
+  void setHWTime(double hwTime){
+    this._hwTime=hwTime;
+  }
+
+  double getHWTime(){
+    return this._hwTime;
+  }
+
+  void setLectureTime(double lectureTime){
+    this._lectureTime=lectureTime;
+  }
+
+  double getLectureTime(){
+    return this._lectureTime;
+  }
+
+  void setRecTime(double recTime){
+    this._recTime=recTime;
+  }
+
+  double getRecTime(){
+    return this._recTime;
+  }
+
+  void setExamTime(double examTime){
+    this._examTime=examTime;
+  }
+
+  double getExamTime(){
+    return this._examTime;
+  }
+
+  void setExtraTime(double extraTime){
+    this._extraTime=extraTime;
+  }
+
+  double getExtraTime(){
+    return this._extraTime;
+  }
+
+  void setGrade(double grade){
+    this._grade=grade;
+  }
+
+  double getGrade(){
+    return this._grade;
+  }
+
+}

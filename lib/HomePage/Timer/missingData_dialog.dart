@@ -54,7 +54,7 @@ class MissingDataDialog extends StatelessWidget {
           children: <Widget>[
             FlatButton(onPressed: (){
               Navigator.of(context).pop();
-            }, child: Text('OK'),color: Colors.white, textColor: Colors.redAccent),
+              }, child: Text('OK'),color: Colors.white, textColor: Colors.redAccent),
           ],
         )
       ],

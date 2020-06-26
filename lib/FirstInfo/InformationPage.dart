@@ -1,10 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:multiselect_formfield/multiselect_formfield.dart';
 
-import 'package:flutterapp/Courses.dart';
+import 'package:flutterapp/Global.dart';
 
 
 class User{
@@ -17,10 +18,43 @@ class User{
   int _year;
   int _semester;
   int _dedication;
-  List<Set> _goal=[{"Algorithms", Activities.HomeWork,7.5}];
+  List<String> _goal=[];
+  List<String> _friendRequestSent = [];
+  List<String> _friendRequestReceive = [];
+  String _uid;
+  List<String> _searchNickname=[];
+  List<String> _times=[];
+  int _rank;
+  int _gender;
 
-  User(this._nickname, this._avg, this._friends,this._courses, this._avgGoal, this._dailyGoal,
-      this._year, this._semester, this._dedication,this._goal);
+
+  User(this._uid,this._nickname, this._avg, this._friends,this._courses, this._avgGoal, this._dailyGoal,
+      this._year, this._semester, this._dedication,this._goal,this._times,this._friendRequestSent, this._friendRequestReceive,
+      this._searchNickname, this._rank, this._gender);
+
+  void setRank(int rank){
+    this._rank=rank;
+  }
+
+  int getRank(){
+    return this._rank;
+  }
+
+  void setGender(int gen){
+    this._gender=gen;
+  }
+
+  int getGender(){
+    return this._gender;
+  }
+
+  void setUid(String uid){
+    this._uid=uid;
+  }
+
+  String getUid(){
+    return this._uid;
+  }
 
   void setNickname(String name){
     this._nickname=name;
@@ -74,7 +108,6 @@ class User{
     return _dailyGoal;
   }
 
-
   void setYear(int year){
     this._year =year;
   }
@@ -90,6 +123,7 @@ class User{
   int getSemester(){
     return _semester;
   }
+
   void setDedication(int ded){
     this._dedication=ded;
   }
@@ -99,25 +133,177 @@ class User{
   }
 
   void addGoal(String course , Activities activity, double time){
-    _goal.add({course,activity,time});
+    if(course==null && activity==null){
+      _goal.add("SemesterHours"+"_"+time.toString());
+      return;
+    }
+    String act="";
+    switch(activity){
+      case Activities.HomeWork:
+        act="HomeWork";
+        break;
+      case Activities.Lectures:
+        act="Lectures";
+        break;
+      case Activities.Recitation:
+        act="Recitation";
+        break;
+      case Activities.Exams:
+        act="Exams";
+        break;
+      case Activities.Extra:
+        act="Extra";
+        break;
+    }
+    _goal.add(course+"_"+act+"_"+time.toString());
   }
 
   double getGoal(String course , Activities activity){
-    Set res=_goal.where((element) => (element.elementAt(0)==course && element.elementAt(1)==activity)).toSet();
-    return (res.elementAt(0).elementAt(2));
+    String act="";
+    switch(activity){
+      case Activities.HomeWork:
+        act="HomeWork";
+        break;
+      case Activities.Lectures:
+        act="Lectures";
+        break;
+      case Activities.Recitation:
+        act="Recitation";
+        break;
+      case Activities.Exams:
+        act="Exams";
+        break;
+      case Activities.Extra:
+        act="Extra";
+        break;
+      default:
+        act="";
+        break;
+    }
+    List<String> res=_goal;
+
+    for(String elem in res){
+      List<String> parsing=elem.split("_");
+      if(parsing[0]==course && parsing[1]==act){
+          return double.parse(parsing[2]);
+        }
+      if(course=="SemesterHours" && parsing[0]=="SemesterHours") {
+        return double.parse(parsing[1]);
+      }
+    }
+  return 10.0;
   }
 
-  List<Set> getGoals(){
+  List<String> getGoals(){
     return _goal;
+  }
+
+  void resetGoals(){
+    _goal.clear();
+  }
+
+  void addCourseTime(String course , Activities activity, double time){
+    double prevTime=getCourseTime( course ,  activity);
+    double newTime=prevTime+time;
+    if(course=="totalTime"){
+      _times.remove(course+"_"+prevTime.toString());
+      _times.add(course+"_"+newTime.toStringAsFixed(2));
+      return;
+    }
+    String act="";
+    switch(activity){
+      case Activities.HomeWork:
+        act="HomeWork";
+        break;
+      case Activities.Lectures:
+        act="Lectures";
+        break;
+      case Activities.Recitation:
+        act="Recitation";
+        break;
+      case Activities.Exams:
+        act="Exams";
+        break;
+      case Activities.Extra:
+        act="Extra";
+        break;
+    }
+    _times.remove(course+"_"+act+"_"+prevTime.toString());
+    _times.add(course+"_"+act+"_"+newTime.toStringAsFixed(2));
+  }
+
+  double getCourseTime(String course , Activities activity){
+    String act="";
+    switch(activity){
+      case Activities.HomeWork:
+        act="HomeWork";
+        break;
+      case Activities.Lectures:
+        act="Lectures";
+        break;
+      case Activities.Recitation:
+        act="Recitation";
+        break;
+      case Activities.Exams:
+        act="Exams";
+        break;
+      case Activities.Extra:
+        act="Extra";
+        break;
+    }
+    List<String> res=_times;
+    for(String elem in res){
+      List<String> parsing=elem.split("_");
+      if(course=="totalTime" && parsing[0]==course){
+        return double.parse(parsing[1]);
+      }
+      if(parsing[0]==course && parsing[1]==act){
+        return double.parse(parsing[2]);
+      }
+    }
+    return 0.0;
+  }
+
+  List<String> getTimes(){
+    return this._times;
+  }
+
+  void setFriendRequestSent(List<String> lst){
+    this._friendRequestSent=lst;
+  }
+
+  List<String> getFriendRequestSent(){
+    return this._friendRequestSent;
+  }
+
+  void setFriendRequestReceive(List<String> lst){
+    this._friendRequestReceive=lst;
+  }
+
+  List<String> getFriendRequestReceive(){
+    return this._friendRequestReceive;
+  }
+
+  bool newFriendReq(){
+    return (this._friendRequestReceive.isNotEmpty);
+  }
+
+  List<String> getSearchNickname(){
+    return this._searchNickname;
+  }
+
+  void setSearchNickname(List<String> searchNickname){
+    this._searchNickname=searchNickname;
   }
 
 }
 
 enum Activities{
-  HomeWork, Recitation , Lectures , Exams
+  HomeWork, Recitation , Lectures , Exams, Extra
 }
 
 class InformationPage extends StatefulWidget {
+  static final Color focusColor =Global.getBackgroundColor(0);
   @override
   _InformationPageState createState() => _InformationPageState();
 }
@@ -135,6 +321,7 @@ class _InformationPageState extends State<InformationPage> {
   List<String> courses=[];
   int dedication;
   bool check=true;
+  int gender;
   static User user;
 
 
@@ -149,6 +336,7 @@ class _InformationPageState extends State<InformationPage> {
        _SemesterInputState.semester=user.getSemester();
        _CoursesInputState().updateCourses(user.getCourses());
        _DedicationInputState._dedication=user.getDedication();
+       _GenderInputState.gender=user.getGender();
      });
     }
     check=false;
@@ -159,40 +347,42 @@ class _InformationPageState extends State<InformationPage> {
   Widget build(BuildContext context) {
     if(check){initial();}
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Personal Information"),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            SizedBox(height: 15.0),
-            inputDecoration("Choose a nickname",nicknameController, 3.0, TextInputType.text),
-            SizedBox(height: 20.0),
-            inputDecoration("Average",averageController, 3.0, TextInputType.number),
-            SizedBox(height: 20.0),
-            YearInput(),
-            SizedBox(height: 20.0),
-            SemesterInput(),
-            SizedBox(height: 20.0),
-            DedicationInput(),
-            SizedBox(height: 20.0),
-            CoursesInput(),
-            SizedBox(height: 20.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+      resizeToAvoidBottomPadding: false,
+      backgroundColor: Global.getBackgroundColor(0),
+      body: SafeArea(
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          color: Colors.white,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-              RaisedButton(
-                child: Text("Save",
-                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-                ),
-                color: Colors.blueAccent,
-                padding: EdgeInsets.all(0.0),
+                DescriptionText(),
+                inputDecoration("Choose a nickname",nicknameController, 3.0, TextInputType.text),
+                inputDecoration("Average",averageController, 3.0, TextInputType.number),
+                GenderInput(),
+                YearInput(),
+                SemesterInput(),
+                DedicationInput(),
+                CoursesInput(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                  RaisedButton(
+                    child: Text("Save",
+                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                    ),
+                    color: InformationPage.focusColor,
+                    padding: EdgeInsets.all(0.0),
 //                textColor: Colors.black,
-                onPressed: (){updateInfo();},
-                ),
-            ],
-            )
-          ],
+                    onPressed: (){updateInfo();},
+                    ),
+                ],
+                )
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -203,6 +393,7 @@ class _InformationPageState extends State<InformationPage> {
      avg=averageController.text;
      year=_YearInputState.year;
      semester=_SemesterInputState.semester;
+     gender=_GenderInputState.gender;
      courses.clear();
      for(var course in _CoursesInputState._courses){
        courses.add(course.toString());
@@ -210,8 +401,13 @@ class _InformationPageState extends State<InformationPage> {
      _CoursesInputState._courses.clear();
      dedication=_DedicationInputState._dedication;
      bool hasData= await UserDataBase().hasData();
-     if(validate(nickName, avg, courses, year, semester)) {
+     List<String> goal=[];
+     List<String> times=[];
+     if(await validate(nickName, avg, courses, year, semester)) {
+       updateGoal(goal,courses);
+       updateTimes(times,courses);
        User user = User(
+           hasData? (await UserDataBase().getUser()).getUid():"",
            nickName,
            avg,
            hasData? (await UserDataBase().getUser()).getFriends():[],
@@ -221,17 +417,51 @@ class _InformationPageState extends State<InformationPage> {
            year,
            semester,
            dedication,
-           hasData? (await UserDataBase().getUser()).getGoals():[]
+           hasData? (await UserDataBase().getUser()).getGoals():goal,
+           hasData? (await UserDataBase().getUser()).getTimes():times,
+           hasData? (await UserDataBase().getUser()).getFriendRequestSent():[],
+           hasData? (await UserDataBase().getUser()).getFriendRequestReceive():[],
+           hasData? FriendsDataBase().nicknameSearch((await UserDataBase().getUser()).getNickname()):FriendsDataBase().nicknameSearch(nickName),
+           hasData? (await UserDataBase().getUser()).getRank():1,
+           gender,
        );
        UserDataBase().addUser(user);
-       Courses().setUserCourses(courses);
+       Global().setUserCourses(courses);
+       user.getGoal("Software 1",Activities.HomeWork);
        Navigator.pushReplacementNamed(context, '/home');
      }
   }
 
-  bool validate(String nickName, String avg, List<String> courses,int year,int semester){
+
+  void updateTimes(List<String> goal, List<String> courses){
+    var rng=Random();
+    for(String course in courses){
+      goal.add(course+"_"+"HomeWork"+"_"+(1+rng.nextDouble()).toString().substring(0,4));
+      goal.add(course+"_"+"Recitation"+"_"+(1+rng.nextDouble()).toString().substring(0,4));
+      goal.add(course+"_"+"Lectures"+"_"+(1+rng.nextDouble()).toString().substring(0,4));
+      goal.add(course+"_"+"Exams"+"_"+(1+rng.nextDouble()).toString().substring(0,4));
+      goal.add(course+"_"+"Extra"+"_"+(1+rng.nextDouble()).toString().substring(0,4));
+    }
+  }
+
+  void updateGoal(List<String> goal, List<String> courses){
+    var rng=Random();
+    for(String course in courses){
+      goal.add(course+"_"+"HomeWork"+"_"+(rng.nextDouble()*2+2).toString().substring(0,4));
+      goal.add(course+"_"+"Recitation"+"_"+(rng.nextDouble()*2+2).toString().substring(0,4));
+      goal.add(course+"_"+"Lectures"+"_"+(rng.nextDouble()*2+2).toString().substring(0,4));
+      goal.add(course+"_"+"Exams"+"_"+(rng.nextDouble()*2+2).toString().substring(0,4));
+      goal.add(course+"_"+"Extra"+"_"+(rng.nextDouble()*2+2).toString().substring(0,4));
+    }
+  }
+
+  Future<bool> validate(String nickName, String avg, List<String> courses,int year,int semester)async{
     if(nickName==""){
       showColoredToast("Please choose a nickname");
+      return false;
+    }
+    if(!await UserDataBase().validNickname(nickName)){
+      showColoredToast("This nickname is already exist, try another");
       return false;
     }
     if(avg==""){
@@ -268,6 +498,7 @@ class _InformationPageState extends State<InformationPage> {
 
   }
 
+
 }
 
 
@@ -289,7 +520,7 @@ Widget inputDecoration(String hint,TextEditingController controller, double bord
             bottomLeft:  Radius.circular(borderRadius),
             bottomRight:  Radius.circular(borderRadius),
           ),
-          borderSide: BorderSide(color: Colors.black, width: 2.0)
+          borderSide: BorderSide(color: InformationPage.focusColor, width: 2.0)
       ),
       enabledBorder:  OutlineInputBorder(
         borderRadius: BorderRadius.only(
@@ -308,6 +539,31 @@ Widget inputDecoration(String hint,TextEditingController controller, double bord
   );
 }
 
+
+class DescriptionText extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text("Create your profile",
+        style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 18.0
+          ),
+        ),
+        SizedBox(height: 4.0),
+        Text("Your profile is private and will be used for statistical analysis.\n"
+            "Your nickname is how your friends can find you.\n"
+            "Your average,year and semester will be used for statistical analysis,\n"
+            "Your dedication will influence your study plan.\n"
+            "\n"
+            "You can edit your profile at any time by clicking your name at the Home page.\n",
+            ),
+      ],
+    );
+  }
+}
 
 
 class YearInput extends StatefulWidget {
@@ -331,7 +587,7 @@ class _YearInputState extends State<YearInput> {
               Radio(
                 value: 1,
                 groupValue: year,
-                activeColor: Colors.black,
+                activeColor: InformationPage.focusColor,
                 onChanged: (T){
                   setState(() {
                     year=T;
@@ -342,7 +598,7 @@ class _YearInputState extends State<YearInput> {
               Radio(
                 value: 2,
                 groupValue: year,
-                activeColor: Colors.black,
+                activeColor: InformationPage.focusColor,
                 onChanged: (T){
                   setState(() {
                     year=T;
@@ -353,7 +609,7 @@ class _YearInputState extends State<YearInput> {
               Radio(
                 value: 3,
                 groupValue: year,
-                activeColor: Colors.black,
+                activeColor: InformationPage.focusColor,
                 onChanged: (T){
                   setState(() {
                     year=T;
@@ -364,7 +620,7 @@ class _YearInputState extends State<YearInput> {
               Radio(
                 value: 4,
                 groupValue: year,
-                activeColor: Colors.black,
+                activeColor: InformationPage.focusColor,
                 onChanged: (T){
                   setState(() {
                     year=T;
@@ -375,7 +631,7 @@ class _YearInputState extends State<YearInput> {
               Radio(
                 value: 5,
                 groupValue: year,
-                activeColor: Colors.black,
+                activeColor: InformationPage.focusColor,
                 onChanged: (T){
                   setState(() {
                     year=T;
@@ -392,15 +648,61 @@ class _YearInputState extends State<YearInput> {
 
 }
 
+class SemesterInput extends StatefulWidget {
+  @override
+  _SemesterInputState createState() => _SemesterInputState();
+}
 
+class _SemesterInputState extends State<SemesterInput> {
+  static int semester;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text("Semester :", style: TextStyle(fontWeight: FontWeight.bold),),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              Radio(
+                value: 1,
+                groupValue: semester,
+                activeColor: InformationPage.focusColor,
+                onChanged: (T){
+                  setState(() {
+                    semester=T;
+                  });
+                },
+              ),
+              Text("A"),
+              Radio(
+                value: 2,
+                groupValue: semester,
+                activeColor: InformationPage.focusColor,
+                onChanged: (T){
+                  setState(() {
+                    semester=T;
+                  });
+                },
+              ),
+              Text("B"),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
 
- class SemesterInput extends StatefulWidget {
+class GenderInput extends StatefulWidget {
    @override
-   _SemesterInputState createState() => _SemesterInputState();
+   _GenderInputState createState() => _GenderInputState();
  }
 
- class _SemesterInputState extends State<SemesterInput> {
-  static int semester;
+ class _GenderInputState extends State<GenderInput> {
+  static int gender;
    @override
    Widget build(BuildContext context) {
      return Padding(
@@ -408,32 +710,32 @@ class _YearInputState extends State<YearInput> {
        child: Row(
          mainAxisAlignment: MainAxisAlignment.spaceBetween,
          children: <Widget>[
-           Text("Semester :", style: TextStyle(fontWeight: FontWeight.bold),),
+           Text("Gender :", style: TextStyle(fontWeight: FontWeight.bold),),
            Row(
              mainAxisAlignment: MainAxisAlignment.end,
              children: <Widget>[
                Radio(
                  value: 1,
-                 groupValue: semester,
-                 activeColor: Colors.black,
+                 groupValue: gender,
+                 activeColor: InformationPage.focusColor,
                  onChanged: (T){
                    setState(() {
-                     semester=T;
+                     gender=T;
                    });
                  },
                ),
-               Text("A"),
+               Text("Male"),
                Radio(
                  value: 2,
-                 groupValue: semester,
-                 activeColor: Colors.black,
+                 groupValue: gender,
+                 activeColor: InformationPage.focusColor,
                  onChanged: (T){
                    setState(() {
-                     semester=T;
+                     gender=T;
                    });
                  },
                ),
-               Text("B"),
+               Text("Female"),
              ],
            ),
          ],
@@ -527,7 +829,7 @@ class _CoursesInputState extends State<CoursesInput> {
 
 
 void  allCourses(List<Map> res){
-  List<String> courses=Courses().getAllCourses();
+  List<String> courses=Global().getAllCourses();
   for(String elem in courses) {
     res.add({
       "display": elem,
@@ -554,7 +856,7 @@ class _DedicationInputState extends State<DedicationInput> {
         children: <Widget>[
           Text("Dedication :", style: TextStyle(fontWeight: FontWeight.bold)),
           Slider(
-            activeColor: Colors.black,
+            activeColor: InformationPage.focusColor,
             inactiveColor: Colors.grey,
             value: _dedication.toDouble(),
             min: 1, //low

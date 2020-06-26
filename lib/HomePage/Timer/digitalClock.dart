@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import '../../Global.dart';
 import 'digital_colon.dart';
 import '../HomeMain.dart';
 import 'package:provider/provider.dart';
@@ -21,10 +22,9 @@ class neuDigitalClock extends StatelessWidget {
     return Container(
       width: 20,
       height: MediaQuery.of(context).size.height/12,
-
       decoration: BoxDecoration(
-        color:Color.fromRGBO(217, 230, 243, 1),
-        borderRadius: BorderRadius.circular(15),
+        color: Global.getBackgroundColor(0),
+        borderRadius: BorderRadius.circular(50),
         boxShadow: [
           BoxShadow(
             blurRadius: 15,
@@ -34,7 +34,8 @@ class neuDigitalClock extends StatelessWidget {
           BoxShadow(
             blurRadius: 15,
             offset: Offset(10.5, 10.5),
-            color: Color.fromRGBO(214, 223, 230, 1),
+//            color: Color.fromRGBO(214, 223, 230, 1),
+          color: Global.getBackgroundColor(500),
           )
         ],
       ),
@@ -46,10 +47,10 @@ class neuDigitalClock extends StatelessWidget {
             width: constraints.maxWidth * 0.8,
             decoration: BoxDecoration(
               gradient: LinearGradient(colors: [
-                Color.fromRGBO(203, 211, 196, 1),
-                Color.fromRGBO(176, 188, 163, 1)
+                  Global.backgroundPageColor,
+                  Global.backgroundPageColor,
               ]),
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(50),
               border: Border.all(
                 color: Color.fromRGBO(168, 168, 168, 1),
                 width: 2,

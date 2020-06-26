@@ -8,7 +8,7 @@ import 'package:flutter/src/painting/edge_insets.dart';
 import 'package:flutterapp/Tips/CoursesMultiChoice.dart';
 import 'package:flutterapp/Tips/Tips.dart';
 import 'package:flutterapp/Statistics/StatisticsDataBase.dart';
-import 'package:flutterapp/Courses.dart';
+import 'package:flutterapp/Global.dart';
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter_echarts/flutter_echarts.dart';
 import 'package:flutter_sparkline/flutter_sparkline.dart';
@@ -16,11 +16,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:number_display/number_display.dart';
-//import 'package:nu';
 
-//import 'liquid_script.dart' show liquidScript;
-//import 'gl_script.dart' show glScript;
-//import 'dark_theme_script.dart' show darkThemeScript;
 
 final display = createDisplay(decimal: 2);
 
@@ -49,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
   List myList;
   ScrollController _scrollController = ScrollController();
   int _currentMax = 10;
-  List<String> courses=Courses().getAllCourses();
+  List<String> courses=Global().getAllCourses();
   List<String> criterias = new List<String>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   var lastSevenDaysData;
@@ -322,7 +318,7 @@ class CriteriasChipsChoice extends StatefulWidget {
 
 class _CriteriasChipsChoiceState extends State<CriteriasChipsChoice> {
 
-  List<String> criterias = Courses().criterias;
+  List<String> criterias = Global().criterias;
 
   @override
   Widget build(BuildContext context) {
@@ -391,8 +387,8 @@ class CoursesChipsChoice extends StatefulWidget {
 
 class _CoursesChipsChoiceState extends State<CoursesChipsChoice> {
 
-  List<String> userCourses=Courses().getUserCourses();
-  List<String> allCourses = Courses().getAllCourses();
+  List<String> userCourses=Global().getUserCourses();
+  List<String> allCourses = Global().getAllCourses();
   List<String> otherCourses;
 
   void _initResources(){
