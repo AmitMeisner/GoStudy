@@ -34,6 +34,8 @@ class editTimeDialogState extends State<editTimeDialog> {
 
   @override
   Widget build(BuildContext context) {
+    userCourse = [card.getCourse()];
+    userResource = [card.getResource()];
     return Padding(
       padding:  EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: mainBodyOfDialog(),

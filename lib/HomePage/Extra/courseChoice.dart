@@ -53,6 +53,7 @@ class _CourseChoiceState extends State<CourseChoice> {
 
   @override
   Widget build(BuildContext context) {
+    userCourse = [Global().getUserCourses()[0]];
     updateUserCourse(userCourse);
       return scrollableListChoice(ceiling,courses,userCourse);
 

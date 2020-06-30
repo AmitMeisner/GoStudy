@@ -2,7 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'resourceChoice.dart';
+import 'editTimeDialog.dart';
 import 'package:flutterapp/HomePage/Timer/fireBase/TimeCard.dart';
 import 'package:flutterapp/HomePage/Timer/fireBase/fireBase_api.dart';
 import 'package:provider/provider.dart';
@@ -58,7 +58,7 @@ class TimesPageState extends State<TimesPage> {
 //      children: <Widget>[
 //        FloatingActionButton.extended(
 //          onPressed: () {
-//            addTip(context, updateState);
+          // addTip(context, updateState);
 //          },
 //          label: Text("Add Time Manually"),
 //          backgroundColor: Colors.blueAccent,
@@ -108,16 +108,5 @@ class TimesPageState extends State<TimesPage> {
 
   }
 
-////adding a tip the tips page.
-//  void addTip(BuildContext context, Function callback) {
-//    showModalBottomSheet(
-//      context: context,
-//      builder: (context) {
-//        return TimeDialog(callback);
-//      },
-//      isScrollControlled: true,
-//      shape: RoundedRectangleBorder(
-//          borderRadius: BorderRadius.vertical(top: Radius.circular(25.0))),
-//    );
-//  }
+
 }

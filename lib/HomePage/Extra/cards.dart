@@ -8,14 +8,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 import '../../Global.dart';
+import 'editTimeDialog.dart';
 
 
 
 class cards extends StatelessWidget {
-  // content of the first card in the tips page.
-  static final String _helpOthers = "Add time manually if you forgot to start the timer";
-  static List<String> emptyList = [];
-  static final int maxLikeCount = 100000000;
+
 
   // list of all tip cards.
   static final _firstTip = [
@@ -142,7 +140,7 @@ Widget cardContent(BuildContext context,Function course, int index , List<TimeCa
 
 
 // creating the cards tags, date and like for the all the cards, except fot the first one.
-Widget showInfo(BuildContext context,Function course, int index , List<TimeCard> times, Function updateTipsPageState){
+Widget showInfo(BuildContext context,Function course, int index , List<TimeCard> times, Function updateTimesPageState){
   return Wrap(
     children: <Widget>[
       course(index),
@@ -153,6 +151,17 @@ Widget showInfo(BuildContext context,Function course, int index , List<TimeCard>
           Text(timeString(times[index].getHours())+":"+
               timeString(times[index].getMinutes())+":"+
               timeString(times[index].getSeconds())),
+          IconButton(
+            icon: Icon(
+              Icons.edit,
+            ),
+            iconSize: 30,
+            color: Colors.black,
+            splashColor: Colors.grey,
+            onPressed: () {
+              return editTime(context,updateTimesPageState,times[index]);
+            },
+          ),
         ],
       ),
     ],
@@ -167,12 +176,16 @@ String timeString(int time){
 
 }
 
-// display error to the user.
-void showColoredToast(String msg) {
-  Fluttertoast.showToast(
-      msg: msg,
-      toastLength: Toast.LENGTH_SHORT,
-      backgroundColor: Colors.grey,
-      gravity: ToastGravity.CENTER,
-      textColor: Colors.white);
+void editTime(BuildContext context, Function updateTimesPageState, TimeCard times) {
+  showModalBottomSheet(
+    context: context,
+    builder: (context) {
+      return editTimeDialog(updateTimesPageState,times);
+    },
+    isScrollControlled: true,
+    shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(25.0))),
+  );
 }
+
+
