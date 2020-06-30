@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import '../../Extra/cards.dart';
 import 'TimeCard.dart';
 
@@ -68,6 +69,11 @@ class TimeDataBase{
   static void deleteTimeCard(TimeCard card){
     DocumentReference doc = timeCollection.document(card.getDocId());
     doc.delete();
+  }
+
+
+  static void editTimeCard(BuildContext context, TimeCard card, String userCourse,String userResource){
+
   }
 
 
