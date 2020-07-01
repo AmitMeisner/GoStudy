@@ -68,7 +68,7 @@ class EnterTimeState extends State<EnterTimeButton> {
       TimeCard newTime = new TimeCard(
           course, resource, uid,docId, date, hours, minutes, seconds);
       TimeDataBase().addTime(newTime);
-      User user=await UserDataBase().getUser();
+      UserProgress user=await UserProgressDataBase().getUser(FirebaseAPI().getUid());
       Activities act;
       if(resource=="HomeWorks"){act=Activities.HomeWork;}
       if(resource=="Lectures"){act=Activities.Lectures;}
@@ -77,7 +77,7 @@ class EnterTimeState extends State<EnterTimeButton> {
       if(resource=="Extra"){act=Activities.Extra;}
       user.addCourseTime(course, act, hours+((minutes)/60));
       user.addCourseTime("totalTime", null, hours+((minutes)/60));
-      UserDataBase().addUser(user);
+      UserProgressDataBase().addUser(user);
       break;
     }
     setState(() {});

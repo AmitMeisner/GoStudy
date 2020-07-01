@@ -43,7 +43,7 @@ class _ProgressDataState extends State<ProgressData> {
 
   void initial(String course)async{
     currentCourse=course;
-    User user=await UserDataBase().getUser();
+    UserProgress user=await UserProgressDataBase().getUser(FirebaseAPI().getUid());
     week=await AllUserDataBase().getWeek();
     setState(() {
       hw=user.getGoal(course,Activities.HomeWork);
@@ -69,7 +69,7 @@ class _ProgressDataState extends State<ProgressData> {
     if((semesterHoursDone/semesterHours)>0.9){rank=4;}
     if((semesterHoursDone/semesterHours)>0.95){rank=5;}
     user.setRank(rank);
-    UserDataBase().updateUser(user);
+    UserProgressDataBase().updateUser(user);
     setState(() {});
   }
 
@@ -612,7 +612,7 @@ class _DedicationInputState extends State<DedicationInput> {
   List<String> labels=["low", "medium","high"];
 
   void initial()async{
-    User user=await UserDataBase().getUser();
+    UserProgress user=await UserProgressDataBase().getUser(FirebaseAPI().getUid());
     _dedication=user.getDedication();
     setState(() {});
   }
