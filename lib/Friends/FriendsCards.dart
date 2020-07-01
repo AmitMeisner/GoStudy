@@ -22,7 +22,6 @@ class _FriendsCardsState extends State<FriendsCards> {
 
   void initial()async{
     List<String> friendsuid=await UserDataBase().getUserFriendsList(FirebaseAPI().getUid());
-    print("friendsuid = "+friendsuid.toString());
     friends.clear();
     for(String user in friendsuid) {
       friends.add(user);
@@ -106,7 +105,7 @@ Widget cardContent(BuildContext context, int index , List<User> users,Function i
 }
 
 IconButton addFriend(List<User> users, int index,Function initialFriendPage){
-  bool contain=(_FriendsCardsState.friends.contains(users[index].getUid()));
+  bool contain=(_FriendsCardsState.friends.contains(users[index].getUid()) || users[index].getUid()==FirebaseAPI().getUid());
   if (contain){
     return IconButton(
       icon: Icon(

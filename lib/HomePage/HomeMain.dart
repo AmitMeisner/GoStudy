@@ -34,8 +34,6 @@ class HomeMainPageState extends State<HomeMainPage> {
             child: ListView(
               padding: const EdgeInsets.all(15),
               children: <Widget>[
-//            userDet(context, userName),
-//                SizedBox(height: MediaQuery.of(context).viewPadding.top + 23),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -50,11 +48,8 @@ class HomeMainPageState extends State<HomeMainPage> {
                     Settings(),
                   ],
                 ),
-//            ShowHideDropdown(),
                 SizedBox(height: MediaQuery.of(context).size.height / 10),
                 neuDigitalClock(),
-//            SizedBox(height: MediaQuery.of(context).size.height / 80),
-//            NeuProgressPieBar(),
                 SizedBox(height: MediaQuery.of(context).size.height / 25),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -65,7 +60,6 @@ class HomeMainPageState extends State<HomeMainPage> {
                     ]),
                 SizedBox(height: MediaQuery.of(context).size.height / 25),
                 MotivationSentence(),
-
               ],
               // ),
             ),
@@ -170,24 +164,6 @@ class TimerService extends ChangeNotifier {
   }
 }
 
-//Widget userDet(BuildContext context, String userName) {
-//  return Container(
-//    child: Row(
-//    children: <Widget>[
-//      personalInfo(context, userName),
-//      Spacer(),
-//      RaisedButton(
-//        child: const Text('SIGN OUT'),
-//        textColor: Colors.blue,
-//        onPressed: () async {
-//          return await DialogHelperExit.exit(context);
-//         // SignInState().signOut(context);
-//        },
-//      ),
-//    ],),
-//  );
-//}
-
 
 class Notification extends StatefulWidget {
   @override
@@ -263,26 +239,37 @@ class FriendsButton extends StatefulWidget {
 }
 
 class _FriendsButtonState extends State<FriendsButton> {
+
+  bool newFriendReq=false;
+  static bool first=true;
+
+  void initial(bool set)async{
+    List<String> friendReqUid=await UserDataBase().getUserFriendReqReceive(FirebaseAPI().getUid());
+    newFriendReq = friendReqUid.isEmpty? false: true;
+    if(set){setState(() {});}
+  }
+
   @override
   Widget build(BuildContext context) {
+    initial(first);
+    first=!first;
     return Container(
       decoration: BoxDecoration(shape: BoxShape.circle,color: Global.backgroundPageColor),
-      child: IconButton(
-        onPressed: (){Navigator.pushNamed(context, '/friends');},
-        icon: Icon(Icons.group,color: Colors.black,),
+      child: Stack(
+        children: <Widget>[
+          newFriendReq? Positioned(
+              left: 30.0,
+              top: 10,
+              child: Icon(Icons.brightness_1,
+                color: Colors.red,
+                size: 9.0,)
+          ):Container(),
+          IconButton(
+            onPressed: (){Navigator.pushNamed(context, '/friends');},
+            icon: Icon(Icons.group,color: Colors.black,),
+          ),
+        ],
       ),
     );
   }
 }
-
-
-
-//Widget personalInfo(BuildContext context, String userName) {
-//  return RaisedButton(
-//    child: Text("Hello " + userName,
-//        style: TextStyle(color: Colors.black, fontSize: 15.0)),
-//    onPressed: () {
-//      Navigator.pushReplacementNamed(context, '/getInfo');
-//    },
-//  );
-//}

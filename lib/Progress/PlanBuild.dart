@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutterapp/FirstInfo/InformationPage.dart';
+import 'package:flutterapp/Global.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
-import 'package:provider/provider.dart';
 
 class PlanBuild{
   List<UserStatForCourse> users=[];
@@ -11,7 +10,7 @@ class PlanBuild{
   double exams=1.0;
   double extra=1.0;
   double semesterHours=1.0;
-  User user;
+  UserProgress user;
   List<UserStatForCourse> tmp=[];
   List<String> Goals=[];
   int dedication;
@@ -50,9 +49,9 @@ class PlanBuild{
   }
 
   Future<void> createPlan()async{
-    user=await UserDataBase().getUser();
+    user=await UserProgressDataBase().getUser(FirebaseAPI().getUid());
     user.resetGoals();
-    List<dynamic> courses=List<String>.from(user.getCourses());
+    List<String> courses=Global().getUserCourses();
     for(String course in courses){
       tmp=[];
       for(UserStatForCourse student in users){
@@ -69,7 +68,7 @@ class PlanBuild{
     }
     user.addGoal(null, null, semesterHours);
     user.setDedication(dedication);
-    await UserDataBase().updateUser(user);
+    await UserProgressDataBase().updateUser(user);
   }
 
 

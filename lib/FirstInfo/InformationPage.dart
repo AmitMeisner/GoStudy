@@ -13,32 +13,32 @@ class User{
   String _avg;
   List<String> _friends;
   List _courses;
-  int _avgGoal;
-  int _dailyGoal;
+//  int _avgGoal;
+//  int _dailyGoal;
   int _year;
   int _semester;
-  int _dedication;
-  List<String> _goal=[];
+//  int _dedication;
+//  List<String> _goal=[];
   List<String> _friendRequestSent = [];
   List<String> _friendRequestReceive = [];
   String _uid;
   List<String> _searchNickname=[];
-  List<String> _times=[];
-  int _rank;
+//  List<String> _times=[];
+//  int _rank;
   int _gender;
 
 
-  User(this._uid,this._nickname, this._avg, this._friends,this._courses, this._avgGoal, this._dailyGoal,
-      this._year, this._semester, this._dedication,this._goal,this._times,this._friendRequestSent, this._friendRequestReceive,
-      this._searchNickname, this._rank, this._gender);
+  User(this._uid,this._nickname, this._avg, this._friends,this._courses,
+      this._year, this._semester,this._friendRequestSent, this._friendRequestReceive,
+      this._searchNickname, this._gender);
 
-  void setRank(int rank){
-    this._rank=rank;
-  }
-
-  int getRank(){
-    return this._rank;
-  }
+//  void setRank(int rank){
+//    this._rank=rank;
+//  }
+//
+//  int getRank(){
+//    return this._rank;
+//  }
 
   void setGender(int gen){
     this._gender=gen;
@@ -91,22 +91,22 @@ class User{
     return this._courses;
   }
 
-  void setAvgGoal(int goal){
-    this._avgGoal=goal;
-  }
+//  void setAvgGoal(int goal){
+//    this._avgGoal=goal;
+//  }
+//
+//  int getAvgGoal(){
+//    return _avgGoal;
+//  }
 
-  int getAvgGoal(){
-    return _avgGoal;
-  }
 
-
-  void setDailyGoal(int goal){
-    this._dailyGoal=goal;
-  }
-
-  int getDailyGoal(){
-    return _dailyGoal;
-  }
+//  void setDailyGoal(int goal){
+//    this._dailyGoal=goal;
+//  }
+//
+//  int getDailyGoal(){
+//    return _dailyGoal;
+//  }
 
   void setYear(int year){
     this._year =year;
@@ -124,149 +124,149 @@ class User{
     return _semester;
   }
 
-  void setDedication(int ded){
-    this._dedication=ded;
-  }
+//  void setDedication(int ded){
+//    this._dedication=ded;
+//  }
+//
+//  int getDedication(){
+//    return _dedication;
+//  }
 
-  int getDedication(){
-    return _dedication;
-  }
+//  void addGoal(String course , Activities activity, double time){
+//    if(course==null && activity==null){
+//      _goal.add("SemesterHours"+"_"+time.toString());
+//      return;
+//    }
+//    String act="";
+//    switch(activity){
+//      case Activities.HomeWork:
+//        act="HomeWork";
+//        break;
+//      case Activities.Lectures:
+//        act="Lectures";
+//        break;
+//      case Activities.Recitation:
+//        act="Recitation";
+//        break;
+//      case Activities.Exams:
+//        act="Exams";
+//        break;
+//      case Activities.Extra:
+//        act="Extra";
+//        break;
+//    }
+//    _goal.add(course+"_"+act+"_"+time.toString());
+//  }
+//
+//  double getGoal(String course , Activities activity){
+//    String act="";
+//    switch(activity){
+//      case Activities.HomeWork:
+//        act="HomeWork";
+//        break;
+//      case Activities.Lectures:
+//        act="Lectures";
+//        break;
+//      case Activities.Recitation:
+//        act="Recitation";
+//        break;
+//      case Activities.Exams:
+//        act="Exams";
+//        break;
+//      case Activities.Extra:
+//        act="Extra";
+//        break;
+//      default:
+//        act="";
+//        break;
+//    }
+//    List<String> res=_goal;
+//
+//    for(String elem in res){
+//      List<String> parsing=elem.split("_");
+//      if(parsing[0]==course && parsing[1]==act){
+//          return double.parse(parsing[2]);
+//        }
+//      if(course=="SemesterHours" && parsing[0]=="SemesterHours") {
+//        return double.parse(parsing[1]);
+//      }
+//    }
+//  return 10.0;
+//  }
+//
+//  List<String> getGoals(){
+//    return _goal;
+//  }
+//
+//  void resetGoals(){
+//    _goal.clear();
+//  }
 
-  void addGoal(String course , Activities activity, double time){
-    if(course==null && activity==null){
-      _goal.add("SemesterHours"+"_"+time.toString());
-      return;
-    }
-    String act="";
-    switch(activity){
-      case Activities.HomeWork:
-        act="HomeWork";
-        break;
-      case Activities.Lectures:
-        act="Lectures";
-        break;
-      case Activities.Recitation:
-        act="Recitation";
-        break;
-      case Activities.Exams:
-        act="Exams";
-        break;
-      case Activities.Extra:
-        act="Extra";
-        break;
-    }
-    _goal.add(course+"_"+act+"_"+time.toString());
-  }
-
-  double getGoal(String course , Activities activity){
-    String act="";
-    switch(activity){
-      case Activities.HomeWork:
-        act="HomeWork";
-        break;
-      case Activities.Lectures:
-        act="Lectures";
-        break;
-      case Activities.Recitation:
-        act="Recitation";
-        break;
-      case Activities.Exams:
-        act="Exams";
-        break;
-      case Activities.Extra:
-        act="Extra";
-        break;
-      default:
-        act="";
-        break;
-    }
-    List<String> res=_goal;
-
-    for(String elem in res){
-      List<String> parsing=elem.split("_");
-      if(parsing[0]==course && parsing[1]==act){
-          return double.parse(parsing[2]);
-        }
-      if(course=="SemesterHours" && parsing[0]=="SemesterHours") {
-        return double.parse(parsing[1]);
-      }
-    }
-  return 10.0;
-  }
-
-  List<String> getGoals(){
-    return _goal;
-  }
-
-  void resetGoals(){
-    _goal.clear();
-  }
-
-  void addCourseTime(String course , Activities activity, double time){
-    double prevTime=getCourseTime( course ,  activity);
-    double newTime=prevTime+time;
-    if(course=="totalTime"){
-      _times.remove(course+"_"+prevTime.toString());
-      _times.add(course+"_"+newTime.toStringAsFixed(2));
-      return;
-    }
-    String act="";
-    switch(activity){
-      case Activities.HomeWork:
-        act="HomeWork";
-        break;
-      case Activities.Lectures:
-        act="Lectures";
-        break;
-      case Activities.Recitation:
-        act="Recitation";
-        break;
-      case Activities.Exams:
-        act="Exams";
-        break;
-      case Activities.Extra:
-        act="Extra";
-        break;
-    }
-    _times.remove(course+"_"+act+"_"+prevTime.toString());
-    _times.add(course+"_"+act+"_"+newTime.toStringAsFixed(2));
-  }
-
-  double getCourseTime(String course , Activities activity){
-    String act="";
-    switch(activity){
-      case Activities.HomeWork:
-        act="HomeWork";
-        break;
-      case Activities.Lectures:
-        act="Lectures";
-        break;
-      case Activities.Recitation:
-        act="Recitation";
-        break;
-      case Activities.Exams:
-        act="Exams";
-        break;
-      case Activities.Extra:
-        act="Extra";
-        break;
-    }
-    List<String> res=_times;
-    for(String elem in res){
-      List<String> parsing=elem.split("_");
-      if(course=="totalTime" && parsing[0]==course){
-        return double.parse(parsing[1]);
-      }
-      if(parsing[0]==course && parsing[1]==act){
-        return double.parse(parsing[2]);
-      }
-    }
-    return 0.0;
-  }
-
-  List<String> getTimes(){
-    return this._times;
-  }
+//  void addCourseTime(String course , Activities activity, double time){
+//    double prevTime=getCourseTime( course ,  activity);
+//    double newTime=prevTime+time;
+//    if(course=="totalTime"){
+//      _times.remove(course+"_"+prevTime.toString());
+//      _times.add(course+"_"+newTime.toStringAsFixed(2));
+//      return;
+//    }
+//    String act="";
+//    switch(activity){
+//      case Activities.HomeWork:
+//        act="HomeWork";
+//        break;
+//      case Activities.Lectures:
+//        act="Lectures";
+//        break;
+//      case Activities.Recitation:
+//        act="Recitation";
+//        break;
+//      case Activities.Exams:
+//        act="Exams";
+//        break;
+//      case Activities.Extra:
+//        act="Extra";
+//        break;
+//    }
+//    _times.remove(course+"_"+act+"_"+prevTime.toString());
+//    _times.add(course+"_"+act+"_"+newTime.toStringAsFixed(2));
+//  }
+//
+//  double getCourseTime(String course , Activities activity){
+//    String act="";
+//    switch(activity){
+//      case Activities.HomeWork:
+//        act="HomeWork";
+//        break;
+//      case Activities.Lectures:
+//        act="Lectures";
+//        break;
+//      case Activities.Recitation:
+//        act="Recitation";
+//        break;
+//      case Activities.Exams:
+//        act="Exams";
+//        break;
+//      case Activities.Extra:
+//        act="Extra";
+//        break;
+//    }
+//    List<String> res=_times;
+//    for(String elem in res){
+//      List<String> parsing=elem.split("_");
+//      if(course=="totalTime" && parsing[0]==course){
+//        return double.parse(parsing[1]);
+//      }
+//      if(parsing[0]==course && parsing[1]==act){
+//        return double.parse(parsing[2]);
+//      }
+//    }
+//    return 0.0;
+//  }
+//
+//  List<String> getTimes(){
+//    return this._times;
+//  }
 
   void setFriendRequestSent(List<String> lst){
     this._friendRequestSent=lst;
@@ -335,7 +335,7 @@ class _InformationPageState extends State<InformationPage> {
        _YearInputState.year=user.getYear();
        _SemesterInputState.semester=user.getSemester();
        _CoursesInputState().updateCourses(user.getCourses());
-       _DedicationInputState._dedication=user.getDedication();
+//       _DedicationInputState._dedication=user.getDedication();
        _GenderInputState.gender=user.getGender();
      });
     }
@@ -364,7 +364,7 @@ class _InformationPageState extends State<InformationPage> {
                 GenderInput(),
                 YearInput(),
                 SemesterInput(),
-                DedicationInput(),
+//                DedicationInput(),
                 CoursesInput(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -399,7 +399,7 @@ class _InformationPageState extends State<InformationPage> {
        courses.add(course.toString());
      }
      _CoursesInputState._courses.clear();
-     dedication=_DedicationInputState._dedication;
+//     dedication=_DedicationInputState._dedication;
      bool hasData= await UserDataBase().hasData();
      List<String> goal=[];
      List<String> times=[];
@@ -412,46 +412,58 @@ class _InformationPageState extends State<InformationPage> {
            avg,
            hasData? (await UserDataBase().getUser()).getFriends():[],
            courses,
-           hasData? (await UserDataBase().getUser()).getAvgGoal():0,
-           hasData? (await UserDataBase().getUser()).getDailyGoal():0,
+//           hasData? (await UserDataBase().getUser()).getAvgGoal():0,
+//           hasData? (await UserDataBase().getUser()).getDailyGoal():0,
            year,
            semester,
-           dedication,
-           hasData? (await UserDataBase().getUser()).getGoals():goal,
-           hasData? (await UserDataBase().getUser()).getTimes():times,
+//           dedication,
+//           hasData? (await UserDataBase().getUser()).getGoals():goal,
+//           hasData? (await UserDataBase().getUser()).getTimes():times,
            hasData? (await UserDataBase().getUser()).getFriendRequestSent():[],
            hasData? (await UserDataBase().getUser()).getFriendRequestReceive():[],
            hasData? FriendsDataBase().nicknameSearch((await UserDataBase().getUser()).getNickname()):FriendsDataBase().nicknameSearch(nickName),
-           hasData? (await UserDataBase().getUser()).getRank():1,
+//           hasData? (await UserDataBase().getUser()).getRank():1,
            gender,
        );
        UserDataBase().addUser(user);
        Global().setUserCourses(courses);
-       user.getGoal("Software 1",Activities.HomeWork);
        Navigator.pushReplacementNamed(context, '/home');
+
+
+       hasData= await UserProgressDataBase().hasData();
+       String uid=FirebaseAPI().getUid();
+       UserProgress user2=UserProgress(
+         double.parse(avg),
+         hasData? (await UserProgressDataBase().getUser(uid)).getRank():1,
+         hasData? (await UserProgressDataBase().getUser(uid)).getTimes():times,
+         hasData? (await UserProgressDataBase().getUser(uid)).getGoals():goal,
+         hasData? (await UserProgressDataBase().getUser(uid)).getDedication():3,
+       );
+
+       UserProgressDataBase().addUser(user2);
+
      }
   }
 
 
   void updateTimes(List<String> goal, List<String> courses){
-    var rng=Random();
     for(String course in courses){
-      goal.add(course+"_"+"HomeWork"+"_"+(1+rng.nextDouble()).toString().substring(0,4));
-      goal.add(course+"_"+"Recitation"+"_"+(1+rng.nextDouble()).toString().substring(0,4));
-      goal.add(course+"_"+"Lectures"+"_"+(1+rng.nextDouble()).toString().substring(0,4));
-      goal.add(course+"_"+"Exams"+"_"+(1+rng.nextDouble()).toString().substring(0,4));
-      goal.add(course+"_"+"Extra"+"_"+(1+rng.nextDouble()).toString().substring(0,4));
+      goal.add(course+"_"+"HomeWork"+"_"+"0");
+      goal.add(course+"_"+"Recitation"+"_"+"0");
+      goal.add(course+"_"+"Lectures"+"_"+"0");
+      goal.add(course+"_"+"Exams"+"_"+"0");
+      goal.add(course+"_"+"Extra"+"_"+"0");
     }
   }
 
   void updateGoal(List<String> goal, List<String> courses){
     var rng=Random();
     for(String course in courses){
-      goal.add(course+"_"+"HomeWork"+"_"+(rng.nextDouble()*2+2).toString().substring(0,4));
-      goal.add(course+"_"+"Recitation"+"_"+(rng.nextDouble()*2+2).toString().substring(0,4));
-      goal.add(course+"_"+"Lectures"+"_"+(rng.nextDouble()*2+2).toString().substring(0,4));
-      goal.add(course+"_"+"Exams"+"_"+(rng.nextDouble()*2+2).toString().substring(0,4));
-      goal.add(course+"_"+"Extra"+"_"+(rng.nextDouble()*2+2).toString().substring(0,4));
+      goal.add(course+"_"+"HomeWork"+"_"+"14");
+      goal.add(course+"_"+"Recitation"+"_"+"14");
+      goal.add(course+"_"+"Lectures"+"_"+"14");
+      goal.add(course+"_"+"Exams"+"_"+"14");
+      goal.add(course+"_"+"Extra"+"_"+"14");
     }
   }
 
@@ -556,7 +568,7 @@ class DescriptionText extends StatelessWidget {
         Text("Your profile is private and will be used for statistical analysis.\n"
             "Your nickname is how your friends can find you.\n"
             "Your average,year and semester will be used for statistical analysis,\n"
-            "Your dedication will influence your study plan.\n"
+//            "Your dedication will influence your study plan.\n"
             "\n"
             "You can edit your profile at any time by clicking your name at the Home page.\n",
             ),
@@ -839,34 +851,34 @@ void  allCourses(List<Map> res){
 }
 
 
-class DedicationInput extends StatefulWidget {
-  @override
-  _DedicationInputState createState() => _DedicationInputState();
-}
-
-class _DedicationInputState extends State<DedicationInput> {
-  static int _dedication=1;
-  List<String> labels=["low", "medium","high"];
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(15,0,0,0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text("Dedication :", style: TextStyle(fontWeight: FontWeight.bold)),
-          Slider(
-            activeColor: InformationPage.focusColor,
-            inactiveColor: Colors.grey,
-            value: _dedication.toDouble(),
-            min: 1, //low
-            max: 3, //high
-            divisions: 2,
-            onChanged: (val)=>setState(()=>_dedication=val.round()),
-            label: labels[_dedication-1],
-          ),
-        ],
-      ),
-    );
-  }
-}
+//class DedicationInput extends StatefulWidget {
+//  @override
+//  _DedicationInputState createState() => _DedicationInputState();
+//}
+//
+//class _DedicationInputState extends State<DedicationInput> {
+//  static int _dedication=1;
+//  List<String> labels=["low", "medium","high"];
+//  @override
+//  Widget build(BuildContext context) {
+//    return Padding(
+//      padding: const EdgeInsets.fromLTRB(15,0,0,0),
+//      child: Row(
+//        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//        children: <Widget>[
+//          Text("Dedication :", style: TextStyle(fontWeight: FontWeight.bold)),
+//          Slider(
+//            activeColor: InformationPage.focusColor,
+//            inactiveColor: Colors.grey,
+//            value: _dedication.toDouble(),
+//            min: 1, //low
+//            max: 3, //high
+//            divisions: 2,
+//            onChanged: (val)=>setState(()=>_dedication=val.round()),
+//            label: labels[_dedication-1],
+//          ),
+//        ],
+//      ),
+//    );
+//  }
+//}

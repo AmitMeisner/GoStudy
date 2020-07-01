@@ -79,7 +79,7 @@ class _NewStatistics extends State<NewStatistics> {
       child: Scaffold(
         backgroundColor: Global.getBackgroundColor(0),
         body: SafeArea(
-          child: bodyBuilding(),
+          child: bodyBuild(),
         ),
       ),
     );
@@ -88,7 +88,7 @@ class _NewStatistics extends State<NewStatistics> {
 
 
 
-  Widget bodyBuilding(){
+  Widget bodyBuild(){
     return Container(
       color: Global.backgroundPageColor,
       child: ListView(

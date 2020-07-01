@@ -199,18 +199,18 @@ class UserDataBase {
       "avg":user.getAverage(),
       "friends":user.getFriends(),
       "courses":user.getCourses(),
-      "avgGoal":user.getAvgGoal(),
-      "dailyGoal":user.getDailyGoal(),
+//      "avgGoal":user.getAvgGoal(),
+//      "dailyGoal":user.getDailyGoal(),
       "year":user.getYear(),
       "semester":user.getSemester(),
-      "dedication":user.getDedication(),
-      "Goals":user.getGoals(),
-      "Times":user.getTimes(),
+//      "dedication":user.getDedication(),
+//      "Goals":user.getGoals(),
+//      "Times":user.getTimes(),
       "friendRequestSent":user.getFriendRequestSent(),
       "friendRequestReceive": user.getFriendRequestReceive(),
       "searchNickname":user.getSearchNickname(),
       "Gender": user.getGender(),
-      "Rank":user.getRank()
+//      "Rank":user.getRank()
     };
     return await usersCollection.document(FirebaseAPI().getUid()).setData(userMap);
   }
@@ -225,17 +225,17 @@ class UserDataBase {
         doc.data["avg"],
         List.from(doc.data["friends"]),
         List.from(doc.data["courses"]),
-        doc.data["avgGoal"],
-        doc.data["dailyGoal"],
+//        doc.data["avgGoal"],
+//        doc.data["dailyGoal"],
         doc.data["year"],
         doc.data["semester"],
-        doc.data["dedication"],
-        List<String>.from(doc.data["Goals"]),
-        List<String>.from(doc.data["Times"]),
+//        doc.data["dedication"],
+//        List<String>.from(doc.data["Goals"]),
+//        List<String>.from(doc.data["Times"]),
         List<String>.from(doc.data["friendRequestSent"]),
         List<String>.from(doc.data["friendRequestReceive"]),
         List<String>.from(doc.data["searchNickname"]),
-        doc.data["Rank"],
+//        doc.data["Rank"],
         doc.data["Gender"],
       );
     }
@@ -327,17 +327,17 @@ class FriendsDataBase{
           doc.data["avg"],
           List.from(doc.data["friends"]),
           List.from(doc.data["courses"]),
-          doc.data["avgGoal"],
-          doc.data["dailyGoal"],
+//          doc.data["avgGoal"],
+//          doc.data["dailyGoal"],
           doc.data["year"],
           doc.data["semester"],
-          doc.data["dedication"],
-          List<String>.from(doc.data["Goals"]),
-          List<String>.from(doc.data["Times"]),
+//          doc.data["dedication"],
+//          List<String>.from(doc.data["Goals"]),
+//          List<String>.from(doc.data["Times"]),
           List<String>.from(doc.data["friendRequestSent"]),
           List<String>.from(doc.data["friendRequestReceive"]),
           List<String>.from(doc.data["searchNickname"]),
-         doc.data["Rank"],
+//         doc.data["Rank"],
          doc.data["Gender"],
       );
     }).toList();
@@ -405,6 +405,24 @@ class FriendsDataBase{
 
     return;
   }
+
+  void removeFriend( String friendUid, Function initialFriendPage)async{
+    DocumentReference friend=usersCollection.document(friendUid);
+    DocumentReference user=usersCollection.document(FirebaseAPI().getUid());
+    List<String> friendFriendsList;
+    List<String> userFriendList;
+    await friend.get().then((value) => friendFriendsList=List<String>.from(value.data["friends"]));
+    await user.get().then((value) => userFriendList=List<String>.from(value.data["friends"]));
+    friendFriendsList.remove(FirebaseAPI().getUid());
+    userFriendList.remove(friendUid);
+    friend.updateData({"friends":friendFriendsList});
+    user.updateData({"friends":userFriendList});
+
+    await initialFriendPage();
+
+    return;
+  }
+
 
   Future<double> getFriendProgress(String uid)async{
     DocumentReference doc=usersCollection.document(uid);
@@ -522,6 +540,236 @@ class AllUserDataBase {
   }
 
 }
+
+
+class UserProgressDataBase{
+
+  static  CollectionReference usersCollection= Firestore.instance.collection("Progress");
+
+  Future<void> addUser(UserProgress userProgress) async{
+    Map<String, dynamic> userMap = {
+      "avg":userProgress.getAvg(),
+      "goals":userProgress.getGoals(),
+      "times":userProgress.getTimes(),
+      "rank":userProgress.getRank(),
+      "dedication":userProgress.getDedication(),
+    };
+    return await usersCollection.document(FirebaseAPI().getUid()).setData(userMap);
+  }
+
+
+  Future<UserProgress> getUser(String uid)async{
+    DocumentReference doc=usersCollection.document(uid);
+    UserProgress user=UserProgress(0, 1, [], [],3);
+    await doc.get().then((value){
+      user.setAvg(value.data["avg"]);
+      user.setRank(value.data["rank"]);
+      user.setTimes(List<String>.from(value.data["times"]));
+      user.setGoals(List<String>.from(value.data["goals"]));
+      user.setDedication(value.data["dedication"]);
+    });
+
+    return user;
+  }
+
+
+  Future<bool> hasData()async{
+    DocumentReference userDoc=  usersCollection.document(FirebaseAPI().getUid());
+    bool exist=false;
+    await userDoc.get().then((doc) {
+      if (doc.exists){ exist=true;}
+    });
+    return exist;
+  }
+
+  Future<void> updateUser(UserProgress user){
+    return addUser(user);
+  }
+
+}
+
+
+class UserProgress{
+  double _avg;
+  List<String> _goals=[];
+  List<String> _times=[];
+  int _rank;
+  int _dedication;
+  UserProgress(this._avg, this._rank ,this._times , this._goals, this._dedication);
+
+  void setAvg(double avg){
+    this._avg=avg;
+  }
+
+  double getAvg(){
+    return this._avg;
+  }
+
+  void addGoal(String course , Activities activity, double time){
+    if(course==null && activity==null){
+      _goals.add("SemesterHours"+"_"+time.toString());
+      return;
+    }
+    String act="";
+    switch(activity){
+      case Activities.HomeWork:
+        act="HomeWork";
+        break;
+      case Activities.Lectures:
+        act="Lectures";
+        break;
+      case Activities.Recitation:
+        act="Recitation";
+        break;
+      case Activities.Exams:
+        act="Exams";
+        break;
+      case Activities.Extra:
+        act="Extra";
+        break;
+    }
+    _goals.add(course+"_"+act+"_"+time.toString());
+  }
+
+  double getGoal(String course , Activities activity){
+    String act="";
+    switch(activity){
+      case Activities.HomeWork:
+        act="HomeWork";
+        break;
+      case Activities.Lectures:
+        act="Lectures";
+        break;
+      case Activities.Recitation:
+        act="Recitation";
+        break;
+      case Activities.Exams:
+        act="Exams";
+        break;
+      case Activities.Extra:
+        act="Extra";
+        break;
+      default:
+        act="";
+        break;
+    }
+    List<String> res=_goals;
+
+    for(String elem in res){
+      List<String> parsing=elem.split("_");
+      if(parsing[0]==course && parsing[1]==act){
+        return double.parse(parsing[2]);
+      }
+      if(course=="SemesterHours" && parsing[0]=="SemesterHours") {
+        return double.parse(parsing[1]);
+      }
+    }
+    return 10.0;
+  }
+
+  List<String> getGoals(){
+    return _goals;
+  }
+
+  void setGoals(List<String> lst){
+    this._goals=lst;
+  }
+
+  void resetGoals(){
+    _goals.clear();
+  }
+
+  void setTimes(List<String> times){
+    this._times=times;
+  }
+
+  void setRank(int rank){
+    this._rank=rank;
+  }
+
+  int getRank(){
+    return this._rank;
+  }
+
+  void addCourseTime(String course , Activities activity, double time){
+    double prevTime=getCourseTime( course ,  activity);
+    double newTime=prevTime+time;
+    if(course=="totalTime"){
+      _times.remove(course+"_"+prevTime.toString());
+      _times.add(course+"_"+newTime.toStringAsFixed(2));
+      return;
+    }
+    String act="";
+    switch(activity){
+      case Activities.HomeWork:
+        act="HomeWork";
+        break;
+      case Activities.Lectures:
+        act="Lectures";
+        break;
+      case Activities.Recitation:
+        act="Recitation";
+        break;
+      case Activities.Exams:
+        act="Exams";
+        break;
+      case Activities.Extra:
+        act="Extra";
+        break;
+    }
+    _times.remove(course+"_"+act+"_"+prevTime.toString());
+    _times.add(course+"_"+act+"_"+newTime.toStringAsFixed(2));
+  }
+
+  double getCourseTime(String course , Activities activity){
+    String act="";
+    switch(activity){
+      case Activities.HomeWork:
+        act="HomeWork";
+        break;
+      case Activities.Lectures:
+        act="Lectures";
+        break;
+      case Activities.Recitation:
+        act="Recitation";
+        break;
+      case Activities.Exams:
+        act="Exams";
+        break;
+      case Activities.Extra:
+        act="Extra";
+        break;
+    }
+    List<String> res=_times;
+    for(String elem in res){
+      List<String> parsing=elem.split("_");
+      if(course=="totalTime" && parsing[0]==course){
+        return double.parse(parsing[1]);
+      }
+      if(parsing[0]==course && parsing[1]==act){
+        return double.parse(parsing[2]);
+      }
+    }
+    return 0.0;
+  }
+
+  List<String> getTimes(){
+    return this._times;
+  }
+
+
+  void setDedication(int ded){
+    this._dedication=ded;
+  }
+
+  int getDedication(){
+    return _dedication;
+  }
+
+}
+
+
+
 
 class UserStatForCourse{
   String _course;
