@@ -35,7 +35,6 @@ class ShowHideDropdownState extends State<ShowHideDropdown> {
       padding: const EdgeInsets.all(6.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//      mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Expanded(
             child: DropdownButton<String>(

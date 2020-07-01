@@ -48,11 +48,11 @@ class _NewStatistics extends State<NewStatistics> {
 
   @override
   void initState(){
-    super.initState();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
     ]);
+    super.initState();
   }
 
   @override
@@ -95,25 +95,6 @@ class _NewStatistics extends State<NewStatistics> {
         children: <Widget>[
           ShowHideDropdown(setStatisticsPageState),
           arrowButtons(),
-//          shownChart()
-//                LineChartSample2(),
-//                BarChartSample2(_usersData),
-//                PieChartSample1(),
-//                PieChartSample2(),
-//                LineChartSample4(),
-//                LineChartSample7(),
-//                BarChartSample4(_usersData),
-
-
-//              PageView
-//              LineChartPage(),
-//              BarChartPage(),
-//              BarChartPage2(),
-//              PieChartPage(),
-//              LineChartPage2(),
-//              LineChartPage3(),
-//              LineChartPage4(),
-//              ScatterChartPage(),
         ],
       ),
     );

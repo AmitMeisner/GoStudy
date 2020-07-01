@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterapp/Global.dart';
 
 class BarChartSample1 extends StatefulWidget {
   final List<Color> availableColors = [
@@ -42,11 +43,11 @@ class BarChartSample1State extends State<BarChartSample1> {
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
 //        color: const Color(0xff81e5cd),
-        color:Colors.white ,
+        color:Global.backgroundPageColor ,
         child: Stack(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -196,20 +197,20 @@ class BarChartSample1State extends State<BarChartSample1> {
           margin: 16,
           getTitles: (double value) {
             switch (value.toInt()) {
-              case 0:
-                return 'M';
-              case 1:
-                return 'T';
-              case 2:
-                return 'W';
-              case 3:
-                return 'T';
-              case 4:
-                return 'F';
-              case 5:
-                return 'S';
-              case 6:
-                return 'S';
+//              case 0:
+//                return 'M';
+//              case 1:
+//                return 'T';
+//              case 2:
+//                return 'W';
+//              case 3:
+//                return 'T';
+//              case 4:
+//                return 'F';
+//              case 5:
+//                return 'S';
+//              case 6:
+//                return 'S';
               default:
                 return '';
             }
@@ -239,20 +240,20 @@ class BarChartSample1State extends State<BarChartSample1> {
           margin: 16,
           getTitles: (double value) {
             switch (value.toInt()) {
-              case 0:
-                return 'M';
-              case 1:
-                return 'T';
-              case 2:
-                return 'W';
-              case 3:
-                return 'T';
-              case 4:
-                return 'F';
-              case 5:
-                return 'S';
-              case 6:
-                return 'S';
+//              case 0:
+//                return 'M';
+//              case 1:
+//                return 'T';
+//              case 2:
+//                return 'W';
+//              case 3:
+//                return 'T';
+//              case 4:
+//                return 'F';
+//              case 5:
+//                return 'S';
+//              case 6:
+//                return 'S';
               default:
                 return '';
             }
