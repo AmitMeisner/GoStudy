@@ -694,7 +694,6 @@ class UserProgress{
   void addCourseTime(String course , Activities activity, double time){
     double prevTime=getCourseTime( course ,  activity);
     double newTime=prevTime+time;
-    print(course+" "+activity.toString()+" "+time.toString());
     if(course=="totalTime"){
       _times.remove(course+"_"+prevTime.toString());
       _times.add(course+"_"+newTime.toStringAsFixed(2));
@@ -718,12 +717,8 @@ class UserProgress{
         act="Extra";
         break;
     }
-    print(prevTime.toString());
-    print(_times.length);
     _times.remove(course+"_"+act+"_"+prevTime.toString());
-    print(_times.length);
     _times.add(course+"_"+act+"_"+newTime.toStringAsFixed(2));
-    print(_times.length);
 
   }
 
