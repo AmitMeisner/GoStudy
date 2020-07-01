@@ -448,22 +448,22 @@ class _InformationPageState extends State<InformationPage> {
 
   void updateTimes(List<String> goal, List<String> courses){
     for(String course in courses){
-      goal.add(course+"_"+"HomeWork"+"_"+"0");
-      goal.add(course+"_"+"Recitation"+"_"+"0");
-      goal.add(course+"_"+"Lectures"+"_"+"0");
-      goal.add(course+"_"+"Exams"+"_"+"0");
-      goal.add(course+"_"+"Extra"+"_"+"0");
+      goal.add(course+"_"+"HomeWork"+"_"+"0.0");
+      goal.add(course+"_"+"Recitation"+"_"+"0.0");
+      goal.add(course+"_"+"Lectures"+"_"+"0.0");
+      goal.add(course+"_"+"Exams"+"_"+"0.0");
+      goal.add(course+"_"+"Extra"+"_"+"0.0");
     }
   }
 
   void updateGoal(List<String> goal, List<String> courses){
     var rng=Random();
     for(String course in courses){
-      goal.add(course+"_"+"HomeWork"+"_"+"14");
-      goal.add(course+"_"+"Recitation"+"_"+"14");
-      goal.add(course+"_"+"Lectures"+"_"+"14");
-      goal.add(course+"_"+"Exams"+"_"+"14");
-      goal.add(course+"_"+"Extra"+"_"+"14");
+      goal.add(course+"_"+"HomeWork"+"_"+"14.0");
+      goal.add(course+"_"+"Recitation"+"_"+"14.0");
+      goal.add(course+"_"+"Lectures"+"_"+"14.0");
+      goal.add(course+"_"+"Exams"+"_"+"14.0");
+      goal.add(course+"_"+"Extra"+"_"+"14.0");
     }
   }
 

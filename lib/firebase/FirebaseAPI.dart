@@ -719,6 +719,7 @@ class UserProgress{
     }
     _times.remove(course+"_"+act+"_"+prevTime.toString());
     _times.add(course+"_"+act+"_"+newTime.toStringAsFixed(2));
+
   }
 
   double getCourseTime(String course , Activities activity){
