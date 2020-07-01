@@ -187,7 +187,9 @@ class _FriendsState extends State<Friends> {
                       RaisedButton(
                         color: Colors.green,
                         child: Text("Accept"),
-                        onPressed: (){FriendsDataBase().friendRequestAnswer(true,
+                        onPressed: ()async{
+                            UserDataBase.user=await UserDataBase().getUser();
+                            FriendsDataBase().friendRequestAnswer(true,
                             UserDataBase.user.getFriendRequestReceive()[index],
                             initial);
                         },
@@ -196,7 +198,9 @@ class _FriendsState extends State<Friends> {
                       RaisedButton(
                         color: Colors.red,
                         child: Text("Delete"),
-                        onPressed: (){FriendsDataBase().friendRequestAnswer(false,
+                        onPressed: ()async{
+                          UserDataBase.user=await UserDataBase().getUser();
+                          FriendsDataBase().friendRequestAnswer(false,
                             UserDataBase.user.getFriendRequestReceive()[index],
                             initial);
                         },

@@ -244,6 +244,7 @@ class _FriendsButtonState extends State<FriendsButton> {
   static bool first=true;
 
   void initial(bool set)async{
+    UserDataBase.user=await UserDataBase().getUser();
     List<String> friendReqUid=await UserDataBase().getUserFriendReqReceive(FirebaseAPI().getUid());
     newFriendReq = friendReqUid.isEmpty? false: true;
     if(set){setState(() {});}
