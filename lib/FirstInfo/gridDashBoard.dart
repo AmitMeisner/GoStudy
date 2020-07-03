@@ -29,8 +29,8 @@ class GridDashboardState extends State<GridDashboard> {
               child: new Text(allCourses[index]),
             ),
           ),
-          onTap: () async{
-            return await DialogHelper.exit(context);
+          onTap: () {
+            navigateToInfoPage(context, index);
             },
         );
       },
@@ -48,10 +48,10 @@ class GridDashboardState extends State<GridDashboard> {
 }
 
 
-class DialogHelper {
-
-  static exit(context) => showDialog(context: context, builder: (context) => InfoCourse());
+Future navigateToInfoPage(context,index) async {
+  Navigator.push(context, MaterialPageRoute(builder: (context) => InfoCourse(index)));
 }
+
 //barrierDismissible: false,
 //context: context,
 //child: new CupertinoAlertDialog(

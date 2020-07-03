@@ -3,173 +3,113 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterapp/HomePage/Timer/coursesResources.dart';
-
 import 'InformationPage.dart';
 
 
-
-
-
-  class InfoCourse extends StatelessWidget {
+class InfoCourse extends StatefulWidget {
+  int index;
+  InfoCourse(this.index);
   @override
-  Widget build(BuildContext context) {
-  return Dialog(
-  shape: RoundedRectangleBorder(
-  borderRadius: BorderRadius.circular(16)
-  ),
-  elevation: 0,
-  backgroundColor: Colors.transparent,
-  child: _buildChild(context),
-  );
-  }
-
-  _buildChild(BuildContext context) => Container(
-  height: 650,
-  decoration: BoxDecoration(
-      color: Colors.blue,
-  shape: BoxShape.rectangle,
-  borderRadius: BorderRadius.all(Radius.circular(12))
-  ),
-  child: Column(
-  children: <Widget>[
-  SizedBox(height: 24,),
-  Text('how long in total(hours) did you study for the exam?', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),),
-  SizedBox(height: 8,),
-    examHours(),
-
-  RaisedButton(onPressed: (){
-  return Navigator.of(context).pop(true);
-  }, child: Text('Yes'), color: Colors.white, textColor: Colors.redAccent,)
-  ],
-  )
-
-  );
-  }
-
-
-
-class examHours extends StatefulWidget {
-  @override
-  examHoursState createState() => examHoursState();
+  InfoCourseState createState() => InfoCourseState(index);
 }
 
-class examHoursState extends State<examHours> {
-  static int year;
+  class InfoCourseState extends State<InfoCourse> {
+  int index;
+  InfoCourseState(this.index);
   @override
   Widget build(BuildContext context) {
+    return new Scaffold(
+        appBar: new AppBar(
+            title: new Text("Flutter GridView")
+        ),
+        body: buildChild(context, 1),
+    );}
+
+  }
+
+  Widget buildChild(BuildContext context, int index) {
+    return ListView(
+        padding: EdgeInsets.symmetric(horizontal: 30,vertical: 4),
+//        decoration: BoxDecoration(
+//            shape: BoxShape.rectangle,
+//            borderRadius: BorderRadius.all(Radius.circular(12))
+//        ),
+          children: <Widget>[
+            SizedBox(height: 24,),
+            Text('how long in total(hours) did you study for the exam?', style: TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold),),
+            SizedBox(height: 8,),
+            examHours(),
+            SizedBox(height: 40,),
+            Text('how long in total(hours) did you study for each homework in average?', style: TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold),),
+            SizedBox(height: 8,),
+            homeworkHours(),
+            SizedBox(height: 40,),
+            Text('what is your final grade?', style: TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold),),
+            SizedBox(height: 8,),
+            totalGrade(),
+            SizedBox(height: 8,),
+            RaisedButton(onPressed: (){
+              return Navigator.of(context).pop(true);
+            }, child: Text('ENTER INTO'), color: Colors.white, textColor: Colors.redAccent,)
+          ],
+        );
+
+  }
+
+
+
+
+  Widget examHours()  {
     return Column(
       children: <Widget>[
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Radio(
                 value: 1,
-                groupValue: year,
                 activeColor: InformationPage.focusColor,
-                onChanged: (T){
-                  setState(() {
-                    year=T;
-                  });
-                },
               ),
               Text("30-35"),
               Radio(
                 value: 2,
-                groupValue: year,
-                activeColor: InformationPage.focusColor,
-                onChanged: (T){
-                  setState(() {
-                    year=T;
-                  });
-                },
               ),
               Text("36-40"),
               Radio(
                 value: 3,
-                groupValue: year,
-                activeColor: InformationPage.focusColor,
-                onChanged: (T){
-                  setState(() {
-                    year=T;
-                  });
-                },
               ),
               Text("41-45"),
             ],
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Radio(
                 value: 4,
-                groupValue: year,
-                activeColor: InformationPage.focusColor,
-                onChanged: (T){
-                  setState(() {
-                    year=T;
-                  });
-                },
               ),
               Text("46-50"),
               Radio(
                 value: 5,
-                groupValue: year,
-                activeColor: InformationPage.focusColor,
-                onChanged: (T){
-                  setState(() {
-                    year=T;
-                  });
-                },
               ),
               Text("51-55"),
               Radio(
                 value: 6,
-                groupValue: year,
-                activeColor: InformationPage.focusColor,
-                onChanged: (T){
-                  setState(() {
-                    year=T;
-                  });
-                },
               ),
               Text("56-60"),
             ],
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Radio(
                 value: 7,
-                groupValue: year,
-                activeColor: InformationPage.focusColor,
-                onChanged: (T){
-                  setState(() {
-                    year=T;
-                  });
-                },
               ),
               Text("61-65"),
               Radio(
                 value: 8,
-                groupValue: year,
-                activeColor: InformationPage.focusColor,
-                onChanged: (T){
-                  setState(() {
-                    year=T;
-                  });
-                },
               ),
               Text("66-70"),
               Radio(
                 value: 9,
-                groupValue: year,
-                activeColor: InformationPage.focusColor,
-                onChanged: (T){
-                  setState(() {
-                    year=T;
-                  });
-                },
               ),
               Text("70+"),
             ],
@@ -179,4 +119,102 @@ class examHoursState extends State<examHours> {
     );
   }
 
+
+Widget homeworkHours()  {
+  return Column(
+    children: <Widget>[
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Radio(
+            value: 1,
+            activeColor: InformationPage.focusColor,
+          ),
+          Text("3-5"),
+          Radio(
+            value: 2,
+          ),
+          Text("6-8"),
+          Radio(
+            value: 3,
+          ),
+          Text("9-11"),
+        ],
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Radio(
+            value: 4,
+          ),
+          Text("12-14"),
+          Radio(
+            value: 5,
+          ),
+          Text("15-17"),
+          Radio(
+            value: 6,
+          ),
+          Text("17+"),
+        ],
+      ),
+    ],
+
+  );
+}
+
+Widget totalGrade()  {
+  return Column(
+    children: <Widget>[
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Radio(
+            value: 1,
+            activeColor: InformationPage.focusColor,
+          ),
+          Text("60-64"),
+          Radio(
+            value: 2,
+          ),
+          Text("65-69"),
+          Radio(
+            value: 3,
+          ),
+          Text("70-74"),
+        ],
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Radio(
+            value: 4,
+          ),
+          Text("75-79"),
+          Radio(
+            value: 5,
+          ),
+          Text("80-84"),
+          Radio(
+            value: 6,
+          ),
+          Text("85-89"),
+        ],
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Radio(
+            value: 7,
+          ),
+          Text("90-95"),
+          Radio(
+            value: 8,
+          ),
+          Text("96-100"),
+        ],
+      ),
+    ],
+
+  );
 }
