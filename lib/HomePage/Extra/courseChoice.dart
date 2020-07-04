@@ -22,14 +22,13 @@ class CourseChoice extends StatefulWidget {
   //indicates that this is the multi choice from the tips page
   //and not the tipDialog.
   final bool tipsPage;
-  final bool addResource;
 
   //constructor/
-  CourseChoice(this.updateUserCourse, this.ceiling, this.timesPageSetState, this.tipsPage, this.addResource);
+  CourseChoice(this.updateUserCourse, this.ceiling, this.timesPageSetState, this.tipsPage);
 
 
   @override
-  _CourseChoiceState createState() => _CourseChoiceState(updateUserCourse, ceiling,timesPageSetState, tipsPage,addResource);
+  _CourseChoiceState createState() => _CourseChoiceState(updateUserCourse, ceiling,timesPageSetState, tipsPage);
 }
 
 class _CourseChoiceState extends State<CourseChoice> {
@@ -40,29 +39,24 @@ class _CourseChoiceState extends State<CourseChoice> {
 
   // distance of the title from the top.
   double ceiling;
-  bool addResource;
   bool timesPage;
 
   //constructor.
-  _CourseChoiceState(this.updateUserCourse, this.ceiling, this.tipsPageSetState, this.timesPage, this.addResource);
+  _CourseChoiceState(this.updateUserCourse, this.ceiling, this.tipsPageSetState, this.timesPage);
 
 
 
   // list of all courses.
   List<String> courses=Global().getUserCourses();
-  List<String> resources=Global().getAllResources();
   List<String> userCourse=[""];
-  List<String> userResource=[""];
 
 
   @override
   Widget build(BuildContext context) {
+    if(userCourse[0] == ""){
+      userCourse = [Global().getUserCourses()[0]];}
     updateUserCourse(userCourse);
-    updateUserCourse(userResource);
-    if(addResource){
-    return scrollableListChoice(ceiling,resources,userResource);}
-    else{
-      return scrollableListChoice(ceiling,courses,userCourse);}
+      return scrollableListChoice(ceiling,courses,userCourse);
 
   }
 

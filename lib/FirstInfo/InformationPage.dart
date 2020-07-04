@@ -7,6 +7,8 @@ import 'package:multiselect_formfield/multiselect_formfield.dart';
 
 import 'package:flutterapp/Global.dart';
 
+import 'gridDashBoard.dart';
+
 
 class User{
   String _nickname;
@@ -366,6 +368,13 @@ class _InformationPageState extends State<InformationPage> {
                 SemesterInput(),
 //                DedicationInput(),
                 CoursesInput(),
+                RaisedButton(
+                  textColor: Colors.white,
+                  color: Colors.blue,
+                  child: Text('update old courses'),
+                  onPressed: () {
+                    navigateToCoursesPage(context);
+                  },),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -444,6 +453,11 @@ class _InformationPageState extends State<InformationPage> {
 
      }
   }
+
+  Future navigateToCoursesPage(context) async {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => GridDashboard()));
+  }
+
 
 
   void updateTimes(List<String> goal, List<String> courses){

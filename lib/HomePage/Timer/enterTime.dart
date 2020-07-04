@@ -31,7 +31,7 @@ class EnterTimeButton extends StatefulWidget {
 
  String getDate() {
   var now = new DateTime.now();
-  var formatter = new DateFormat('yyyy-MM-dd');
+  var formatter = new DateFormat('dd-MM-yyyy');
   String formatted = formatter.format(now);
   return formatted;
 }

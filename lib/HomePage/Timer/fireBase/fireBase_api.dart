@@ -1,4 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutterapp/Global.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../../Extra/cards.dart';
 import 'TimeCard.dart';
 
@@ -11,9 +15,9 @@ class TimeDataBase{
 //      .where('course', isEqualTo:selectedCourse).snapshots();
 
   Stream<QuerySnapshot> timesCollectionQuery = timeCollection
-      .where('course', isEqualTo:selectedCourse).snapshots();
+      .where('course', isEqualTo:selectedCourse).orderBy('date', descending: true).snapshots();
 
-  static String selectedCourse="Calculus 2";
+  static String selectedCourse=Global().getUserCourses()[0];
 
 
   //add tip card.
@@ -58,7 +62,7 @@ class TimeDataBase{
 
   void setUserSelectedCourse(String userSelectedCourse, Function updateTimePageState){
     selectedCourse=userSelectedCourse;
-    if(userSelectedCourse.isEmpty){selectedCourse="Calculus 2";}
+    if(userSelectedCourse.isEmpty){selectedCourse=Global().getUserCourses()[0];}
     timesCollectionQuery=timeCollection.orderBy('date', descending: true).where('course',isEqualTo: selectedCourse).snapshots();
     updateTimePageState();
   }
@@ -71,6 +75,27 @@ class TimeDataBase{
   }
 
 
+  static void editTimeCard(BuildContext context, TimeCard card, String userCourse,String userResource) async{
+    DocumentReference doc = timeCollection.document(card.getDocId());
+    if(userCourse == "" || userResource == ""){
+      return showColoredToast("choose course and resource");
+    }
+    doc.updateData({'course' : userCourse});
+    doc.updateData({'resource': userResource});
+    Navigator.pop(context);
+    showColoredToast("course is updated to $userCourse        and resource to $userResource");
+
+  }
+
+// display error to the user.
+  static void showColoredToast(String msg) {
+    Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_LONG,
+        backgroundColor: Colors.grey,
+        gravity: ToastGravity.CENTER,
+        textColor: Colors.white);
+  }
 
 }
 
