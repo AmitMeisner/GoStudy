@@ -1,4 +1,6 @@
 
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -8,6 +10,8 @@ class Global {
                                 "Statistics", "Computer Structure", "Algorithms", "Software Project", "Computational models",
                                 "Operating Systems", "Logic","Complexity","Compilation"];
   static List<String> userCourses=[];
+  final List<double> allHours = [32.5,38,43,48,53,58,63,67,85];
+  final List<double> allGrades = [62,67,72,77,82,87,92,97];
 
 
   static Color backgroundPageColor=Colors.grey[300];
@@ -25,6 +29,17 @@ class Global {
     List<String> courses= new List<String>.from(allCourses);
     return courses;
   }
+
+  List<double> getAllGrades(){
+    List<double> grades= new List<double>.from(allGrades);
+    return grades;
+  }
+
+  List<double> getAllHours(){
+    List<double> hours= new List<double>.from(allHours);
+    return hours;
+  }
+
   // return a list of resources.
   List<String> getAllResources(){
     List<String> resources= new List<String>.from(allResources);
