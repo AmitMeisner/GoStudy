@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Global {
-  final List<String> allCourses=["Calculus 1", "Linear Algebra 1", "CS 101" , "Discrete mathematics",
+  final List<String> allCourses=["Calculus 1", "Linear Algebra 1", "CS 101" , "Discrete Mathematics",
                                 "Probability", "Calculus 2", "Linear Algebra 2", "Software 1", "Data Structures",
-                                "Statistics", "Computer Structure", "Algorithms", "Software Project", "Computational models",
+                                "Statistics", "Computer Structure", "Algorithms", "Software Project", "Computational Models",
                                 "Operating Systems", "Logic","Complexity","Compilation"];
   static List<String> userCourses=[];
 
