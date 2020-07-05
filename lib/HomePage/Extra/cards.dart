@@ -46,8 +46,8 @@ class cards extends StatelessWidget {
     return Container(
 
 //      color: Colors.yellow[300],
-      height: 535.0,
-      padding: EdgeInsets.only(bottom: 50.0),
+      height: 650.0,
+      //padding: EdgeInsets.only(bottom: 50.0),
       child: ListView.builder(
         itemCount: _timeCards.length,
         itemBuilder: (context, index) {
@@ -70,7 +70,6 @@ class cards extends StatelessWidget {
       ),
     );
   }
-
 
   void removeTime(TimeCard timeCard, Function updateTimesPageState) {
     TimeDataBase.deleteTimeCard(timeCard);
@@ -107,7 +106,7 @@ class cards extends StatelessWidget {
     return Container(
       child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          padding: EdgeInsets.only(bottom: 10),
+          padding: EdgeInsets.only(bottom: 5),
           child: Row(
             children: <Widget>[
               Text(_timeCards[index].getCourse(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
@@ -119,44 +118,81 @@ class cards extends StatelessWidget {
     );
   }
 }
+
+
 // creating the cards content.
 Widget cardContent(BuildContext context,Function course, int index , List<TimeCard> times, Function updateTimesPageState){
+
   return Container(
-    color: Colors.blueGrey,
-    padding: EdgeInsets.symmetric(horizontal: 30,vertical: 4),
-    child: Card(
-      elevation: 5,
+    margin:  EdgeInsets.only( bottom: 25.0),
+    width: MediaQuery.of(context).size.height/2.1,
+    height: MediaQuery.of(context).size.height/8,
+    decoration: BoxDecoration(
+      color: Global.getBackgroundColor(0),
+      borderRadius: BorderRadius.circular(50),
+      boxShadow: [
+        BoxShadow(
+          blurRadius: 15,
+          offset: Offset(-5, -5),
+          color: Colors.white,
+        ),
+        BoxShadow(
+          blurRadius: 15,
+          offset: Offset(10.5, 10.5),
+//            color: Color.fromRGBO(214, 223, 230, 1),
+          color: Global.getBackgroundColor(500),
+        )
+      ],
+    ),
+// Digital green background
+    child: Center(
+        child: LayoutBuilder(
+        builder: (context, constraints) => Container(
+    height:  MediaQuery.of(context).size.height/10,
+    width: MediaQuery.of(context).size.height/2.3,
+    decoration: BoxDecoration(
+      gradient: LinearGradient(colors: [
+        Global.backgroundPageColor,
+        Global.backgroundPageColor,
+      ]),
+      borderRadius: BorderRadius.circular(50),
+      border: Border.all(
+        color: Color.fromRGBO(168, 168, 168, 1),
+        width: 2,
+      ),
+    ),
       child: ListTile(
         title: Wrap(
           children: <Widget>[
             showInfo( context,course, index ,times, updateTimesPageState),
           ],
         ),
-      ),
     ),
-  );
+  ),),),);
 }
 
 
 
 // creating the cards tags, date and like for the all the cards, except fot the first one.
 Widget showInfo(BuildContext context,Function course, int index , List<TimeCard> times, Function updateTimesPageState){
-  return Wrap(
+  return Container(
+    margin:  EdgeInsets.only( top:3.0,bottom: 3.0),
+    child: Column(
     children: <Widget>[
       course(index),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          Text(times[index].getDate().toString()),
+          Text(times[index].getDate().toString(), style: TextStyle( fontSize: 14)),
           Text(timeString(times[index].getHours())+":"+
               timeString(times[index].getMinutes())+":"+
-              timeString(times[index].getSeconds())),
+              timeString(times[index].getSeconds()),style: TextStyle( fontSize: 14)),
           IconButton(
             icon: Icon(
               Icons.edit,
             ),
             iconSize: 30,
-            color: Colors.black,
+            color: Global.getBackgroundColor(0),
             splashColor: Colors.grey,
             onPressed: () {
               return editTime(context,updateTimesPageState,times[index]);
@@ -165,6 +201,7 @@ Widget showInfo(BuildContext context,Function course, int index , List<TimeCard>
         ],
       ),
     ],
+    ),
   );
 
 }

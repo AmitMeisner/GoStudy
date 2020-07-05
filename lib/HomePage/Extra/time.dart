@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../../Global.dart';
 import 'editTimeDialog.dart';
 import 'package:flutterapp/HomePage/Timer/fireBase/TimeCard.dart';
 import 'package:flutterapp/HomePage/Timer/fireBase/fireBase_api.dart';
@@ -26,27 +27,34 @@ class TimesPageState extends State<TimesPage> {
 
 
   @override
+
   Widget build(BuildContext context) {
     return StreamProvider<List<TimeCard>>.value(
       value: TimeDataBase().times,
       child: Scaffold(
-        backgroundColor: Colors.white,
-        body: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              children: <Widget>[
+        backgroundColor: Global.getBackgroundColor(0),
+        body: SafeArea(
+          child: Container(
+            color: Colors.white,
+            child: SingleChildScrollView(
+              child: Center(
+                child: Column(
+                  children: <Widget>[
               //  infoBlock(),
-                Container(
-                  height: 50
-                ),
-                CourseChoice(updateUserCourse, 20, updateState, true),
-                cards(updateState),
-              ],
+                    Container(
+                      height: 15
+                    ),
+                    CourseChoice(updateUserCourse, updateState, true),
+                    Container(
+                        height: 20
+                    ),
+                    cards(updateState),
+                  ],
             ),
           ),
         ),
         //floatingActionButton: fabAddTip(context),
-      ),
+      ),),),
     );
   }
 

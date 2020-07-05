@@ -29,12 +29,16 @@ class InfoCourse extends StatefulWidget {
     String userId = FirebaseAPI().getUid();
     double average = 80.0;
 
-    @override
+
+
+
     Widget build(BuildContext context) {
-      return new Scaffold(
-        appBar: new AppBar(
-            title: new Text("Flutter GridView")
-        ),
+      return  Scaffold(
+        appBar: new PreferredSize(
+            preferredSize: Size.fromHeight(48.0),
+           child: AppBar(
+           backgroundColor: Global.getBackgroundColor(0),
+        ),),
         body: buildChild(context, 1),
       );
     }
@@ -50,65 +54,68 @@ class InfoCourse extends StatefulWidget {
         children: <Widget>[
           SizedBox(height: 24,),
           Text('how long in total(hours) did you study for the exam?',
-            style: TextStyle(fontSize: 16,
+            style: TextStyle(fontSize: 20,
                 color: Colors.black,
-                fontWeight: FontWeight.bold),),
+                fontFamily: 'Piedra',
+                ),),
           SizedBox(height: 8,),
           totalExamHours(),
           SizedBox(height: 40,),
           Text(
             'how long in total(hours) did you study for the homeworks ?',
-            style: TextStyle(fontSize: 16,
+            style: TextStyle(fontSize: 20,
                 color: Colors.black,
-                fontWeight: FontWeight.bold),),
+              fontFamily: 'Piedra'),),
           SizedBox(height: 8,),
           totalHomeworkHours(),
           SizedBox(height: 40,),
           Text(
             'how long in total(hours) did you study for the recitations ?',
-            style: TextStyle(fontSize: 16,
+            style: TextStyle(fontSize: 20,
                 color: Colors.black,
-                fontWeight: FontWeight.bold),),
+                fontFamily: 'Piedra'),),
           SizedBox(height: 8,),
           totalRecitationsHours(),
           SizedBox(height: 40,),
           Text(
             'how long in total(hours) did you study for the lectures ?',
-            style: TextStyle(fontSize: 16,
+            style: TextStyle(fontSize: 20,
                 color: Colors.black,
-                fontWeight: FontWeight.bold),),
+                fontFamily: 'Piedra'),),
           SizedBox(height: 8,),
           totalLecturesHours(),
           SizedBox(height: 40,),
           Text(
             'how long in total(hours) did you study using extra material ?',
-            style: TextStyle(fontSize: 16,
+            style: TextStyle(fontSize: 20,
                 color: Colors.black,
-                fontWeight: FontWeight.bold),),
+                fontFamily: 'Piedra'),),
           SizedBox(height: 8,),
           totalExtraHours(),
           SizedBox(height: 40,),
           Text('what is your final grade?', style: TextStyle(
-              fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold),),
+              fontSize: 20, color: Colors.black, fontFamily: 'Piedra'),),
           SizedBox(height: 8,),
           totalGrade(),
           SizedBox(height: 8,),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
           RaisedButton(
             onPressed: () {
             return Navigator.of(context).pop(true);
           },
-            child: Text('BACK'),
+            child: Text('BACK', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 12)),
             color: Colors.white,
-            textColor: Colors.redAccent,),
+            textColor: Colors.black,),
           RaisedButton(
+            splashColor: Global.getBackgroundColor(0),
             onPressed: () {
               onClick(context);
             },
-            child: Text('ENTER INFO'),
+            child: Text('ENTER INFO',  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 12)),
             color: Colors.white,
-            textColor: Colors.redAccent,)
+            textColor: Colors.black)
             ],
           ),
         ],
@@ -826,7 +833,7 @@ void showColoredToast(String msg) {
       fontSize: 18,
       msg: msg,
       toastLength: Toast.LENGTH_LONG,
-      backgroundColor: Colors.black,
+      backgroundColor: Global.getBackgroundColor(0),
       gravity: ToastGravity.CENTER,
       textColor: Colors.white);
 }

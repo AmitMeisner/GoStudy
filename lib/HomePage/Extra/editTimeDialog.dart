@@ -4,13 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/HomePage/Extra/resourceChoice.dart';
 import 'package:flutterapp/HomePage/Timer/fireBase/TimeCard.dart';
 import 'package:flutterapp/HomePage/Timer/fireBase/fireBase_api.dart';
-import 'package:flutterapp/Tips/CoursesMultiChoice.dart';
-import 'package:flutterapp/Tips/Cards.dart';
-import 'package:flutterapp/Tips/Tips.dart';
-import 'package:intl/intl.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
-import 'cards.dart';
+import '../../Global.dart';
 import 'courseChoice.dart';
 
 class editTimeDialog extends StatefulWidget {
@@ -50,13 +45,15 @@ class editTimeDialogState extends State<editTimeDialog> {
       children: <Widget>[
         courses(),
         new Container(
-          height: 28.0,
+          height: 20.0,
         ),
         resources(),
+        new Container(
+          height: 28.0,
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            //Spacer(),
             exitButton(context),
             editButton(context),
 
@@ -68,7 +65,7 @@ class editTimeDialogState extends State<editTimeDialog> {
 
   //creating the courses choices in the dialog.
   Widget courses(){
-    return CourseChoice(updateUserCourse,0.0, timesPageSetState,false);
+    return CourseChoice(updateUserCourse, timesPageSetState,false);
   }
 
 
@@ -99,7 +96,7 @@ class editTimeDialogState extends State<editTimeDialog> {
         child: FlatButton(
           onPressed: (){TimeDataBase.editTimeCard(context,card,userCourse[0],userResource[0]);},
           child: Text("UPDATE"),
-          color: Colors.blueAccent,
+          color: Global.getBackgroundColor(0),
         )
     );
   }
@@ -110,21 +107,11 @@ class editTimeDialogState extends State<editTimeDialog> {
         child: FlatButton(
           onPressed: (){Navigator.pop(context);},
           child: Text("EXIT"),
-          color: Colors.blueAccent,
+          color:Global.getBackgroundColor(0),
         )
     );
   }
 
-
-  //display message to the user.
-  static void showColoredToast(String msg) {
-    Fluttertoast.showToast(
-        msg: msg,
-        toastLength: Toast.LENGTH_SHORT,
-        backgroundColor: Colors.grey,
-        gravity: ToastGravity.CENTER,
-        textColor: Colors.white);
-  }
 
 
 }
