@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterapp/pushNotifications.dart';
 import '../Global.dart';
 import 'Timer/dialog_helper.dart';
 import 'Timer/enterTime.dart';
@@ -20,6 +21,13 @@ class HomeMainPage extends StatefulWidget {
 }
 
 class HomeMainPageState extends State<HomeMainPage> {
+
+  @override
+  void initState() {
+    PushNotificationsManager pushNotificationsManager = new PushNotificationsManager();
+    pushNotificationsManager.init();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
