@@ -50,6 +50,9 @@ class FirebaseAPI{
 }
 
 class StatisticsDataBase{
+  static  CollectionReference tipsCollection= Firestore.instance.collection("Statistics");
+
+  //Future List<String> getData(course, res)
 
 }
 

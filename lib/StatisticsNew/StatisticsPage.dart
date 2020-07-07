@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutterapp/StatisticsNew/pie_chart/samples/pie_chart_sample1.dart';
 import 'package:flutterapp/StatisticsNew/pie_chart/samples/pie_chart_sample2.dart';
-
+import 'package:flutterapp/StatisticsNew/scatter_chart/samples/scatter_chart_sample2.dart';
+import 'package:flutterapp/StatisticsNew/scatter_chart/samples/scatter_chart_sample1.dart';
+import 'package:flutterapp/StatisticsNew/CourseXY.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
 import 'package:provider/provider.dart';
 
@@ -14,9 +16,14 @@ import 'CourseXY.dart';
 import 'bar_chart/samples/bar_chart_sample1.dart';
 import 'bar_chart/samples/bar_chart_sample2.dart';
 import 'bar_chart/samples/bar_chart_sample4.dart';
+import 'line_chart/samples/line_chart_sample1.dart';
 import 'line_chart/samples/line_chart_sample2.dart';
+import 'line_chart/samples/line_chart_sample3.dart';
 import 'line_chart/samples/line_chart_sample4.dart';
+import 'line_chart/samples/line_chart_sample5.dart';
+import 'line_chart/samples/line_chart_sample6.dart';
 import 'line_chart/samples/line_chart_sample7.dart';
+import 'line_chart/samples/line_chart_sample8.dart';
 
 
 
@@ -142,26 +149,46 @@ class _NewStatistics extends State<NewStatistics> {
     if(!paramChoose){return BarChartSample1();}
     switch(chosenChart){
       case 1:
-        return  LineChartSample2();
+        return  ScatterChartSample1();
       case 2:
-        return  BarChartSample2(_usersData);
+        return  LineChartSample2();
       case 3:
-        return  PieChartSample1();
+        return  ScatterChartSample2();
       case 4:
-        return  PieChartSample2();
+        return  LineChartSample4(ShowHideDropdownState.selectedCourse, ShowHideDropdownState.xAxisValue, ShowHideDropdownState.yAxisValue1);
       case 5:
-        return  LineChartSample4();
+        return  PieChartSample1();
       case 6:
-        return  LineChartSample7();
+        return  PieChartSample2();
       case 7:
-        return  BarChartSample4(_usersData);
+        return  LineChartSample7();
     }
-    return LineChartSample2();
+    return Text('hi');
   }
 
-  void setStatisticsPageState(){
+  void setStatisticsPageState(String xAxis1, String yAxis1, String yAxis2, String yAxis3){
+    if (yAxis2=="yAxis2" && yAxis3=="yAxis3"){
+      setTwoParamsGraphs(xAxis1, yAxis1);
+    }else if(yAxis2!="yAxis2" && yAxis3=="yAxis3"){
+      setThreeParamsGraphs(xAxis1, yAxis1, yAxis2);
+    }else if(yAxis2!="yAxis2" && yAxis3!="yAxis3"){
+      setFourParamsGraphs(xAxis1, yAxis1, yAxis2, yAxis3);
+    }
+
+    print(xAxis1);
+    print(yAxis1);
+    print(yAxis2);
+    print(yAxis3);
     setState(() {paramChoose=true;});
   }
+
+  void setTwoParamsGraphs(String xAxis1, String yAxis1) {
+
+  }
+
+  void setThreeParamsGraphs(String xAxis1, String yAxis1, String yAxis2) {}
+
+  void setFourParamsGraphs(String xAxis1, String yAxis1, String yAxis2, String yAxis3) {}
 }
 
 

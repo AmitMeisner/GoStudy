@@ -15,14 +15,14 @@ class ShowHideDropdown extends StatefulWidget {
 
 class ShowHideDropdownState extends State<ShowHideDropdown> {
   final List<String> _dropdownValues = Global().getUserCourses(); //The list of values we want on the dropdown
-  final List<String> _dropdownValuesX = ["Final Grade","Average","HomeWork Time","Recitation Time",
-    "Lectures Time","Exam Time","Extra Time",];
-  final List<String> _dropdownValuesY = ["HomeWork Time","Recitation Time",
-    "Lectures Time","Exam Time","Extra Time",];
+  final List<String> _dropdownValuesX = ["Average", "Final Grade", "Exam Time", "Homework Time"];
+  final List<String> _dropdownValuesY = ["Average", "Final Grade", "Exam Time", "Homework Time"];
 
   static String selectedCourse = "Course";
   static String xAxisValue = "xAxis";
-  static String yAxisValue = "yAxis";
+  static String yAxisValue1 = "yAxis1";
+  static String yAxisValue2 = "yAxis2";
+  static String yAxisValue3 = "yAxis3";
   int varCount=1;
 
   final Function setStatisticsPageState;
@@ -72,23 +72,6 @@ class ShowHideDropdownState extends State<ShowHideDropdown> {
             ),
           ):Container(),
           Icon(Icons.arrow_forward, color:varCount>=2? Colors.black: Colors.grey,),
-          varCount>=2? Expanded(
-            child: DropdownButton<String>(
-              isExpanded: true,
-              items: _dropdownValuesY
-                  .map((data) => DropdownMenuItem<String>(
-                child: Text(data),
-                value: data,
-              ))
-                  .toList(),
-              onChanged: (String value) {
-                setState(() { yAxisValue = value;checkValidSelection();});
-
-              },
-              hint: Text(yAxisValue),
-              // value: _selectedValue,
-            ),
-          ):Container(),
           varCount==1? IconButton(
             icon: Icon(Icons.add),
             onPressed: (){varCount++;setState(() {});},
@@ -103,10 +86,10 @@ class ShowHideDropdownState extends State<ShowHideDropdown> {
               ))
                   .toList(),
               onChanged: (String value) {
-                setState(() { yAxisValue = value;checkValidSelection();});
+                setState(() { yAxisValue1 = value;checkValidSelection();});
 
               },
-              hint: Text(yAxisValue),
+              hint: Text(yAxisValue1),
               // value: _selectedValue,
             ),
           ):Container(),
@@ -124,16 +107,33 @@ class ShowHideDropdownState extends State<ShowHideDropdown> {
               ))
                   .toList(),
               onChanged: (String value) {
-                setState(() { yAxisValue = value;checkValidSelection();});
+                setState(() { yAxisValue2 = value;checkValidSelection();});
 
               },
-              hint: Text(yAxisValue),
+              hint: Text(yAxisValue2),
               // value: _selectedValue,
             ),
           ):Container(),
           varCount==3? IconButton(
             icon: Icon(Icons.add),
             onPressed: (){varCount++;setState(() {});},
+          ):Container(),
+          varCount>=4? Expanded(
+            child: DropdownButton<String>(
+              isExpanded: true,
+              items: _dropdownValuesY
+                  .map((data) => DropdownMenuItem<String>(
+                child: Text(data),
+                value: data,
+              ))
+                  .toList(),
+              onChanged: (String value) {
+                setState(() { yAxisValue3 = value;checkValidSelection();});
+
+              },
+              hint: Text(yAxisValue3),
+              // value: _selectedValue,
+            ),
           ):Container(),
 
 
@@ -332,9 +332,19 @@ class ShowHideDropdownState extends State<ShowHideDropdown> {
 
 
   void checkValidSelection(){
-    if(selectedCourse=="Course" || xAxisValue=="xAxis" || yAxisValue=="yAxis"){
+    if (selectedCourse=="Course" || xAxisValue=="xAxis"){
       return;
     }
-    setStatisticsPageState();
+
+    if(yAxisValue1=="yAxis1"){
+      return;
+    }
+    if (varCount==3 && yAxisValue2=="yAxis2"){
+      return;
+    }
+    if (varCount==4 && (yAxisValue2=="yAxis2" || yAxisValue3=="yAxis3")){
+      return;
+    }
+    setStatisticsPageState(xAxisValue, yAxisValue1, yAxisValue2, yAxisValue3);
   }
 }
