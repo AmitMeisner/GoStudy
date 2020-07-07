@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapp/Progress/ProgressData.dart';
 import 'package:horizontal_data_table/horizontal_data_table.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
 
@@ -14,11 +15,15 @@ class _RankState extends State<Rank> {
   List<String> friendsUid=[];
   List<int> rank=[];
   List<double> progress=[];
+  double semesterHours=0.0;
+  double semesterHoursDone=0.0;
+  int starRank =1;
   static bool sortProgress=true;
   bool initializing=true;
 
 
   void initial()async{
+    UserProgress user = await UserProgressDataBase().getUser(FirebaseAPI().getUid());
     friendsUid=await UserDataBase().getUserFriendsList(FirebaseAPI().getUid());
     friends.clear();
     for(String user in friendsUid) {
@@ -26,6 +31,13 @@ class _RankState extends State<Rank> {
       rank.add(await FriendsDataBase().getFriendRank(user));
       progress.add(await FriendsDataBase().getFriendProgress(user));
     }
+    semesterHours=user.getGoal("SemesterHours",null);
+    semesterHoursDone=user.getCourseTime("totalTime",null);
+    if((semesterHoursDone/semesterHours)>0.2){starRank=2;}
+    if((semesterHoursDone/semesterHours)>0.5){starRank=3;}
+    if((semesterHoursDone/semesterHours)>0.75){starRank=4;}
+    if((semesterHoursDone/semesterHours)>0.9){starRank=5;}
+    user.setRank(starRank);
     initializing=false;
     setState(() {});
 
@@ -44,7 +56,11 @@ class _RankState extends State<Rank> {
     }
     user.initData(friends,progress,rank);
     return Scaffold(
-      body: _getBodyWidget(),
+      body: ListView(
+          children: [
+            rankStars(starRank),
+            _getBodyWidget()
+          ]),
     );
   }
 
@@ -133,6 +149,96 @@ class _RankState extends State<Rank> {
           alignment: Alignment.centerLeft,
         ),
       ],
+    );
+  }
+
+  Widget rankStars(int rank){
+    switch(rank){
+      case 1:
+        return Row(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(5),
+              child: Text('Freshman level',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+            ),
+            Spacer(),
+            buildStars(context,Colors.black,Colors.black,Colors.black,Colors.black,Global.goldStars),
+          ],
+        );
+      case 2:
+        return Row(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(5),
+              child: Text('Junior level',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+            ),
+            Spacer(),
+            buildStars(context,Colors.black,Colors.black,Colors.black,Global.goldStars,Global.goldStars),
+          ],
+        );
+      case 3:
+        return Row(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(5),
+              child: Text('Intermediate level',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+            ),
+            Spacer(),
+            buildStars(context,Colors.black,Colors.black,Global.goldStars,Global.goldStars,Global.goldStars),
+          ],
+        );
+      case 4:
+        return Row(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(5),
+              child: Text('Doctor level',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+            ),
+            Spacer(),
+            buildStars(context,Colors.black,Global.goldStars,Global.goldStars,Global.goldStars,Global.goldStars),
+          ],
+        );
+      case 5:
+        return Row(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(5),
+              child: Text('Professor level',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+            ),
+            Spacer(),
+            buildStars(context,Global.goldStars,Global.goldStars,Global.goldStars,Global.goldStars,Global.goldStars),
+          ],
+        );
+    }
+    return buildStars(context,Colors.black,Colors.black,Colors.black,Colors.black,Global.goldStars);
+  }
+
+  Widget buildStars(BuildContext context, Color color1, Color color2,Color color3,Color color4,Color color5){
+    return Row(
+      children: <Widget>[
+        starIcon(context , color1),
+        starIcon(context , color2),
+        starIcon(context , color3),
+        starIcon(context , color4),
+        starIcon(context , color5)
+      ],
+    );
+  }
+
+  starIcon(BuildContext context, Color color) {
+    return Align(
+        alignment: Alignment.topRight,
+        child: IconButton(
+          icon: Icon(color == Colors.black ? Icons.star_border : Icons.star,color: color,),
+          onPressed: () {
+//            showStarDialog(context);
+          },
+        )
     );
   }
 }

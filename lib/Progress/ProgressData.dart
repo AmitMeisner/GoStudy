@@ -4,6 +4,7 @@ import 'package:flutterapp/Progress/PlanBuild.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
 import 'package:nice_button/nice_button.dart';
 import 'package:flutterapp/FirstInfo/InformationPage.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_progress_bar/progress_bar.dart';
 
@@ -89,19 +90,30 @@ class _ProgressDataState extends State<ProgressData> {
       createPlan=false;
       createAPlan();
     }
-    return SingleChildScrollView(
+    return Column(
+      children: [
+        SingleChildScrollView(
 //        height: MediaQuery.of(context).size.height - 150,
-        child:  SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              CourseSelectChoice(initial),
-              Container(
+            child:  SafeArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  CourseSelectChoice(initial),
+                  Container(
+                    width: MediaQuery.of(context).size.width/10,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+//                        rankStars(rank),
+                      ],
+                    ),
+                  ),
+                  Container(
 //                height: 50,
 //                width: MediaQuery.of(context).size.width * 20,
-                child: Column(
-                  children: [
-                    Center(child: Text("Week "+week,style:TextStyle(fontFamily: 'Piedra',fontSize: 35),)),
+                    child: Column(
+                      children: [
+                        Center(child: Text("Week "+week+" Progress",style:TextStyle(fontFamily: 'Piedra',fontSize: 35),)),
 //                    Align(
 //                      alignment: Alignment.topLeft,
 //                      child: Text('   Week '+week,
@@ -125,9 +137,9 @@ class _ProgressDataState extends State<ProgressData> {
 //                          ),
 //                        ),
 //                    rankStars(rank),
-                  ],
-                ),
-              ),
+                      ],
+                    ),
+                  ),
 //                  SizedBox(height: MediaQuery.of(context).size.height / 80),
 //                  Row(
 //                    children: [
@@ -169,36 +181,60 @@ class _ProgressDataState extends State<ProgressData> {
 //                            fontWeight: FontWeight.bold),
 //                      )
 //                  ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  rankStars(rank),
-                ],
-              ),
-              Card(
-                elevation: 10.0,
-                child: Column(
-                  children: <Widget>[
-                    customProgressBard(context, "Homework",hwDone,hw),
-                    customProgressBard(context, "Lectures",lecturesDone,lectures),
-                    customProgressBard(context, "Recitations",recitationDone,recitation),
-                    customProgressBard(context, "Exams",examsDone,exams),
-                    customProgressBard(context, "Extra",extraDone,extra),
-                  ],
-                ),
-              ),
-              SizedBox(height: 6.0,),
-              Center(child: Text("Total Progress",style:TextStyle(fontFamily: 'Piedra',fontSize: 35),)),
-              SizedBox(height: 6.0,),
-              Card(
-                elevation: 10.0,
-                child: Column(
-                  children: <Widget>[
-                    customProgressBard(context, "Semesters Progress",semesterHoursDone,semesterHours),
-                    customProgressBard(context, "Weekly progress",weekHoursDone,weekHours),
-                  ],
-                ),
-              ),
+                  Card(
+                    elevation: 2,
+                    child: ExpansionTile(
+                      title: Text("in "+currentCourse+":",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontWeight: FontWeight.bold,
+                      fontSize: 18),),
+                      subtitle:
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: LinearPercentIndicator(
+                                animation: true,
+                                lineHeight: 40.0,
+                                animationDuration: 2000,
+                                percent: 0.9,
+                                center: Text("90.0%"),
+                                linearStrokeCap: LinearStrokeCap.roundAll,
+                                progressColor: Colors.greenAccent,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      children: <Widget>[Card(
+                        elevation: 1.0,
+                        child: Column(
+                          children: <Widget>[
+                            customProgressBard(context, "Homework",hwDone,hw),
+                            customProgressBard(context, "Lectures",lecturesDone,lectures),
+                            customProgressBard(context, "Recitations",recitationDone,recitation),
+                            customProgressBard(context, "Exams",examsDone,exams),
+                            customProgressBard(context, "Extra",extraDone,extra),
+                          ],
+                        ),
+                      ),
+                      ]
+                    ),
+                  ),
+                  SizedBox(height: 6.0,),
+                  Center(child: Text("Total Progress",style:TextStyle(fontFamily: 'Piedra',fontSize: 35),)),
+                  SizedBox(height: 6.0,),
+                  Card(
+                    elevation: 10.0,
+                    child: Column(
+                      children: <Widget>[
+                        customProgressBard(context, "Semesters Progress",semesterHoursDone,semesterHours),
+                        customProgressBard(context, "Weekly progress",weekHoursDone,weekHours),
+                      ],
+                    ),
+                  ),
 
 //                  SizedBox(height: MediaQuery.of(context).size.height / 35),
 //                  Text(
@@ -220,21 +256,23 @@ class _ProgressDataState extends State<ProgressData> {
 //                    ),
 //                  ),
 //                  SizedBox(height: MediaQuery.of(context).size.height / 25),
-              Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: NiceButton(
-                  background: Colors.grey[300],
-                  radius: 40,
-                  padding: EdgeInsets.all(5),
-                  text: "Set New Plan",
-                  icon: Icons.account_box,
-                  gradientColors: [Global.getBackgroundColor(400),Global.getBackgroundColor(500),Global.getBackgroundColor(400)],
-                  onPressed: (){setNewPlanDialog(context);},
-                ),
+                  Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: NiceButton(
+                      background: Colors.grey[300],
+                      radius: 40,
+                      padding: EdgeInsets.all(5),
+                      text: "Set New Plan",
+                      icon: Icons.account_box,
+                      gradientColors: [Global.getBackgroundColor(400),Global.getBackgroundColor(500),Global.getBackgroundColor(400)],
+                      onPressed: (){setNewPlanDialog(context);},
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        )
+            )
+        ),
+      ],
     );
 
 
@@ -389,7 +427,7 @@ class _ProgressDataState extends State<ProgressData> {
           fontWeight: FontWeight.bold,
           color: Colors.black),
       boarderColor: Colors.grey,
-      showRemainder: (done>toDo)? false:true,
+      showRemainder: false, // (done>toDo)? false:true,
     );
 
   }
@@ -414,20 +452,15 @@ class _ProgressDataState extends State<ProgressData> {
 
 
   Widget buildStars(BuildContext context, Color color1, Color color2,Color color3,Color color4,Color color5){
-    return Container(
-      decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey[500]),
-          borderRadius: BorderRadius.circular(22.0)
-      ),
-      child: Row(
-        children: <Widget>[
-          starIcon(context , color1),
-          starIcon(context , color2),
-          starIcon(context , color3),
-          starIcon(context , color4),
-          starIcon(context , color5)
-        ],
-      ),
+    return Wrap(
+      spacing: 0,
+      children: <Widget>[
+        starIcon(context , color1),
+        starIcon(context , color2),
+        starIcon(context , color3),
+        starIcon(context , color4),
+        starIcon(context , color5)
+      ],
     );
   }
 
@@ -436,7 +469,7 @@ class _ProgressDataState extends State<ProgressData> {
     return Align(
         alignment: Alignment.topRight,
         child: IconButton(
-          icon: Icon(Icons.star,color: color,),
+          icon: Icon(color == Colors.black ? Icons.star_border : Icons.star,color: color,),
           onPressed: () {
             showStarDialog(context);
           },
@@ -647,6 +680,5 @@ class _DedicationInputState extends State<DedicationInput> {
       ),
     );
   }
-
 }
 
