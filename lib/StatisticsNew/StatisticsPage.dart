@@ -66,7 +66,6 @@ class _NewStatistics extends State<NewStatistics> {
   String algoHWString = "[13,13,20,16,16,8,8,20,13,10,9,9,13,22,13,14,10,11,10,13,10,15,11,10,18,16,14,12,null,null,null,null,null,null,null,null,null,null,null,null,null]";
 
 
-  @override
   void initState(){
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
@@ -182,7 +181,6 @@ class _NewStatistics extends State<NewStatistics> {
         print("inside");
         print(yStatsString);
         var x = json.decode(algoExamString);
-        print(x[0]);
       });
     });
     return data;
@@ -204,7 +202,7 @@ class _NewStatistics extends State<NewStatistics> {
       case 1:
         return  LineChartSample7();
       case 2:
-        return  LineChartSample2();
+        return  LineChartSample4();
     }
     return Text('irrelevant');
   }
@@ -218,11 +216,11 @@ class _NewStatistics extends State<NewStatistics> {
     }else if(choice.yAxis2!="yAxis2" && choice.yAxis3!="yAxis3"){
       setFourParamsGraphs(choice.xAxis, choice.yAxis1, choice.yAxis2, choice.yAxis3);
     }
-    loadYAxis();
+    //loadYAxis();
 
     setState(() {
-      print("Loaded");
-      print(yStatsString);
+      //print("Loaded");
+      //print(yStatsString);
       paramChoose=true;});
   }
 

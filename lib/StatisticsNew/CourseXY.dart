@@ -340,7 +340,9 @@ class ShowHideDropdownState extends State<ShowHideDropdown> {
     if(yAxisValue1=="yAxis1"){
       return;
     }
+
     if (varCount==3 && yAxisValue2=="yAxis2"){
+
       return;
     }
     if (varCount==4 && (yAxisValue2=="yAxis2" || yAxisValue3=="yAxis3")){
