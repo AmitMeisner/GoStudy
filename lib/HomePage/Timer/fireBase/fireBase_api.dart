@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Global.dart';
+import 'package:flutterapp/HomePage/Extra/editTimeDialog.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../../Extra/cards.dart';
 import 'TimeCard.dart';
 
 
@@ -83,7 +83,7 @@ class TimeDataBase{
     doc.updateData({'course' : userCourse});
     doc.updateData({'resource': userResource});
     Navigator.pop(context);
-    showColoredToast("course is updated to $userCourse        and resource to $userResource");
+    showColoredToast("Course is updated to $userCourse and Resource to $userResource");
 
   }
 
@@ -91,10 +91,11 @@ class TimeDataBase{
   static void showColoredToast(String msg) {
     Fluttertoast.showToast(
         msg: msg,
+        fontSize: 18,
         toastLength: Toast.LENGTH_LONG,
         backgroundColor: Colors.grey,
         gravity: ToastGravity.CENTER,
-        textColor: Colors.white);
+        textColor: Colors.black);
   }
 
 }

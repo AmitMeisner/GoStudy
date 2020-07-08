@@ -488,6 +488,7 @@ class AllUserDataBase {
       "hwTime":user.getHWTime(),
       "lectureTime":user.getLectureTime(),
       "recTime":user.getRecTime(),
+      "userId":user.getUserId(),
     };
     return await usersDataCollection.document().setData(userMap);
   }
@@ -508,6 +509,7 @@ class AllUserDataBase {
         doc.data['examTime'],
         doc.data['extraTime'],
         doc.data['grade'],
+        doc.data['userId'],
       );
     }).toList();
   }
@@ -781,8 +783,9 @@ class UserStatForCourse{
   double _examTime;
   double _extraTime;
   double _grade;
+  String _userId;
 
-  UserStatForCourse(this._course,this._avg,this._hwTime,this._lectureTime,this._recTime,this._examTime,this._extraTime,this._grade);
+  UserStatForCourse(this._course,this._avg,this._hwTime,this._lectureTime,this._recTime,this._examTime,this._extraTime,this._grade, this._userId);
 
   void setCourse(String course){
     this._course=course;
@@ -822,6 +825,10 @@ class UserStatForCourse{
 
   double getRecTime(){
     return this._recTime;
+  }
+
+  String getUserId(){
+    return this._userId;
   }
 
   void setExamTime(double examTime){

@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterapp/pushNotifications.dart';
 import '../Global.dart';
 import 'Timer/dialog_helper.dart';
 import 'Timer/enterTime.dart';
@@ -20,6 +21,13 @@ class HomeMainPage extends StatefulWidget {
 }
 
 class HomeMainPageState extends State<HomeMainPage> {
+
+  @override
+  void initState() {
+    PushNotificationsManager pushNotificationsManager = new PushNotificationsManager();
+    pushNotificationsManager.init();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -205,14 +213,18 @@ class _SettingsState extends State<Settings> {
               Navigator.pushNamed(context, '/history');
               return;
             case 2:
+              Navigator.pushNamed(context, '/old courses');
+              return;
+            case 3:
               return await DialogHelperExit.exit(context);
           }
         },
         icon: Icon(Icons.settings,color: Colors.black,),
         itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
           PopupMenuItem(value:'0',child: menuEntry("Personal Information", Icon(Icons.assignment_ind,color: Colors.black,))),
-          PopupMenuItem(value:'1',child: menuEntry("Activity History", Icon(Icons.history,color: Colors.black))),
-          PopupMenuItem(value:'2',child: menuEntry("Log Out", Icon(Icons.exit_to_app,color: Colors.black))),
+          PopupMenuItem(value:'1',child: menuEntry("Activity History", Icon(Icons.alarm,color: Colors.black))),
+          PopupMenuItem(value:'2',child: menuEntry("Old Courses Info", Icon(Icons.history,color: Colors.black))),
+          PopupMenuItem(value:'3',child: menuEntry("Log Out", Icon(Icons.exit_to_app,color: Colors.black))),
         ],
       ),
     );

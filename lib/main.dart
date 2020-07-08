@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'FirstInfo/gridDashBoard.dart';
 import 'Friends/Friends.dart';
 import 'HomePage/Extra/time.dart';
 import 'Rank/Rank.dart';
@@ -14,6 +15,7 @@ void main() {runApp(MaterialApp(
     '/home': (context)=> NavigationBottomPage(),
     '/getInfo': (context)=> InformationPage(),
     '/history' :(context)=> TimesPage(),
+    '/old courses':(context)=> GridDashboard(),
     '/friends' :(context)=> Friends(),
     '/rank' :(context)=> Rank(),
 

@@ -22,11 +22,12 @@ class GridDashboardState extends State<GridDashboard> {
       itemBuilder: (BuildContext context, int index) {
         return new GestureDetector(
           child: new Card(
-            elevation: 5.0,
+            elevation: 8.0,
+            shadowColor: Global.getBackgroundColor(0),
             child: new Container(
-              alignment: Alignment.centerLeft,
+              alignment: Alignment.center,
               margin: new EdgeInsets.only(top: 10.0, bottom: 10.0,left: 10.0),
-              child: new Text(allCourses[index]),
+              child: new Text(allCourses[index], style:  TextStyle(fontFamily: 'Piedra', fontSize: 16.0),),
             ),
           ),
           onTap: () {
@@ -36,10 +37,12 @@ class GridDashboardState extends State<GridDashboard> {
       },
     );
 
-    return new Scaffold(
-      appBar: new AppBar(
-          title: new Text("Flutter GridView")
-      ),
+    return  Scaffold(
+      appBar: new PreferredSize(
+        preferredSize: Size.fromHeight(48.0),
+        child: AppBar(
+        backgroundColor: Global.getBackgroundColor(0),
+      ),),
       body: myGridView,
     );
   }
@@ -52,24 +55,3 @@ Future navigateToInfoPage(context,index) async {
   Navigator.push(context, MaterialPageRoute(builder: (context) => InfoCourse(index)));
 }
 
-//barrierDismissible: false,
-//context: context,
-//child: new CupertinoAlertDialog(
-//title: new Column(
-//children: <Widget>[
-//new Text(allCourses[index]),
-//new Icon(
-//Icons.favorite,
-//color: Colors.red,
-//),
-//],
-//),
-//content: new Text( allCourses[index]),
-//actions: <Widget>[
-//new FlatButton(
-//onPressed: () {
-//Navigator.of(context).pop();
-//},
-//child: new Text("OK"))
-//],
-//));

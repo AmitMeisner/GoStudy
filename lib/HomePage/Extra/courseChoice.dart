@@ -16,19 +16,16 @@ class CourseChoice extends StatefulWidget {
   // for refreshing the tips page.
   final Function timesPageSetState;
 
-  // distance of the title from the top.
-  final double ceiling;
-
   //indicates that this is the multi choice from the tips page
   //and not the tipDialog.
   final bool tipsPage;
 
   //constructor/
-  CourseChoice(this.updateUserCourse, this.ceiling, this.timesPageSetState, this.tipsPage);
+  CourseChoice(this.updateUserCourse, this.timesPageSetState, this.tipsPage);
 
 
   @override
-  _CourseChoiceState createState() => _CourseChoiceState(updateUserCourse, ceiling,timesPageSetState, tipsPage);
+  _CourseChoiceState createState() => _CourseChoiceState(updateUserCourse,timesPageSetState, tipsPage);
 }
 
 class _CourseChoiceState extends State<CourseChoice> {
@@ -38,11 +35,10 @@ class _CourseChoiceState extends State<CourseChoice> {
   final Function tipsPageSetState;
 
   // distance of the title from the top.
-  double ceiling;
   bool timesPage;
 
   //constructor.
-  _CourseChoiceState(this.updateUserCourse, this.ceiling, this.tipsPageSetState, this.timesPage);
+  _CourseChoiceState(this.updateUserCourse, this.tipsPageSetState, this.timesPage);
 
 
 
@@ -56,12 +52,12 @@ class _CourseChoiceState extends State<CourseChoice> {
     if(userCourse[0] == ""){
       userCourse = [Global().getUserCourses()[0]];}
     updateUserCourse(userCourse);
-      return scrollableListChoice(ceiling,courses,userCourse);
+      return scrollableListChoice(courses,userCourse);
 
   }
 
   // creating the multi choice list.
-  Widget scrollableListChoice(double ceiling, List<String> listSource,List<String> chosenList){
+  Widget scrollableListChoice( List<String> listSource,List<String> chosenList){
     return ChipsChoice<String>.single(
           value:chosenList[0] ,
           options: ChipsChoiceOption.listFrom<String, String>(
@@ -75,85 +71,11 @@ class _CourseChoiceState extends State<CourseChoice> {
           },
           itemConfig: ChipsChoiceItemConfig(
 
-            selectedColor: Colors.red,
+            selectedColor: Global.getBackgroundColor(0),
             unselectedColor: Colors.black87,
             showCheckmark: true,
           )
 
     );
   }
-
-
-
-
 }
-
-
-// class for the custom chip widget.
-//class CustomChip extends StatelessWidget {
-//
-//  final String label;
-//  final bool selected;
-//  final Function(bool selected) onSelect;
-
-//  CustomChip(
-//      this.label,
-//      this.selected,
-//      this.onSelect,
-//      { Key key }
-//      ) : super(key: key);
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    return AnimatedContainer(
-//      color: Colors.yellow,
-//      height: 100,
-//      width: 70,
-//      margin: EdgeInsets.symmetric(
-//        vertical: 15,
-//        horizontal: 5,
-//      ),
-//      duration: Duration(milliseconds: 300),
-//      decoration: BoxDecoration(
-//        color: selected ? Colors.black : Colors.transparent,
-//        borderRadius: BorderRadius.circular(15),
-//        border: Border.all(
-//          color: selected ? Colors.black: Colors.grey,
-//          width: 1,
-//        ),
-//      ),
-//      child: InkWell(
-//        onTap: () => onSelect(!selected),
-//        child: Stack(
-//          alignment: Alignment.center,
-//          children: <Widget>[
-//            Visibility(
-//                visible: selected,
-////                child: Icon(
-////                  Icons.check_circle_outline,
-////                  color: Colors.yellow,
-////                  size: 32,
-////                )
-//            ),
-//            Positioned(
-//              left: 9,
-//              right: 9,
-//              bottom: 7,
-//              child: Container(
-//                child: Text(
-//                  label,
-//                  maxLines: 1,
-//                  overflow: TextOverflow.ellipsis,
-//                  style: TextStyle(
-//                    color: selected ? Colors.white : Colors.black45,
-//                  ),
-//                ),
-//              ),
-//            ),
-//          ],
-//        ),
-//      ),
-//    );
-//  }
-//}
-

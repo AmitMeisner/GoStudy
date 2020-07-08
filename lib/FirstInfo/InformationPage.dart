@@ -368,15 +368,8 @@ class _InformationPageState extends State<InformationPage> {
                 SemesterInput(),
 //                DedicationInput(),
                 CoursesInput(),
-                RaisedButton(
-                  textColor: Colors.white,
-                  color: Colors.blue,
-                  child: Text('update old courses'),
-                  onPressed: () {
-                    navigateToCoursesPage(context);
-                  },),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                   RaisedButton(
                     child: Text("Save",
@@ -387,6 +380,14 @@ class _InformationPageState extends State<InformationPage> {
 //                textColor: Colors.black,
                     onPressed: (){updateInfo();},
                     ),
+                    RaisedButton(
+                      textColor: Colors.black,
+                      color:  InformationPage.focusColor,
+                      child: Text('Update Old Courses',
+                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),),
+                      onPressed: () {
+                        navigateToCoursesPage(context);
+                      },),
                 ],
                 )
               ],
