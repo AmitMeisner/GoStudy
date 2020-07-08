@@ -234,7 +234,8 @@ class _RankState extends State<Rank> {
     return Align(
         alignment: Alignment.topRight,
         child: IconButton(
-          icon: Icon(color == Colors.black ? Icons.star_border : Icons.star,color: color,),
+          icon: color == Colors.black ? ImageIcon(AssetImage("images/hat_border.png")) : ImageIcon(AssetImage("images/hat.png")),
+//          Icon(color == Colors.black ? Icons.star_border : Icons.star,color: color,),
           onPressed: () {
 //            showStarDialog(context);
           },
