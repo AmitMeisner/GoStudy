@@ -21,7 +21,7 @@ class LineChartPage2 extends StatelessWidget {
                 style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.black),
               ),
               LineChartSample3(),
-              LineChartSample4("Calculus1","workaround","test"),
+              LineChartSample4(),
               LineChartSample7(),
               LineChartSample5(),
               LineChartSample8(),

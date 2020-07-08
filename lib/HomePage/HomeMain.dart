@@ -108,9 +108,22 @@ class MotivationSentenceState extends State<MotivationSentence> {
     sentence = sentence.replaceAll("-userName-", FirebaseAPI().getUserFirstName());
   }
 
+  Future<String> getRaghd() async{
+    CollectionReference statsCollection= Firestore.instance.collection("Statistics");
+    var x =  statsCollection.document("Overall Average").get().then((value) {
+        print(value.data['Overall Average']);
+        //List x = value.data['Overall Average'];
+        //print(x[0]);
+        //print('sup mah man');
+    });
+    return x;
+
+  }
   @override
   void initState(){
     super.initState();
+    print("Raghd");
+    getRaghd();
     getLen();
   }
 

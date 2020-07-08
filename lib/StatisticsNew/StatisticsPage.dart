@@ -3,14 +3,17 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutterapp/StatisticsNew/pie_chart/samples/pie_chart_sample1.dart';
 import 'package:flutterapp/StatisticsNew/pie_chart/samples/pie_chart_sample2.dart';
-import 'package:flutterapp/StatisticsNew/scatter_chart/samples/scatter_chart_sample2.dart';
+import 'package:flutterapp/StatisticsNew/Choice.dart';
 import 'package:flutterapp/StatisticsNew/scatter_chart/samples/scatter_chart_sample1.dart';
 import 'package:flutterapp/StatisticsNew/CourseXY.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
 import 'package:provider/provider.dart';
-
+import 'dart:convert';
 import '../Global.dart';
 import 'CourseXY.dart';
 import 'bar_chart/samples/bar_chart_sample1.dart';
@@ -50,7 +53,17 @@ class _NewStatistics extends State<NewStatistics> {
   List<UserStatForCourse> _usersData=[];
   static int chosenChart=1;
   static bool paramChoose=false;
+  static Choice choice;
+  bool yStatsStringLoaded = false;
 
+  static bool xyOption=false;
+  static bool xyyOption=false;
+  static bool xyyyOption=false;
+  String yStatsString;
+  List<FlSpot> yStats;
+  String algoExamString = "[65,63,67,64,60,59,48,63,62,69,55,47,65,63,63,55,60,62,63,64,59,55,59,58,56,60,57,58,null,null,null,null,null,null,null,null,null,null,null,null,null]";
+  String algoFGString = "[68,85,95,null,78,100,86,82,77,84,73,82,81,83,83,74,84,78,77,82,81,83,86,70,71,80,82,86,null,null,null,null,null,null,null,null,null,null,null,null,null]";
+  String algoHWString = "[13,13,20,16,16,8,8,20,13,10,9,9,13,22,13,14,10,11,10,13,10,15,11,10,18,16,14,12,null,null,null,null,null,null,null,null,null,null,null,null,null]";
 
 
   @override
@@ -60,6 +73,7 @@ class _NewStatistics extends State<NewStatistics> {
       DeviceOrientation.landscapeLeft,
     ]);
     super.initState();
+
   }
 
   @override
@@ -121,22 +135,24 @@ class _NewStatistics extends State<NewStatistics> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          paramChoose? IconButton(
+          yStatsStringLoaded? IconButton(
             icon: Icon(Icons.arrow_back_ios),
             color: chosenChart==1? Colors.grey:Colors.black,
             onPressed: (){
               if(chosenChart==1){return;}
               chosenChart--;
+              chosenChart = chosenChart % 3;
               setState(() {});
             },
           ):Container(),
           shownChart(),
-          paramChoose? IconButton(
+          yStatsStringLoaded? IconButton(
             icon: Icon(Icons.arrow_forward_ios),
             color: chosenChart==7? Colors.grey:Colors.black,
             onPressed: (){
               if(chosenChart==7){return;}
               chosenChart++;
+              chosenChart = chosenChart % 3;
               setState(() {});
             },
           ):Container(),
@@ -145,50 +161,82 @@ class _NewStatistics extends State<NewStatistics> {
     );
   }
 
-  Widget shownChart(){
-    if(!paramChoose){return BarChartSample1();}
-    switch(chosenChart){
-      case 1:
-        return  ScatterChartSample1();
-      case 2:
-        return  LineChartSample2();
-      case 3:
-        return  ScatterChartSample2();
-      case 4:
-        return  LineChartSample4(ShowHideDropdownState.selectedCourse, ShowHideDropdownState.xAxisValue, ShowHideDropdownState.yAxisValue1);
-      case 5:
-        return  PieChartSample1();
-      case 6:
-        return  PieChartSample2();
-      case 7:
-        return  LineChartSample7();
-    }
-    return Text('hi');
+  void parseStrings(){
+    print(yStatsString);
+    var x = json.decode(yStatsString);
+    print(x[0]);
+    print(x[2]);
   }
 
-  void setStatisticsPageState(String xAxis1, String yAxis1, String yAxis2, String yAxis3){
-    if (yAxis2=="yAxis2" && yAxis3=="yAxis3"){
-      setTwoParamsGraphs(xAxis1, yAxis1);
-    }else if(yAxis2!="yAxis2" && yAxis3=="yAxis3"){
-      setThreeParamsGraphs(xAxis1, yAxis1, yAxis2);
-    }else if(yAxis2!="yAxis2" && yAxis3!="yAxis3"){
-      setFourParamsGraphs(xAxis1, yAxis1, yAxis2, yAxis3);
-    }
+  Future<String> getData(String document, String field) async {
+    //Returns the data from the relevant (Statistics).document.field
+    CollectionReference statsCollection = Firestore.instance.collection(
+        "Statistics");
+    String data;
+    var x = statsCollection.document(document).get().then((value) {
+      setState(() {
+        data = value.data[field];
+        print(data);
+        yStatsStringLoaded = true;
+        yStatsString = data;
+        print("inside");
+        print(yStatsString);
+        var x = json.decode(algoExamString);
+        print(x[0]);
+      });
+    });
+    return data;
+  }
+  Future<void> loadYAxis() async{
+    print("flagz");
+    print(_NewStatistics.choice.selectedCourse);
+    print(_NewStatistics.choice.yAxis1);
+    getData(_NewStatistics.choice.selectedCourse, _NewStatistics.choice.yAxis1);
 
-    print(xAxis1);
-    print(yAxis1);
-    print(yAxis2);
-    print(yAxis3);
-    setState(() {paramChoose=true;});
+    //print("flagz: " + yStatsString);
+  }
+
+  Widget shownChart(){
+    if(!(yStatsStringLoaded && paramChoose)){return BarChartSample1();}
+    switch(chosenChart){
+      case 0:
+        return  LineChartSample4();
+      case 1:
+        return  LineChartSample7();
+      case 2:
+        return  LineChartSample2();
+    }
+    return Text('irrelevant');
+  }
+
+  void setStatisticsPageState(Choice choice){
+    _NewStatistics.choice = choice;
+    if (choice.yAxis2=="yAxis2" && choice.yAxis3=="yAxis3"){
+      setTwoParamsGraphs(choice.xAxis, choice.yAxis1);
+    }else if(choice.yAxis2!="yAxis2" && choice.yAxis3=="yAxis3"){
+      setThreeParamsGraphs(choice.xAxis, choice.yAxis1, choice.yAxis2);
+    }else if(choice.yAxis2!="yAxis2" && choice.yAxis3!="yAxis3"){
+      setFourParamsGraphs(choice.xAxis, choice.yAxis1, choice.yAxis2, choice.yAxis3);
+    }
+    loadYAxis();
+
+    setState(() {
+      print("Loaded");
+      print(yStatsString);
+      paramChoose=true;});
   }
 
   void setTwoParamsGraphs(String xAxis1, String yAxis1) {
-
+    xyOption=true;
   }
 
-  void setThreeParamsGraphs(String xAxis1, String yAxis1, String yAxis2) {}
+  void setThreeParamsGraphs(String xAxis1, String yAxis1, String yAxis2) {
+    xyyOption=true;
+  }
 
-  void setFourParamsGraphs(String xAxis1, String yAxis1, String yAxis2, String yAxis3) {}
+  void setFourParamsGraphs(String xAxis1, String yAxis1, String yAxis2, String yAxis3) {
+    xyyyOption=true;
+  }
 }
 
 

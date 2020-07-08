@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/HomePage/HomeMain.dart';
 import 'package:flutterapp/Global.dart';
+import 'package:flutterapp/StatisticsNew/Choice.dart';
 
 class ShowHideDropdown extends StatefulWidget {
 
@@ -345,6 +346,6 @@ class ShowHideDropdownState extends State<ShowHideDropdown> {
     if (varCount==4 && (yAxisValue2=="yAxis2" || yAxisValue3=="yAxis3")){
       return;
     }
-    setStatisticsPageState(xAxisValue, yAxisValue1, yAxisValue2, yAxisValue3);
+    setStatisticsPageState(Choice(selectedCourse, xAxisValue, yAxisValue1, yAxisValue2, yAxisValue3));
   }
 }

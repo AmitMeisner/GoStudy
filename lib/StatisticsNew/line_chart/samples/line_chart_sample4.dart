@@ -5,39 +5,17 @@ import 'package:flutter/material.dart';
 
 
 
+
 class LineChartSample4 extends StatefulWidget {
-  final String course;
-  final String xAxis;
-  final String yAxis;
-  LineChartSample4(this.course,this.xAxis, this.yAxis);
+
   @override
-  _LineChartSample4State createState() => _LineChartSample4State(course, xAxis, yAxis);
+  _LineChartSample4State createState() => _LineChartSample4State();
 }
 
 class _LineChartSample4State extends State<LineChartSample4> {
-  final String course;
-  final String xAxis;
-  final String yAxis;
-  _LineChartSample4State(this.course, this.xAxis, this.yAxis);
 
-  List<FlSpot> loadYAxis(){
-    List<FlSpot> ret;
-    print("Inside line chart sample 4 with " + yAxis + xAxis + course);
-    return [
-      FlSpot(0, 10),
-      FlSpot(1, 3.5),
-      FlSpot(2, 4.5),
-      FlSpot(3, 1),
-      FlSpot(4, 4),
-      FlSpot(5, 6),
-      FlSpot(6, 6.5),
-      FlSpot(7, 6),
-      FlSpot(8, 4),
-      FlSpot(9, 6),
-      FlSpot(10, 6),
-      FlSpot(11, 7),
-    ];
-  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +30,20 @@ class _LineChartSample4State extends State<LineChartSample4> {
           lineTouchData: LineTouchData(enabled: false),
           lineBarsData: [
             LineChartBarData(
-              spots: loadYAxis(),
+              spots: [
+                FlSpot(0, 10),
+                FlSpot(1, 3.5),
+                FlSpot(2, 4.5),
+                FlSpot(3, 1),
+                FlSpot(4, 4),
+                FlSpot(5, 6),
+                FlSpot(6, 6.5),
+                FlSpot(7, 6),
+                FlSpot(8, 4),
+                FlSpot(9, 6),
+                FlSpot(10, 6),
+                FlSpot(11, 7),
+              ],
               isCurved: true,
               barWidth: 5,
               colors: [
