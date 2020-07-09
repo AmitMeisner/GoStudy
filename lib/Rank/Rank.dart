@@ -28,8 +28,8 @@ class _RankState extends State<Rank> {
     friends.clear();
     for(String user in friendsUid) {
       friends.add(await UserDataBase().getUserNickname(user));
-      rank.add(await FriendsDataBase().getFriendRank(user));
-      progress.add(await FriendsDataBase().getFriendProgress(user));
+      rank.add(await UserProgressDataBase().getFriendRank(user));
+      progress.add(await UserProgressDataBase().getFriendProgress(user));
     }
     semesterHours=user.getGoal("SemesterHours",null);
     semesterHoursDone=user.getCourseTime("totalTime",null);
