@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:multiselect_formfield/multiselect_formfield.dart';
 
 import 'package:flutterapp/Global.dart';
@@ -361,8 +362,31 @@ class _InformationPageState extends State<InformationPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 DescriptionText(),
-                inputDecoration("Choose a nickname",nicknameController, 3.0, TextInputType.text),
-                inputDecoration("Average",averageController, 3.0, TextInputType.number),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      inputDecoration("Choose a nickname",nicknameController, 3.0, TextInputType.text),
+                      IconButton(icon: Icon(Icons.info_outline),
+                      onPressed: (){
+                        showNicknameDialog();
+                      },)
+                    ],
+                  ),
+                ),
+//                SizedBox(height: 10,),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      inputDecoration("Average",averageController, 3.0, TextInputType.number),
+                      IconButton(icon: Icon(Icons.info_outline),
+                        onPressed: (){
+                        showAverageDialog();
+                        },)
+                    ],
+                  ),
+                ),
                 GenderInput(),
                 YearInput(),
                 SemesterInput(),
@@ -372,6 +396,7 @@ class _InformationPageState extends State<InformationPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                   RaisedButton(
+                    shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15)),
                     child: Text("Save",
                     style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
                     ),
@@ -381,6 +406,7 @@ class _InformationPageState extends State<InformationPage> {
                     onPressed: (){updateInfo();},
                     ),
                     RaisedButton(
+                      shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15)),
                       textColor: Colors.black,
                       color:  InformationPage.focusColor,
                       child: Text('Update Old Courses',
@@ -395,6 +421,48 @@ class _InformationPageState extends State<InformationPage> {
           ),
         ),
       ),
+    );
+  }
+
+  void showAverageDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape:
+          RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15)),
+          content: new Text("Your average,year and semester will be used for statistical analysis"),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void showNicknameDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape:
+          RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15)),
+          content: new Text("Your nickname is how your friends can find you."),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -531,39 +599,41 @@ class _InformationPageState extends State<InformationPage> {
 
 //creating the decoration for the text, description and link inputs.
 Widget inputDecoration(String hint,TextEditingController controller, double borderRadius, TextInputType type){
-  return TextFormField(
-    controller: controller,
-    autocorrect: false,
-    cursorColor: Colors.black,
-    keyboardType: type,
-    maxLines: 1,
-    minLines: 1,
-    decoration: new InputDecoration(
-      border:  InputBorder.none,
-      focusedBorder:  OutlineInputBorder(
-          borderRadius: BorderRadius.only(
-            topLeft:  Radius.circular(borderRadius),
-            topRight:  Radius.circular(borderRadius),
-            bottomLeft:  Radius.circular(borderRadius),
-            bottomRight:  Radius.circular(borderRadius),
+  return Flexible(
+        child: TextFormField(
+          controller: controller,
+          autocorrect: false,
+          cursorColor: Colors.black,
+          keyboardType: type,
+          maxLines: 1,
+          minLines: 1,
+          decoration: new InputDecoration(
+            border:  InputBorder.none,
+            focusedBorder:  OutlineInputBorder(
+                borderRadius: BorderRadius.only(
+                  topLeft:  Radius.circular(borderRadius),
+                  topRight:  Radius.circular(borderRadius),
+                  bottomLeft:  Radius.circular(borderRadius),
+                  bottomRight:  Radius.circular(borderRadius),
+                ),
+                borderSide: BorderSide(color: InformationPage.focusColor, width: 2.0)
+            ),
+            enabledBorder:  OutlineInputBorder(
+              borderRadius: BorderRadius.only(
+                topLeft:  Radius.circular(borderRadius),
+                topRight:  Radius.circular(borderRadius),
+                bottomLeft:  Radius.circular(borderRadius),
+                bottomRight:  Radius.circular(borderRadius),
+              ),
+              borderSide: BorderSide(color: Colors.grey, width: 2.0),
+            ),
+            errorBorder: InputBorder.none,
+            disabledBorder: InputBorder.none,
+            contentPadding: EdgeInsets.only(left: 15, bottom: 15, top: 11, right: 15),
+            hintText: hint,
           ),
-          borderSide: BorderSide(color: InformationPage.focusColor, width: 2.0)
-      ),
-      enabledBorder:  OutlineInputBorder(
-        borderRadius: BorderRadius.only(
-          topLeft:  Radius.circular(borderRadius),
-          topRight:  Radius.circular(borderRadius),
-          bottomLeft:  Radius.circular(borderRadius),
-          bottomRight:  Radius.circular(borderRadius),
         ),
-        borderSide: BorderSide(color: Colors.grey, width: 2.0),
-      ),
-      errorBorder: InputBorder.none,
-      disabledBorder: InputBorder.none,
-      contentPadding: EdgeInsets.only(left: 15, bottom: 15, top: 11, right: 15),
-      hintText: hint,
-    ),
-  );
+      );
 }
 
 
@@ -573,20 +643,27 @@ class DescriptionText extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text("Create your profile",
-        style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 18.0
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text("Create your GoStudy profile",
+          textAlign: TextAlign.center,
+          style: GoogleFonts.cabin(fontWeight: FontWeight.bold, fontSize: 28)
+//          TextStyle(
+//              fontWeight: FontWeight.bold,
+//              fontSize: 18.0
+//            ),
           ),
         ),
         SizedBox(height: 4.0),
-        Text("Your profile is private and will be used for statistical analysis.\n"
-            "Your nickname is how your friends can find you.\n"
-            "Your average,year and semester will be used for statistical analysis,\n"
+        Text("*Your profile is private.\n"
+            "*Data will be used for statistical analysis.\n",
+//            "Your nickname is how your friends can find you.\n"
+//            "Your average,year and semester will be used for statistical analysis,\n"
 //            "Your dedication will influence your study plan.\n"
-            "\n"
-            "You can edit your profile at any time by clicking your name at the Home page.\n",
-            ),
+//            "\n"
+//            "You can edit your profile at any time by clicking your name at the Home page.\n",
+        style: GoogleFonts.cabin(fontSize: 15),
+        ),
       ],
     );
   }

@@ -5,9 +5,6 @@ import '../HomeMain.dart';
 import 'package:provider/provider.dart';
 
 class NeuProgressPieBar extends StatelessWidget {
-  const NeuProgressPieBar({
-    Key key,
-  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -128,6 +125,7 @@ class _NeuStartButtonState extends State<NeuStartButton> {
             : Provider.of<TimerService>(context, listen: false).start();
         setState((){
           _isRunning = !_isRunning;
+
       });
       },
       onPointerUp: _onPointerUp,

@@ -22,11 +22,11 @@ class _NavigationBottomState extends State<NavigationBottomPage> {
   GlobalKey _bottomNavigationKey = GlobalKey();
   final ProgressPageNav _progress=ProgressPageNav();
   final TipsPage _tips = TipsPage();
-  final HomeMainPage _home = HomeMainPage();
+  final HomeMainPage _home = HomeMainPage(firstInit: false,);
 //  final StatisticsPage _statistics = StatisticsPage();
   final NewStatistics _statistics=NewStatistics();
 
-  Widget _showPage = new HomeMainPage();
+  Widget _showPage = new HomeMainPage(firstInit: true,);
   Widget _pageChooser (int page){
     switch(page){
       case 0:

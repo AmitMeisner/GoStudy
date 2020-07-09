@@ -23,7 +23,8 @@ class neuDigitalClock extends StatelessWidget {
       width: 20,
       height: MediaQuery.of(context).size.height/12,
       decoration: BoxDecoration(
-        color: Global.getBackgroundColor(0),
+        color: Colors.transparent,
+//        Global.getBackgroundColor(0),
         borderRadius: BorderRadius.circular(50),
         boxShadow: [
           BoxShadow(
@@ -35,7 +36,8 @@ class neuDigitalClock extends StatelessWidget {
             blurRadius: 15,
             offset: Offset(10.5, 10.5),
 //            color: Color.fromRGBO(214, 223, 230, 1),
-          color: Global.getBackgroundColor(500),
+          color: Colors.transparent,
+//          Global.getBackgroundColor(500),
           )
         ],
       ),
@@ -47,12 +49,15 @@ class neuDigitalClock extends StatelessWidget {
             width: constraints.maxWidth * 0.8,
             decoration: BoxDecoration(
               gradient: LinearGradient(colors: [
-                  Global.backgroundPageColor,
-                  Global.backgroundPageColor,
+//                  Global.backgroundPageColor,
+//                  Global.backgroundPageColor,
+                    Colors.transparent,
+                Colors.transparent,
               ]),
               borderRadius: BorderRadius.circular(50),
               border: Border.all(
-                color: Color.fromRGBO(168, 168, 168, 1),
+                color: Colors.transparent,
+//                Color.fromRGBO(168, 168, 168, 1),
                 width: 2,
               ),
             ),
