@@ -50,6 +50,16 @@ class FirebaseAPI{
 }
 
 class StatisticsDataBase{
+  static  CollectionReference statsCollection= Firestore.instance.collection("Statistics");
+  Future<String> getData(String document, String field) async {
+    //Returns the data from the relevant (Statistics).document.field
+    String data;
+    var x = statsCollection.document(document).get().then((value){
+      data = value.data[field];
+    });
+    return data;
+  }
+
 
 }
 

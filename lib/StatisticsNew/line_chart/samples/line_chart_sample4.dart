@@ -1,35 +1,52 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
 
-class LineChartSample4 extends StatelessWidget {
+import 'package:table_calendar/table_calendar.dart';
+
+
+
+
+
+
+class LineChartSample4 extends StatefulWidget {
+
+  @override
+  _LineChartSample4State createState() => _LineChartSample4State();
+}
+
+class _LineChartSample4State extends State<LineChartSample4> {
+  String algoExamString = "[65,63,67,64,60,59,48,63,62,69,55,47,65,63,63,55,60,62,63,64,59,55,59,58,56,60,57,58,null,null,null,null,null,null,null,null,null,null,null,null,null]";
+  String algoFGString = "[68,85,95,83,78,100,86,82,77,84,73,82,81,83,83,74,84,78,77,82,81,83,86,70,71,80,82,86,null,null,null,null,null,null,null,null,null,null,null,null,null]";
+  String algoHWString = "[13,13,20,16,16,8,8,20,13,10,9,9,13,22,13,14,10,11,10,13,10,15,11,10,18,16,14,12,null,null,null,null,null,null,null,null,null,null,null,null,null]";
+  List exams;
+  List finalGrades;
+  List<FlSpot> algoExamsStats = [FlSpot(0,65),FlSpot(1,67),FlSpot(2,64),FlSpot(3,60),FlSpot(4,59),FlSpot(5,48),FlSpot(6,63),FlSpot(7,62),FlSpot(8,69),FlSpot(9,55),FlSpot(10,47),FlSpot(11,65),FlSpot(12,63),FlSpot(13,63),FlSpot(14,55),FlSpot(15,63)];
+  List<FlSpot> algoFGStats;
+  List<FlSpot> algoHWStats;
+
+  void initData(){
+    exams = json.decode(algoExamString);
+    finalGrades = json.decode(algoFGString);
+    List homework = json.decode(algoHWString);
+  }
+
+
   @override
   Widget build(BuildContext context) {
+    initData();
     const cutOffYValue = 5.0;
     const dateTextStyle =
-        TextStyle(fontSize: 10, color: Colors.purple, fontWeight: FontWeight.bold);
+    TextStyle(fontSize: 10, color: Colors.purple, fontWeight: FontWeight.bold);
 
     return AspectRatio(
       aspectRatio: 2.1,
       child: LineChart(
         LineChartData(
-
           lineTouchData: LineTouchData(enabled: false),
           lineBarsData: [
             LineChartBarData(
-              spots: [
-                FlSpot(0, 4),
-                FlSpot(1, 3.5),
-                FlSpot(2, 4.5),
-                FlSpot(3, 1),
-                FlSpot(4, 4),
-                FlSpot(5, 6),
-                FlSpot(6, 6.5),
-                FlSpot(7, 6),
-                FlSpot(8, 4),
-                FlSpot(9, 6),
-                FlSpot(10, 6),
-                FlSpot(11, 7),
-              ],
+              spots: algoExamsStats,
               isCurved: true,
               barWidth: 5,
               colors: [
@@ -59,44 +76,17 @@ class LineChartSample4 extends StatelessWidget {
                 reservedSize: 14,
                 textStyle: dateTextStyle,
                 getTitles: (value) {
-                  switch (value.toInt()) {
-                    case 0:
-                      return 'Jan';
-                    case 1:
-                      return 'Feb';
-                    case 2:
-                      return 'Mar';
-                    case 3:
-                      return 'Apr';
-                    case 4:
-                      return 'May';
-                    case 5:
-                      return 'Jun';
-                    case 6:
-                      return 'Jul';
-                    case 7:
-                      return 'Aug';
-                    case 8:
-                      return 'Sep';
-                    case 9:
-                      return 'Oct';
-                    case 10:
-                      return 'Nov';
-                    case 11:
-                      return 'Dec';
-                    default:
-                      return '';
-                  }
+                  return relevantData(value);
                 }),
             leftTitles: SideTitles(
               showTitles: true,
               getTitles: (value) {
-                return '\$ ${value + 0.5}';
+                return '${value}';
               },
             ),
           ),
           axisTitleData: FlAxisTitleData(
-              leftTitle: AxisTitle(showTitle: true, titleText: 'Value', margin: 4),
+              leftTitle: AxisTitle(showTitle: true, titleText: 'Exam Hours', margin: 4),
               bottomTitle: AxisTitle(
                   showTitle: true,
                   margin: 0,
@@ -113,4 +103,11 @@ class LineChartSample4 extends StatelessWidget {
       ),
     );
   }
+
+  String relevantData(double value) {
+
+    return finalGrades[value.toInt()].toString();
+
+  }
 }
+
