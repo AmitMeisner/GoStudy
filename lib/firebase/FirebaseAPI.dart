@@ -435,48 +435,48 @@ class FriendsDataBase{
   }
 
 
-  Future<double> getFriendProgress(String uid)async{
-    DocumentReference doc=usersCollection.document(uid);
-    List<String> times=[];
-    List<String> goals=[];
-    List<String> tmp=[];
-    double res=0.0;
-    await doc.get().then((value){
-      times=List.from(value.data["Times"]);
-      goals=List.from(value.data["Goals"]);
-    });
-
-
-    for(String elem in times){
-      tmp=elem.split("_");
-      if(tmp[0]=="totalTime"){
-        res=double.parse(tmp[1]);
-        break;
-      }
-    }
-
-
-    for(String elem in goals){
-      tmp=elem.split("_");
-      if(tmp[0]=="SemesterHours"){
-        res=double.parse((res/double.parse(tmp[1])).toStringAsFixed(2));
-        break;
-      }
-    }
-    return res*100;
-
-
-  }
-
-  Future<int> getFriendRank(String uid)async{
-    DocumentReference doc=usersCollection.document(uid);
-    int res=1;
-    await doc.get().then((value){
-      res=value.data["Rank"];
-    });
-
-    return res;
-  }
+//  Future<double> getFriendProgress(String uid)async{
+//    DocumentReference doc=usersCollection.document(uid);
+//    List<String> times=[];
+//    List<String> goals=[];
+//    List<String> tmp=[];
+//    double res=0.0;
+//    await doc.get().then((value){
+//      times=List.from(value.data["Times"]);
+//      goals=List.from(value.data["Goals"]);
+//    });
+//
+//
+//    for(String elem in times){
+//      tmp=elem.split("_");
+//      if(tmp[0]=="totalTime"){
+//        res=double.parse(tmp[1]);
+//        break;
+//      }
+//    }
+//
+//
+//    for(String elem in goals){
+//      tmp=elem.split("_");
+//      if(tmp[0]=="SemesterHours"){
+//        res=double.parse((res/double.parse(tmp[1])).toStringAsFixed(2));
+//        break;
+//      }
+//    }
+//    return res*100;
+//
+//
+//  }
+//
+//  Future<int> getFriendRank(String uid)async{
+//    DocumentReference doc=usersCollection.document(uid);
+//    int res=1;
+//    await doc.get().then((value){
+//      res=value.data["Rank"];
+//    });
+//
+//    return res;
+//  }
 
 }
 
@@ -598,6 +598,51 @@ class UserProgressDataBase{
   Future<void> updateUser(UserProgress user){
     return addUser(user);
   }
+
+  Future<int> getFriendRank(String uid)async{
+    DocumentReference doc=usersCollection.document(uid);
+    int res=1;
+    await doc.get().then((value){
+      res=value.data["rank"];
+    });
+
+    return res;
+  }
+
+
+  Future<double> getFriendProgress(String uid)async{
+    DocumentReference doc=usersCollection.document(uid);
+    List<String> times=[];
+    List<String> goals=[];
+    List<String> tmp=[];
+    double res=0.0;
+    await doc.get().then((value){
+      times=List.from(value.data["times"]);
+      goals=List.from(value.data["goals"]);
+    });
+
+
+    for(String elem in times){
+      tmp=elem.split("_");
+      if(tmp[0]=="totalTime"){
+        res=double.parse(tmp[1]);
+        break;
+      }
+    }
+
+
+    for(String elem in goals){
+      tmp=elem.split("_");
+      if(tmp[0]=="SemesterHours"){
+        res=double.parse((res/double.parse(tmp[1])).toStringAsFixed(2));
+        break;
+      }
+    }
+    return res*100;
+
+
+  }
+
 
 }
 
