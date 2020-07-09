@@ -166,6 +166,33 @@ class HomeMainPageState extends State<HomeMainPage> {
       ),
     );
   }
+
+  void newRankDialog(){
+    showDialog(context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          title: Text('Congratulations', textAlign: TextAlign.center,),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('New Rank!', textAlign: TextAlign.center,),
+                Image(image: AssetImage('images/Success.jpg'),),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Close'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      }
+    );
+  }
 }
 
 class MotivationSentence extends StatefulWidget {
