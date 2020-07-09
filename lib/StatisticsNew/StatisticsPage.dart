@@ -134,7 +134,7 @@ class _NewStatistics extends State<NewStatistics> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          yStatsStringLoaded? IconButton(
+          paramChoose? IconButton(
             icon: Icon(Icons.arrow_back_ios),
             color: chosenChart==1? Colors.grey:Colors.black,
             onPressed: (){
@@ -145,7 +145,7 @@ class _NewStatistics extends State<NewStatistics> {
             },
           ):Container(),
           shownChart(),
-          yStatsStringLoaded? IconButton(
+          paramChoose? IconButton(
             icon: Icon(Icons.arrow_forward_ios),
             color: chosenChart==7? Colors.grey:Colors.black,
             onPressed: (){
@@ -195,7 +195,7 @@ class _NewStatistics extends State<NewStatistics> {
   }
 
   Widget shownChart(){
-    if(!(yStatsStringLoaded && paramChoose)){return BarChartSample1();}
+    if(!paramChoose){return BarChartSample1();}
     switch(chosenChart){
       case 0:
         return  LineChartSample4();

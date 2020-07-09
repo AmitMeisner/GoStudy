@@ -122,8 +122,6 @@ class MotivationSentenceState extends State<MotivationSentence> {
   @override
   void initState(){
     super.initState();
-    print("Raghd");
-    getRaghd();
     getLen();
   }
 
