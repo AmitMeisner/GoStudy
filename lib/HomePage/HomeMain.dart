@@ -90,8 +90,12 @@ class HomeMainPageState extends State<HomeMainPage> {
                             width: 150,
                             child: Center(child: Text("Start",
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 30, fontWeight: FontWeight.bold),)),
+                            style: GoogleFonts.meriendaOne(fontSize: 30, fontWeight: FontWeight.bold),
+//                            GoogleFonts.pacifico(fontSize: 30),
+//                            TextStyle(
+//                                fontSize: 30, fontWeight: FontWeight.bold),
+                            )
+                            ),
                           ),
                         ),
                         onTap: (){
@@ -215,8 +219,9 @@ class MotivationSentenceState extends State<MotivationSentence> {
   Widget build(BuildContext context) {
     return Text(sentence,
     textAlign: TextAlign.center,
-    style: GoogleFonts.cabin(fontSize: 35, fontWeight: FontWeight.bold),
-//    TextStyle(fontFamily: 'Piedra', fontSize: 30.0),
+    style:
+//    GoogleFonts.cabin(fontSize: 35, fontWeight: FontWeight.bold),
+    TextStyle(fontFamily: 'Piedra', fontSize: 30.0),
     );
   }
 }
