@@ -41,17 +41,22 @@ class _CoursesSelectChoiceState extends State<CourseSelectChoice> {
               children: List<Widget>.generate(
                 courses.length,
                 (int i) {
-                  return ChoiceChip(
-                    padding: EdgeInsets.symmetric(horizontal: 8),
-                    label: Text(courses[i]),
-                    selected: _currChip == i,
-                    selectedColor: Global.getBackgroundColor(200),
-                    onSelected: (bool selected) {
-                      setState(() {
-                        _currChip = i;
-                        initialProgressPage(courses[i]);
-                      });
-                    },
+                  return Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: ChoiceChip(
+                      padding: EdgeInsets.symmetric(horizontal: 8),
+                      label: Text(courses[i],
+                          style: TextStyle(
+                          color: Colors.black),),
+                      selected: _currChip == i,
+                      selectedColor: Global.getBackgroundColor(0),
+                      onSelected: (bool selected) {
+                        setState(() {
+                          _currChip = i;
+                          initialProgressPage(courses[i]);
+                        });
+                      },
+                    ),
                   );
                 },
               ).toList(),

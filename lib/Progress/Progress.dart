@@ -20,7 +20,8 @@ class _ProgressPageState extends State<ProgressPage> {
     return StreamProvider<List<UserStatForCourse>>.value(
       value: AllUserDataBase().usersStats,
       child: Scaffold(
-          body: ListView(
+          body:
+          ListView(
             children: <Widget>[
             ProgressData(updateState),
         ],

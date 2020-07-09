@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/FirstInfo/InformationPage.dart';
 import 'package:flutterapp/Tips/Cards.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:provider/provider.dart';
 
@@ -71,9 +72,13 @@ class _FriendsState extends State<Friends> {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Text("Friend Requests", style:TextStyle(fontFamily: 'Piedra',fontSize: 35)),
+          Text("Friend Requests", style: GoogleFonts.habibi(fontSize: 35, fontWeight: FontWeight.bold),
+//          TextStyle(fontFamily: 'Piedra',fontSize: 35)
+          ),
           friendRequest(),
-          Text("Friends List", style:TextStyle(fontFamily: 'Piedra',fontSize: 35)),
+          Text("Friends List", style: GoogleFonts.habibi(fontSize: 35, fontWeight: FontWeight.bold),
+//          TextStyle(fontFamily: 'Piedra',fontSize: 35)
+          ),
           friendsListCards(),
         ],
     );

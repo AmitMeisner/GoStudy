@@ -1,4 +1,5 @@
 
+//import 'dart:html';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -556,7 +557,7 @@ class AllUserDataBase {
 
 class UserProgressDataBase{
 
-  static  CollectionReference usersCollection= Firestore.instance.collection("Progress");
+  static CollectionReference usersCollection= Firestore.instance.collection("Progress");
 
   Future<void> addUser(UserProgress userProgress) async{
     Map<String, dynamic> userMap = {
@@ -678,6 +679,11 @@ class UserProgress{
     }
     return 10.0;
   }
+
+//  void setGoalForCourse(String course , String activity, String time){
+//    CollectionReference usersCollection= Firestore.instance.collection("Progress");
+//    usersCollection.document(FirebaseAPI().getUid()).get().
+//  }
 
   List<String> getGoals(){
     return _goals;
