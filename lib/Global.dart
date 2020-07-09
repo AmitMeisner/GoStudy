@@ -61,8 +61,8 @@ class Global {
   }
 
   static Color getBackgroundColor(int shade){
-    if(shade==0){return Colors.teal;}
-    else{return Colors.teal[shade];}
+    if(shade==0){return Colors.blueAccent;}
+    else{return Colors.blue[shade];}
   }
 
 }

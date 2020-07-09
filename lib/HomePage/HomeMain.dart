@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/pushNotifications.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../Global.dart';
 import 'Timer/dialog_helper.dart';
 import 'Timer/enterTime.dart';
@@ -16,11 +17,16 @@ import 'package:provider/provider.dart';
 
 
 class HomeMainPage extends StatefulWidget {
+  final firstInit;
+
+  const HomeMainPage({Key key, this.firstInit}) : super(key: key);
+
   @override
   HomeMainPageState createState() => HomeMainPageState();
 }
 
 class HomeMainPageState extends State<HomeMainPage> {
+  bool firstInit=true;
 
   @override
   void initState() {
@@ -32,6 +38,78 @@ class HomeMainPageState extends State<HomeMainPage> {
   @override
   Widget build(BuildContext context) {
     final timeService = TimerService();
+    if (firstInit && widget.firstInit != null && widget.firstInit){
+      return Scaffold(
+        backgroundColor: Global.getBackgroundColor(0),
+        body: SafeArea(
+          child: Container(
+            color: Colors.white,
+            child: ListView(
+              padding: const EdgeInsets.all(15),
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+//                        SizedBox(width: 6.0,),
+//                        Notification(),
+                        SizedBox(width: 6.0,),
+                        FriendsButton(),
+                      ],
+                    ),
+                    Settings(),
+                  ],
+                ),
+                Container(height: 200, width: 200,child: Image(image: AssetImage('images/go_study_logo.jpg'))),
+                SizedBox(height: MediaQuery.of(context).size.height / 55),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      GestureDetector(
+                        child: ClipOval(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white24,
+                              boxShadow: [
+                                BoxShadow(
+                                  blurRadius: 15,
+                                  spreadRadius: 5,
+//                                  offset: Offset(10.5,10.5),
+                                  color: Global.getBackgroundColor(50),
+                                ),
+                                BoxShadow(
+                                  blurRadius: 15,
+                                  offset: Offset(10.5, 10.5),
+                                  color: Colors.blueAccent,
+                                )
+                              ],
+                            ),
+                            height: 150,
+                            width: 150,
+                            child: Center(child: Text("Start",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 30, fontWeight: FontWeight.bold),)),
+                          ),
+                        ),
+                        onTap: (){
+                          setState(() {
+                            firstInit = false;
+                          });
+                        },
+                      )
+                    ]),
+                SizedBox(height: MediaQuery.of(context).size.height / 25),
+                MotivationSentence(),
+              ],
+              // ),
+            ),
+          ),
+        ),
+      );
+    }
     return ChangeNotifierProvider<TimerService>(
       create: (_) => timeService,
       child: Scaffold(
@@ -47,8 +125,8 @@ class HomeMainPageState extends State<HomeMainPage> {
                   children: <Widget>[
                     Row(
                       children: <Widget>[
-                        SizedBox(width: 6.0,),
-                        Notification(),
+//                        SizedBox(width: 6.0,),
+//                        Notification(),
                         SizedBox(width: 6.0,),
                         FriendsButton(),
                       ],
@@ -57,8 +135,16 @@ class HomeMainPageState extends State<HomeMainPage> {
                   ],
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height / 10),
+                Text("Time", textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 20, color: Colors.grey),),
                 neuDigitalClock(),
-                SizedBox(height: MediaQuery.of(context).size.height / 25),
+                SizedBox(height: MediaQuery.of(context).size.height / 20),
+                Text("Daily Goal", textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 20, color: Colors.grey),),
+                SizedBox(height: MediaQuery.of(context).size.height / 50),
+                Text("07 : 30 : 00", textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 28, color: Colors.black),),
+                SizedBox(height: MediaQuery.of(context).size.height / 10),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
@@ -67,7 +153,7 @@ class HomeMainPageState extends State<HomeMainPage> {
                       EnterTimeButton(),
                     ]),
                 SizedBox(height: MediaQuery.of(context).size.height / 25),
-                MotivationSentence(),
+//                MotivationSentence(),
               ],
               // ),
             ),
@@ -118,9 +204,8 @@ class MotivationSentenceState extends State<MotivationSentence> {
   Widget build(BuildContext context) {
     return Text(sentence,
     textAlign: TextAlign.center,
-//    style: GoogleFonts.bebasNeue(
-//      fontSize: 30)
-    style: TextStyle(fontFamily: 'Piedra', fontSize: 30.0),
+    style: GoogleFonts.cabin(fontSize: 35, fontWeight: FontWeight.bold),
+//    TextStyle(fontFamily: 'Piedra', fontSize: 30.0),
     );
   }
 }

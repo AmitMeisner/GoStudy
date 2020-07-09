@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/Progress/PlanBuild.dart';
 import 'package:flutterapp/Rank/Rank.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:nice_button/nice_button.dart';
 import 'package:flutterapp/FirstInfo/InformationPage.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -124,12 +125,14 @@ class _ProgressDataState extends State<ProgressData> {
                   children: [
                     Center(
                         child: Text(
-                      "Week " + week + " Progress",
-                      style: TextStyle(fontFamily: 'Piedra', fontSize: 35),
+                      "Week " + "5" + " Progress",
+                      style: GoogleFonts.cabin(fontSize: 35, fontWeight: FontWeight.bold),
+//                      TextStyle(fontFamily: 'Piedra', fontSize: 35),
                     )),
                   ],
                 ),
               ),
+              SizedBox(height: MediaQuery.of(context).size.height / 50),
               Card(
                 elevation: 2,
                 child: ExpansionTile(
@@ -162,8 +165,8 @@ class _ProgressDataState extends State<ProgressData> {
                                       lineHeight: 40.0,
                                       animationDuration: 2000,
                                       percent: weekHoursDone / weekHours,
-                                      center: Text((weekHoursDone / weekHours)
-                                              .toString() +
+                                      center: Text(((weekHoursDone / weekHours)*100)
+                                              .toStringAsFixed(2) +
                                           "%"),
                                       linearStrokeCap: LinearStrokeCap.roundAll,
                                       progressColor:
@@ -195,12 +198,13 @@ class _ProgressDataState extends State<ProgressData> {
                 ),
               ),
               SizedBox(
-                height: 6.0,
+                height: 20.0,
               ),
               Center(
                   child: Text(
                 "Total Progress",
-                style: TextStyle(fontFamily: 'Piedra', fontSize: 35),
+                style: GoogleFonts.cabin(fontSize: 35, fontWeight: FontWeight.bold)
+//                TextStyle(fontFamily: 'Piedra', fontSize: 35),
               )),
               SizedBox(
                 height: 6.0,
@@ -235,8 +239,8 @@ class _ProgressDataState extends State<ProgressData> {
                                         percent:
                                             semesterHoursDone / semesterHours,
                                         center: Text(
-                                            (semesterHoursDone / semesterHours)
-                                                    .toString() +
+                                            ((semesterHoursDone / semesterHours)*100)
+                                                    .toStringAsFixed(2) +
                                                 "%"),
                                         linearStrokeCap:
                                             LinearStrokeCap.roundAll,
@@ -250,6 +254,7 @@ class _ProgressDataState extends State<ProgressData> {
                   ),
                 ),
               ),
+              SizedBox(height: MediaQuery.of(context).size.height / 20),
               Padding(
                 padding: const EdgeInsets.all(24.0),
                 child: NiceButton(
@@ -428,7 +433,8 @@ class _ProgressDataState extends State<ProgressData> {
             child: AlertDialog(
               title: Text(
                 "Set A New Plan",
-                style: TextStyle(fontFamily: 'Piedra', fontSize: 35),
+                style: GoogleFonts.habibi(fontSize: 35, fontWeight: FontWeight.bold),
+//                TextStyle(fontFamily: 'Piedra', fontSize: 35),
               ),
               content: Container(
                 height: MediaQuery.of(context).size.height / 3,

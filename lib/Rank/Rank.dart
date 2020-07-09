@@ -155,64 +155,84 @@ class _RankState extends State<Rank> {
   Widget rankStars(int rank){
     switch(rank){
       case 1:
-        return Row(
-          children: [
-            Padding(
-              padding: EdgeInsets.all(5),
-              child: Text('Freshman level',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-            ),
-            Spacer(),
-            buildStars(context,Colors.black,Colors.black,Colors.black,Colors.black,Global.goldStars),
-          ],
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(5),
+                child: Text('Freshman level',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16,
+                color: Global.getBackgroundColor(600))),
+              ),
+              Spacer(),
+              buildStars(context,Colors.black,Colors.black,Colors.black,Colors.black,Global.goldStars),
+            ],
+          ),
         );
       case 2:
-        return Row(
-          children: [
-            Padding(
-              padding: EdgeInsets.all(5),
-              child: Text('Junior level',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-            ),
-            Spacer(),
-            buildStars(context,Colors.black,Colors.black,Colors.black,Global.goldStars,Global.goldStars),
-          ],
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(5),
+                child: Text('Junior level',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18,
+                        color: Global.getBackgroundColor(600))),
+              ),
+              Spacer(),
+              buildStars(context,Colors.black,Colors.black,Colors.black,Global.goldStars,Global.goldStars),
+            ],
+          ),
         );
       case 3:
-        return Row(
-          children: [
-            Padding(
-              padding: EdgeInsets.all(5),
-              child: Text('Intermediate level',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-            ),
-            Spacer(),
-            buildStars(context,Colors.black,Colors.black,Global.goldStars,Global.goldStars,Global.goldStars),
-          ],
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(5),
+                child: Text('Intermediate level',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18,
+                        color: Global.getBackgroundColor(600))),
+              ),
+              Spacer(),
+              buildStars(context,Colors.black,Colors.black,Global.goldStars,Global.goldStars,Global.goldStars),
+            ],
+          ),
         );
       case 4:
-        return Row(
-          children: [
-            Padding(
-              padding: EdgeInsets.all(5),
-              child: Text('Doctor level',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-            ),
-            Spacer(),
-            buildStars(context,Colors.black,Global.goldStars,Global.goldStars,Global.goldStars,Global.goldStars),
-          ],
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(5),
+                child: Text('Doctor level',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18,
+                        color: Global.getBackgroundColor(600))),
+              ),
+              Spacer(),
+              buildStars(context,Colors.black,Global.goldStars,Global.goldStars,Global.goldStars,Global.goldStars),
+            ],
+          ),
         );
       case 5:
-        return Row(
-          children: [
-            Padding(
-              padding: EdgeInsets.all(5),
-              child: Text('Professor level',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-            ),
-            Spacer(),
-            buildStars(context,Global.goldStars,Global.goldStars,Global.goldStars,Global.goldStars,Global.goldStars),
-          ],
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(5),
+                child: Text('Professor level',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18,
+                        color: Global.getBackgroundColor(600))),
+              ),
+              Spacer(),
+              buildStars(context,Global.goldStars,Global.goldStars,Global.goldStars,Global.goldStars,Global.goldStars),
+            ],
+          ),
         );
     }
     return buildStars(context,Colors.black,Colors.black,Colors.black,Colors.black,Global.goldStars);
@@ -233,13 +253,20 @@ class _RankState extends State<Rank> {
   starIcon(BuildContext context, Color color) {
     return Align(
         alignment: Alignment.topRight,
-        child: IconButton(
-          icon: color == Colors.black ? ImageIcon(AssetImage("images/hat_border.png")) : ImageIcon(AssetImage("images/hat.png")),
-//          Icon(color == Colors.black ? Icons.star_border : Icons.star,color: color,),
-          onPressed: () {
-//            showStarDialog(context);
-          },
-        )
+        child: color == Colors.black ? Padding(
+          padding: const EdgeInsets.all(2),
+          child: ImageIcon(AssetImage("images/hat_border.png")),
+        ) : Padding(
+          padding: const EdgeInsets.all(2),
+          child: ImageIcon(AssetImage("images/hat.png")),
+        ),
+//        IconButton(
+//          icon: color == Colors.black ? ImageIcon(AssetImage("images/hat_border.png")) : ImageIcon(AssetImage("images/hat.png")),
+////          Icon(color == Colors.black ? Icons.star_border : Icons.star,color: color,),
+////          onPressed: () {
+//////            showStarDialog(context);
+////          },
+//        )
     );
   }
 }
@@ -248,43 +275,59 @@ class _RankState extends State<Rank> {
 Widget stars(int rank){
   switch(rank){
     case 1:
-      return Icon(Icons.star,color: Global.goldStars,);
+      return ImageIcon(AssetImage("images/hat.png"));
+//        Icon(Icons.star,color: Global.goldStars,);
     case 2:
       return Row(
         children: <Widget>[
-          Icon(Icons.star,color: Global.goldStars),
-          Icon(Icons.star,color: Global.goldStars),
+          ImageIcon(AssetImage("images/hat.png")),
+          ImageIcon(AssetImage("images/hat.png")),
+//          Icon(Icons.star,color: Global.goldStars),
+//          Icon(Icons.star,color: Global.goldStars),
         ],
       );
     case 3:
       return Row(
         children: <Widget>[
-          Icon(Icons.star,color: Global.goldStars),
-          Icon(Icons.star,color: Global.goldStars),
-          Icon(Icons.star,color: Global.goldStars),
+          ImageIcon(AssetImage("images/hat.png")),
+          ImageIcon(AssetImage("images/hat.png")),
+          ImageIcon(AssetImage("images/hat.png")),
+//          Icon(Icons.star,color: Global.goldStars),
+//          Icon(Icons.star,color: Global.goldStars),
+//          Icon(Icons.star,color: Global.goldStars),
         ],
       );
     case 4:
       return Row(
         children: <Widget>[
-          Icon(Icons.star,color: Global.goldStars),
-          Icon(Icons.star,color: Global.goldStars),
-          Icon(Icons.star,color: Global.goldStars),
-          Icon(Icons.star,color: Global.goldStars),
+          ImageIcon(AssetImage("images/hat.png")),
+          ImageIcon(AssetImage("images/hat.png")),
+          ImageIcon(AssetImage("images/hat.png")),
+          ImageIcon(AssetImage("images/hat.png")),
+//          Icon(Icons.star,color: Global.goldStars),
+//          Icon(Icons.star,color: Global.goldStars),
+//          Icon(Icons.star,color: Global.goldStars),
+//          Icon(Icons.star,color: Global.goldStars),
         ],
       );
     case 5:
       return Row(
         children: <Widget>[
-          Icon(Icons.star,color: Global.goldStars),
-          Icon(Icons.star,color: Global.goldStars),
-          Icon(Icons.star,color: Global.goldStars),
-          Icon(Icons.star,color: Global.goldStars),
-          Icon(Icons.star,color: Global.goldStars),
+          ImageIcon(AssetImage("images/hat.png")),
+          ImageIcon(AssetImage("images/hat.png")),
+          ImageIcon(AssetImage("images/hat.png")),
+          ImageIcon(AssetImage("images/hat.png")),
+          ImageIcon(AssetImage("images/hat.png")),
+//          Icon(Icons.star,color: Global.goldStars),
+//          Icon(Icons.star,color: Global.goldStars),
+//          Icon(Icons.star,color: Global.goldStars),
+//          Icon(Icons.star,color: Global.goldStars),
+//          Icon(Icons.star,color: Global.goldStars),
         ],
       );
     default:
-      return Icon(Icons.star,color: Global.goldStars);
+      return ImageIcon(AssetImage("images/hat.png"));
+//        Icon(Icons.star,color: Global.goldStars);
   }
 }
 

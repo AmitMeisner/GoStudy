@@ -45,9 +45,11 @@ class _CoursesSelectChoiceState extends State<CourseSelectChoice> {
                     padding: const EdgeInsets.all(2.0),
                     child: ChoiceChip(
                       padding: EdgeInsets.symmetric(horizontal: 8),
-                      label: Text(courses[i]),
+                      label: Text(courses[i],
+                          style: TextStyle(
+                          color: Colors.black),),
                       selected: _currChip == i,
-                      selectedColor: Global.getBackgroundColor(200),
+                      selectedColor: Global.getBackgroundColor(0),
                       onSelected: (bool selected) {
                         setState(() {
                           _currChip = i;
