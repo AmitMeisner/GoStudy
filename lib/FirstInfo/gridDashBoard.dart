@@ -18,15 +18,22 @@ class GridDashboard extends StatefulWidget {
 
 class GridDashboardState extends State<GridDashboard> {
 
-var oldCourses ;
+  bool updated=false;
+  List<String> oldCourses=[] ;
 
-Future<void>  updateCourses() async {
-  oldCourses= await InformationPageState.getOldCourses();
-}
+  Future<void>  updateCourses() async {
+    oldCourses= await InformationPageState.getOldCourses();
+    updated=true;
+    setState(() {});
+  }
 
   Widget build(BuildContext context) {
-    updateCourses();
-    print(oldCourses.length);
+    if(!updated){
+      oldCourses=null;
+      updateCourses();
+      return Loading();
+    }
+    updated=false;
     var myGridView = new GridView.builder(
       itemCount: oldCourses.length,
       gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
