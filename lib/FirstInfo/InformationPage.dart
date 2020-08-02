@@ -552,18 +552,21 @@ class InformationPageState extends State<InformationPage> {
   }
 
    static Future <List<String>> getOldCourses() async {
-    print("hello two");
+//    print("hello two");
     String id = FirebaseAPI().getUid();
-    List<String> oldCourses2;
+    List<String> oldCourses2=[];
     DocumentReference documentReference =
     Firestore.instance.collection("Users").document(id);
     await documentReference.get().then((DocumentSnapshot ds) {
       if (ds.exists) {
-        oldCourses2 = ds.data['oldCourses'];
-        print('12234'+oldCourses2.length.toString());
+        oldCourses2 = List.from(ds.data['oldCourses']);
+//        print('12234'+oldCourses2.length.toString());
+        }
       }
-  return oldCourses2;
-    } );}
+    );
+    return oldCourses2;
+
+   }
 
 
 
