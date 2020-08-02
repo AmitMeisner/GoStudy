@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Global.dart';
-import 'package:flutterapp/HomePage/Extra/editTimeDialog.dart';
+import 'package:flutterapp/HomePage/History/editTimeDialog.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'TimeCard.dart';
 

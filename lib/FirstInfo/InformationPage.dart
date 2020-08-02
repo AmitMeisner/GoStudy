@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -29,11 +30,12 @@ class User{
 //  List<String> _times=[];
 //  int _rank;
   int _gender;
+  List<String> _oldCourses = [];
 
 
   User(this._uid,this._nickname, this._avg, this._friends,this._courses,
       this._year, this._semester,this._friendRequestSent, this._friendRequestReceive,
-      this._searchNickname, this._gender);
+      this._searchNickname, this._gender, this._oldCourses);
 
 //  void setRank(int rank){
 //    this._rank=rank;
@@ -57,6 +59,14 @@ class User{
 
   String getUid(){
     return this._uid;
+  }
+
+  void setOldCourses(List<String> newCourses){
+    this._oldCourses=newCourses;
+  }
+
+  List<String> getOldCourses(){
+    return this._oldCourses;
   }
 
   void setNickname(String name){
@@ -308,10 +318,10 @@ enum Activities{
 class InformationPage extends StatefulWidget {
   static final Color focusColor =Global.getBackgroundColor(0);
   @override
-  _InformationPageState createState() => _InformationPageState();
+  InformationPageState createState() => InformationPageState();
 }
 
-class _InformationPageState extends State<InformationPage> {
+class InformationPageState extends State<InformationPage> {
   final nicknameController = TextEditingController();
   final averageController = TextEditingController();
 
@@ -325,6 +335,7 @@ class _InformationPageState extends State<InformationPage> {
   int dedication;
   bool check=true;
   int gender;
+  static List<String> oldCourses=[];
   static User user;
 
 
@@ -333,6 +344,11 @@ class _InformationPageState extends State<InformationPage> {
     if(hasData){
      user=await UserDataBase().getUser();
      setState(() {
+       if(oldCourses == null) {
+         oldCourses = Global().allCourses;
+       }else {
+         oldCourses = user.getOldCourses();
+       }
        nicknameController.text=user.getNickname();
        averageController.text=user.getAverage();
        _YearInputState.year=user.getYear();
@@ -473,6 +489,7 @@ class _InformationPageState extends State<InformationPage> {
      semester=_SemesterInputState.semester;
      gender=_GenderInputState.gender;
      courses.clear();
+     oldCourses = Global().getAllCourses();
      for(var course in _CoursesInputState._courses){
        courses.add(course.toString());
      }
@@ -502,9 +519,9 @@ class _InformationPageState extends State<InformationPage> {
            hasData? FriendsDataBase().nicknameSearch((await UserDataBase().getUser()).getNickname()):FriendsDataBase().nicknameSearch(nickName),
 //           hasData? (await UserDataBase().getUser()).getRank():1,
            gender,
+         oldCourses,
        );
        UserDataBase().addUser(user);
-       Global().setUserCourses(courses);
        Navigator.pushReplacementNamed(context, '/home');
 
 
@@ -526,6 +543,28 @@ class _InformationPageState extends State<InformationPage> {
   Future navigateToCoursesPage(context) async {
     Navigator.push(context, MaterialPageRoute(builder: (context) => GridDashboard()));
   }
+
+
+  static void deleteCoursesList(){
+    String id = FirebaseAPI().getUid();
+    DocumentReference doc = UserDataBase.usersCollection.document(id);
+    doc.delete();
+  }
+
+   static Future <List<String>> getOldCourses() async {
+    print("hello two");
+    String id = FirebaseAPI().getUid();
+    List<String> oldCourses2;
+    DocumentReference documentReference =
+    Firestore.instance.collection("Users").document(id);
+    await documentReference.get().then((DocumentSnapshot ds) {
+      if (ds.exists) {
+        oldCourses2 = ds.data['oldCourses'];
+        print('12234'+oldCourses2.length.toString());
+      }
+  return oldCourses2;
+    } );}
+
 
 
 

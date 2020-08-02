@@ -7,7 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutterapp/HomePage/Extra/cards.dart';
+import 'package:flutterapp/HomePage/History/cards.dart';
 import 'package:flutterapp/Tips/Cards.dart';
 import 'package:flutterapp/Tips/Tips.dart';
 import 'package:flutterapp/FirstInfo/InformationPage.dart';
@@ -210,6 +210,7 @@ class UserDataBase {
       "avg":user.getAverage(),
       "friends":user.getFriends(),
       "courses":user.getCourses(),
+      "oldCourses":user.getOldCourses(),
 //      "avgGoal":user.getAvgGoal(),
 //      "dailyGoal":user.getDailyGoal(),
       "year":user.getYear(),
@@ -248,6 +249,7 @@ class UserDataBase {
         List<String>.from(doc.data["searchNickname"]),
 //        doc.data["Rank"],
         doc.data["Gender"],
+        List.from(doc.data["courses"]),
       );
     }
     );
@@ -350,6 +352,7 @@ class FriendsDataBase{
           List<String>.from(doc.data["searchNickname"]),
 //         doc.data["Rank"],
          doc.data["Gender"],
+        List.from(doc.data["oldCourses"]),
       );
     }).toList();
   }

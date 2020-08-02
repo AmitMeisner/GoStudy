@@ -1,10 +1,14 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Global.dart';
+import 'package:flutterapp/firebase/FirebaseAPI.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'InfoCourse.dart';
+import 'InformationPage.dart';
 
 
 class GridDashboard extends StatefulWidget {
@@ -14,10 +18,17 @@ class GridDashboard extends StatefulWidget {
 
 class GridDashboardState extends State<GridDashboard> {
 
+var oldCourses ;
+
+Future<void>  updateCourses() async {
+  oldCourses= await InformationPageState.getOldCourses();
+}
+
   Widget build(BuildContext context) {
-    var allCourses = Global().getAllCourses();
+    updateCourses();
+    print(oldCourses.length);
     var myGridView = new GridView.builder(
-      itemCount: allCourses.length,
+      itemCount: oldCourses.length,
       gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
       itemBuilder: (BuildContext context, int index) {
         return new GestureDetector(
@@ -27,7 +38,7 @@ class GridDashboardState extends State<GridDashboard> {
             child: new Container(
               alignment: Alignment.center,
               margin: new EdgeInsets.only(top: 10.0, bottom: 10.0,left: 10.0),
-              child: new Text(allCourses[index], style:  TextStyle(fontFamily: 'Piedra', fontSize: 16.0),),
+              child: new Text(oldCourses[index], style:  TextStyle(fontFamily: 'Piedra', fontSize: 16.0),),
             ),
           ),
           onTap: () {
@@ -54,4 +65,6 @@ class GridDashboardState extends State<GridDashboard> {
 Future navigateToInfoPage(context,index) async {
   Navigator.push(context, MaterialPageRoute(builder: (context) => InfoCourse(index)));
 }
+
+
 

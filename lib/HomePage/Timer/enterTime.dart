@@ -7,7 +7,7 @@ import '../../Tips/TipDialog.dart';
 import 'package:flutter/material.dart';
 import '../HomeMain.dart';
 import 'package:provider/provider.dart';
-import '../Extra/cards.dart';
+import '../History/cards.dart';
 import 'coursesResources.dart';
 import 'dialog_helper.dart';
 import 'enterTimeDialog.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'FirstInfo/gridDashBoard.dart';
 import 'Friends/Friends.dart';
-import 'HomePage/Extra/time.dart';
+import 'HomePage/History/time.dart';
 import 'Rank/Rank.dart';
 import 'signIn/google_sign_in.dart';
 import 'NavigationButtom.dart';

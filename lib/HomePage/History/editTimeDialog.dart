@@ -1,7 +1,7 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterapp/HomePage/Extra/resourceChoice.dart';
+import 'package:flutterapp/HomePage/History/resourceChoice.dart';
 import 'package:flutterapp/HomePage/Timer/fireBase/TimeCard.dart';
 import 'package:flutterapp/HomePage/Timer/fireBase/fireBase_api.dart';
 import 'package:fluttertoast/fluttertoast.dart';
