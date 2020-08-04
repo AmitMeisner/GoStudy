@@ -143,21 +143,19 @@ class SignInState extends State<SignIn> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Image.asset('images/go_study_logo.jpg'),
-              FlatButton(
-                child: Image.asset(
-                  'images/google_sign_in_button.png',
-                  width: 200.0,
-                ),
-                padding: EdgeInsets.all(0.0),
-                onPressed: _handleSignIn,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Image.asset('images/go_study_logo.jpg'),
+            FlatButton(
+              child: Image.asset(
+                'images/google_sign_in_button.png',
+                width: MediaQuery.of(context).size.width *2/3,
               ),
-            ],
-          ),
+//                  padding: EdgeInsets.all(0.0),
+              onPressed: _handleSignIn,
+            ),
+          ],
         ),
       ),
     );

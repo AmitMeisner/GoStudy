@@ -406,7 +406,7 @@ class _FriendsButtonState extends State<FriendsButton> {
                 size: 9.0,)
           ):Container(),
           IconButton(
-            onPressed: (){Navigator.pushNamed(context, '/friends');},
+            onPressed: (){Navigator.pushReplacementNamed(context, '/friends');},
             icon: Icon(Icons.group,color: Colors.black,),
           ),
         ],

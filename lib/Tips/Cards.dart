@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_card/animated_card.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:async';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -268,7 +269,11 @@ Widget showTagsAndLike(BuildContext context,Function tags, int index , List<TipC
   }
   return  Wrap(
     children: <Widget>[
-      Center(child: Text(tips[index].getTip())),
+      Center(
+          child: Text(tips[index].getTip(),
+            style:TextStyle(fontFamily: 'Piedra', fontSize: MediaQuery.of(context).size.width/19),
+        )
+      ),
     ],
   );
 }
@@ -300,14 +305,19 @@ Widget linkHandle(BuildContext context,List<TipCard> tips, int index){
   TipCard tipCard=tips[index];
   return Column(
     children: <Widget>[
-      Center(
-        child: RichText(
-          text:TextSpan(
-            text: tipCard.getDescription(),
-            style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold ,fontStyle: FontStyle.italic ),
-            recognizer: TapGestureRecognizer()..onTap=(){launchURL(context,tipCard.getLink());}
-          )
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          RichText(
+            text:TextSpan(
+                text: tipCard.getDescription(),
+                style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold ,fontStyle: FontStyle.italic ),
+                recognizer: TapGestureRecognizer()..onTap=(){launchURL(context,tipCard.getLink());}
+            )
         ),
+          Icon(Icons.public, size: 17,),
+
+        ],
       ),
     ],
   );

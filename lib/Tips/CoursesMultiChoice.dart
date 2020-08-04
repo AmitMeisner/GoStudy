@@ -83,7 +83,7 @@ class _CoursesMultiChoiceState extends State<CoursesMultiChoice> {
               if(tipsPage){TipDataBase().setUserSelectedTags(usersTags,tipsPageSetState);}
               },
             itemConfig: ChipsChoiceItemConfig(
-                selectedColor: Colors.green,
+                selectedColor: Global.getBackgroundColor(500),
                 unselectedColor: Colors.black87,
                 showCheckmark: true,
               )

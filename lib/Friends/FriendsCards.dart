@@ -46,8 +46,8 @@ class _FriendsCardsState extends State<FriendsCards> {
       return Loading();
     }
     return Container(
-      color: Colors.grey[300],
-      height: 535.0,
+//      color: Colors.grey[300],
+      height: MediaQuery.of(context).size.height*2/3,
       padding: EdgeInsets.only(bottom: 50.0),
       child: ListView.builder(
         itemCount: FriendsCards._users.length,
@@ -63,6 +63,7 @@ class _FriendsCardsState extends State<FriendsCards> {
             curve: Curves.decelerate,
             //Animation curve
             child: cardContent(context, index, FriendsCards._users,initialFriendPage),
+
           );
         },
       ),
@@ -88,15 +89,6 @@ Widget cardContent(BuildContext context, int index , List<User> users,Function i
           children: <Widget>[
             Text(users[index].getNickname()),
             addFriend(users,index,initialFriendPage),
-//            IconButton(
-//                icon: Icon(
-//                  Icons.person_add,
-//                  color: (users[index].getFriendRequestReceive().contains(FirebaseAPI().getUid())? Colors.blueAccent: Colors.black),
-//                ),
-//                onPressed: (){
-//                  FriendsDataBase().sendFriendRequest(users[index],initialFriendPage);
-//                },
-//            )
           ],
         ),
       ),
