@@ -539,13 +539,52 @@ class InformationPageState extends State<InformationPage> {
 
 
   static void deleteCoursesList(){
+    print("inside delete ");
     String id = FirebaseAPI().getUid();
     DocumentReference doc = UserDataBase.usersCollection.document(id);
     doc.delete();
   }
 
+
+  static Future <List<String>> createNewCoursesList(int index) async {
+    print("inside createNewCoursesList ");
+    List<String> oldCourses= await getOldCourses();
+    List<String> newCourses= new List<String>(oldCourses.length-1);
+    //var newCourses  = new List(oldCourses.length-1);
+    print("after create");
+    for(int i =0; i<oldCourses.length; i++){
+      if(i<index){
+        print("i is small");
+        newCourses[i] = oldCourses[i];
+      }else if(i>index){
+        newCourses[i-1] = oldCourses[i];
+        print("i is large");
+      }
+      print("i is"+i.toString());
+    }print("oldarray is"+oldCourses[index]+"new array is"+newCourses[index]);
+    return newCourses;
+  }
+
+  static Future <void> updateNewCoursesList(int index) async {
+    print(
+        "inside updateNewCoursesList "
+    );
+    print('index is'+index.toString());
+    List<String> Courses ;
+    Courses = await createNewCoursesList(index);
+    print("inside update course is"+Courses[index]);
+    final db = Firestore.instance;
+    //deleteCoursesList();
+      await db
+          .collection('Users')
+          .document( FirebaseAPI().getUid())
+          .updateData({'oldCourses': Courses});
+
+
+  }
+
    static Future <List<String>> getOldCourses() async {
-//    print("hello two");
+    print("inside get old courses");
     String id = FirebaseAPI().getUid();
     List<String> oldCourses2=[];
     DocumentReference documentReference =
@@ -553,8 +592,10 @@ class InformationPageState extends State<InformationPage> {
     await documentReference.get().then((DocumentSnapshot ds) {
       if (ds.exists) {
         oldCourses2 = List.from(ds.data['oldCourses']);
-//        print('12234'+oldCourses2.length.toString());
-        }
+        print("oneone"+oldCourses2[3]);
+        }else{
+        print("no exists");
+      }
       }
     );
     return oldCourses2;

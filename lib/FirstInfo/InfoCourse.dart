@@ -7,6 +7,7 @@ import 'package:flutterapp/Global.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'InformationPage.dart';
+import 'gridDashBoard.dart';
 
 
 class InfoCourse extends StatefulWidget {
@@ -112,6 +113,7 @@ class InfoCourse extends StatefulWidget {
             splashColor: Global.getBackgroundColor(0),
             onPressed: () {
               onClick(context);
+              GridDashboardState();
             },
             child: Text('ENTER INFO',  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 12)),
             color: Colors.white,
@@ -123,14 +125,15 @@ class InfoCourse extends StatefulWidget {
     }
 
 
-     void onClick(BuildContext context){
+     Future <void> onClick(BuildContext context) async{
       if(examHours == null || homeworkHours == null || recitationHours==null
       ||lecturesHours==null || extraHours == null || grade ==null){
          return showColoredToast("please select all fields before you enter the data");
 
       } else{
-        return enterData(context);
-
+        enterData(context);
+        print("nnnnn");
+        await InformationPageState.updateNewCoursesList(courseIndex);
       }
 
     }

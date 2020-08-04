@@ -243,7 +243,7 @@ class UserDataBase {
         List<String>.from(doc.data["searchNickname"]),
 //        doc.data["Rank"],
         doc.data["Gender"],
-        List.from(doc.data["courses"]),
+        List.from(doc.data["oldCourses"]),
       );
     }
     );

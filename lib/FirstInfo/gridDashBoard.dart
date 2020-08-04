@@ -18,14 +18,16 @@ class GridDashboard extends StatefulWidget {
 
 class GridDashboardState extends State<GridDashboard> {
 
-  bool updated=false;
-  List<String> oldCourses=[] ;
+  static bool updated=false;
+ static List<String> oldCourses=[] ;
 
-  Future<void>  updateCourses() async {
+    Future<void>  updateCourses() async {
     oldCourses= await InformationPageState.getOldCourses();
     updated=true;
     setState(() {});
   }
+
+
 
   Widget build(BuildContext context) {
     if(!updated){
@@ -34,6 +36,7 @@ class GridDashboardState extends State<GridDashboard> {
       return Loading();
     }
     updated=false;
+    setState(() {});
     var myGridView = new GridView.builder(
       itemCount: oldCourses.length,
       gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
@@ -41,6 +44,7 @@ class GridDashboardState extends State<GridDashboard> {
         return new GestureDetector(
           child: new Card(
             elevation: 8.0,
+            color:  (index % 2 == 0) ? Global.getBackgroundColor(200): Global.getBackgroundColor(50),
             shadowColor: Global.getBackgroundColor(0),
             child: new Container(
               alignment: Alignment.center,
