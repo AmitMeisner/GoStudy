@@ -211,18 +211,12 @@ class UserDataBase {
       "friends":user.getFriends(),
       "courses":user.getCourses(),
       "oldCourses":user.getOldCourses(),
-//      "avgGoal":user.getAvgGoal(),
-//      "dailyGoal":user.getDailyGoal(),
       "year":user.getYear(),
       "semester":user.getSemester(),
-//      "dedication":user.getDedication(),
-//      "Goals":user.getGoals(),
-//      "Times":user.getTimes(),
       "friendRequestSent":user.getFriendRequestSent(),
       "friendRequestReceive": user.getFriendRequestReceive(),
       "searchNickname":user.getSearchNickname(),
       "Gender": user.getGender(),
-//      "Rank":user.getRank()
     };
     return await usersCollection.document(FirebaseAPI().getUid()).setData(userMap);
   }
@@ -340,19 +334,13 @@ class FriendsDataBase{
           doc.data["avg"],
           List.from(doc.data["friends"]),
           List.from(doc.data["courses"]),
-//          doc.data["avgGoal"],
-//          doc.data["dailyGoal"],
           doc.data["year"],
           doc.data["semester"],
-//          doc.data["dedication"],
-//          List<String>.from(doc.data["Goals"]),
-//          List<String>.from(doc.data["Times"]),
           List<String>.from(doc.data["friendRequestSent"]),
           List<String>.from(doc.data["friendRequestReceive"]),
           List<String>.from(doc.data["searchNickname"]),
-//         doc.data["Rank"],
          doc.data["Gender"],
-        List.from(doc.data["oldCourses"]),
+          List.from(doc.data["oldCourses"]),
       );
     }).toList();
   }

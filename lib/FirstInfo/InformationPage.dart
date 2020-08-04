@@ -494,7 +494,6 @@ class InformationPageState extends State<InformationPage> {
        courses.add(course.toString());
      }
      _CoursesInputState._courses.clear();
-//     dedication=_DedicationInputState._dedication;
      bool hasData= await UserDataBase().hasData();
      List<String> goal=[];
      List<String> times=[];
@@ -507,17 +506,11 @@ class InformationPageState extends State<InformationPage> {
            avg,
            hasData? (await UserDataBase().getUser()).getFriends():[],
            courses,
-//           hasData? (await UserDataBase().getUser()).getAvgGoal():0,
-//           hasData? (await UserDataBase().getUser()).getDailyGoal():0,
            year,
            semester,
-//           dedication,
-//           hasData? (await UserDataBase().getUser()).getGoals():goal,
-//           hasData? (await UserDataBase().getUser()).getTimes():times,
            hasData? (await UserDataBase().getUser()).getFriendRequestSent():[],
            hasData? (await UserDataBase().getUser()).getFriendRequestReceive():[],
            hasData? FriendsDataBase().nicknameSearch((await UserDataBase().getUser()).getNickname()):FriendsDataBase().nicknameSearch(nickName),
-//           hasData? (await UserDataBase().getUser()).getRank():1,
            gender,
          oldCourses,
        );
@@ -687,13 +680,10 @@ class DescriptionText extends StatelessWidget {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text("Create your GoStudy profile",
-          textAlign: TextAlign.center,
-          style: GoogleFonts.cabin(fontWeight: FontWeight.bold, fontSize: 28)
-//          TextStyle(
-//              fontWeight: FontWeight.bold,
-//              fontSize: 18.0
-//            ),
+          child: Center(
+            child: Text("GoStudy Profile",
+            style: GoogleFonts.cabin(fontWeight: FontWeight.bold, fontSize: 28)
+            ),
           ),
         ),
         SizedBox(height: 4.0),

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutterapp/Global.dart';
 import 'package:flutterapp/Tips/CoursesMultiChoice.dart';
 import 'package:flutterapp/Tips/Cards.dart';
@@ -53,14 +54,14 @@ class TipDialogState extends State<TipDialog> {
         tags(),
         isLink? descriptionInput():textInput(),
         isLink? SizedBox(height:5.0):Container(),
+        isLink? linkInput():Container(),
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            isLink? linkInput():linkButton(),
-            isLink? Container():Spacer(),
-            postButton(context),
+            isLink? textButton():linkButton(),
+            postButton(context)
           ],
         ),
-        isLink? textButton():Container(),
       ],
     );
   }
@@ -68,11 +69,11 @@ class TipDialogState extends State<TipDialog> {
   //creating the link input in the dialog.
   Widget linkInput(){
     return Container(
-      padding: EdgeInsets.fromLTRB(0, 0, 10, 10),
-      width: 320,
+      padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+      width: MediaQuery.of(context).size.width,
       child: Column(
         children: <Widget>[
-          inputDecoration( "Select tags and enter a URL.",linkController, 32.0,1),
+          inputDecoration( "Select tags and enter a URL.",linkController, 10.0,1),
         ],
       ),
     );
@@ -80,7 +81,7 @@ class TipDialogState extends State<TipDialog> {
 
   //creating the description input in the dialog.
   Widget descriptionInput(){
-    return inputDecoration( "Enter a description.",descriptionController, 32.0,1);
+    return inputDecoration( "Enter a description.",descriptionController, 10.0,1);
   }
 
   //creating the courses choices in the dialog.
@@ -93,7 +94,7 @@ class TipDialogState extends State<TipDialog> {
     return Container(
       child: Column(
         children: <Widget>[
-          inputDecoration("Select tags and enter a tip.",tipController, 32.0,10),
+          inputDecoration("Select tags and enter a tip.",tipController, 10.0,10),
         ],
       ),
     );
@@ -117,7 +118,7 @@ class TipDialogState extends State<TipDialog> {
                 bottomLeft:  Radius.circular(borderRadius),
                 bottomRight:  Radius.circular(borderRadius),
               ),
-              borderSide: BorderSide(color: Colors.blueAccent, width: 2.0)
+              borderSide: BorderSide(color: Colors.grey[500], width: 2.0)
           ),
           enabledBorder:  OutlineInputBorder(
               borderRadius: BorderRadius.only(
@@ -126,7 +127,7 @@ class TipDialogState extends State<TipDialog> {
                 bottomLeft:  Radius.circular(borderRadius),
                 bottomRight:  Radius.circular(borderRadius),
               ),
-              borderSide: BorderSide(color: Colors.black, width: 2.0),
+              borderSide: BorderSide(color: Colors.grey[300], width: 2.0),
           ),
           errorBorder: InputBorder.none,
           disabledBorder: InputBorder.none,
@@ -164,15 +165,6 @@ class TipDialogState extends State<TipDialog> {
 
   }
 
-  //return the date in the form day/month/year.
-//  static String getDate(){
-//    DateTime now = new DateTime.now();
-//    DateTime date = new DateTime(now.year, now.month, now.day);
-//    String day=date.day.toString();
-//    String month=date.month.toString();
-//    String year=date.year.toString();
-//    return (day+"/"+month+"/"+year);
-//  }
 
   //display message to the user.
   void showColoredToast(String msg) {

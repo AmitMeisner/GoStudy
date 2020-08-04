@@ -2,6 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutterapp/FirstInfo/InformationPage.dart';
 import 'package:flutterapp/HomePage/HomeMain.dart';
 import 'package:flutterapp/Tips/CoursesMultiChoice.dart';
@@ -59,7 +60,7 @@ class _TipsPageState extends State<TipsPage> {
   Widget inputDecoration(String hint,TextEditingController controller, double borderRadius, TextInputType type){
     return Container(
       height: MediaQuery.of(context).size.height/15,
-      color: Colors.grey[300],
+      color: Colors.white,
       child: Row(
         children: <Widget>[
           Expanded(
@@ -143,7 +144,8 @@ class _TipsPageState extends State<TipsPage> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         FloatingActionButton.extended(
-          onPressed: (){addTip(context, updateState);},
+          onPressed: (){    SystemChannels.textInput.invokeMethod('TextInput.show');
+          addTip(context, updateState);},
           label: Text("Add Tip"),
           backgroundColor:  Global.getBackgroundColor(0),
           icon: Icon(Icons.add),

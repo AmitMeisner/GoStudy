@@ -14,7 +14,7 @@ class Global {
   final List<double> allGrades = [62,67,72,77,82,87,92,97];
 
 
-  static Color backgroundPageColor=Colors.grey[300];
+  static Color backgroundPageColor=Colors.white;
   static Color backgroundUserTipColor=Colors.blue[100];
   static Color goldStars=Colors.yellow[600];
 
