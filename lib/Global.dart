@@ -25,19 +25,62 @@ class Global {
 
   final List<String> allResources = ["Lectures", "Recitations", "Homeworks", "Exams", "Extra"];
   // return a list of all courses.
+  double getAllGrades(String grade){
+    switch(grade) {
+      case "0-60": {  return 60.0; }
+      break;
+      case "60-65": {  return 62.0; }
+      break;
+      case "65-70": {  return 67.0;  }
+      break;
+      case "70-75": {  return 72.0;  }
+      break;
+      case "75-80": {  return 77.0;  }
+      break;
+      case "80-85": {  return 82.0;  }
+      break;
+      case "85-90": {  return 87.0;  }
+      break;
+      case "90-95": {  return 92;  }
+      break;
+      case "95-100": {  return 97.0;  }
+      break;
+      default: { print("Invalid choice"); }
+      break;
+    }
+
+  }
+
   List<String> getAllCourses(){
     List<String> courses= new List<String>.from(allCourses);
     return courses;
   }
 
-  List<double> getAllGrades(){
-    List<double> grades= new List<double>.from(allGrades);
-    return grades;
-  }
+  double getHour(String hour){
+    //List<double> hours= new List<double>.from(allHours);
+    switch(hour) {
+      case "30-35": {  return 32.0; }
+      break;
+      case "35-40": {  return 37.0; }
+      break;
+      case "40-45": {  return 42.0;  }
+      break;
+      case "45-50": {  return 47.0;  }
+      break;
+      case "50-55": {  return 52.0;  }
+      break;
+      case "55-60": {  return 57.0;  }
+      break;
+      case "60-65": {  return 62.0;  }
+      break;
+      case "65-70": {  return 67;  }
+      break;
+      case "70+": {  return 70.0;  }
+      break;
+      default: { print("Invalid choice"); }
+      break;
+    }
 
-  List<double> getAllHours(){
-    List<double> hours= new List<double>.from(allHours);
-    return hours;
   }
 
   // return a list of resources.

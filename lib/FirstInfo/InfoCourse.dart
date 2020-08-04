@@ -19,27 +19,51 @@ class InfoCourse extends StatefulWidget {
 
   class InfoCourseState extends State<InfoCourse> {
     int courseIndex;
-    int examHours ;
-    int extraHours ;
-    int homeworkHours ;
-    int recitationHours ;
-    int lecturesHours  ;
-    int grade ;
+    static String examHours = "select value";
+
+    static String extraHours = "select value";
+    static String homeworkHours = "select value";
+
+    static String recitationHours = "select value";
+    static String lecturesHours = "select value";
+
+    static String grade = "select value";
 
     InfoCourseState(this.courseIndex);
+
     String userId = FirebaseAPI().getUid();
-    double average = 80.0;
-
-
+//    double average = double.parse(await InformationPageState.getAverage());
+    final List<String> _dropdownGrades = [
+      "30-35",
+      "35-40",
+      "40-45",
+      "45-50",
+      "50-55",
+      "55-60",
+      "60-65",
+      "65-70",
+      "70+"
+    ];
+    final List<String> _dropdownGradeFin = [
+      "0-60",
+      "60-65",
+      "65-70",
+      "70-75",
+      "75-80",
+      "85-90",
+      "90-95",
+      "95-100"
+    ];
 
 
     Widget build(BuildContext context) {
-      return  Scaffold(
+
+      return Scaffold(
         appBar: new PreferredSize(
-            preferredSize: Size.fromHeight(48.0),
-           child: AppBar(
-           backgroundColor: Global.getBackgroundColor(0),
-        ),),
+          preferredSize: Size.fromHeight(48.0),
+          child: AppBar(
+            backgroundColor: Global.getBackgroundColor(0),
+          ),),
         body: buildChild(context, 1),
       );
     }
@@ -53,71 +77,107 @@ class InfoCourse extends StatefulWidget {
 //            borderRadius: BorderRadius.all(Radius.circular(12))
 //        ),
         children: <Widget>[
-          SizedBox(height: 24,),
-          Text('how long in total(hours) did you study for the exam?',
-            style: TextStyle(fontSize: 20,
-                color: Colors.black,
-                fontFamily: 'Piedra',
-                ),),
-          SizedBox(height: 8,),
-          totalExamHours(),
+          Text('how long in total(hours) did you study for....',
+            style: TextStyle(fontSize: 30,
+              color: Colors.black,
+              fontFamily: 'Piedra',
+            ),
+            textAlign: TextAlign.center
+            ,),
           SizedBox(height: 40,),
-          Text(
-            'how long in total(hours) did you study for the homeworks ?',
-            style: TextStyle(fontSize: 20,
-                color: Colors.black,
-              fontFamily: 'Piedra'),),
-          SizedBox(height: 8,),
-          totalHomeworkHours(),
-          SizedBox(height: 40,),
-          Text(
-            'how long in total(hours) did you study for the recitations ?',
-            style: TextStyle(fontSize: 20,
-                color: Colors.black,
-                fontFamily: 'Piedra'),),
-          SizedBox(height: 8,),
-          totalRecitationsHours(),
-          SizedBox(height: 40,),
-          Text(
-            'how long in total(hours) did you study for the lectures ?',
-            style: TextStyle(fontSize: 20,
-                color: Colors.black,
-                fontFamily: 'Piedra'),),
-          SizedBox(height: 8,),
-          totalLecturesHours(),
-          SizedBox(height: 40,),
-          Text(
-            'how long in total(hours) did you study using extra material ?',
-            style: TextStyle(fontSize: 20,
-                color: Colors.black,
-                fontFamily: 'Piedra'),),
-          SizedBox(height: 8,),
-          totalExtraHours(),
-          SizedBox(height: 40,),
-          Text('what is your final grade?', style: TextStyle(
-              fontSize: 20, color: Colors.black, fontFamily: 'Piedra'),),
-          SizedBox(height: 8,),
-          totalGrade(),
-          SizedBox(height: 8,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-          RaisedButton(
-            onPressed: () {
-            return Navigator.of(context).pop(true);
-          },
-            child: Text('BACK', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 12)),
-            color: Colors.white,
-            textColor: Colors.black,),
-          RaisedButton(
-            splashColor: Global.getBackgroundColor(0),
-            onPressed: () {
-              onClick(context);
-              GridDashboardState();
-            },
-            child: Text('ENTER INFO',  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 12)),
-            color: Colors.white,
-            textColor: Colors.black)
+            children: <Widget>[
+              Text('the exam',
+                style: TextStyle(fontSize: 20,
+                  color: Colors.black,
+                  fontFamily: 'Piedra',
+                ),),
+              totalHoursExam(),
+            ],
+          ),
+          SizedBox(height: 40,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Text('the homeworks',
+                style: TextStyle(fontSize: 20,
+                  color: Colors.black,
+                  fontFamily: 'Piedra',
+                ),),
+              totalHoursHomework(),
+            ],
+          ),
+          SizedBox(height: 40,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Text('the recitations',
+                style: TextStyle(fontSize: 20,
+                  color: Colors.black,
+                  fontFamily: 'Piedra',
+                ),),
+              totalHoursRecitations(),
+            ],
+          ),
+          SizedBox(height: 40,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Text('the lectures',
+                style: TextStyle(fontSize: 20,
+                  color: Colors.black,
+                  fontFamily: 'Piedra',
+                ),),
+              totalHoursLectures(),
+            ],
+          ),
+          SizedBox(height: 40,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Text('using extra materials',
+                style: TextStyle(fontSize: 20,
+                  color: Colors.black,
+                  fontFamily: 'Piedra',
+                ),),
+              totalHoursExtra(),
+            ],
+          ),
+          SizedBox(height: 40,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Text('your final grade is',
+                style: TextStyle(fontSize: 20,
+                  color: Colors.black,
+                  fontFamily: 'Piedra',
+                ),),
+              total(),
+            ],
+          ),
+          SizedBox(height: 40,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              RaisedButton(
+                onPressed: () {
+                  return Navigator.of(context).pop(true);
+                },
+                child: Text('BACK', style: TextStyle(
+                    fontWeight: FontWeight.bold, fontSize: 12)),
+                color: Colors.white,
+                textColor: Colors.black,),
+              RaisedButton(
+                  splashColor: Global.getBackgroundColor(0),
+                  onPressed: () {
+                    onClick(context);
+                    GridDashboardState();
+                  },
+                  child: Text('ENTER INFO', style: TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 12)),
+                  color: Colors.white,
+                  textColor: Colors.black)
             ],
           ),
         ],
@@ -125,29 +185,29 @@ class InfoCourse extends StatefulWidget {
     }
 
 
-     Future <void> onClick(BuildContext context) async{
-      if(examHours == null || homeworkHours == null || recitationHours==null
-      ||lecturesHours==null || extraHours == null || grade ==null){
-         return showColoredToast("please select all fields before you enter the data");
-
-      } else{
+    Future <void> onClick(BuildContext context) async {
+      if (examHours == null || homeworkHours == null || recitationHours == null
+          || lecturesHours == null || extraHours == null || grade == null) {
+        return showColoredToast(
+            "please select all fields before you enter the data");
+      } else {
         enterData(context);
         print("nnnnn");
         await InformationPageState.updateNewCoursesList(courseIndex);
       }
-
     }
 
-    void enterData(BuildContext context) {
+
+    void enterData(BuildContext context) async{
       UserStatForCourse userInfo = new UserStatForCourse(
         Global().getAllCourses()[courseIndex],
-        average,
-        Global().getAllHours()[homeworkHours - 1],
-        Global().getAllHours()[lecturesHours - 1],
-        Global().getAllHours()[recitationHours - 1],
-        Global().getAllHours()[examHours - 1],
-        Global().getAllHours()[extraHours - 1],
-        Global().getAllGrades()[grade - 1],
+          double.parse(await InformationPageState.getAverage()),
+        Global().getHour(homeworkHours),
+        Global().getHour(lecturesHours),
+        Global().getHour(recitationHours),
+        Global().getHour(examHours),
+        Global().getHour(extraHours),
+        Global().getAllGrades(grade),
         userId,
 
       );
@@ -155,112 +215,27 @@ class InfoCourse extends StatefulWidget {
       return Navigator.of(context).pop(true);
     }
 
-    Widget totalRecitationsHours() {
+
+    Widget totalHoursHomework() {
       return Column(
         children: <Widget>[
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              Radio(
-                  value: 1,
-                  groupValue: recitationHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      recitationHours=T;
-                    });
-                  }),
-              Text("30-35"),
-              Radio(
-                  value: 2,
-                  groupValue: recitationHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      recitationHours=T;
-                    });
-                  }),
-              Text("36-40"),
-              Radio(
-                  value: 3,
-                  groupValue: recitationHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      recitationHours=T;
-                    });
-                  }),
-              Text("41-45"),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Radio(
-                  value: 4,
-                  groupValue: recitationHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      recitationHours=T;
-                    });
-                  }),
-              Text("46-50"),
-              Radio(
-                  value: 5,
-                  groupValue: recitationHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      recitationHours=T;
-                    });
-                  }),
-              Text("51-55"),
-              Radio(
-                  value: 6,
-                  groupValue: recitationHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      recitationHours=T;
-                    });
-                  }),
-              Text("56-60"),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Radio(
-                  value: 7,
-                  groupValue: recitationHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      recitationHours=T;
-                    });
-                  }),
-              Text("61-65"),
-              Radio(
-                  value: 8,
-                  groupValue: recitationHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      recitationHours=T;
-                    });
-                  }),
-              Text("66-70"),
-              Radio(
-                  value: 9,
-                  groupValue: recitationHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      recitationHours=T;
-                    });
-                  }),
-              Text("70+"),
+              DropdownButton<String>(
+                items: _dropdownGrades
+                    .map((data) =>
+                    DropdownMenuItem<String>(
+                      child: Text(data),
+                      value: data,
+                    ))
+                    .toList(),
+                onChanged: (String value) {
+                  setState(() => homeworkHours = value);
+                },
+                hint: Text(homeworkHours),
+                // value: _selectedValue,
+              ),
             ],
           ),
         ],
@@ -269,112 +244,108 @@ class InfoCourse extends StatefulWidget {
     }
 
 
-    Widget totalHomeworkHours() {
+    Widget totalHoursRecitations() {
       return Column(
         children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Radio(
-                  value: 1,
-                  groupValue: homeworkHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      homeworkHours=T;
-                    });
-                  }),
-              Text("30-35"),
-              Radio(
-                  value: 2,
-                  groupValue: homeworkHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      homeworkHours=T;
-                    });
-                  }),
-              Text("36-40"),
-              Radio(
-                  value: 3,
-                  groupValue: homeworkHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      homeworkHours=T;
-                    });
-                  }),
-              Text("41-45"),
+              DropdownButton<String>(
+                items: _dropdownGrades
+                    .map((data) =>
+                    DropdownMenuItem<String>(
+                      child: Text(data),
+                      value: data,
+                    ))
+                    .toList(),
+                onChanged: (String value) {
+                  setState(() => recitationHours = value);
+                },
+                hint: Text(recitationHours),
+                // value: _selectedValue,
+              ),
             ],
           ),
+        ],
+
+      );
+    }
+
+
+    Widget totalHoursLectures() {
+      return Column(
+        children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Radio(
-                  value: 4,
-                  groupValue: homeworkHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      homeworkHours=T;
-                    });
-                  }),
-              Text("46-50"),
-              Radio(
-                  value: 5,
-                  groupValue: homeworkHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      homeworkHours=T;
-                    });
-                  }),
-              Text("51-55"),
-              Radio(
-                  value: 6,
-                  groupValue: homeworkHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      homeworkHours=T;
-                    });
-                  }),
-              Text("56-60"),
+              DropdownButton<String>(
+                items: _dropdownGrades
+                    .map((data) =>
+                    DropdownMenuItem<String>(
+                      child: Text(data),
+                      value: data,
+                    ))
+                    .toList(),
+                onChanged: (String value) {
+                  setState(() => lecturesHours = value);
+                },
+                hint: Text(lecturesHours),
+                // value: _selectedValue,
+              ),
             ],
           ),
+        ],
+
+      );
+    }
+
+    Widget totalHoursExam() {
+      return Column(
+        children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Radio(
-                  value: 7,
-                  groupValue: homeworkHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      homeworkHours=T;
-                    });
-                  }),
-              Text("61-65"),
-              Radio(
-                  value: 8,
-                  groupValue: homeworkHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      homeworkHours=T;
-                    });
-                  }),
-              Text("66-70"),
-              Radio(
-                  value: 9,
-                  groupValue: homeworkHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      homeworkHours=T;
-                    });
-                  }),
-              Text("70+"),
+              DropdownButton<String>(
+                items: _dropdownGrades
+                    .map((data) =>
+                    DropdownMenuItem<String>(
+                      child: Text(data),
+                      value: data,
+                    ))
+                    .toList(),
+                onChanged: (String value) {
+                  setState(() => examHours = value);
+                },
+                hint: Text(examHours),
+                // value: _selectedValue,
+              ),
+            ],
+          ),
+        ],
+
+      );
+    }
+
+    Widget totalHoursExtra() {
+      return Column(
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              DropdownButton<String>(
+                items: _dropdownGrades
+                    .map((data) =>
+                    DropdownMenuItem<String>(
+                      child: Text(data),
+                      value: data,
+                    ))
+                    .toList(),
+                onChanged: (String value) {
+                  setState(() => extraHours = value);
+                },
+                hint: Text(extraHours),
+                // value: _selectedValue,
+              ),
             ],
           ),
         ],
@@ -384,112 +355,27 @@ class InfoCourse extends StatefulWidget {
 
 
 
-    Widget totalLecturesHours() {
+
+    Widget total() {
       return Column(
         children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Radio(
-                  value: 1,
-                  groupValue: lecturesHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      lecturesHours=T;
-                    });
-                  }),
-              Text("30-35"),
-              Radio(
-                  value: 2,
-                  groupValue: lecturesHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      lecturesHours=T;
-                    });
-                  }),
-              Text("36-40"),
-              Radio(
-                  value: 3,
-                  groupValue: lecturesHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      lecturesHours=T;
-                    });
-                  }),
-              Text("41-45"),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Radio(
-                  value: 4,
-                  groupValue: lecturesHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      lecturesHours=T;
-                    });
-                  }),
-              Text("46-50"),
-              Radio(
-                  value: 5,
-                  groupValue: lecturesHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      lecturesHours=T;
-                    });
-                  }),
-              Text("51-55"),
-              Radio(
-                  value: 6,
-                  groupValue: lecturesHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      lecturesHours=T;
-                    });
-                  }),
-              Text("56-60"),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Radio(
-                  value: 7,
-                  groupValue: lecturesHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      lecturesHours=T;
-                    });
-                  }),
-              Text("61-65"),
-              Radio(
-                  value: 8,
-                  groupValue: lecturesHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      lecturesHours=T;
-                    });
-                  }),
-              Text("66-70"),
-              Radio(
-                  value: 9,
-                  groupValue: lecturesHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      lecturesHours=T;
-                    });
-                  }),
-              Text("70+"),
+              DropdownButton<String>(
+                items: _dropdownGradeFin
+                    .map((data) =>
+                    DropdownMenuItem<String>(
+                      child: Text(data),
+                      value: data,
+                    ))
+                    .toList(),
+                onChanged: (String value) {
+                  setState(() => grade = value);
+                },
+                hint: Text(grade),
+                // value: _selectedValue,
+              ),
             ],
           ),
         ],
@@ -498,345 +384,14 @@ class InfoCourse extends StatefulWidget {
     }
 
 
-    Widget totalExtraHours() {
-      return Column(
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Radio(
-                  value: 1,
-                  groupValue: extraHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      extraHours=T;
-                    });
-                  }),
-              Text("30-35"),
-              Radio(
-                  value: 2,
-                  groupValue: extraHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      extraHours=T;
-                    });
-                  }),
-              Text("36-40"),
-              Radio(
-                  value: 3,
-                  groupValue: extraHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      extraHours=T;
-                    });
-                  }),
-              Text("41-45"),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Radio(
-                  value: 4,
-                  groupValue: extraHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      extraHours=T;
-                    });
-                  }),
-              Text("46-50"),
-              Radio(
-                  value: 5,
-                  groupValue: extraHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      extraHours=T;
-                    });
-                  }),
-              Text("51-55"),
-              Radio(
-                  value: 6,
-                  groupValue: extraHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      extraHours=T;
-                    });
-                  }),
-              Text("56-60"),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Radio(
-                  value: 7,
-                  groupValue: extraHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      extraHours=T;
-                    });
-                  }),
-              Text("61-65"),
-              Radio(
-                  value: 8,
-                  groupValue: extraHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      extraHours=T;
-                    });
-                  }),
-              Text("66-70"),
-              Radio(
-                  value: 9,
-                  groupValue: extraHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      extraHours=T;
-                    });
-                  }),
-              Text("70+"),
-            ],
-          ),
-        ],
-
-      );
+    void showColoredToast(String msg) {
+      Fluttertoast.showToast(
+          fontSize: 18,
+          msg: msg,
+          toastLength: Toast.LENGTH_LONG,
+          backgroundColor: Global.getBackgroundColor(0),
+          gravity: ToastGravity.CENTER,
+          textColor: Colors.white);
     }
 
-
-    Widget totalExamHours() {
-      return Column(
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Radio(
-                value: 1,
-                groupValue: examHours,
-                activeColor: InformationPage.focusColor,
-                onChanged: (T){
-                  setState(() {
-                    examHours=T;
-                  });
-                  }),
-              Text("30-35"),
-              Radio(
-                value: 2,
-                  groupValue: examHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      examHours=T;
-                    });
-                  }),
-              Text("36-40"),
-              Radio(
-                value: 3,
-                  groupValue: examHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      examHours=T;
-                    });
-                  }),
-              Text("41-45"),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Radio(
-                value: 4,
-                  groupValue: examHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      examHours=T;
-                    });
-                  }),
-              Text("46-50"),
-              Radio(
-                value: 5,
-                  groupValue: examHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      examHours=T;
-                    });
-                  }),
-              Text("51-55"),
-              Radio(
-                value: 6,
-                  groupValue: examHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      examHours=T;
-                    });
-                  }),
-              Text("56-60"),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Radio(
-                value: 7,
-                  groupValue: examHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      examHours=T;
-                    });
-                  }),
-              Text("61-65"),
-              Radio(
-                value: 8,
-                  groupValue: examHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      examHours=T;
-                    });
-                  }),
-              Text("66-70"),
-              Radio(
-                value: 9,
-                  groupValue: examHours,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                    setState(() {
-                      examHours=T;
-                    });
-                  }),
-              Text("70+"),
-            ],
-          ),
-        ],
-
-      );
-    }
-
-
-    Widget totalGrade() {
-      return Column(
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Radio(
-                value: 1,
-                groupValue: grade,
-                activeColor: InformationPage.focusColor,
-                onChanged: (T){
-                  setState(() {
-                    grade=T;
-                  });
-          }),
-
-              Text("60-64"),
-              Radio(
-                value: 2,
-                  groupValue: grade,
-                  activeColor: InformationPage.focusColor,
-                  onChanged: (T){
-                  setState(() {
-                  grade=T;
-                  });}
-              ),
-              Text("65-69"),
-              Radio(
-                value: 3,
-                groupValue: grade,
-                activeColor: InformationPage.focusColor,
-                onChanged: (T){
-                setState(() {
-                grade=T;
-                });}
-              ),
-              Text("70-74"),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Radio(
-                value: 4,
-                groupValue: grade,
-                activeColor: InformationPage.focusColor,
-                onChanged: (T){
-                setState(() {
-                grade=T;
-                });}
-              ),
-              Text("75-79"),
-              Radio(
-                value: 5,
-                groupValue: grade,
-                activeColor: InformationPage.focusColor,
-                onChanged: (T){
-                setState(() {
-                grade=T;
-                });}
-              ),
-              Text("80-84"),
-              Radio(
-                value: 6,
-                groupValue: grade,
-                activeColor: InformationPage.focusColor,
-                onChanged: (T){
-                setState(() {
-                grade=T;
-                });}
-              ),
-              Text("85-89"),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Radio(
-                value: 7,
-                groupValue: grade,
-                activeColor: InformationPage.focusColor,
-                onChanged: (T){
-                setState(() {
-                grade=T;
-                });}
-              ),
-              Text("90-95"),
-              Radio(
-                value: 8,
-                groupValue: grade,
-                activeColor: InformationPage.focusColor,
-                onChanged: (T){
-                setState(() {
-                grade=T;
-                });}
-              ),
-              Text("96-100"),
-            ],
-          ),
-        ],
-
-      );
-    }
   }
-
-void showColoredToast(String msg) {
-  Fluttertoast.showToast(
-      fontSize: 18,
-      msg: msg,
-      toastLength: Toast.LENGTH_LONG,
-      backgroundColor: Global.getBackgroundColor(0),
-      gravity: ToastGravity.CENTER,
-      textColor: Colors.white);
-}

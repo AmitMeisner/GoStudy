@@ -75,6 +75,12 @@ class GridDashboardState extends State<GridDashboard> {
 
 Future navigateToInfoPage(context,index) async {
   Navigator.push(context, MaterialPageRoute(builder: (context) => InfoCourse(index)));
+  InfoCourseState.grade = "choose value";
+  InfoCourseState.homeworkHours = "choose value";
+  InfoCourseState.recitationHours = "choose value";
+  InfoCourseState.lecturesHours = "choose value";
+  InfoCourseState.examHours = "choose value";
+  InfoCourseState.extraHours = "choose value";
 }
 
 
