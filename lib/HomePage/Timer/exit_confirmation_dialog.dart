@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/signIn/google_sign_in.dart';
 
+import '../../Global.dart';
+
 class ExitConfirmationDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -15,45 +17,28 @@ class ExitConfirmationDialog extends StatelessWidget {
   }
 
   _buildChild(BuildContext context) => Container(
-    height: 350,
+    height: 200,
     decoration: BoxDecoration(
-        color: Colors.redAccent,
+        color:Global.backgroundPageColor,
         shape: BoxShape.rectangle,
         borderRadius: BorderRadius.all(Radius.circular(12))
     ),
     child: Column(
       children: <Widget>[
-        Container(
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Image.asset('images/sad.png', height: 120, width: 120,),
-          ),
-          width: double.infinity,
-          decoration: BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12))
-          ),
-        ),
-        SizedBox(height: 24,),
-        Text('Do you want to exit?', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),),
-        SizedBox(height: 8,),
-        Padding(
-          padding: const EdgeInsets.only(right: 16, left: 16),
-          child: Text('If exit button is pressed by mistake then click on no to continue.', style: TextStyle(color: Colors.white), textAlign: TextAlign.center,),
-        ),
+        SizedBox(height: 40,),
+        Text('Exit?', style: TextStyle(fontSize: 20, color: Colors.blueGrey, fontWeight: FontWeight.bold),),
         SizedBox(height: 24,),
         Row(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            FlatButton(onPressed: (){
-              Navigator.of(context).pop();
-            }, child: Text('No'),textColor: Colors.white,),
-            SizedBox(width: 8,),
             RaisedButton(onPressed: (){
               //return Navigator.of(context).pop(true);
              return SignInState().signOut(context);
-            }, child: Text('Yes'), color: Colors.white, textColor: Colors.redAccent,)
+            }, child: Text('Yes'),color: Global.backgroundPageColor, textColor:Colors.blueGrey,)
+
+            ,RaisedButton(onPressed: (){
+              Navigator.of(context).pop();
+            }, child: Text('No'),color: Global.backgroundPageColor, textColor:Colors.blueGrey),
           ],
         )
       ],

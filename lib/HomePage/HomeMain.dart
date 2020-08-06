@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutterapp/pushNotifications.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../Global.dart';
@@ -88,9 +89,9 @@ class HomeMainPageState extends State<HomeMainPage> {
                             ),
                             height: 150,
                             width: 150,
-                            child: Center(child: Text("Start",
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.meriendaOne(fontSize: 30, fontWeight: FontWeight.bold),
+                            child: Center(child: Text("LETS GO",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.meriendaOne(fontSize: 30, fontWeight: FontWeight.bold),
 //                            GoogleFonts.pacifico(fontSize: 30),
 //                            TextStyle(
 //                                fontSize: 30, fontWeight: FontWeight.bold),
@@ -140,23 +141,26 @@ class HomeMainPageState extends State<HomeMainPage> {
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height / 10),
                 Text("Time", textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20, color: Colors.grey),),
+                  style: TextStyle(fontSize: 20, color: Colors.grey, fontWeight: FontWeight.bold),),
                 neuDigitalClock(),
                 SizedBox(height: MediaQuery.of(context).size.height / 20),
                 Text("Daily Goal", textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 20, color: Colors.grey),),
+                  style: TextStyle(fontSize: 20, color: Colors.grey,fontWeight: FontWeight.bold),),
                 SizedBox(height: MediaQuery.of(context).size.height / 50),
                 Text("07 : 30 : 00", textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 28, color: Colors.black),),
-                SizedBox(height: MediaQuery.of(context).size.height / 10),
+                SizedBox(height: MediaQuery.of(context).size.height / 30),
+                NeuProgressPieBar(),
+                SizedBox(height: MediaQuery.of(context).size.height / 30),
                 Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      NeuResetButton(),
-                      NeuProgressPieBar(),
-                      EnterTimeButton(),
-                    ]),
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                NeuResetButton(),
+                SizedBox(height: MediaQuery.of(context).size.height / 30),
+                EnterTimeButton(),
+                  ],),
                 SizedBox(height: MediaQuery.of(context).size.height / 25),
+                //MsgError(),
 //                MotivationSentence(),
               ],
               // ),
@@ -169,28 +173,28 @@ class HomeMainPageState extends State<HomeMainPage> {
 
   void newRankDialog(){
     showDialog(context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-          title: Text('Congratulations', textAlign: TextAlign.center,),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('New Rank!', textAlign: TextAlign.center,),
-                Image(image: AssetImage('images/Success.jpg'),),
-              ],
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            title: Text('Congratulations', textAlign: TextAlign.center,),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text('New Rank!', textAlign: TextAlign.center,),
+                  Image(image: AssetImage('images/Success.jpg'),),
+                ],
+              ),
             ),
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: Text('Close'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      }
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Close'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        }
     );
   }
 }
@@ -206,12 +210,12 @@ class MotivationSentenceState extends State<MotivationSentence> {
   String sentence = "";
   int len = 0;
   CollectionReference colRef =
-      Firestore.instance.collection("motivationSentences");
+  Firestore.instance.collection("motivationSentences");
 
   Future getLen() async{
     await colRef.getDocuments().then((value) {
-        len = value.documents.length;
-        pickSentence();
+      len = value.documents.length;
+      pickSentence();
     });
   }
 
@@ -228,10 +232,10 @@ class MotivationSentenceState extends State<MotivationSentence> {
   Future<String> getRaghd() async{
     CollectionReference statsCollection= Firestore.instance.collection("Statistics");
     var x =  statsCollection.document("Overall Average").get().then((value) {
-        print(value.data['Overall Average']);
-        //List x = value.data['Overall Average'];
-        //print(x[0]);
-        //print('sup mah man');
+      print(value.data['Overall Average']);
+      //List x = value.data['Overall Average'];
+      //print(x[0]);
+      //print('sup mah man');
     });
     return x;
 
@@ -245,10 +249,10 @@ class MotivationSentenceState extends State<MotivationSentence> {
   @override
   Widget build(BuildContext context) {
     return Text(sentence,
-    textAlign: TextAlign.center,
-    style:
+      textAlign: TextAlign.center,
+      style:
 //    GoogleFonts.cabin(fontSize: 35, fontWeight: FontWeight.bold),
-    TextStyle(fontFamily: 'Piedra', fontSize: 30.0),
+      TextStyle(fontFamily: 'Piedra', fontSize: 30.0),
     );
   }
 }
@@ -413,4 +417,7 @@ class _FriendsButtonState extends State<FriendsButton> {
       ),
     );
   }
+
+
 }
+

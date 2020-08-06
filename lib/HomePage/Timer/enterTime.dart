@@ -1,5 +1,7 @@
 import 'package:flutterapp/FirstInfo/InformationPage.dart';
+import 'package:flutterapp/HomePage/Timer/progress_pie_bar.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../Global.dart';
@@ -36,6 +38,15 @@ class EnterTimeButton extends StatefulWidget {
   return formatted;
 }
 
+void showColoredToast(String msg) {
+  Fluttertoast.showToast(
+      msg: msg,
+      toastLength: Toast.LENGTH_SHORT,
+      backgroundColor: Global.backgroundPageColor,
+      gravity: ToastGravity.BOTTOM,
+      textColor: Colors.red);
+}
+
 class EnterTimeState extends State<EnterTimeButton> {
   static String course ;
   static String resource ;
@@ -51,6 +62,7 @@ class EnterTimeState extends State<EnterTimeButton> {
 
   void _onPointerDown() async{
     _isPressed=true;
+    if(TimerService.currentDurationTime != Duration.zero && !NeuStartButtonState.isRunning ){
     await DialogHelperTime.enterTime(context);
     course = ShowHideDropdownState.selectedValue;
     resource = ShowHideDropdownState.resource;
@@ -61,8 +73,12 @@ class EnterTimeState extends State<EnterTimeButton> {
     while (TimeConfirmationDialog.toEnterTime == true) {
       if(course== "Select course" || resource == "Select resource" || !checkValidTime(hours, minutes, seconds)){
         TimeConfirmationDialog.toEnterTime =false;
-        await DialogHelperMissingData.showError(context);
+
+        //await DialogHelperMissingData.showError(context);
         await DialogHelperTime.enterTime(context);
+        //showColoredToast("Data is missing") ;
+        //await DialogHelperTime.enterTime(context);
+
         continue;
       }
       TimeCard newTime = new TimeCard(
@@ -78,7 +94,11 @@ class EnterTimeState extends State<EnterTimeButton> {
       user.addCourseTime(course, act, hours+((minutes)/60));
       user.addCourseTime("totalTime", null, hours+((minutes)/60));
       UserProgressDataBase().addUser(user);
+      Provider.of<TimerService>(context, listen: false).reset();
       break;
+    }}
+    else{
+      showColoredToast("Stop the timer and validate that time is greater than zero");
     }
     setState(() {});
   }
@@ -105,12 +125,12 @@ class EnterTimeState extends State<EnterTimeButton> {
       onPointerUp: _onPointerUp,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 150),
-        height: MediaQuery.of(context).size.height/20,
+        height: MediaQuery.of(context).size.height/14,
 //        width: 150,
 //        padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
 //          color: Color.fromRGBO(227, 237, 247, 1),
-          color: Global.getBackgroundColor(200),
+          color: Global.getBackgroundColor(0),
 //          borderRadius: BorderRadius.circular(15),
           shape: BoxShape.circle,
           boxShadow: _isPressed
@@ -129,10 +149,10 @@ class EnterTimeState extends State<EnterTimeButton> {
           ],
         ),
         child: Container(
-          height: 35.0,
-          width: 35.0,
+          height: 50.0,
+          width: 50.0,
           child:
-            Icon(Icons.save,),
+            Icon(Icons.save, size: 35,),
 //          Text(
 //            "Enter time",
 //            style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),

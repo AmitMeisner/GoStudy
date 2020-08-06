@@ -19,9 +19,9 @@ class GridDashboard extends StatefulWidget {
 class GridDashboardState extends State<GridDashboard> {
 
   static bool updated=false;
- static List<String> oldCourses=[] ;
+  static List<String> oldCourses=[] ;
 
-    Future<void>  updateCourses() async {
+  Future<void>  updateCourses() async {
     oldCourses= await InformationPageState.getOldCourses();
     updated=true;
     setState(() {});
@@ -54,7 +54,7 @@ class GridDashboardState extends State<GridDashboard> {
           ),
           onTap: () {
             navigateToInfoPage(context, index);
-            },
+          },
         );
       },
     );
@@ -63,8 +63,8 @@ class GridDashboardState extends State<GridDashboard> {
       appBar: new PreferredSize(
         preferredSize: Size.fromHeight(48.0),
         child: AppBar(
-        backgroundColor: Global.getBackgroundColor(0),
-      ),),
+          backgroundColor: Global.getBackgroundColor(0),
+        ),),
       body: myGridView,
     );
   }

@@ -342,21 +342,21 @@ class InformationPageState extends State<InformationPage> {
   Future<void> initial() async{
     bool hasData=await UserDataBase().hasData();
     if(hasData){
-     user=await UserDataBase().getUser();
-     setState(() {
-       if(oldCourses == null) {
-         oldCourses = Global().allCourses;
-       }else {
-         oldCourses = user.getOldCourses();
-       }
-       nicknameController.text=user.getNickname();
-       averageController.text=user.getAverage();
-       _YearInputState.year=user.getYear();
-       _SemesterInputState.semester=user.getSemester();
-       _CoursesInputState().updateCourses(user.getCourses());
+      user=await UserDataBase().getUser();
+      setState(() {
+        if(oldCourses == null) {
+          oldCourses = Global().allCourses;
+        }else {
+          oldCourses = user.getOldCourses();
+        }
+        nicknameController.text=user.getNickname();
+        averageController.text=user.getAverage();
+        _YearInputState.year=user.getYear();
+        _SemesterInputState.semester=user.getSemester();
+        _CoursesInputState().updateCourses(user.getCourses());
 //       _DedicationInputState._dedication=user.getDedication();
-       _GenderInputState.gender=user.getGender();
-     });
+        _GenderInputState.gender=user.getGender();
+      });
     }
     check=false;
   }
@@ -384,9 +384,9 @@ class InformationPageState extends State<InformationPage> {
                     children: [
                       inputDecoration("Choose a nickname",nicknameController, 3.0, TextInputType.text),
                       IconButton(icon: Icon(Icons.info_outline),
-                      onPressed: (){
-                        showNicknameDialog();
-                      },)
+                        onPressed: (){
+                          showNicknameDialog();
+                        },)
                     ],
                   ),
                 ),
@@ -398,7 +398,7 @@ class InformationPageState extends State<InformationPage> {
                       inputDecoration("Average",averageController, 3.0, TextInputType.number),
                       IconButton(icon: Icon(Icons.info_outline),
                         onPressed: (){
-                        showAverageDialog();
+                          showAverageDialog();
                         },)
                     ],
                   ),
@@ -411,26 +411,18 @@ class InformationPageState extends State<InformationPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                  RaisedButton(
-                    shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15)),
-                    child: Text("Save",
-                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-                    ),
-                    color: InformationPage.focusColor,
-                    padding: EdgeInsets.all(0.0),
-//                textColor: Colors.black,
-                    onPressed: (){updateInfo();},
-                    ),
                     RaisedButton(
                       shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15)),
-                      textColor: Colors.black,
-                      color:  InformationPage.focusColor,
-                      child: Text('Update Old Courses',
-                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),),
-                      onPressed: () {
-                        navigateToCoursesPage(context);
-                      },),
-                ],
+                      child: Text("Save",
+                        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                      ),
+                      color: InformationPage.focusColor,
+                      padding: EdgeInsets.all(0.0),
+//                textColor: Colors.black,
+                      onPressed: (){updateInfo();},
+                    ),
+//
+                  ],
                 )
               ],
             ),
@@ -483,54 +475,58 @@ class InformationPageState extends State<InformationPage> {
   }
 
   void updateInfo()async{
-     nickName=nicknameController.text;
-     avg=averageController.text;
-     year=_YearInputState.year;
-     semester=_SemesterInputState.semester;
-     gender=_GenderInputState.gender;
-     courses.clear();
-     oldCourses = Global().getAllCourses();
-     for(var course in _CoursesInputState._courses){
-       courses.add(course.toString());
-     }
-     _CoursesInputState._courses.clear();
-     bool hasData= await UserDataBase().hasData();
-     List<String> goal=[];
-     List<String> times=[];
-     if(await validate(nickName, avg, courses, year, semester)) {
-       updateGoal(goal,courses);
-       updateTimes(times,courses);
-       User user = User(
-           hasData? (await UserDataBase().getUser()).getUid():"",
-           nickName,
-           avg,
-           hasData? (await UserDataBase().getUser()).getFriends():[],
-           courses,
-           year,
-           semester,
-           hasData? (await UserDataBase().getUser()).getFriendRequestSent():[],
-           hasData? (await UserDataBase().getUser()).getFriendRequestReceive():[],
-           hasData? FriendsDataBase().nicknameSearch((await UserDataBase().getUser()).getNickname()):FriendsDataBase().nicknameSearch(nickName),
-           gender,
-         oldCourses,
-       );
-       UserDataBase().addUser(user);
-       Navigator.pushReplacementNamed(context, '/home');
+    nickName=nicknameController.text;
+    avg=averageController.text;
+    year=_YearInputState.year;
+    semester=_SemesterInputState.semester;
+    gender=_GenderInputState.gender;
+    courses.clear();
+    if(oldCourses == null) {
+      oldCourses = Global().allCourses;
+    }else {
+      oldCourses = user.getOldCourses();
+    }
+    for(var course in _CoursesInputState._courses){
+      courses.add(course.toString());
+    }
+    _CoursesInputState._courses.clear();
+    bool hasData= await UserDataBase().hasData();
+    List<String> goal=[];
+    List<String> times=[];
+    if(await validate(nickName, avg, courses, year, semester)) {
+      updateGoal(goal,courses);
+      updateTimes(times,courses);
+      User user = User(
+        hasData? (await UserDataBase().getUser()).getUid():"",
+        nickName,
+        avg,
+        hasData? (await UserDataBase().getUser()).getFriends():[],
+        courses,
+        year,
+        semester,
+        hasData? (await UserDataBase().getUser()).getFriendRequestSent():[],
+        hasData? (await UserDataBase().getUser()).getFriendRequestReceive():[],
+        hasData? FriendsDataBase().nicknameSearch((await UserDataBase().getUser()).getNickname()):FriendsDataBase().nicknameSearch(nickName),
+        gender,
+        oldCourses,
+      );
+      UserDataBase().addUser(user);
+      Navigator.pushReplacementNamed(context, '/home');
 
 
-       hasData= await UserProgressDataBase().hasData();
-       String uid=FirebaseAPI().getUid();
-       UserProgress user2=UserProgress(
-         double.parse(avg),
-         hasData? (await UserProgressDataBase().getUser(uid)).getRank():1,
-         hasData? (await UserProgressDataBase().getUser(uid)).getTimes():times,
-         hasData? (await UserProgressDataBase().getUser(uid)).getGoals():goal,
-         hasData? (await UserProgressDataBase().getUser(uid)).getDedication():3,
-       );
+      hasData= await UserProgressDataBase().hasData();
+      String uid=FirebaseAPI().getUid();
+      UserProgress user2=UserProgress(
+        double.parse(avg),
+        hasData? (await UserProgressDataBase().getUser(uid)).getRank():1,
+        hasData? (await UserProgressDataBase().getUser(uid)).getTimes():times,
+        hasData? (await UserProgressDataBase().getUser(uid)).getGoals():goal,
+        hasData? (await UserProgressDataBase().getUser(uid)).getDedication():3,
+      );
 
-       UserProgressDataBase().addUser(user2);
+      UserProgressDataBase().addUser(user2);
 
-     }
+    }
   }
 
   Future navigateToCoursesPage(context) async {
@@ -566,15 +562,15 @@ class InformationPageState extends State<InformationPage> {
     List<String> Courses ;
     Courses = await createNewCoursesList(index);
     final db = Firestore.instance;
-      await db
-          .collection('Users')
-          .document( FirebaseAPI().getUid())
-          .updateData({'oldCourses': Courses});
+    await db
+        .collection('Users')
+        .document( FirebaseAPI().getUid())
+        .updateData({'oldCourses': Courses});
 
 
   }
 
-   static Future <List<String>> getOldCourses() async {
+  static Future <List<String>> getOldCourses() async {
     String id = FirebaseAPI().getUid();
     List<String> oldCourses2=[];
     DocumentReference documentReference =
@@ -583,11 +579,11 @@ class InformationPageState extends State<InformationPage> {
       if (ds.exists) {
         oldCourses2 = List.from(ds.data['oldCourses']);
       }
-      }
+    }
     );
     return oldCourses2;
 
-   }
+  }
 
 
   static Future<String> getAverage() async {
@@ -678,40 +674,40 @@ class InformationPageState extends State<InformationPage> {
 //creating the decoration for the text, description and link inputs.
 Widget inputDecoration(String hint,TextEditingController controller, double borderRadius, TextInputType type){
   return Flexible(
-        child: TextFormField(
-          controller: controller,
-          autocorrect: false,
-          cursorColor: Colors.black,
-          keyboardType: type,
-          maxLines: 1,
-          minLines: 1,
-          decoration: new InputDecoration(
-            border:  InputBorder.none,
-            focusedBorder:  OutlineInputBorder(
-                borderRadius: BorderRadius.only(
-                  topLeft:  Radius.circular(borderRadius),
-                  topRight:  Radius.circular(borderRadius),
-                  bottomLeft:  Radius.circular(borderRadius),
-                  bottomRight:  Radius.circular(borderRadius),
-                ),
-                borderSide: BorderSide(color: InformationPage.focusColor, width: 2.0)
+    child: TextFormField(
+      controller: controller,
+      autocorrect: false,
+      cursorColor: Colors.black,
+      keyboardType: type,
+      maxLines: 1,
+      minLines: 1,
+      decoration: new InputDecoration(
+        border:  InputBorder.none,
+        focusedBorder:  OutlineInputBorder(
+            borderRadius: BorderRadius.only(
+              topLeft:  Radius.circular(borderRadius),
+              topRight:  Radius.circular(borderRadius),
+              bottomLeft:  Radius.circular(borderRadius),
+              bottomRight:  Radius.circular(borderRadius),
             ),
-            enabledBorder:  OutlineInputBorder(
-              borderRadius: BorderRadius.only(
-                topLeft:  Radius.circular(borderRadius),
-                topRight:  Radius.circular(borderRadius),
-                bottomLeft:  Radius.circular(borderRadius),
-                bottomRight:  Radius.circular(borderRadius),
-              ),
-              borderSide: BorderSide(color: Colors.grey, width: 2.0),
-            ),
-            errorBorder: InputBorder.none,
-            disabledBorder: InputBorder.none,
-            contentPadding: EdgeInsets.only(left: 15, bottom: 15, top: 11, right: 15),
-            hintText: hint,
-          ),
+            borderSide: BorderSide(color: InformationPage.focusColor, width: 2.0)
         ),
-      );
+        enabledBorder:  OutlineInputBorder(
+          borderRadius: BorderRadius.only(
+            topLeft:  Radius.circular(borderRadius),
+            topRight:  Radius.circular(borderRadius),
+            bottomLeft:  Radius.circular(borderRadius),
+            bottomRight:  Radius.circular(borderRadius),
+          ),
+          borderSide: BorderSide(color: Colors.grey, width: 2.0),
+        ),
+        errorBorder: InputBorder.none,
+        disabledBorder: InputBorder.none,
+        contentPadding: EdgeInsets.only(left: 15, bottom: 15, top: 11, right: 15),
+        hintText: hint,
+      ),
+    ),
+  );
 }
 
 
@@ -725,7 +721,7 @@ class DescriptionText extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Center(
             child: Text("GoStudy Profile",
-            style: GoogleFonts.cabin(fontWeight: FontWeight.bold, fontSize: 28)
+                style: GoogleFonts.cabin(fontWeight: FontWeight.bold, fontSize: 28)
             ),
           ),
         ),
@@ -737,7 +733,7 @@ class DescriptionText extends StatelessWidget {
 //            "Your dedication will influence your study plan.\n"
 //            "\n"
 //            "You can edit your profile at any time by clicking your name at the Home page.\n",
-        style: GoogleFonts.cabin(fontSize: 15),
+          style: GoogleFonts.cabin(fontSize: 15),
         ),
       ],
     );
@@ -818,9 +814,9 @@ class _YearInputState extends State<YearInput> {
                 },
               ),
               Text("5"),
-          ],
-        ),
-      ],
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -876,52 +872,52 @@ class _SemesterInputState extends State<SemesterInput> {
 }
 
 class GenderInput extends StatefulWidget {
-   @override
-   _GenderInputState createState() => _GenderInputState();
- }
+  @override
+  _GenderInputState createState() => _GenderInputState();
+}
 
- class _GenderInputState extends State<GenderInput> {
+class _GenderInputState extends State<GenderInput> {
   static int gender;
-   @override
-   Widget build(BuildContext context) {
-     return Padding(
-       padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-       child: Row(
-         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-         children: <Widget>[
-           Text("Gender :", style: TextStyle(fontWeight: FontWeight.bold),),
-           Row(
-             mainAxisAlignment: MainAxisAlignment.end,
-             children: <Widget>[
-               Radio(
-                 value: 1,
-                 groupValue: gender,
-                 activeColor: InformationPage.focusColor,
-                 onChanged: (T){
-                   setState(() {
-                     gender=T;
-                   });
-                 },
-               ),
-               Text("Male"),
-               Radio(
-                 value: 2,
-                 groupValue: gender,
-                 activeColor: InformationPage.focusColor,
-                 onChanged: (T){
-                   setState(() {
-                     gender=T;
-                   });
-                 },
-               ),
-               Text("Female"),
-             ],
-           ),
-         ],
-       ),
-     );
-   }
- }
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text("Gender :", style: TextStyle(fontWeight: FontWeight.bold),),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              Radio(
+                value: 1,
+                groupValue: gender,
+                activeColor: InformationPage.focusColor,
+                onChanged: (T){
+                  setState(() {
+                    gender=T;
+                  });
+                },
+              ),
+              Text("Male"),
+              Radio(
+                value: 2,
+                groupValue: gender,
+                activeColor: InformationPage.focusColor,
+                onChanged: (T){
+                  setState(() {
+                    gender=T;
+                  });
+                },
+              ),
+              Text("Female"),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 
 
@@ -957,45 +953,45 @@ class _CoursesInputState extends State<CoursesInput> {
   @override
   Widget build(BuildContext context) {
     return  Center(
-        child: Form(
-          key: formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                child: MultiSelectFormField(
-                  autovalidate: false,
-                  titleText: 'Current Courses',
-                  validator: (value) {
-                    if (value == null || value.length == 0) {
-                      return 'Please select one or more options';
-                    }
-                    return null;
-                  },
-                  dataSource: _allCourses,
-                  textField: 'display',
-                  valueField: 'value',
-                  okButtonLabel: 'OK',
-                  cancelButtonLabel: 'CANCEL',
-                  required: true,
-                  hintText: 'Please select your current courses',
-                  initialValue: _courses,
-                  onSaved: (value) {
-                    if (value == null) return;
-                    setState(() {
-                      _courses = value;
-                    });
-                  },
-                ),
+      child: Form(
+        key: formKey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              child: MultiSelectFormField(
+                autovalidate: false,
+                titleText: 'Current Courses',
+                validator: (value) {
+                  if (value == null || value.length == 0) {
+                    return 'Please select one or more options';
+                  }
+                  return null;
+                },
+                dataSource: _allCourses,
+                textField: 'display',
+                valueField: 'value',
+                okButtonLabel: 'OK',
+                cancelButtonLabel: 'CANCEL',
+                required: true,
+                hintText: 'Please select your current courses',
+                initialValue: _courses,
+                onSaved: (value) {
+                  if (value == null) return;
+                  setState(() {
+                    _courses = value;
+                  });
+                },
               ),
-              Container(
-                padding: EdgeInsets.all(16),
-                child: Text(_coursesResult),
-              )
-            ],
-          ),
+            ),
+            Container(
+              padding: EdgeInsets.all(16),
+              child: Text(_coursesResult),
+            )
+          ],
         ),
-      );
+      ),
+    );
   }
 
 

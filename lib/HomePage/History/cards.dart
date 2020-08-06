@@ -130,19 +130,19 @@ Widget cardContent(BuildContext context,Function course, int index , List<TimeCa
     decoration: BoxDecoration(
       color: Global.getBackgroundColor(0),
       borderRadius: BorderRadius.circular(50),
-      boxShadow: [
-        BoxShadow(
-          blurRadius: 15,
-          offset: Offset(-5, -5),
-          color: Colors.white,
-        ),
-        BoxShadow(
-          blurRadius: 15,
-          offset: Offset(10.5, 10.5),
-//            color: Color.fromRGBO(214, 223, 230, 1),
-          color: Global.getBackgroundColor(500),
-        )
-      ],
+//      boxShadow: [
+//        BoxShadow(
+//          blurRadius: 0,
+//          offset: Offset(-5, -5),
+//          color: Colors.white,
+//        ),
+//        BoxShadow(
+//          blurRadius: 0,
+//          offset: Offset(10.5, 10.5),
+////            color: Color.fromRGBO(214, 223, 230, 1),
+//          color: Global.getBackgroundColor(500),
+//        )
+      //],
     ),
 // Digital green background
     child: Center(

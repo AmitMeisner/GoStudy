@@ -24,7 +24,6 @@ class Cards extends StatelessWidget {
   static final _firstTip=[TipCard(_helpOthers, null, null,maxLikeCount , emptyList,false , null,DateTime.now(),null,null,[])];
   static List<TipCard> _tipCards;
 
-
   Function updateTipsPageState;
   Cards(this.updateTipsPageState);
 
