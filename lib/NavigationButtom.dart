@@ -10,7 +10,6 @@ import 'HomePage/HomeMain.dart';
 import 'Statistics/Statistics.dart';
 import 'package:flutterapp/Tips/Tips.dart';
 import 'Progress/ProgressPageNav.dart';
-import 'StatisticsNew/StatisticsPage.dart';
 
 class NavigationBottomPage extends StatefulWidget {
   @override
@@ -23,8 +22,8 @@ class _NavigationBottomState extends State<NavigationBottomPage> {
   final ProgressPageNav _progress=ProgressPageNav();
   final TipsPage _tips = TipsPage();
   final HomeMainPage _home = HomeMainPage(firstInit: false,);
-//  final StatisticsPage _statistics = StatisticsPage();
-  final NewStatistics _statistics=NewStatistics();
+  final StatisticsPage _statistics = StatisticsPage();
+//  final NewStatistics _statistics=StatisticsPage();
 
   Widget _showPage = new HomeMainPage(firstInit: true,);
   Widget _pageChooser (int page){

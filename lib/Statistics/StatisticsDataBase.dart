@@ -4,6 +4,7 @@ import 'package:flutter_echarts/flutter_echarts.dart';
 import 'package:number_display/number_display.dart';
 import 'dark_theme_script.dart' show darkThemeScript;
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 final display = createDisplay(decimal: 2);
 
@@ -206,3 +207,26 @@ class StatisticsDataBase{
 
   }
 }
+
+class DataModel{
+  String exam;
+  String homework;
+  String grade;
+  String docId;
+  DataModel({this.exam,this.grade,this.homework,this.docId});
+  DataModel.fromJson(Map<String,dynamic>data,String id)
+      :exam=data['Exams'],
+        docId=id,
+        grade=data['Final Grade'],
+        homework=data['Homeworks'];
+}
+
+class DataService {
+  Firestore firestore = Firestore.instance;
+
+  Stream<List<DataModel>> getData() {
+    return firestore.collection("Statistics").snapshots().map((sanpshot) =>
+        sanpshot.documents.map((e) => DataModel.fromJson(e.data,e.documentID)).toList());
+  }
+}
+

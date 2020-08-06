@@ -67,10 +67,6 @@ class _NewStatistics extends State<NewStatistics> {
 
 
   void initState(){
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeRight,
-      DeviceOrientation.landscapeLeft,
-    ]);
     super.initState();
 
   }
