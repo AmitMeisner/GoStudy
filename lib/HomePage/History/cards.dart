@@ -5,6 +5,7 @@ import 'package:flutterapp/HomePage/Timer/fireBase/fireBase_api.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
 import 'dart:async';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../Global.dart';
@@ -40,7 +41,8 @@ class cards extends StatelessWidget {
     _timeCards = null;
     updateTimeList(context);
     if (_timeCards == null) {
-      return Loading();
+//      return Loading();
+    return (Text("NO TIME HISTORY IN THIS COURSE",   style: GoogleFonts.meriendaOne(fontSize: 20, fontWeight: FontWeight.bold)));
     }
     _timeCards = _timeCards;
     return Container(
@@ -125,8 +127,8 @@ Widget cardContent(BuildContext context,Function course, int index , List<TimeCa
 
   return Container(
     margin:  EdgeInsets.only( bottom: 25.0),
-    width: MediaQuery.of(context).size.height/2.1,
-    height: MediaQuery.of(context).size.height/8,
+    width: MediaQuery.of(context).size.height/2.5,
+    height: MediaQuery.of(context).size.height/10,
     decoration: BoxDecoration(
       color: Global.getBackgroundColor(0),
       borderRadius: BorderRadius.circular(50),
@@ -149,7 +151,7 @@ Widget cardContent(BuildContext context,Function course, int index , List<TimeCa
         child: LayoutBuilder(
         builder: (context, constraints) => Container(
     height:  MediaQuery.of(context).size.height/10,
-    width: MediaQuery.of(context).size.height/2.3,
+    width: MediaQuery.of(context).size.height/2.8,
     decoration: BoxDecoration(
       gradient: LinearGradient(colors: [
         Global.backgroundPageColor,

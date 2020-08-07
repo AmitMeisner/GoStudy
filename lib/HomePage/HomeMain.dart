@@ -89,9 +89,9 @@ class HomeMainPageState extends State<HomeMainPage> {
                             ),
                             height: 150,
                             width: 150,
-                            child: Center(child: Text("LETS GO",
+                            child: Center(child: Text("LETS GO STUDY",
                               textAlign: TextAlign.center,
-                              style: GoogleFonts.meriendaOne(fontSize: 30, fontWeight: FontWeight.bold),
+                              style: GoogleFonts.meriendaOne(fontSize: 25, fontWeight: FontWeight.bold),
 //                            GoogleFonts.pacifico(fontSize: 30),
 //                            TextStyle(
 //                                fontSize: 30, fontWeight: FontWeight.bold),

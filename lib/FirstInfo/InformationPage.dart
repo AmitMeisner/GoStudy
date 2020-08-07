@@ -1,17 +1,12 @@
 import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:multiselect_formfield/multiselect_formfield.dart';
-
 import 'package:flutterapp/Global.dart';
-
 import 'gridDashBoard.dart';
-
-
 class User{
   String _nickname;
   String _avg;
@@ -31,12 +26,9 @@ class User{
 //  int _rank;
   int _gender;
   List<String> _oldCourses = [];
-
-
   User(this._uid,this._nickname, this._avg, this._friends,this._courses,
       this._year, this._semester,this._friendRequestSent, this._friendRequestReceive,
       this._searchNickname, this._gender, this._oldCourses);
-
 //  void setRank(int rank){
 //    this._rank=rank;
 //  }
@@ -44,66 +36,51 @@ class User{
 //  int getRank(){
 //    return this._rank;
 //  }
-
   void setGender(int gen){
     this._gender=gen;
   }
-
   int getGender(){
     return this._gender;
   }
-
   void setUid(String uid){
     this._uid=uid;
   }
-
   String getUid(){
     return this._uid;
   }
-
   void setOldCourses(List<String> newCourses){
     this._oldCourses=newCourses;
   }
-
   List<String> getOldCourses(){
     return this._oldCourses;
   }
-
   void setNickname(String name){
     this._nickname=name;
   }
-
   String getNickname(){
     return _nickname;
   }
-
   void setAverage(String avg){
     this._avg=avg;
   }
-
   String getAverage(){
     return _avg;
   }
-
   void setFriends(List<String> friends){
     this._friends=[];
     for(String friend in friends){
       this._friends.add(friend);
     }
   }
-
   List<String> getFriends(){
     return _friends;
   }
-
   void setCourses(List<String> courses){
     this._courses=courses;
   }
-
   List<dynamic> getCourses(){
     return this._courses;
   }
-
 //  void setAvgGoal(int goal){
 //    this._avgGoal=goal;
 //  }
@@ -111,8 +88,6 @@ class User{
 //  int getAvgGoal(){
 //    return _avgGoal;
 //  }
-
-
 //  void setDailyGoal(int goal){
 //    this._dailyGoal=goal;
 //  }
@@ -120,23 +95,18 @@ class User{
 //  int getDailyGoal(){
 //    return _dailyGoal;
 //  }
-
   void setYear(int year){
     this._year =year;
   }
-
   int getYear(){
     return _year;
   }
-
   void setSemester(int sem){
     this._semester=sem;
   }
-
   int getSemester(){
     return _semester;
   }
-
 //  void setDedication(int ded){
 //    this._dedication=ded;
 //  }
@@ -144,7 +114,6 @@ class User{
 //  int getDedication(){
 //    return _dedication;
 //  }
-
 //  void addGoal(String course , Activities activity, double time){
 //    if(course==null && activity==null){
 //      _goal.add("SemesterHours"+"_"+time.toString());
@@ -214,7 +183,6 @@ class User{
 //  void resetGoals(){
 //    _goal.clear();
 //  }
-
 //  void addCourseTime(String course , Activities activity, double time){
 //    double prevTime=getCourseTime( course ,  activity);
 //    double newTime=prevTime+time;
@@ -280,53 +248,39 @@ class User{
 //  List<String> getTimes(){
 //    return this._times;
 //  }
-
   void setFriendRequestSent(List<String> lst){
     this._friendRequestSent=lst;
   }
-
   List<String> getFriendRequestSent(){
     return this._friendRequestSent;
   }
-
   void setFriendRequestReceive(List<String> lst){
     this._friendRequestReceive=lst;
   }
-
   List<String> getFriendRequestReceive(){
     return this._friendRequestReceive;
   }
-
   bool newFriendReq(){
     return (this._friendRequestReceive.isNotEmpty);
   }
-
   List<String> getSearchNickname(){
     return this._searchNickname;
   }
-
   void setSearchNickname(List<String> searchNickname){
     this._searchNickname=searchNickname;
   }
-
 }
-
 enum Activities{
   HomeWork, Recitation , Lectures , Exams, Extra
 }
-
 class InformationPage extends StatefulWidget {
   static final Color focusColor =Global.getBackgroundColor(0);
   @override
   InformationPageState createState() => InformationPageState();
 }
-
 class InformationPageState extends State<InformationPage> {
   final nicknameController = TextEditingController();
   final averageController = TextEditingController();
-
-
-
   String nickName;
   String avg;
   int year;
@@ -337,8 +291,6 @@ class InformationPageState extends State<InformationPage> {
   int gender;
   static List<String> oldCourses=[];
   static User user;
-
-
   Future<void> initial() async{
     bool hasData=await UserDataBase().hasData();
     if(hasData){
@@ -360,8 +312,6 @@ class InformationPageState extends State<InformationPage> {
     }
     check=false;
   }
-
-
   @override
   Widget build(BuildContext context) {
     if(check){initial();}
@@ -421,7 +371,15 @@ class InformationPageState extends State<InformationPage> {
 //                textColor: Colors.black,
                       onPressed: (){updateInfo();},
                     ),
-//
+//                    RaisedButton(
+//                      shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15)),
+//                      textColor: Colors.black,
+//                      color:  InformationPage.focusColor,
+//                      child: Text('Update Old Courses',
+//                        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),),
+//                      onPressed: () {
+//                        navigateToCoursesPage(context);
+//                      },),
                   ],
                 )
               ],
@@ -431,7 +389,6 @@ class InformationPageState extends State<InformationPage> {
       ),
     );
   }
-
   void showAverageDialog() {
     showDialog(
       context: context,
@@ -452,7 +409,6 @@ class InformationPageState extends State<InformationPage> {
       },
     );
   }
-
   void showNicknameDialog() {
     showDialog(
       context: context,
@@ -473,7 +429,6 @@ class InformationPageState extends State<InformationPage> {
       },
     );
   }
-
   void updateInfo()async{
     nickName=nicknameController.text;
     avg=averageController.text;
@@ -512,8 +467,6 @@ class InformationPageState extends State<InformationPage> {
       );
       UserDataBase().addUser(user);
       Navigator.pushReplacementNamed(context, '/home');
-
-
       hasData= await UserProgressDataBase().hasData();
       String uid=FirebaseAPI().getUid();
       UserProgress user2=UserProgress(
@@ -523,17 +476,12 @@ class InformationPageState extends State<InformationPage> {
         hasData? (await UserProgressDataBase().getUser(uid)).getGoals():goal,
         hasData? (await UserProgressDataBase().getUser(uid)).getDedication():3,
       );
-
       UserProgressDataBase().addUser(user2);
-
     }
   }
-
   Future navigateToCoursesPage(context) async {
     Navigator.push(context, MaterialPageRoute(builder: (context) => GridDashboard()));
   }
-
-
   static void deleteCoursesList(){
     print("inside delete ");
     String id = FirebaseAPI().getUid();
@@ -543,8 +491,11 @@ class InformationPageState extends State<InformationPage> {
 
 
   static Future <List<String>> createNewCoursesList(int index) async {
+    print("inside createNewCoursesList ");
     List<String> oldCourses= await getOldCourses();
     List<String> newCourses= new List<String>(oldCourses.length-1);
+    //var newCourses  = new List(oldCourses.length-1);
+    print("after create");
     for(int i =0; i<oldCourses.length; i++){
       if(i<index){
         print("i is small");
@@ -559,18 +510,23 @@ class InformationPageState extends State<InformationPage> {
   }
 
   static Future <void> updateNewCoursesList(int index) async {
+    print(
+        "inside updateNewCoursesList "
+    );
+    print('index is'+index.toString());
     List<String> Courses ;
     Courses = await createNewCoursesList(index);
+    print("inside update course is"+Courses[index]);
     final db = Firestore.instance;
+    //deleteCoursesList();
     await db
         .collection('Users')
         .document( FirebaseAPI().getUid())
         .updateData({'oldCourses': Courses});
-
-
   }
 
   static Future <List<String>> getOldCourses() async {
+    print("inside get old courses");
     String id = FirebaseAPI().getUid();
     List<String> oldCourses2=[];
     DocumentReference documentReference =
@@ -578,11 +534,13 @@ class InformationPageState extends State<InformationPage> {
     await documentReference.get().then((DocumentSnapshot ds) {
       if (ds.exists) {
         oldCourses2 = List.from(ds.data['oldCourses']);
+        print("oneone"+oldCourses2[3]);
+      }else{
+        print("no exists");
       }
     }
     );
     return oldCourses2;
-
   }
 
 
@@ -612,7 +570,6 @@ class InformationPageState extends State<InformationPage> {
       goal.add(course+"_"+"Extra"+"_"+"0.0");
     }
   }
-
   void updateGoal(List<String> goal, List<String> courses){
     var rng=Random();
     for(String course in courses){
@@ -623,7 +580,6 @@ class InformationPageState extends State<InformationPage> {
       goal.add(course+"_"+"Extra"+"_"+"14.0");
     }
   }
-
   Future<bool> validate(String nickName, String avg, List<String> courses,int year,int semester)async{
     if(nickName==""){
       showColoredToast("Please choose a nickname");
@@ -651,7 +607,6 @@ class InformationPageState extends State<InformationPage> {
     }
     return true;
   }
-
   //display message to the user.
   void showColoredToast(String msg) {
     Fluttertoast.showToast(
@@ -661,16 +616,10 @@ class InformationPageState extends State<InformationPage> {
         gravity: ToastGravity.CENTER,
         textColor: Colors.white);
   }
-
   User getUser(){
     return user;
-
   }
-
-
 }
-
-
 //creating the decoration for the text, description and link inputs.
 Widget inputDecoration(String hint,TextEditingController controller, double borderRadius, TextInputType type){
   return Flexible(
@@ -709,8 +658,6 @@ Widget inputDecoration(String hint,TextEditingController controller, double bord
     ),
   );
 }
-
-
 class DescriptionText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -739,13 +686,10 @@ class DescriptionText extends StatelessWidget {
     );
   }
 }
-
-
 class YearInput extends StatefulWidget {
   @override
   _YearInputState createState() => _YearInputState();
 }
-
 class _YearInputState extends State<YearInput> {
   static int year;
   @override
@@ -820,14 +764,11 @@ class _YearInputState extends State<YearInput> {
       ),
     );
   }
-
 }
-
 class SemesterInput extends StatefulWidget {
   @override
   _SemesterInputState createState() => _SemesterInputState();
 }
-
 class _SemesterInputState extends State<SemesterInput> {
   static int semester;
   @override
@@ -870,12 +811,10 @@ class _SemesterInputState extends State<SemesterInput> {
     );
   }
 }
-
 class GenderInput extends StatefulWidget {
   @override
   _GenderInputState createState() => _GenderInputState();
 }
-
 class _GenderInputState extends State<GenderInput> {
   static int gender;
   @override
@@ -918,20 +857,15 @@ class _GenderInputState extends State<GenderInput> {
     );
   }
 }
-
-
-
 class CoursesInput extends StatefulWidget {
   @override
   _CoursesInputState createState() => _CoursesInputState();
 }
-
 class _CoursesInputState extends State<CoursesInput> {
   static List _courses;
   String _coursesResult;
   List<Map> _allCourses=[];
   final formKey = new GlobalKey<FormState>();
-
   @override
   void initState() {
     super.initState();
@@ -939,7 +873,6 @@ class _CoursesInputState extends State<CoursesInput> {
     _coursesResult = '';
     allCourses(_allCourses);
   }
-
   _saveForm() {
     var form = formKey.currentState;
     if (form.validate()) {
@@ -949,7 +882,6 @@ class _CoursesInputState extends State<CoursesInput> {
       });
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return  Center(
@@ -993,16 +925,12 @@ class _CoursesInputState extends State<CoursesInput> {
       ),
     );
   }
-
-
   void updateCourses(List<dynamic> userCourses){
     for(String course in userCourses) {
       _courses.add(course);
     }
   }
 }
-
-
 void  allCourses(List<Map> res){
   List<String> courses=Global().getAllCourses();
   for(String elem in courses) {
@@ -1012,8 +940,6 @@ void  allCourses(List<Map> res){
     });
   }
 }
-
-
 //class DedicationInput extends StatefulWidget {
 //  @override
 //  _DedicationInputState createState() => _DedicationInputState();

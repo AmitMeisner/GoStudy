@@ -14,7 +14,7 @@ import 'infoBlock.dart';
 import 'manualTimeDialog.dart';
 
 class TimesPage extends StatefulWidget {
-  static List<String> userCourse=["Calculus 2"];
+  static List<String> userCourse=[" "];
   @override
   TimesPageState createState() => TimesPageState();
 }
@@ -32,10 +32,10 @@ class TimesPageState extends State<TimesPage> {
     return StreamProvider<List<TimeCard>>.value(
       value: TimeDataBase().times,
       child: Scaffold(
-        backgroundColor: Global.getBackgroundColor(0),
+        backgroundColor: Colors.white,
         body: SafeArea(
           child: Container(
-            color: Colors.white,
+            color: Global.getBackgroundColor(0 ),
             child: SingleChildScrollView(
               child: Center(
                 child: Column(
@@ -94,7 +94,7 @@ class TimesPageState extends State<TimesPage> {
 
 
   //updating the state of the tips page, to be used in other classes.
-  void updateState() {
+  void updateState(){
     setState(() {});
   }
 

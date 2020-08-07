@@ -18,27 +18,27 @@ class CourseChoice extends StatefulWidget {
 
   //indicates that this is the multi choice from the tips page
   //and not the tipDialog.
-  final bool tipsPage;
+  final bool timesPage;
 
   //constructor/
-  CourseChoice(this.updateUserCourse, this.timesPageSetState, this.tipsPage);
+  CourseChoice(this.updateUserCourse, this.timesPageSetState, this.timesPage);
 
 
   @override
-  _CourseChoiceState createState() => _CourseChoiceState(updateUserCourse,timesPageSetState, tipsPage);
+  _CourseChoiceState createState() => _CourseChoiceState(updateUserCourse,timesPageSetState, timesPage);
 }
 
 class _CourseChoiceState extends State<CourseChoice> {
   // updating the users tag list.
   Function updateUserCourse;
 
-  final Function tipsPageSetState;
+  final Function timesPageSetState;
 
   // distance of the title from the top.
   bool timesPage;
 
   //constructor.
-  _CourseChoiceState(this.updateUserCourse, this.tipsPageSetState, this.timesPage);
+  _CourseChoiceState(this.updateUserCourse, this.timesPageSetState, this.timesPage);
 
 
 
@@ -67,7 +67,7 @@ class _CourseChoiceState extends State<CourseChoice> {
           ),
           onChanged: (val) {
             setState(() => chosenList[0] = val);
-            if(timesPage){TimeDataBase().setUserSelectedCourse(chosenList[0],tipsPageSetState);}
+            if(timesPage){TimeDataBase().setUserSelectedCourse(chosenList[0],timesPageSetState);}
           },
           itemConfig: ChipsChoiceItemConfig(
 
