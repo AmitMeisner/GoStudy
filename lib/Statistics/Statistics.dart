@@ -9,9 +9,6 @@ import 'package:flutterapp/Statistics/StatisticsDataBase.dart';
 import 'package:flutter/src/painting/edge_insets.dart';
 import 'package:provider/provider.dart';
 import 'package:number_display/number_display.dart';
-import 'package:charts_flutter/flutter.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:charts_flutter/flutter.dart' as chart;
 
 
@@ -29,7 +26,7 @@ class StatisticsPage extends StatelessWidget {
         },)
       ],
       child: MaterialApp(
-        title: 'Chart App',
+        title: 'Statistics',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
@@ -48,12 +45,46 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
+
+
+getLength(){
+  var t=min(_HomeScreenState.exams.length, _HomeScreenState.grades.length);
+  return min(t,_HomeScreenState.homework.length);
+}
 class _HomeScreenState extends State<HomeScreen> {
   String currentSubject="Logic";
   String subject;
   String currentX="Exam";
   String currentY="Grade";
   String currentChart="Bar";
+  static List<int> exams;
+  static List<int> grades;
+  static List<int> homework;
+
+  List<List<int>> sortDataForGraph(String XAxis, String YAxis){
+    List<int> currentX = XAxis=="Exam"?_HomeScreenState.exams:XAxis=="Grade"?_HomeScreenState.grades:_HomeScreenState.homework;
+    List<int> currentY = YAxis=="Exam"?_HomeScreenState.exams:YAxis=="Grade"?_HomeScreenState.grades:_HomeScreenState.homework;
+    print(XAxis);
+    print(currentX);
+    print(YAxis);
+    print(currentY);
+    var newlist=List.generate(getLength(), (i) =>[currentX[i],currentY[i]]);
+    newlist.sort((a,b)=>a[0].compareTo(b[0]));
+    print(newlist);
+    print("lastDebug");
+    List<int> newCurrentX = [];
+    List<int> newCurrentY = [];
+    for (var i=0; i<newlist.length; i++){
+      setState(() {
+        newCurrentX.add(newlist[i][0]);
+        newCurrentY.add(newlist[i][1]);
+      });
+    }
+    return [newCurrentX, newCurrentY]; //could hold more than only two parameters. thats why its a List.
+
+  }
+
+
   @override
   Widget build(BuildContext context) {
     var data=Provider.of<List<DataModel>>(context);
@@ -97,47 +128,22 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
 
-    List<int>exams=data.where((element) =>element.docId==(subject==null?currentSubject:subject)).toList().length==0?[]:getExamValue(data.where((element) =>element.docId==(subject==null?currentSubject:subject)).toList()[0]);
-    //print(exams);
-    List<int>grades=data.where((element) =>element.docId==(subject==null?currentSubject:subject)).toList().length==0?[] :getGradeValue(data.where((element) =>element.docId==(subject==null?currentSubject:subject)).toList()[0])??[];
-    List<int>homework=data.where((element) =>element.docId==(subject==null?currentSubject:subject)).toList().length==0?[]:getHomeWorkValue(data.where((element) =>element.docId==(subject==null?currentSubject:subject)).toList()[0]);
+    exams=data.where((element) =>element.docId==(subject==null?currentSubject:subject)).toList().length==0?[]:getExamValue(data.where((element) =>element.docId==(subject==null?currentSubject:subject)).toList()[0]);
+    grades=data.where((element) =>element.docId==(subject==null?currentSubject:subject)).toList().length==0?[] :getGradeValue(data.where((element) =>element.docId==(subject==null?currentSubject:subject)).toList()[0])??[];
+    homework=data.where((element) =>element.docId==(subject==null?currentSubject:subject)).toList().length==0?[]:getHomeWorkValue(data.where((element) =>element.docId==(subject==null?currentSubject:subject)).toList()[0]);
     List<Chart>charts=[];
-    //print(exams);
-    //print(grades);
-    getLenght(){
-      var t=min(exams.length, grades.length);
-      return min(t,homework.length);
-    }
-    var newlist=List.generate(getLenght(), (i) =>[exams[i],grades[i]]);
-    var newgradehome=List.generate(getLenght(), (i) => [grades[i],homework[i]]);
-    newlist.sort((a,b)=>a[0].compareTo(b[0]));
-    newgradehome.sort((a,b)=>a[0].compareTo(b[0]));
-    print(newlist);
-    print(newgradehome);
-    var nexams=[];
-    var ngrade=[];
-    var nhome=[];
-    for (var i = 0; i < newlist.length; i++) {
-      setState(() {
-        nexams.add(newlist[i][0]);
-        ngrade.add(newlist[i][1]);
-        nhome.add(newgradehome[i][1]);
-      });
-    }
-    print(nexams);
-    print(ngrade);
-    print(nhome);
-    for (var i = 0; i < getLenght(); i++) {
-      charts.add(Chart(exam: exams[i],grader: grades[i],homework: homework[i],barColor:chart.MaterialPalette.blue.shadeDefault));
+    List<List<int>> displayed = sortDataForGraph(currentX, currentY);
+    for (var i = 0; i < getLength(); i++) {
+      charts.add(Chart(xValue: displayed[0][i],yValue: displayed[1][i],barColor:chart.MaterialPalette.blue.shadeDefault));
     }
 
     currentSubject=subject==null?data[0].docId:subject;
     List<chart.Series<Chart, String>> series = [
       chart.Series(
-          id: "Subscribers",
+          id: "Statistics",
           data: charts,
-          domainFn: (Chart series, _) =>currentX=="Exam"?series.exam.toString():currentX=="Grade"?series.grader.toString():series.homework.toString(),
-          measureFn: (Chart series, _) =>currentY=="Grade"?int.tryParse(series.grader.toString()):currentY=="Exam"?int.parse(series.exam.toString()):int.parse(series.homework.toString()),
+          domainFn: (Chart series, _) =>series.xValue.toString(),
+          measureFn: (Chart series, _) =>int.tryParse(series.yValue.toString()),
           colorFn: (Chart series, _) => series.barColor)
     ];
     return Scaffold(
@@ -149,7 +155,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 value: currentSubject,
                 icon: Icon(Icons.arrow_drop_down,color: Colors.white,),
                 dropdownColor: Colors.blue,
-
                 underline: Container(),
                 items: data.map((e) => DropdownMenuItem<String>(
                   child: Text(e.docId),
@@ -175,9 +180,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   value: currentX,
                   underline: Container(),
                   items: [
-                    DropdownMenuItem(child: Text("Exam"),value: "Exam",),
-                    DropdownMenuItem(child: Text("Grade"),value: "Grade",),
-                    DropdownMenuItem(child: Text("HomeWorks"),value: "HomeWork",),
+                    DropdownMenuItem(child: Text("Exam Time"),value: "Exam",),
+                    DropdownMenuItem(child: Text("Final Grade"),value: "Grade",),
+                    DropdownMenuItem(child: Text("Homework Time"),value: "HomeWork",),
                   ], onChanged:(value){
                 setState(() {
                   currentX=value;
@@ -190,9 +195,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   value: currentY,
                   underline: Container(),
                   items: [
-                    DropdownMenuItem(child: Text("Exam"),value: "Exam",),
-                    DropdownMenuItem(child: Text("Grade"),value: "Grade",),
-                    DropdownMenuItem(child: Text("HomeWorks"),value: "HomeWork",),
+                    DropdownMenuItem(child: Text("Exam Time"),value: "Exam",),
+                    DropdownMenuItem(child: Text("Final Grade"),value: "Grade",),
+                    DropdownMenuItem(child: Text("Homework Time"),value: "HomeWork",),
                   ], onChanged:(value){
                 setState(() {
                   currentY=value;
@@ -235,9 +240,8 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class Chart{
-  int exam;
-  int homework;
-  int grader;
+  int xValue;
+  int yValue;
   chart.Color barColor;
-  Chart({this.exam,this.homework,this.grader,this.barColor});
+  Chart({this.xValue, this.yValue,this.barColor});
 }
