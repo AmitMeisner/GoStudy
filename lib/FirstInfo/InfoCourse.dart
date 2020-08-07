@@ -81,11 +81,11 @@ class InfoCourseState extends State<InfoCourse> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: new PreferredSize(
-        preferredSize: Size.fromHeight(48.0),
-        child: AppBar(
-          backgroundColor: Global.getBackgroundColor(0),
-        ),),
+//      appBar: new PreferredSize(
+//        preferredSize: Size.fromHeight(48.0),
+//        child: AppBar(
+//          backgroundColor: Global.backgroundPageColor,
+//        ),),
       body: buildChild(context, 1),
     );
   }
@@ -99,14 +99,25 @@ class InfoCourseState extends State<InfoCourse> {
 //            borderRadius: BorderRadius.all(Radius.circular(12))
 //        ),
       children: <Widget>[
-        Text('how long in total(hours) did you study for....',
-          style: TextStyle(fontSize: 30,
-            color: Colors.black,
-            fontFamily: 'Piedra',
-          ),
-          textAlign: TextAlign.center
-          ,),
-        SizedBox(height: 40,),
+        Container(
+           margin: EdgeInsets.fromLTRB(0.0, 90.0, 0.0, 0.0),
+          child: Text('how long in total(hours) did you study for....',
+            style: TextStyle(fontSize: 30,
+              color: Colors.black,
+              fontFamily: 'Piedra',
+            ),
+            textAlign: TextAlign.center
+            ,),
+        )
+
+//        Text('how long in total(hours) did you study for....',
+//          style: TextStyle(fontSize: 30,
+//            color: Colors.black,
+//            fontFamily: 'Piedra',
+//          ),
+//          textAlign: TextAlign.center
+//          ,),
+        ,SizedBox(height: 40,),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
