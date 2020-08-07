@@ -231,17 +231,11 @@ class UserDataBase {
         doc.data["avg"],
         List.from(doc.data["friends"]),
         List.from(doc.data["courses"]),
-//        doc.data["avgGoal"],
-//        doc.data["dailyGoal"],
         doc.data["year"],
         doc.data["semester"],
-//        doc.data["dedication"],
-//        List<String>.from(doc.data["Goals"]),
-//        List<String>.from(doc.data["Times"]),
         List<String>.from(doc.data["friendRequestSent"]),
         List<String>.from(doc.data["friendRequestReceive"]),
         List<String>.from(doc.data["searchNickname"]),
-//        doc.data["Rank"],
         doc.data["Gender"],
         List.from(doc.data["oldCourses"]),
       );
@@ -373,7 +367,7 @@ class FriendsDataBase{
   List<String> nicknameSearch(String nickname){
     List<String> res=[];
     int len=nickname.length;
-    for(int firstIndex=0; firstIndex<(len-1);firstIndex++){
+    for(int firstIndex=0; firstIndex<len;firstIndex++){
       for(int lastIndex=firstIndex+1;lastIndex<=len;lastIndex++){
         res.add(nickname.substring(firstIndex,lastIndex).toUpperCase());
       }
