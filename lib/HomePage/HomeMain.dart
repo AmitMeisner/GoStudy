@@ -278,7 +278,7 @@ class TimerService extends ChangeNotifier {
   }
 
   void start() {
-    if (_timer != null) return;
+    //if (_timer != null) return;
 
     _timer = Timer.periodic(Duration(seconds: 1), _onTick);
     watch.start();
