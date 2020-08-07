@@ -50,7 +50,8 @@ void showColoredToast(String msg) {
 class EnterTimeState extends State<EnterTimeButton> {
   static String course ;
   static String resource ;
-  String date = getDate();
+//  String date = getDate();
+  DateTime date= DateTime.now();
   //String date =  TipDialogState.getDate();
   String uid=  FirebaseAPI().getUid();
   int hours; int minutes; int seconds;

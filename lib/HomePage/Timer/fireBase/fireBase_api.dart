@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Global.dart';
 import 'package:flutterapp/HomePage/History/editTimeDialog.dart';
+import 'package:flutterapp/firebase/FirebaseAPI.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'TimeCard.dart';
 
@@ -14,8 +15,11 @@ class TimeDataBase{
 //  Stream<QuerySnapshot> timesCollectionQuery = timeCollection.orderBy('date', descending: true)
 //      .where('course', isEqualTo:selectedCourse).snapshots();
 
-  Stream<QuerySnapshot> timesCollectionQuery = timeCollection
-      .where('course', isEqualTo:selectedCourse).orderBy('date', descending: true).snapshots();
+
+  static Stream<QuerySnapshot> timesCollectionQuery = timeCollection
+      .where("uid",isEqualTo: FirebaseAPI().getUid()).where("course", isEqualTo:selectedCourse)
+      .orderBy("date",descending: true)
+      .snapshots();
 
   static String selectedCourse=Global().getUserCourses()[0];
 
@@ -51,7 +55,7 @@ class TimeDataBase{
         doc.data["resource"],
         doc.data["uid"],
         doc.data["docId"],
-        doc.data["date"],
+        DateTime.parse(doc.data["date"].toDate().toString()),
         doc.data["hours"],
         doc.data["minutes"],
         doc.data["seconds"],
@@ -63,15 +67,23 @@ class TimeDataBase{
   void setUserSelectedCourse(String userSelectedCourse, Function updateTimePageState){
     selectedCourse=userSelectedCourse;
     if(userSelectedCourse.isEmpty){selectedCourse=Global().getUserCourses()[0];}
-    timesCollectionQuery=timeCollection.orderBy('date', descending: true).where('course',isEqualTo: selectedCourse).snapshots();
+    timesCollectionQuery=timeCollection
+        .where("uid",isEqualTo: FirebaseAPI().getUid()).where("course", isEqualTo:selectedCourse)
+        .orderBy("date",descending: true)
+        .snapshots();
     updateTimePageState();
   }
 
 
   //delete tip card.
-  static void deleteTimeCard(TimeCard card){
+   Future<void> deleteTimeCard(TimeCard card)async{
     DocumentReference doc = timeCollection.document(card.getDocId());
-    doc.delete();
+    await doc.delete();
+    timesCollectionQuery=timeCollection
+        .where("uid",isEqualTo: FirebaseAPI().getUid()).where("course", isEqualTo:selectedCourse)
+        .orderBy("date",descending: true)
+        .snapshots();
+    return null;
   }
 
 

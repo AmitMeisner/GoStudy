@@ -48,7 +48,7 @@ class TimesPageState extends State<TimesPage> {
                     Container(
                         height: 20
                     ),
-                    cards(updateState),
+                    Cards(updateState),
                   ],
             ),
           ),

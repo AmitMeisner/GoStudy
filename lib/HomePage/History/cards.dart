@@ -13,7 +13,7 @@ import 'editTimeDialog.dart';
 
 
 
-class cards extends StatelessWidget {
+class Cards extends StatefulWidget {
 
 
   // list of all tip cards.
@@ -33,25 +33,30 @@ class cards extends StatelessWidget {
 
   Function updateTimesPageState;
 
-  cards(this.updateTimesPageState);
+  Cards(this.updateTimesPageState);
 
+  @override
+  _CardsState createState() => _CardsState();
+}
+
+class _CardsState extends State<Cards> {
 
   @override
   Widget build(BuildContext context) {
-    _timeCards = null;
+    Cards._timeCards = null;
     updateTimeList(context);
-    if (_timeCards == null) {
+    if (Cards._timeCards == null) {
 //      return Loading();
     return (Text("NO TIME HISTORY IN THIS COURSE",   style: GoogleFonts.meriendaOne(fontSize: 20, fontWeight: FontWeight.bold)));
     }
-    _timeCards = _timeCards;
+//    Cards._timeCards = Cards._timeCards;
     return Container(
 
 //      color: Colors.yellow[300],
       height: 650.0,
       //padding: EdgeInsets.only(bottom: 50.0),
       child: ListView.builder(
-        itemCount: _timeCards.length,
+        itemCount: Cards._timeCards.length,
         itemBuilder: (context, index) {
           return AnimatedCard(
             direction: AnimatedCardDirection.top,
@@ -60,32 +65,30 @@ class cards extends StatelessWidget {
             //Delay to initial animation
             duration: Duration(milliseconds: 400),
             //Initial animation duration
-            onRemove: (FirebaseAPI().getUid() == _timeCards[index].getUid())
-                ? () => removeTime(_timeCards[index], updateTimesPageState)
-                : null,
+            onRemove:  () {
+              removeTime(Cards._timeCards[index], widget.updateTimesPageState);
+            },
             curve: Curves.decelerate,
             //Animation curve
             child: cardContent(
-                context, _course, index, _timeCards, updateTimesPageState),
+                context, _course, index, Cards._timeCards, widget.updateTimesPageState),
           );
         },
       ),
     );
   }
 
-  void removeTime(TimeCard timeCard, Function updateTimesPageState) {
-    TimeDataBase.deleteTimeCard(timeCard);
-    updateTimesPageState();
+  void removeTime(TimeCard timeCard, Function updateTimesPageState)async{
+     await TimeDataBase().deleteTimeCard(timeCard);
+     updateTimesPageState();
   }
-
 
   Future<List<TimeCard>> updateTimeList(BuildContext context) async {
-    _timeCards = Provider.of<List<TimeCard>>(context);
-    return _timeCards;
+    Cards._timeCards = Provider.of<List<TimeCard>>(context);
+    return Cards._timeCards;
   }
 
-  // creating a card with the users tip and adding it to the tips list.
-  void addCard(String course, String resource, String date, int hours,
+  void addCard(String course, String resource, DateTime date, int hours,
       int minutes, int seconds) {
     TimeCard newTime;
     String uid = FirebaseAPI().getUid();
@@ -99,11 +102,10 @@ class cards extends StatelessWidget {
         minutes,
         seconds);
     TimeDataBase().addTime(newTime);
-    _timeCards.add(newTime);
-    updateTimesPageState();
+    Cards._timeCards.add(newTime);
+    widget.updateTimesPageState();
   }
 
-  // creating the tags widget for the cards.
   Widget _course(int index) {
     return Container(
       child: SingleChildScrollView(
@@ -111,9 +113,9 @@ class cards extends StatelessWidget {
           padding: EdgeInsets.only(bottom: 5),
           child: Row(
             children: <Widget>[
-              Text(_timeCards[index].getCourse(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+              Text(Cards._timeCards[index].getCourse(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
               Icon(Icons.forward, size: 14,),
-              Text(_timeCards[index].getResource(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+              Text(Cards._timeCards[index].getResource(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
             ],
           )
       ),
@@ -177,6 +179,7 @@ Widget cardContent(BuildContext context,Function course, int index , List<TimeCa
 
 // creating the cards tags, date and like for the all the cards, except fot the first one.
 Widget showInfo(BuildContext context,Function course, int index , List<TimeCard> times, Function updateTimesPageState){
+  String date=dateTimeToString(times[index].getDate());
   return Container(
     margin:  EdgeInsets.only( top:3.0,bottom: 3.0),
     child: Column(
@@ -185,7 +188,7 @@ Widget showInfo(BuildContext context,Function course, int index , List<TimeCard>
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          Text(times[index].getDate().toString(), style: TextStyle( fontSize: 14)),
+          Text(date, style: TextStyle( fontSize: 14)),
           Text(timeString(times[index].getHours())+":"+
               timeString(times[index].getMinutes())+":"+
               timeString(times[index].getSeconds()),style: TextStyle( fontSize: 14)),
@@ -206,6 +209,13 @@ Widget showInfo(BuildContext context,Function course, int index , List<TimeCard>
     ),
   );
 
+}
+
+String dateTimeToString(DateTime date) {
+  String day=date.day.toString();
+  String month=date.month.toString();
+  String year=date.year.toString();
+  return(day+"/"+month+"/"+year);
 }
 
 String timeString(int time){
