@@ -1,6 +1,5 @@
 
-
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Global.dart';
@@ -19,19 +18,42 @@ class InfoCourse extends StatefulWidget {
 
 class InfoCourseState extends State<InfoCourse> {
   int courseIndex;
-  static String examHours = "select value";
-
-  static String extraHours = "select value";
-  static String homeworkHours = "select value";
-
-  static String recitationHours = "select value";
-  static String lecturesHours = "select value";
-
-  static String grade = "select value";
-
+   String examHours = "Select Value";
+   String extraHours = "Select Value";
+   String homeworkHours ="Select Value";
+   String recitationHours = "Select Value";
+   String lecturesHours = "Select Value";
+   String grade = "Select Value" ;
   InfoCourseState(this.courseIndex);
-
   String userId = FirebaseAPI().getUid();
+
+//  Future<String> getValues (DocumentReference doc, String resource) async{
+//    DocumentSnapshot docField = await doc.get();
+//    if(doc != null){
+//      switch (resource){
+//        case "grade":
+//          return docField['grade'];
+//        case "examHours":
+//          return docField['examTime'];
+//        case "extraHours":
+//          return docField['extraTime'];
+//        case "homeworkHours":
+//          return docField['hwTime'];
+//        case "recitationHours":
+//          return docField['recTime'];
+//        case "lecturesHours":
+//          return docField['lectureTime'];
+//      }
+//    }else{
+//     examHours = "select value";
+//      extraHours = "select value";
+//      homeworkHours = "select value";
+//      recitationHours = "select value";
+//      lecturesHours = "select value";
+//      grade = "select value";
+//    }
+//  }
+
 //    double average = double.parse(await InformationPageState.getAverage());
   final List<String> _dropdownGrades = [
     "30-35",
@@ -185,17 +207,36 @@ class InfoCourseState extends State<InfoCourse> {
   }
 
 
-  Future <void> onClick(BuildContext context) async {
-    if (examHours == null || homeworkHours == null || recitationHours == null
-        || lecturesHours == null || extraHours == null || grade == null) {
-      return showColoredToast(
-          "please select all fields before you enter the data");
-    } else {
-      enterData(context);
-      print("nnnnn");
-      await InformationPageState.updateNewCoursesList(courseIndex);
+  Future<String> doesExists(String id, int index)async{
+    final QuerySnapshot result = await Firestore.instance
+        .collection("AllUsers")
+        .where('userId', isEqualTo: userId).where('course', isEqualTo:Global().getAllCourses()[index] ).limit(1).getDocuments();
+    final List<DocumentSnapshot> documents = result.documents;
+    if(documents.length == 1){
+      return documents[0].documentID;
+    }
+    return null;}
+
+  Future <DocumentReference> getDocument (BuildContext context) async{
+    String doc;
+    doc =  await doesExists(userId, courseIndex) ;
+    if(doc == null) {
+      return null;
+    }else{
+      DocumentReference docDelete = AllUserDataBase.usersDataCollection.document(doc);
+      return docDelete;
     }
   }
+
+
+    Future <void> onClick(BuildContext context) async {
+      DocumentReference doc = await getDocument(context);
+    if(doc == null) {
+      enterData(context);
+    }else{
+      doc.delete();
+      enterData(context);
+    }}
 
 
   void enterData(BuildContext context) async{
@@ -394,4 +435,15 @@ class InfoCourseState extends State<InfoCourse> {
         textColor: Colors.white);
   }
 
+}
+
+
+Future navigateToDashboardPage(context,index) async {
+  Navigator.push(context, MaterialPageRoute(builder: (context) => GridDashboard()));
+//  InfoCourseState.grade = "choose value";
+//  InfoCourseState.homeworkHours = "choose value";
+//  InfoCourseState.recitationHours = "choose value";
+//  InfoCourseState.lecturesHours = "choose value";
+//  InfoCourseState.examHours = "choose value";
+//  InfoCourseState.extraHours = "choose value";
 }

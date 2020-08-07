@@ -210,7 +210,6 @@ class UserDataBase {
       "avg":user.getAverage(),
       "friends":user.getFriends(),
       "courses":user.getCourses(),
-      "oldCourses":user.getOldCourses(),
       "year":user.getYear(),
       "semester":user.getSemester(),
       "friendRequestSent":user.getFriendRequestSent(),
@@ -237,7 +236,7 @@ class UserDataBase {
         List<String>.from(doc.data["friendRequestReceive"]),
         List<String>.from(doc.data["searchNickname"]),
         doc.data["Gender"],
-        List.from(doc.data["oldCourses"]),
+
       );
     }
     );
@@ -334,7 +333,7 @@ class FriendsDataBase{
           List<String>.from(doc.data["friendRequestReceive"]),
           List<String>.from(doc.data["searchNickname"]),
          doc.data["Gender"],
-          List.from(doc.data["oldCourses"]),
+
       );
     }).toList();
   }

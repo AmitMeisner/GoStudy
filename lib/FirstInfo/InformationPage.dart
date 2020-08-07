@@ -25,10 +25,9 @@ class User{
 //  List<String> _times=[];
 //  int _rank;
   int _gender;
-  List<String> _oldCourses = [];
   User(this._uid,this._nickname, this._avg, this._friends,this._courses,
       this._year, this._semester,this._friendRequestSent, this._friendRequestReceive,
-      this._searchNickname, this._gender, this._oldCourses);
+      this._searchNickname, this._gender);
 //  void setRank(int rank){
 //    this._rank=rank;
 //  }
@@ -48,12 +47,7 @@ class User{
   String getUid(){
     return this._uid;
   }
-  void setOldCourses(List<String> newCourses){
-    this._oldCourses=newCourses;
-  }
-  List<String> getOldCourses(){
-    return this._oldCourses;
-  }
+
   void setNickname(String name){
     this._nickname=name;
   }
@@ -289,18 +283,12 @@ class InformationPageState extends State<InformationPage> {
   int dedication;
   bool check=true;
   int gender;
-  static List<String> oldCourses=[];
   static User user;
   Future<void> initial() async{
     bool hasData=await UserDataBase().hasData();
     if(hasData){
       user=await UserDataBase().getUser();
       setState(() {
-        if(oldCourses == null) {
-          oldCourses = Global().allCourses;
-        }else {
-          oldCourses = user.getOldCourses();
-        }
         nicknameController.text=user.getNickname();
         averageController.text=user.getAverage();
         _YearInputState.year=user.getYear();
@@ -436,11 +424,7 @@ class InformationPageState extends State<InformationPage> {
     semester=_SemesterInputState.semester;
     gender=_GenderInputState.gender;
     courses.clear();
-    if(oldCourses == null) {
-      oldCourses = Global().allCourses;}
-//    else {
-//      oldCourses = user.getOldCourses();
-//    }
+
     for(var course in _CoursesInputState._courses){
       courses.add(course.toString());
     }
@@ -463,8 +447,6 @@ class InformationPageState extends State<InformationPage> {
         hasData? (await UserDataBase().getUser()).getFriendRequestReceive():[],
         hasData? FriendsDataBase().nicknameSearch((await UserDataBase().getUser()).getNickname()):FriendsDataBase().nicknameSearch(nickName),
         gender,
-//        oldCourses,
-       hasData? (await UserDataBase().getUser()): Global().getAllCourses(),
       );
       UserDataBase().addUser(user);
       Navigator.pushReplacementNamed(context, '/home');
@@ -483,66 +465,26 @@ class InformationPageState extends State<InformationPage> {
   Future navigateToCoursesPage(context) async {
     Navigator.push(context, MaterialPageRoute(builder: (context) => GridDashboard()));
   }
-  static void deleteCoursesList(){
-    print("inside delete ");
-    String id = FirebaseAPI().getUid();
-    DocumentReference doc = UserDataBase.usersCollection.document(id);
-    doc.delete();
-  }
 
 
-  static Future <List<String>> createNewCoursesList(int index) async {
-    print("inside createNewCoursesList ");
-    List<String> oldCourses= await getOldCourses();
-    List<String> newCourses= new List<String>(oldCourses.length-1);
-    //var newCourses  = new List(oldCourses.length-1);
-    print("after create");
-    for(int i =0; i<oldCourses.length; i++){
-      if(i<index){
-        print("i is small");
-        newCourses[i] = oldCourses[i];
-      }else if(i>index){
-        newCourses[i-1] = oldCourses[i];
-        print("i is large");
-      }
-      print("i is"+i.toString());
-    }print("oldarray is"+oldCourses[index]+"new array is"+newCourses[index]);
-    return newCourses;
-  }
 
-  static Future <void> updateNewCoursesList(int index) async {
-    print(
-        "inside updateNewCoursesList "
-    );
-    print('index is'+index.toString());
-    List<String> Courses ;
-    Courses = await createNewCoursesList(index);
-    print("inside update course is"+Courses[index]);
-    final db = Firestore.instance;
-    //deleteCoursesList();
-    await db
-        .collection('Users')
-        .document( FirebaseAPI().getUid())
-        .updateData({'oldCourses': Courses});
-  }
-
-  static Future <List<String>> getOldCourses() async {
-    print("inside get old courses");
-    String id = FirebaseAPI().getUid();
-    List<String> oldCourses2=[];
-    DocumentReference documentReference =
-    Firestore.instance.collection("Users").document(id);
-    await documentReference.get().then((DocumentSnapshot ds) {
-      if (ds.exists) {
-        oldCourses2 = List.from(ds.data['oldCourses']);
+//  static Future <List<String>> getOldCourses() async {
+//    print("inside get old courses");
+//    String id = FirebaseAPI().getUid();
+//    List<String> oldCourses2=[];
+//    DocumentReference documentReference =
+//    Firestore.instance.collection("Users").document(id);
+//    await documentReference.get().then((DocumentSnapshot ds) {
+//      if (ds.exists) {
+//        oldCourses2 = List.from(ds.data['oldCourses']);
 //        print("oneone"+oldCourses2[3]);
-      }else{
-        print("no exists");
-      }
-    }
-    );
-    return oldCourses2;
-  }
+//      }else{
+//        print("no exists");
+//      }
+//    }
+//    );
+//    return oldCourses2;
+//  }
 
 
   static Future<String> getAverage() async {

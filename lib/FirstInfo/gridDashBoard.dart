@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'InfoCourse.dart';
+import 'InfoCourse.dart';
 import 'InformationPage.dart';
 
 
@@ -19,23 +20,23 @@ class GridDashboard extends StatefulWidget {
 class GridDashboardState extends State<GridDashboard> {
 
   static bool updated=false;
-  static List<String> oldCourses=[] ;
+  static List<String> oldCourses=  oldCourses = Global().allCourses ;
 
-  Future<void>  updateCourses() async {
-    oldCourses= await InformationPageState.getOldCourses();
-    updated=true;
-    setState(() {});
-  }
+//  Future<void>  updateCourses() async {
+//    oldCourses= await InformationPageState.getOldCourses();
+//    updated=true;
+//    setState(() {});
+//  }
 
 
 
   Widget build(BuildContext context) {
-    if(!updated){
-      oldCourses=null;
-      updateCourses();
-      return Loading();
-    }
-    updated=false;
+//    if(!updated){
+//      oldCourses=Global.getAllCourses();
+//      updateCourses();
+//      return Loading();
+//    }
+  //  updated=false;
     setState(() {});
     var myGridView = new GridView.builder(
       itemCount: oldCourses.length,
@@ -60,11 +61,11 @@ class GridDashboardState extends State<GridDashboard> {
     );
 
     return  Scaffold(
-      appBar: new PreferredSize(
-        preferredSize: Size.fromHeight(48.0),
-        child: AppBar(
-          backgroundColor: Global.getBackgroundColor(0),
-        ),),
+//      appBar: new PreferredSize(
+//        preferredSize: Size.fromHeight(48.0),
+//        child: AppBar(
+//          backgroundColor: Global.getBackgroundColor(0),
+//        ),),
       body: myGridView,
     );
   }
@@ -75,12 +76,12 @@ class GridDashboardState extends State<GridDashboard> {
 
 Future navigateToInfoPage(context,index) async {
   Navigator.push(context, MaterialPageRoute(builder: (context) => InfoCourse(index)));
-  InfoCourseState.grade = "choose value";
-  InfoCourseState.homeworkHours = "choose value";
-  InfoCourseState.recitationHours = "choose value";
-  InfoCourseState.lecturesHours = "choose value";
-  InfoCourseState.examHours = "choose value";
-  InfoCourseState.extraHours = "choose value";
+//  InfoCourseState.grade = "choose value";
+//  InfoCourseState.homeworkHours = "choose value";
+//  InfoCourseState.recitationHours = "choose value";
+//  InfoCourseState.lecturesHours = "choose value";
+//  InfoCourseState.examHours = "choose value";
+//  InfoCourseState.extraHours = "choose value";
 }
 
 
