@@ -35,7 +35,7 @@ class TimesPageState extends State<TimesPage> {
         backgroundColor: Colors.white,
         body: SafeArea(
           child: Container(
-            color: Global.getBackgroundColor(0 ),
+            color: Global.backgroundPageColor,
             child: SingleChildScrollView(
               child: Center(
                 child: Column(
