@@ -215,18 +215,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
               ),
             ),
-            //  Container(
-            //    margin: EdgeInsets.only(left: 10),
-            //    height: MediaQuery.of(context).size.height*0.5,
-            //    child: chart.PieChart(series,animate: true,behaviors: [
-            //      //chart.SlidingViewport(),
-            //        //chart.PanAndZoomBehavior(),
-            //    ],),
-            //  ),
-            //  Container(
-            //     margin: EdgeInsets.only(left: 10),
-            //    height: MediaQuery.of(context).size.height*0.5,
-            //    child: chart.LineChart(series,animate: true,))
+           
 
           ],
         ),
