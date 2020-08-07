@@ -437,10 +437,10 @@ class InformationPageState extends State<InformationPage> {
     gender=_GenderInputState.gender;
     courses.clear();
     if(oldCourses == null) {
-      oldCourses = Global().allCourses;
-    }else {
-      oldCourses = user.getOldCourses();
-    }
+      oldCourses = Global().allCourses;}
+//    else {
+//      oldCourses = user.getOldCourses();
+//    }
     for(var course in _CoursesInputState._courses){
       courses.add(course.toString());
     }
@@ -463,7 +463,8 @@ class InformationPageState extends State<InformationPage> {
         hasData? (await UserDataBase().getUser()).getFriendRequestReceive():[],
         hasData? FriendsDataBase().nicknameSearch((await UserDataBase().getUser()).getNickname()):FriendsDataBase().nicknameSearch(nickName),
         gender,
-        oldCourses,
+//        oldCourses,
+       hasData? (await UserDataBase().getUser()): Global().getAllCourses(),
       );
       UserDataBase().addUser(user);
       Navigator.pushReplacementNamed(context, '/home');
@@ -534,7 +535,7 @@ class InformationPageState extends State<InformationPage> {
     await documentReference.get().then((DocumentSnapshot ds) {
       if (ds.exists) {
         oldCourses2 = List.from(ds.data['oldCourses']);
-        print("oneone"+oldCourses2[3]);
+//        print("oneone"+oldCourses2[3]);
       }else{
         print("no exists");
       }
