@@ -28,7 +28,6 @@ class Cards extends StatefulWidget {
         0,
         0)
   ];
-  static List<TimeCard> _timeCards;
 
 
   Function updateTimesPageState;
@@ -41,22 +40,25 @@ class Cards extends StatefulWidget {
 
 class _CardsState extends State<Cards> {
 
+  static List<TimeCard> _timeCards;
+
   @override
   Widget build(BuildContext context) {
-    Cards._timeCards = null;
+    _timeCards=null;
     updateTimeList(context);
-    if (Cards._timeCards == null) {
+    if (_timeCards==null || _timeCards.isEmpty) {
 //      return Loading();
     return (Text("NO TIME HISTORY IN THIS COURSE",   style: GoogleFonts.meriendaOne(fontSize: 20, fontWeight: FontWeight.bold)));
     }
 //    Cards._timeCards = Cards._timeCards;
+
     return Container(
 
 //      color: Colors.yellow[300],
       height: 650.0,
       //padding: EdgeInsets.only(bottom: 50.0),
       child: ListView.builder(
-        itemCount: Cards._timeCards.length,
+        itemCount: _timeCards.length,
         itemBuilder: (context, index) {
           return AnimatedCard(
             direction: AnimatedCardDirection.top,
@@ -66,12 +68,12 @@ class _CardsState extends State<Cards> {
             duration: Duration(milliseconds: 400),
             //Initial animation duration
             onRemove:  () {
-              removeTime(Cards._timeCards[index], widget.updateTimesPageState);
+              removeTime(_timeCards[index], widget.updateTimesPageState);
             },
             curve: Curves.decelerate,
             //Animation curve
             child: cardContent(
-                context, _course, index, Cards._timeCards, widget.updateTimesPageState),
+                context, _course, index, _timeCards, widget.updateTimesPageState),
           );
         },
       ),
@@ -84,8 +86,8 @@ class _CardsState extends State<Cards> {
   }
 
   Future<List<TimeCard>> updateTimeList(BuildContext context) async {
-    Cards._timeCards = Provider.of<List<TimeCard>>(context);
-    return Cards._timeCards;
+    _timeCards = Provider.of<List<TimeCard>>(context);
+    return _timeCards;
   }
 
   void addCard(String course, String resource, DateTime date, int hours,
@@ -102,7 +104,7 @@ class _CardsState extends State<Cards> {
         minutes,
         seconds);
     TimeDataBase().addTime(newTime);
-    Cards._timeCards.add(newTime);
+    _timeCards.add(newTime);
     widget.updateTimesPageState();
   }
 
@@ -113,9 +115,9 @@ class _CardsState extends State<Cards> {
           padding: EdgeInsets.only(bottom: 5),
           child: Row(
             children: <Widget>[
-              Text(Cards._timeCards[index].getCourse(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+              Text(_timeCards[index].getCourse(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
               Icon(Icons.forward, size: 14,),
-              Text(Cards._timeCards[index].getResource(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+              Text(_timeCards[index].getResource(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
             ],
           )
       ),
@@ -128,12 +130,13 @@ class _CardsState extends State<Cards> {
 Widget cardContent(BuildContext context,Function course, int index , List<TimeCard> times, Function updateTimesPageState){
 
   return Container(
-    margin:  EdgeInsets.only( bottom: 25.0),
-    width: MediaQuery.of(context).size.height/2.3,
-    height: MediaQuery.of(context).size.height/10,
+    margin:  EdgeInsets.only( bottom: 10.0, left: 10.0, right: 10.0),
+//    width: MediaQuery.of(context).size.height*2.8/3,
+//    height: MediaQuery.of(context).size.height/10,
+    padding: EdgeInsets.all(10),
     decoration: BoxDecoration(
       color: Global.getBackgroundColor(0),
-      borderRadius: BorderRadius.circular(50),
+      borderRadius: BorderRadius.circular(30),
 //      boxShadow: [
 //        BoxShadow(
 //          blurRadius: 0,
@@ -153,13 +156,13 @@ Widget cardContent(BuildContext context,Function course, int index , List<TimeCa
         child: LayoutBuilder(
         builder: (context, constraints) => Container(
     height:  MediaQuery.of(context).size.height/10,
-    width: MediaQuery.of(context).size.height/2.5,
+    width: MediaQuery.of(context).size.height*2/3,
     decoration: BoxDecoration(
       gradient: LinearGradient(colors: [
         Global.backgroundPageColor,
         Global.backgroundPageColor,
       ]),
-      borderRadius: BorderRadius.circular(50),
+      borderRadius: BorderRadius.circular(25),
       border: Border.all(
         color: Color.fromRGBO(168, 168, 168, 1),
         width: 2,
@@ -183,7 +186,7 @@ Widget showInfo(BuildContext context,Function course, int index , List<TimeCard>
   return Container(
     margin:  EdgeInsets.only( top:3.0,bottom: 3.0),
     child: Column(
-    children: <Widget>[
+      children: <Widget>[
       course(index),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,

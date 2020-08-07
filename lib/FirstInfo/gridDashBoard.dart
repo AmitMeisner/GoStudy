@@ -66,7 +66,12 @@ class GridDashboardState extends State<GridDashboard> {
 //        child: AppBar(
 //          backgroundColor: Global.getBackgroundColor(0),
 //        ),),
-      body: myGridView,
+      backgroundColor: Global.getBackgroundColor(0),
+      body: SafeArea(
+          child: Container(
+              color: Colors.white,
+              child: myGridView)
+      ),
     );
   }
 

@@ -11,14 +11,11 @@ import 'TimeCard.dart';
 class TimeDataBase{
 
   //collection reference.
-  static  CollectionReference timeCollection= Firestore.instance.collection("Times");
-//  Stream<QuerySnapshot> timesCollectionQuery = timeCollection.orderBy('date', descending: true)
-//      .where('course', isEqualTo:selectedCourse).snapshots();
-
+  static  CollectionReference timeCollection= Firestore.instance.collection("Times").document(FirebaseAPI().getUid()).collection("TimesCollection");
 
   static Stream<QuerySnapshot> timesCollectionQuery = timeCollection
-      .where("uid",isEqualTo: FirebaseAPI().getUid()).where("course", isEqualTo:selectedCourse)
-      .orderBy("date",descending: true)
+      .orderBy("date", descending: true)
+      .where("course", isEqualTo:selectedCourse)
       .snapshots();
 
   static String selectedCourse=Global().getUserCourses()[0];
@@ -67,9 +64,9 @@ class TimeDataBase{
   void setUserSelectedCourse(String userSelectedCourse, Function updateTimePageState){
     selectedCourse=userSelectedCourse;
     if(userSelectedCourse.isEmpty){selectedCourse=Global().getUserCourses()[0];}
-    timesCollectionQuery=timeCollection
-        .where("uid",isEqualTo: FirebaseAPI().getUid()).where("course", isEqualTo:selectedCourse)
-        .orderBy("date",descending: true)
+    timesCollectionQuery = timeCollection
+        .orderBy("date", descending: true)
+        .where('course', isEqualTo:selectedCourse)
         .snapshots();
     updateTimePageState();
   }
@@ -79,9 +76,9 @@ class TimeDataBase{
    Future<void> deleteTimeCard(TimeCard card)async{
     DocumentReference doc = timeCollection.document(card.getDocId());
     await doc.delete();
-    timesCollectionQuery=timeCollection
-        .where("uid",isEqualTo: FirebaseAPI().getUid()).where("course", isEqualTo:selectedCourse)
-        .orderBy("date",descending: true)
+    timesCollectionQuery = timeCollection
+        .orderBy("date", descending: true)
+        .where("course", isEqualTo:selectedCourse)
         .snapshots();
     return null;
   }
