@@ -461,6 +461,7 @@ class InformationPageState extends State<InformationPage> {
       );
       UserProgressDataBase().addUser(user2);
     }
+    Global().setUserCourses(courses);
   }
   Future navigateToCoursesPage(context) async {
     Navigator.push(context, MaterialPageRoute(builder: (context) => GridDashboard()));

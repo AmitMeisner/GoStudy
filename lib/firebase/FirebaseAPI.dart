@@ -115,7 +115,6 @@ class TipDataBase{
         List.from(doc['likes']),
         doc.data["isLink"],
         doc.data["link"],
-//        DateTime.fromMicrosecondsSinceEpoch(doc.data["date"]),
         DateTime.parse(doc.data["date"].toDate().toString()),
         doc.data["docId"],
         doc.data["uid"],

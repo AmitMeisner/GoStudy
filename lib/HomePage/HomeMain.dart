@@ -39,7 +39,7 @@ class HomeMainPageState extends State<HomeMainPage> {
   @override
   Widget build(BuildContext context) {
     final timeService = TimerService();
-    if (firstInit && widget.firstInit != null && widget.firstInit){
+    if (firstInit ){
       return Scaffold(
         backgroundColor: Global.getBackgroundColor(0),
         body: SafeArea(
@@ -100,9 +100,8 @@ class HomeMainPageState extends State<HomeMainPage> {
                           ),
                         ),
                         onTap: (){
-                          setState(() {
-                            firstInit = false;
-                          });
+                          firstInit = false;
+                          setState(() {});
                         },
                       )
                     ]),
@@ -115,6 +114,7 @@ class HomeMainPageState extends State<HomeMainPage> {
         ),
       );
     }
+    firstInit=true;
     return ChangeNotifierProvider<TimerService>(
       create: (_) => timeService,
       child: Scaffold(
@@ -123,7 +123,7 @@ class HomeMainPageState extends State<HomeMainPage> {
           child: Container(
             color: Colors.white,
             child: ListView(
-              padding: const EdgeInsets.all(15),
+              padding: const EdgeInsets.fromLTRB(15,5,15,5),
               children: <Widget>[
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -139,25 +139,25 @@ class HomeMainPageState extends State<HomeMainPage> {
                     Settings(),
                   ],
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height / 10),
+                SizedBox(height: MediaQuery.of(context).size.height / 25),
                 Text("Time", textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 20, color: Colors.grey, fontWeight: FontWeight.bold),),
                 neuDigitalClock(),
-                SizedBox(height: MediaQuery.of(context).size.height / 20),
+                SizedBox(height: MediaQuery.of(context).size.height / 30),
                 Text("Daily Goal", textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 20, color: Colors.grey,fontWeight: FontWeight.bold),),
                 SizedBox(height: MediaQuery.of(context).size.height / 50),
                 Text("07 : 30 : 00", textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 28, color: Colors.black),),
-                SizedBox(height: MediaQuery.of(context).size.height / 30),
+                SizedBox(height: MediaQuery.of(context).size.height / 8),
                 NeuProgressPieBar(),
                 SizedBox(height: MediaQuery.of(context).size.height / 30),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                NeuResetButton(),
-                SizedBox(height: MediaQuery.of(context).size.height / 30),
-                EnterTimeButton(),
+                  NeuResetButton(),
+                  SizedBox(height: MediaQuery.of(context).size.height / 30),
+                  EnterTimeButton(),
                   ],),
                 SizedBox(height: MediaQuery.of(context).size.height / 25),
                 //MsgError(),

@@ -32,10 +32,10 @@ class TimesPageState extends State<TimesPage> {
     return StreamProvider<List<TimeCard>>.value(
       value: TimeDataBase().times,
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Global.getBackgroundColor(0),
         body: SafeArea(
           child: Container(
-            color: Global.backgroundPageColor,
+            color: Colors.white,
             child: SingleChildScrollView(
               child: Center(
                 child: Column(
@@ -48,7 +48,7 @@ class TimesPageState extends State<TimesPage> {
                     Container(
                         height: 20
                     ),
-                    cards(updateState),
+                    Cards(updateState),
                   ],
             ),
           ),
