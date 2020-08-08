@@ -139,82 +139,11 @@ class StatisticsDataBase {
   StatisticsDataBase(this.itemsCount, this.coursesSelected,
       this.criteriasSelected);
 
-  Widget returnGraphFromApi() {
-    if (this.itemsCount % 3 == 0) {
-      return Container(
-        child: Echarts(
-          extensions: [darkThemeScript],
-          theme: 'dark',
-          option: '''
-                    {
-                      legend: {
-                        data: ['Homework', 'Recitations', 'Exams', 'Else', 'Lectures']
-                      },
-                      grid: {
-                        left: '3%',
-                        right: '8%',
-                        bottom: '3%',
-                        containLabel: true
-                      },
-                      xAxis: {
-                        type: 'value'
-                      },
-                      yAxis: {
-                        type: 'category',
-                        data: ['Calculus 1', 'Calculus 2', 'CS 101', 'Discrete Math', 'Workshop', 'Compilation', 'Complexity']
-                      },
-                      series: [
-                        {//
-                          name: 'Homework',
-                          type: 'bar',
-                          stack: 'total',
-                          data: [8, 7, 4, 10, 7, 8, 11]
-                        },
-                        {
-                          name: 'Recitations',
-                          type: 'bar',
-                          stack: 'total',
-                          data: [4, 4, 4, 8, 6, 5, 8]
-                        },
-                        {
-                          name: 'Exams',
-                          type: 'bar',
-                          stack: 'total',
-                          data: [7, 5, 6, 8, 7, 3, 9]
-                        },
-                        {
-                          name: 'Else',
-                          type: 'bar',
-                          stack: 'total',
-                          data: [8, 9, 4, 8, 5, 4, 4]
-                        },
-                        {
-                          name: 'Lectures',
-                          type: 'bar',
-                          stack: 'total',
-                          data: [6, 6, 6, 6, 3, 7, 8]
-                        }
-                      ]
-                    }
-                  ''',
-        ),
-        width: 300,
-        height: 250,
-      );
-    }
-    if (this.itemsCount % 3 == 1) {
-      return GroupedBarChart(GroupedBarChart._myCreateSampleData());
-    }
-    return GroupedBarChart(GroupedBarChart._createSampleData());
-  }
-
-
    static String removeFirstCharacter(String str) {
     String result = null;
     if ((str != null) && (str.length > 0)) {
       result = str.substring(1, str.length );
     }
-
     return result;
   }
   static Future<String> queryValues(String course, String resource) async{
@@ -229,9 +158,13 @@ class StatisticsDataBase {
       String tempTotal = snapshot.documents.fold("", (tot, doc) => tot +"," +doc.data[resource].toString());
       tempTotal2 = removeFirstCharacter(tempTotal);
       tempTotal = "["+tempTotal2+"]";
+      tempString=tempTotal;
+      print(tempTotal);
       return tempTotal;
 
     });
+    print(tempString);
+    return tempString;
   }
 
 
