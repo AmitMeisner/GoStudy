@@ -66,8 +66,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
   List<List<int>> sortDataForGraph(String XAxis, String YAxis){
-    List<int> currentX = XAxis=="Exam"?_HomeScreenState.exams:XAxis=="Grade"?_HomeScreenState.grades:_HomeScreenState.homework;
-    List<int> currentY = YAxis=="Exam"?_HomeScreenState.exams:YAxis=="Grade"?_HomeScreenState.grades:_HomeScreenState.homework;
+    List<int> currentX = XAxis=="Exam"?exams:XAxis=="Grade"?grades:homework;
+    List<int> currentY = YAxis=="Exam"?exams:YAxis=="Grade"?grades:homework;
     var newlist=List.generate(getLength(), (i) =>[currentX[i],currentY[i]]);
     newlist.sort((a,b)=>a[0].compareTo(b[0]));
     List<int> newCurrentX = [];
@@ -120,11 +120,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<List<DataModel>> loadData(BuildContext context) async {
-    _HomeScreenState.data=Provider.of<List<DataModel>>(context);
-    _HomeScreenState.exams=_HomeScreenState.data.where((element) =>element.docId==(_HomeScreenState.subject==null?_HomeScreenState.currentSubject:_HomeScreenState.subject)).toList().length==0?[]:getExamValue(_HomeScreenState.data.where((element) =>element.docId==(_HomeScreenState.subject==null?_HomeScreenState.currentSubject:_HomeScreenState.subject)).toList()[0]);
-    _HomeScreenState.grades=_HomeScreenState.data.where((element) =>element.docId==(_HomeScreenState.subject==null?_HomeScreenState.currentSubject:_HomeScreenState.subject)).toList().length==0?[] :getGradeValue(_HomeScreenState.data.where((element) =>element.docId==(_HomeScreenState.subject==null?_HomeScreenState.currentSubject:_HomeScreenState.subject)).toList()[0])??[];
-    _HomeScreenState.homework=_HomeScreenState.data.where((element) =>element.docId==(_HomeScreenState.subject==null?_HomeScreenState.currentSubject:_HomeScreenState.subject)).toList().length==0?[]:getHomeWorkValue(_HomeScreenState.data.where((element) =>element.docId==(_HomeScreenState.subject==null?_HomeScreenState.currentSubject:_HomeScreenState.subject)).toList()[0]);
-    _HomeScreenState.currentSubject=_HomeScreenState.subject==null?_HomeScreenState.data[0].docId:_HomeScreenState.subject;
+    data=Provider.of<List<DataModel>>(context);
+    exams=data.where((element) =>element.docId==(subject==null?currentSubject:subject)).toList().length==0?[]:getExamValue(data.where((element) =>element.docId==(subject==null?currentSubject:subject)).toList()[0]);
+    grades=data.where((element) =>element.docId==(subject==null?currentSubject:subject)).toList().length==0?[] :getGradeValue(data.where((element) =>element.docId==(subject==null?currentSubject:subject)).toList()[0])??[];
+    homework=data.where((element) =>element.docId==(subject==null?currentSubject:subject)).toList().length==0?[]:getHomeWorkValue(data.where((element) =>element.docId==(subject==null?currentSubject:subject)).toList()[0]);
+    currentSubject=subject==null?data[0].docId:subject;
     return data;
   }
   @override
