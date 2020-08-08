@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutterapp/Statistics/StatisticsDataBase.dart';
 import 'package:flutter/src/painting/edge_insets.dart';
 import 'package:provider/provider.dart';
+import '../Global.dart';
 import 'package:number_display/number_display.dart';
 import 'package:charts_flutter/flutter.dart' as chart;
 
@@ -47,31 +48,28 @@ class HomeScreen extends StatefulWidget {
 
 
 
+
 getLength(){
   var t=min(_HomeScreenState.exams.length, _HomeScreenState.grades.length);
   return min(t,_HomeScreenState.homework.length);
 }
 class _HomeScreenState extends State<HomeScreen> {
-  String currentSubject="Logic";
-  String subject;
-  String currentX="Exam";
-  String currentY="Grade";
-  String currentChart="Bar";
+  static String currentSubject="Logic";
+  static String subject;
+  static String currentX="Exam";
+  static String currentY="Grade";
+  static String currentChart="Bar";
   static List<int> exams;
   static List<int> grades;
   static List<int> homework;
+  static List<DataModel> data;
+
 
   List<List<int>> sortDataForGraph(String XAxis, String YAxis){
     List<int> currentX = XAxis=="Exam"?_HomeScreenState.exams:XAxis=="Grade"?_HomeScreenState.grades:_HomeScreenState.homework;
     List<int> currentY = YAxis=="Exam"?_HomeScreenState.exams:YAxis=="Grade"?_HomeScreenState.grades:_HomeScreenState.homework;
-    print(XAxis);
-    print(currentX);
-    print(YAxis);
-    print(currentY);
     var newlist=List.generate(getLength(), (i) =>[currentX[i],currentY[i]]);
     newlist.sort((a,b)=>a[0].compareTo(b[0]));
-    print(newlist);
-    print("lastDebug");
     List<int> newCurrentX = [];
     List<int> newCurrentY = [];
     for (var i=0; i<newlist.length; i++){
@@ -84,60 +82,67 @@ class _HomeScreenState extends State<HomeScreen> {
 
   }
 
+  getExamValue(DataModel data){
+    List<int>value=[];
+    var exam=data!=null?data.exam.split(","):[];
+    exam.forEach((element) {
+      var e=element.replaceAll("[","").replaceAll("]","");
+      if(e!="null"){
+        value.add(int.parse(e));
+      }
+    });
 
+    return value;
+  }
+  getGradeValue(DataModel data){
+    List<int>value=[];
+    var exam=data!=null?data.grade.split(","):[];
+    exam.forEach((element) {
+      var e=element.replaceAll("[","").replaceAll("]","");
+      if(e!="null"){
+        value.add(int.parse(e));
+      }
+    });
+
+    return value;
+  }
+  getHomeWorkValue(DataModel data){
+    List<int>value=[];
+    var exam=data!=null?data.homework.split(","):[];
+    exam.forEach((element) {
+      var e=element.replaceAll("[","").replaceAll("]","");
+      if(e!="null"){
+        value.add(int.parse(e));
+      }
+    });
+
+    return value;
+  }
+
+  Future<List<DataModel>> loadData(BuildContext context) async {
+    _HomeScreenState.data=Provider.of<List<DataModel>>(context);
+    _HomeScreenState.exams=_HomeScreenState.data.where((element) =>element.docId==(_HomeScreenState.subject==null?_HomeScreenState.currentSubject:_HomeScreenState.subject)).toList().length==0?[]:getExamValue(_HomeScreenState.data.where((element) =>element.docId==(_HomeScreenState.subject==null?_HomeScreenState.currentSubject:_HomeScreenState.subject)).toList()[0]);
+    _HomeScreenState.grades=_HomeScreenState.data.where((element) =>element.docId==(_HomeScreenState.subject==null?_HomeScreenState.currentSubject:_HomeScreenState.subject)).toList().length==0?[] :getGradeValue(_HomeScreenState.data.where((element) =>element.docId==(_HomeScreenState.subject==null?_HomeScreenState.currentSubject:_HomeScreenState.subject)).toList()[0])??[];
+    _HomeScreenState.homework=_HomeScreenState.data.where((element) =>element.docId==(_HomeScreenState.subject==null?_HomeScreenState.currentSubject:_HomeScreenState.subject)).toList().length==0?[]:getHomeWorkValue(_HomeScreenState.data.where((element) =>element.docId==(_HomeScreenState.subject==null?_HomeScreenState.currentSubject:_HomeScreenState.subject)).toList()[0]);
+    _HomeScreenState.currentSubject=_HomeScreenState.subject==null?_HomeScreenState.data[0].docId:_HomeScreenState.subject;
+    return data;
+  }
   @override
   Widget build(BuildContext context) {
-    var data=Provider.of<List<DataModel>>(context);
-    getExamValue(DataModel data){
-      List<int>value=[];
-      var exam=data!=null?data.exam.split(","):[];
-      exam.forEach((element) {
-        var e=element.replaceAll("[","").replaceAll("]","");
-        if(e!="null"){
-          value.add(int.parse(e));
-        }
-      });
-
-      return value;
+    data = null;
+    loadData(context);
+    if (data ==null){
+      return Loading();
     }
-    getGradeValue(DataModel data){
-      List<int>value=[];
-      var exam=data!=null?data.grade.split(","):[];
-      exam.forEach((element) {
-        var e=element.replaceAll("[","").replaceAll("]","");
-        if(e!="null"){
-          value.add(int.parse(e));
-        }
-      });
-
-      return value;
-    }
-    getHomeWorkValue(DataModel data){
-      List<int>value=[];
-      var exam=data!=null?data.homework.split(","):[];
-      exam.forEach((element) {
-        var e=element.replaceAll("[","").replaceAll("]","");
-        if(e!="null"){
-          value.add(int.parse(e));
-        }
-      });
-
-      return value;
-    }
-
-
-
-
-    exams=data.where((element) =>element.docId==(subject==null?currentSubject:subject)).toList().length==0?[]:getExamValue(data.where((element) =>element.docId==(subject==null?currentSubject:subject)).toList()[0]);
-    grades=data.where((element) =>element.docId==(subject==null?currentSubject:subject)).toList().length==0?[] :getGradeValue(data.where((element) =>element.docId==(subject==null?currentSubject:subject)).toList()[0])??[];
-    homework=data.where((element) =>element.docId==(subject==null?currentSubject:subject)).toList().length==0?[]:getHomeWorkValue(data.where((element) =>element.docId==(subject==null?currentSubject:subject)).toList()[0]);
+    print("hi");
+    print(data);
     List<Chart>charts=[];
     List<List<int>> displayed = sortDataForGraph(currentX, currentY);
     for (var i = 0; i < getLength(); i++) {
       charts.add(Chart(xValue: displayed[0][i],yValue: displayed[1][i],barColor:chart.MaterialPalette.blue.shadeDefault));
     }
 
-    currentSubject=subject==null?data[0].docId:subject;
+
     List<chart.Series<Chart, String>> series = [
       chart.Series(
           id: "Statistics",
