@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Global.dart';
 import 'package:flutterapp/HomePage/Timer/coursesResources.dart';
+import 'package:flutterapp/HomePage/Timer/progress_pie_bar.dart';
 
 
 class TimeConfirmationDialog extends StatelessWidget {
@@ -53,14 +54,16 @@ class TimeConfirmationDialog extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               RaisedButton(onPressed: (){
+                toEnterTime = false;
+                NeuStartButtonState.isRunning=false;
+                Navigator.of(context).pop();
+                }, child: Text('Discard'), color: Global.backgroundPageColor,textColor: Colors.blueGrey,),
+              RaisedButton(onPressed: (){
                 toEnterTime = true;
+                NeuStartButtonState.isRunning=false;
                 return Navigator.of(context).pop(true);
 
-              }, child: Text('Save',), color: Global.backgroundPageColor, textColor:Colors.blueGrey)
-              ,RaisedButton(onPressed: (){
-                toEnterTime = false;
-                Navigator.of(context).pop();
-              }, child: Text('Discard'), color: Global.backgroundPageColor,textColor: Colors.blueGrey,),
+                }, child: Text('Save',), color: Global.backgroundPageColor, textColor:Colors.blueGrey)
 
             ],
           ),

@@ -3,7 +3,7 @@ import 'package:flutterapp/HomePage/Timer/enterTime.dart';
 import 'package:flutterapp/signIn/google_sign_in.dart';
 
 import '../../Global.dart';
-import 'buttomButtons.dart';
+import 'bottomButtons.dart';
 import 'enterTime.dart';
 import 'enterTime.dart';
 
