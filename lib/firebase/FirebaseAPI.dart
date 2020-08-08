@@ -50,7 +50,7 @@ class FirebaseAPI{
 
 }
 
-class StatisticsDataBase{
+class statisticsDataBase{
   static  CollectionReference statsCollection= Firestore.instance.collection("Statistics");
   Future<String> getData(String document, String field) async {
     //Returns the data from the relevant (Statistics).document.field
@@ -115,7 +115,6 @@ class TipDataBase{
         List.from(doc['likes']),
         doc.data["isLink"],
         doc.data["link"],
-//        DateTime.fromMicrosecondsSinceEpoch(doc.data["date"]),
         DateTime.parse(doc.data["date"].toDate().toString()),
         doc.data["docId"],
         doc.data["uid"],
@@ -210,7 +209,6 @@ class UserDataBase {
       "avg":user.getAverage(),
       "friends":user.getFriends(),
       "courses":user.getCourses(),
-      "oldCourses":user.getOldCourses(),
       "year":user.getYear(),
       "semester":user.getSemester(),
       "friendRequestSent":user.getFriendRequestSent(),
@@ -237,7 +235,7 @@ class UserDataBase {
         List<String>.from(doc.data["friendRequestReceive"]),
         List<String>.from(doc.data["searchNickname"]),
         doc.data["Gender"],
-        List.from(doc.data["oldCourses"]),
+
       );
     }
     );
@@ -334,7 +332,7 @@ class FriendsDataBase{
           List<String>.from(doc.data["friendRequestReceive"]),
           List<String>.from(doc.data["searchNickname"]),
          doc.data["Gender"],
-          List.from(doc.data["oldCourses"]),
+
       );
     }).toList();
   }

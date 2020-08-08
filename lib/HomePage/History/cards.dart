@@ -2,18 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:animated_card/animated_card.dart';
 import 'package:flutterapp/HomePage/Timer/fireBase/TimeCard.dart';
 import 'package:flutterapp/HomePage/Timer/fireBase/fireBase_api.dart';
+import 'package:flutterapp/Statistics/StatisticsDataBase.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
 import 'dart:async';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-
 import '../../Global.dart';
 import 'editTimeDialog.dart';
 
 
 
-class cards extends StatelessWidget {
+class Cards extends StatefulWidget {
 
 
   // list of all tip cards.
@@ -28,28 +27,31 @@ class cards extends StatelessWidget {
         0,
         0)
   ];
-  static List<TimeCard> _timeCards;
 
 
   Function updateTimesPageState;
+  Cards(this.updateTimesPageState);
 
-  cards(this.updateTimesPageState);
+  @override
+  _CardsState createState() => _CardsState();
+}
 
+class _CardsState extends State<Cards> {
+
+  static List<TimeCard> _timeCards;
 
   @override
   Widget build(BuildContext context) {
-    _timeCards = null;
+    _timeCards=null;
     updateTimeList(context);
-    if (_timeCards == null) {
-//      return Loading();
-    return (Text("NO TIME HISTORY IN THIS COURSE",   style: GoogleFonts.meriendaOne(fontSize: 20, fontWeight: FontWeight.bold)));
+    //if no activity history show a text
+    if (_timeCards==null || _timeCards.isEmpty) {
+      return (Text("NO TIME HISTORY IN THIS COURSE",   style: GoogleFonts.meriendaOne(fontSize: 20, fontWeight: FontWeight.bold)));
     }
-    _timeCards = _timeCards;
-    return Container(
 
-//      color: Colors.yellow[300],
+
+    return Container(
       height: 650.0,
-      //padding: EdgeInsets.only(bottom: 50.0),
       child: ListView.builder(
         itemCount: _timeCards.length,
         itemBuilder: (context, index) {
@@ -60,32 +62,31 @@ class cards extends StatelessWidget {
             //Delay to initial animation
             duration: Duration(milliseconds: 400),
             //Initial animation duration
-            onRemove: (FirebaseAPI().getUid() == _timeCards[index].getUid())
-                ? () => removeTime(_timeCards[index], updateTimesPageState)
-                : null,
+            onRemove:  () {
+              removeTime(_timeCards[index], widget.updateTimesPageState);
+            },
             curve: Curves.decelerate,
             //Animation curve
             child: cardContent(
-                context, _course, index, _timeCards, updateTimesPageState),
+                context, _course, index, _timeCards, widget.updateTimesPageState),
           );
         },
       ),
     );
   }
 
-  void removeTime(TimeCard timeCard, Function updateTimesPageState) {
-    TimeDataBase.deleteTimeCard(timeCard);
-    updateTimesPageState();
+  // remove the card and update the page
+  Future<void> removeTime(TimeCard timeCard, Function updateTimesPageState)async{
+     await TimeDataBase().deleteTimeCard(timeCard);
+     updateTimesPageState();
   }
-
-
+//update the list according to the firebase
   Future<List<TimeCard>> updateTimeList(BuildContext context) async {
     _timeCards = Provider.of<List<TimeCard>>(context);
     return _timeCards;
   }
-
-  // creating a card with the users tip and adding it to the tips list.
-  void addCard(String course, String resource, String date, int hours,
+// add a time history to the firebase
+  void addCard(String course, String resource, DateTime date, int hours,
       int minutes, int seconds) {
     TimeCard newTime;
     String uid = FirebaseAPI().getUid();
@@ -100,10 +101,10 @@ class cards extends StatelessWidget {
         seconds);
     TimeDataBase().addTime(newTime);
     _timeCards.add(newTime);
-    updateTimesPageState();
+    widget.updateTimesPageState();
   }
 
-  // creating the tags widget for the cards.
+  //create the tags of the course and the resource to be displayed in the card
   Widget _course(int index) {
     return Container(
       child: SingleChildScrollView(
@@ -126,38 +127,24 @@ class cards extends StatelessWidget {
 Widget cardContent(BuildContext context,Function course, int index , List<TimeCard> times, Function updateTimesPageState){
 
   return Container(
-    margin:  EdgeInsets.only( bottom: 25.0),
-    width: MediaQuery.of(context).size.height/2.5,
-    height: MediaQuery.of(context).size.height/10,
+    margin:  EdgeInsets.only( bottom: 10.0, left: 10.0, right: 10.0),
+    padding: EdgeInsets.all(10),
     decoration: BoxDecoration(
       color: Global.getBackgroundColor(0),
-      borderRadius: BorderRadius.circular(50),
-//      boxShadow: [
-//        BoxShadow(
-//          blurRadius: 0,
-//          offset: Offset(-5, -5),
-//          color: Colors.white,
-//        ),
-//        BoxShadow(
-//          blurRadius: 0,
-//          offset: Offset(10.5, 10.5),
-////            color: Color.fromRGBO(214, 223, 230, 1),
-//          color: Global.getBackgroundColor(500),
-//        )
-      //],
+      borderRadius: BorderRadius.circular(30),
     ),
 // Digital green background
     child: Center(
         child: LayoutBuilder(
         builder: (context, constraints) => Container(
     height:  MediaQuery.of(context).size.height/10,
-    width: MediaQuery.of(context).size.height/2.8,
+    width: MediaQuery.of(context).size.height*2/3,
     decoration: BoxDecoration(
       gradient: LinearGradient(colors: [
         Global.backgroundPageColor,
         Global.backgroundPageColor,
       ]),
-      borderRadius: BorderRadius.circular(50),
+      borderRadius: BorderRadius.circular(25),
       border: Border.all(
         color: Color.fromRGBO(168, 168, 168, 1),
         width: 2,
@@ -175,17 +162,18 @@ Widget cardContent(BuildContext context,Function course, int index , List<TimeCa
 
 
 
-// creating the cards tags, date and like for the all the cards, except fot the first one.
+// creating the cards course and resource tags, date and time for the all the cards.
 Widget showInfo(BuildContext context,Function course, int index , List<TimeCard> times, Function updateTimesPageState){
+  String date=dateTimeToString(times[index].getDate());
   return Container(
     margin:  EdgeInsets.only( top:3.0,bottom: 3.0),
     child: Column(
-    children: <Widget>[
+      children: <Widget>[
       course(index),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          Text(times[index].getDate().toString(), style: TextStyle( fontSize: 14)),
+          Text(date, style: TextStyle( fontSize: 14)),
           Text(timeString(times[index].getHours())+":"+
               timeString(times[index].getMinutes())+":"+
               timeString(times[index].getSeconds()),style: TextStyle( fontSize: 14)),
@@ -207,14 +195,21 @@ Widget showInfo(BuildContext context,Function course, int index , List<TimeCard>
   );
 
 }
-
+// return the date as a string
+String dateTimeToString(DateTime date) {
+  String day=date.day.toString();
+  String month=date.month.toString();
+  String year=date.year.toString();
+  return(day+"/"+month+"/"+year);
+}
+// return the time in the right form
 String timeString(int time){
   if(time<10){
     return "0"+time.toString();
   }return time.toString();
 
 }
-
+// create the edit icon
 void editTime(BuildContext context, Function updateTimesPageState, TimeCard times) {
   showModalBottomSheet(
     context: context,

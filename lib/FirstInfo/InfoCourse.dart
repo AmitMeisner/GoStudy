@@ -1,6 +1,5 @@
 
-
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Global.dart';
@@ -19,20 +18,15 @@ class InfoCourse extends StatefulWidget {
 
 class InfoCourseState extends State<InfoCourse> {
   int courseIndex;
-  static String examHours = "select value";
-
-  static String extraHours = "select value";
-  static String homeworkHours = "select value";
-
-  static String recitationHours = "select value";
-  static String lecturesHours = "select value";
-
-  static String grade = "select value";
-
+   String examHours = "Select Value";
+   String extraHours = "Select Value";
+   String homeworkHours ="Select Value";
+   String recitationHours = "Select Value";
+   String lecturesHours = "Select Value";
+   String grade = "Select Value" ;
   InfoCourseState(this.courseIndex);
-
   String userId = FirebaseAPI().getUid();
-//    double average = double.parse(await InformationPageState.getAverage());
+
   final List<String> _dropdownGrades = [
     "30-35",
     "35-40",
@@ -59,11 +53,6 @@ class InfoCourseState extends State<InfoCourse> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: new PreferredSize(
-        preferredSize: Size.fromHeight(48.0),
-        child: AppBar(
-          backgroundColor: Global.getBackgroundColor(0),
-        ),),
       body: buildChild(context, 1),
     );
   }
@@ -72,19 +61,19 @@ class InfoCourseState extends State<InfoCourse> {
   Widget buildChild(BuildContext context, int courseIndex) {
     return ListView(
       padding: EdgeInsets.symmetric(horizontal: 30, vertical: 4),
-//        decoration: BoxDecoration(
-//            shape: BoxShape.rectangle,
-//            borderRadius: BorderRadius.all(Radius.circular(12))
-//        ),
       children: <Widget>[
-        Text('how long in total(hours) did you study for....',
-          style: TextStyle(fontSize: 30,
-            color: Colors.black,
-            fontFamily: 'Piedra',
-          ),
-          textAlign: TextAlign.center
-          ,),
-        SizedBox(height: 40,),
+        Container(
+           margin: EdgeInsets.fromLTRB(0.0, 90.0, 0.0, 0.0),
+          child: Text('how long in total(hours) did you study for....',
+            style: TextStyle(fontSize: 30,
+              color: Colors.black,
+              fontFamily: 'Piedra',
+            ),
+            textAlign: TextAlign.center
+            ,),
+        )
+
+        ,SizedBox(height: 40,),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
@@ -185,19 +174,44 @@ class InfoCourseState extends State<InfoCourse> {
   }
 
 
-  Future <void> onClick(BuildContext context) async {
-    if (examHours == null || homeworkHours == null || recitationHours == null
-        || lecturesHours == null || extraHours == null || grade == null) {
-      return showColoredToast(
-          "please select all fields before you enter the data");
-    } else {
-      enterData(context);
-      print("nnnnn");
-      await InformationPageState.updateNewCoursesList(courseIndex);
+  //check if document of the specific course for the user already exists.
+  // if it does- return the doc id.
+  Future<String> doesExists(String id, int index)async{
+    final QuerySnapshot result = await Firestore.instance
+        .collection("AllUsers")
+        .where('userId', isEqualTo: userId).where('course', isEqualTo:Global().getAllCourses()[index] ).limit(1).getDocuments();
+    final List<DocumentSnapshot> documents = result.documents;
+    if(documents.length == 1){
+      return documents[0].documentID;
+    }
+    return null;}
+
+
+    // check if the doc of the user& course exists. if it does- return it as a document reference.
+  Future <DocumentReference> getDocument (BuildContext context) async{
+    String doc;
+    doc =  await doesExists(userId, courseIndex) ;
+    if(doc == null) {
+      return null;
+    }else{
+      DocumentReference docNew = AllUserDataBase.usersDataCollection.document(doc);
+      return docNew;
     }
   }
 
+// this function is called when the user presses the course.
+  // if the user has not entered previous data of the course enter a new doc
+  // else update the current doc ( as each course&userId can hace only one doc).
+    Future <void> onClick(BuildContext context) async {
+      DocumentReference doc = await getDocument(context);
+    if(doc == null) {
+      enterData(context);
+    }else{
+      doc.delete();
+      enterData(context);
+    }}
 
+// enter the doc to the firebase.
   void enterData(BuildContext context) async{
     UserStatForCourse userInfo = new UserStatForCourse(
       Global().getAllCourses()[courseIndex],
@@ -394,4 +408,9 @@ class InfoCourseState extends State<InfoCourse> {
         textColor: Colors.white);
   }
 
+}
+
+
+Future navigateToDashboardPage(context,index) async {
+  Navigator.push(context, MaterialPageRoute(builder: (context) => GridDashboard()));
 }

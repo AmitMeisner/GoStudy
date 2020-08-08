@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'dart:math';
-
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutterapp/Statistics/StatisticsDataBase.dart';
@@ -59,10 +59,13 @@ class _HomeScreenState extends State<HomeScreen> {
   static String currentX="Exam";
   static String currentY="Grade";
   static String currentChart="Bar";
-  static List<int> exams;
-  static List<int> grades;
-  static List<int> homework;
+  static List<int> exams; //should be removed
+  static List<int> grades; //should be removed
+  static List<int> homework; //should be removed
+  static List<int> currentXValues; //should include the data that is display in the X Axis, replacing the above exams,grades, homework
+  static List<int> currentYValues; //kanal
   static List<DataModel> data;
+  static String test = "testString";
 
 
   List<List<int>> sortDataForGraph(String XAxis, String YAxis){
@@ -120,11 +123,17 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<List<DataModel>> loadData(BuildContext context) async {
-    _HomeScreenState.data=Provider.of<List<DataModel>>(context);
-    _HomeScreenState.exams=_HomeScreenState.data.where((element) =>element.docId==(_HomeScreenState.subject==null?_HomeScreenState.currentSubject:_HomeScreenState.subject)).toList().length==0?[]:getExamValue(_HomeScreenState.data.where((element) =>element.docId==(_HomeScreenState.subject==null?_HomeScreenState.currentSubject:_HomeScreenState.subject)).toList()[0]);
-    _HomeScreenState.grades=_HomeScreenState.data.where((element) =>element.docId==(_HomeScreenState.subject==null?_HomeScreenState.currentSubject:_HomeScreenState.subject)).toList().length==0?[] :getGradeValue(_HomeScreenState.data.where((element) =>element.docId==(_HomeScreenState.subject==null?_HomeScreenState.currentSubject:_HomeScreenState.subject)).toList()[0])??[];
-    _HomeScreenState.homework=_HomeScreenState.data.where((element) =>element.docId==(_HomeScreenState.subject==null?_HomeScreenState.currentSubject:_HomeScreenState.subject)).toList().length==0?[]:getHomeWorkValue(_HomeScreenState.data.where((element) =>element.docId==(_HomeScreenState.subject==null?_HomeScreenState.currentSubject:_HomeScreenState.subject)).toList()[0]);
-    _HomeScreenState.currentSubject=_HomeScreenState.subject==null?_HomeScreenState.data[0].docId:_HomeScreenState.subject;
+
+    //exams, grades, homework are List<int> that include the current-chosen-course, its returned and parsed from string representation using the above 3 functions.
+    data=Provider.of<List<DataModel>>(context);
+    exams=data.where((element) =>element.docId==(subject==null?currentSubject:subject)).toList().length==0?[]:getExamValue(data.where((element) =>element.docId==(subject==null?currentSubject:subject)).toList()[0]);
+    grades=data.where((element) =>element.docId==(subject==null?currentSubject:subject)).toList().length==0?[] :getGradeValue(data.where((element) =>element.docId==(subject==null?currentSubject:subject)).toList()[0])??[];
+    homework=data.where((element) =>element.docId==(subject==null?currentSubject:subject)).toList().length==0?[]:getHomeWorkValue(data.where((element) =>element.docId==(subject==null?currentSubject:subject)).toList()[0]);
+    currentSubject=subject==null?data[0].docId:subject;
+
+    //this functions returns string representation of array that holds values, which then can be parsed by the parsing functions above to convert to List<int>, which then displayed in the graph
+    test = await StatisticsDataBase.queryValues("Calculus 2", "examTime");
+    print(test);
     return data;
   }
   @override
@@ -134,10 +143,13 @@ class _HomeScreenState extends State<HomeScreen> {
     if (data ==null){
       return Loading();
     }
-    print("hi");
-    print(data);
+    print(test);
     List<Chart>charts=[];
+
+    //via the pick of currentX and currentY, sortDataForGraph sorts them by the X-Axis for display.
     List<List<int>> displayed = sortDataForGraph(currentX, currentY);
+
+    //filling up the chart with the data, displayed[0] is XAxis, displayed[1] is YAxis
     for (var i = 0; i < getLength(); i++) {
       charts.add(Chart(xValue: displayed[0][i],yValue: displayed[1][i],barColor:chart.MaterialPalette.blue.shadeDefault));
     }

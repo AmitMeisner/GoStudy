@@ -21,14 +21,12 @@ class EnterTimeButton extends StatefulWidget {
   final double bevel;
   final Offset blurOffset;
 
-  EnterTimeButton({
-    Key key,
-    this.bevel = 10.0,
-  })  : this.blurOffset = Offset(bevel / 2, bevel / 2),
-        super(key: key);
+  Function reload;
+
+  EnterTimeButton(void Function() reload, {Key key, this.bevel = 10.0})  : this.blurOffset = Offset(bevel / 2, bevel / 2),this.reload=reload, super(key: key);
 
   @override
-  EnterTimeState createState() => EnterTimeState();
+  EnterTimeState createState() => EnterTimeState(reload);
 }
 
  String getDate() {
@@ -50,18 +48,27 @@ void showColoredToast(String msg) {
 class EnterTimeState extends State<EnterTimeButton> {
   static String course ;
   static String resource ;
-  String date = getDate();
+//  String date = getDate();
+  DateTime date= DateTime.now();
   //String date =  TipDialogState.getDate();
   String uid=  FirebaseAPI().getUid();
   int hours; int minutes; int seconds;
   String docId = "" ;
   bool _isPressed = false;
+  Function reload;
+
+  EnterTimeState(this.reload);
 
 
   String format(Duration d) => d.toString().split('.').first.padLeft(8, "0");
 
   void _onPointerDown() async{
     _isPressed=true;
+
+    NeuStartButtonState.isRunning=false;
+    Provider.of<TimerService>(context, listen: false).stop();
+    reload();
+
     if(TimerService.currentDurationTime != Duration.zero && !NeuStartButtonState.isRunning ){
     await DialogHelperTime.enterTime(context);
     course = ShowHideDropdownState.selectedValue;
@@ -125,26 +132,24 @@ class EnterTimeState extends State<EnterTimeButton> {
       onPointerUp: _onPointerUp,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 150),
-        height: MediaQuery.of(context).size.height/14,
-//        width: 150,
+//        height: MediaQuery.of(context).size.height/14,
+        height: 150,
+        width: 150,
 //        padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
-//          color: Color.fromRGBO(227, 237, 247, 1),
-          color: Global.getBackgroundColor(0),
-//          borderRadius: BorderRadius.circular(15),
           shape: BoxShape.circle,
-          boxShadow: _isPressed
-              ? null
-              : [
+          color: Colors.white24,
+          boxShadow: [
             BoxShadow(
-              blurRadius: 30,
-              offset: -widget.blurOffset,
-              color: Colors.white,
+              blurRadius: 15,
+              spreadRadius: 5,
+//                                  offset: Offset(10.5,10.5),
+              color: Global.getBackgroundColor(50),
             ),
             BoxShadow(
-              blurRadius: 30,
+              blurRadius: 15,
               offset: Offset(10.5, 10.5),
-              color: Color.fromRGBO(214, 223, 230, 1),
+              color: Colors.blueAccent,
             )
           ],
         ),
@@ -152,16 +157,13 @@ class EnterTimeState extends State<EnterTimeButton> {
           height: 50.0,
           width: 50.0,
           child:
-            Icon(Icons.save, size: 35,),
-//          Text(
-//            "Enter time",
-//            style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
-//          ),
-
+            Icon(Icons.stop, size: 50,),
         ),
       ),
     );
   }
+
+
 }
 
 extension ColorUtils on Color {

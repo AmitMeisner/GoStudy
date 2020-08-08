@@ -131,14 +131,16 @@ class OrdinalSales {
 }
 
 
-class StatisticsDataBase{
+class StatisticsDataBase {
   final int itemsCount;
   final List<String> coursesSelected;
   final List<String> criteriasSelected;
-  StatisticsDataBase(this.itemsCount, this.coursesSelected, this.criteriasSelected);
+  double total = 0.0;
+  StatisticsDataBase(this.itemsCount, this.coursesSelected,
+      this.criteriasSelected);
 
-  Widget returnGraphFromApi(){
-    if (this.itemsCount % 3 == 0){
+  Widget returnGraphFromApi() {
+    if (this.itemsCount % 3 == 0) {
       return Container(
         child: Echarts(
           extensions: [darkThemeScript],
@@ -200,13 +202,48 @@ class StatisticsDataBase{
         height: 250,
       );
     }
-    if (this.itemsCount % 3 == 1){
+    if (this.itemsCount % 3 == 1) {
       return GroupedBarChart(GroupedBarChart._myCreateSampleData());
     }
     return GroupedBarChart(GroupedBarChart._createSampleData());
-
   }
+
+
+   static String removeFirstCharacter(String str) {
+    String result = null;
+    if ((str != null) && (str.length > 0)) {
+      result = str.substring(1, str.length );
+    }
+
+    return result;
+  }
+  static Future<String> queryValues(String course, String resource) async{
+    String total = "";
+    String tempString;
+    String tempTotal2;
+    Firestore.instance
+        .collection('AllUsers')
+        .where('course', isEqualTo: course)
+        .snapshots()
+        .listen((snapshot) {
+      String tempTotal = snapshot.documents.fold("", (tot, doc) => tot +"," +doc.data[resource].toString());
+      tempTotal2 = removeFirstCharacter(tempTotal);
+      tempTotal = "["+tempTotal2+"]";
+      print("insideeeee");
+      print(tempTotal);
+      tempTotal2 = tempTotal;
+      print("insiddeeeeee");
+      return tempTotal;
+
+    });
+    print("temptotal2:");
+    print(tempTotal2);
+    return tempTotal2;
+  }
+
+
 }
+
 
 class DataModel{
   String exam;
