@@ -3,15 +3,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../Global.dart';
-import 'editTimeDialog.dart';
 import 'package:flutterapp/HomePage/Timer/fireBase/TimeCard.dart';
 import 'package:flutterapp/HomePage/Timer/fireBase/fireBase_api.dart';
 import 'package:provider/provider.dart';
-
 import 'cards.dart';
 import 'courseChoice.dart';
-import 'infoBlock.dart';
-import 'manualTimeDialog.dart';
 
 class TimesPage extends StatefulWidget {
   static List<String> userCourse=[" "];
@@ -21,7 +17,7 @@ class TimesPage extends StatefulWidget {
 
 class TimesPageState extends State<TimesPage> {
 
-  //list of the users courses choice in the tip page.
+  //list of the users courses choice in the time page.
   List<String> userCourse = TimesPage.userCourse;
   List<String> userResource = ['Lectures'];
 

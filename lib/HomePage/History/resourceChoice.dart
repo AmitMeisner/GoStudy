@@ -5,13 +5,13 @@ import 'package:flutterapp/Global.dart';
 
 
 
-// class of the courses multi choice.
+// class of the resources multi choice.
 class ResourceChoice extends StatefulWidget {
 
   // updating the users tag list.
   final Function updateUserResource;
 
-  // for refreshing the tips page.
+  // for refreshing the history page.
   final Function timesPageSetState;
 
   // distance of the title from the top.
@@ -35,7 +35,7 @@ class _ResourceChoiceState extends State<ResourceChoice> {
   _ResourceChoiceState(this.updateUserResource, this.tipsPageSetState);
 
 
-  // list of all courses.
+  // list of all resources
   List<String> resources = Global().getAllResources();
   static List<String> userResource = [""];
 
@@ -46,7 +46,7 @@ class _ResourceChoiceState extends State<ResourceChoice> {
     return scrollableListSingleleChoice();
   }
 
-  // creating the multi choice list.
+  // creating the single choice list.
   Widget scrollableListSingleleChoice() {
     return ChipsChoice<String>.single(
         value: userResource[0],

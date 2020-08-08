@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutterapp/HomePage/Timer/fireBase/fireBase_api.dart';
-import 'package:flutterapp/Tips/Tips.dart';
-import 'package:flutterapp/firebase/FirebaseAPI.dart';
-
 import '../../Global.dart';
 
 
 
 // class of the courses multi choice.
 class CourseChoice extends StatefulWidget {
-  // updating the users tag list.
+  // updating the users course list.
   final Function updateUserCourse;
 
-  // for refreshing the tips page.
+  // for refreshing the page.
   final Function timesPageSetState;
 
-  //indicates that this is the multi choice from the tips page
-  //and not the tipDialog.
+  //indicates that this is the multi choice from the times page
+  //and not the edit dialog.
   final bool timesPage;
 
   //constructor/
@@ -33,8 +30,6 @@ class _CourseChoiceState extends State<CourseChoice> {
   Function updateUserCourse;
 
   final Function timesPageSetState;
-
-  // distance of the title from the top.
   bool timesPage;
 
   //constructor.
@@ -44,11 +39,13 @@ class _CourseChoiceState extends State<CourseChoice> {
 
   // list of all courses.
   List<String> courses=Global().getUserCourses();
+  // chosen user course
   List<String> userCourse=[""];
 
 
   @override
   Widget build(BuildContext context) {
+    //if user chose no course update the course to be the first course from his current courses
     if(userCourse[0] == ""){
       userCourse = [Global().getUserCourses()[0]];}
     updateUserCourse(userCourse);
@@ -56,7 +53,7 @@ class _CourseChoiceState extends State<CourseChoice> {
 
   }
 
-  // creating the multi choice list.
+  // creating the single choice list.
   Widget scrollableListChoice( List<String> listSource,List<String> chosenList){
     return ChipsChoice<String>.single(
           value:chosenList[0] ,

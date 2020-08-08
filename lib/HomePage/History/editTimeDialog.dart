@@ -1,10 +1,9 @@
-import 'package:date_picker_timeline/date_picker_widget.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/HomePage/History/resourceChoice.dart';
 import 'package:flutterapp/HomePage/Timer/fireBase/TimeCard.dart';
 import 'package:flutterapp/HomePage/Timer/fireBase/fireBase_api.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import '../../Global.dart';
 import 'courseChoice.dart';
 
@@ -22,7 +21,7 @@ class editTimeDialogState extends State<editTimeDialog> {
   TimeCard card;
   editTimeDialogState(this.timesPageSetState,this.card);
 
-  //list of the users courses.
+  //list of the users courses and resources
   List<String> userCourse=[""];
   List<String> userResource=[""];
 
@@ -69,17 +68,18 @@ class editTimeDialogState extends State<editTimeDialog> {
   }
 
 
-
+  //creating the resources choices in the dialog.
   Widget resources(){
     return ResourceChoice(updateUserResource,0.0, timesPageSetState);
   }
-
+// update user courses for the multi choice
   void updateUserCourse(List<String> newUserTags){
     userCourse.clear();
     for(int i=0;i<newUserTags.length;i++){
       userCourse.add(newUserTags[i]);
     }
   }
+  // update user resources for the multi choice
   void updateUserResource(List<String> newUserTags){
     userResource.clear();
     for(int i=0;i<newUserTags.length;i++){
@@ -89,7 +89,7 @@ class editTimeDialogState extends State<editTimeDialog> {
 
 
 
-  //creating the post button.
+  //creating the update button.
   Widget editButton(BuildContext context){
     return Container(
         alignment: Alignment.bottomRight ,
@@ -100,7 +100,7 @@ class editTimeDialogState extends State<editTimeDialog> {
         )
     );
   }
-
+  //creating the exit button.
   Widget exitButton(BuildContext context){
     return Container(
         alignment: Alignment.bottomRight ,
