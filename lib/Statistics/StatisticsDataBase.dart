@@ -139,14 +139,11 @@ class StatisticsDataBase {
   StatisticsDataBase(this.itemsCount, this.coursesSelected,
       this.criteriasSelected);
 
-
-
    static String removeFirstCharacter(String str) {
     String result = null;
     if ((str != null) && (str.length > 0)) {
       result = str.substring(1, str.length );
     }
-
     return result;
   }
   static Future<String> queryValues(String course, String resource) async{
