@@ -1,41 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../Global.dart';
+import 'enterTime.dart';
 import 'progress_painter.dart';
 import '../HomeMain.dart';
 import 'package:provider/provider.dart';
 
-class NeuProgressPieBar extends StatelessWidget {
+class NeuProgressPieBar extends StatefulWidget {
+
+  @override
+  _NeuProgressPieBarState createState() => _NeuProgressPieBarState();
+}
+
+class _NeuProgressPieBarState extends State<NeuProgressPieBar> {
+
+  void reload(){
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
-    child:
-    return Container(
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: Colors.white24,
-        boxShadow: [
-          BoxShadow(
-            blurRadius: 15,
-            spreadRadius: 5,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.white24,
+            boxShadow: [
+              BoxShadow(
+                blurRadius: 15,
+                spreadRadius: 5,
 //                                  offset: Offset(10.5,10.5),
-            color: Global.getBackgroundColor(50),
+                color: Global.getBackgroundColor(50),
+              ),
+              BoxShadow(
+                blurRadius: 15,
+                offset: Offset(10.5, 10.5),
+                color: Colors.blueAccent,
+              )
+            ],
           ),
-          BoxShadow(
-            blurRadius: 15,
-            offset: Offset(10.5, 10.5),
-            color: Colors.blueAccent,
-          )
-        ],
-      ),
-      height: 150,
-      width: 150,
-      child:  Center(child: NeuStartButton()),
-//                            GoogleFonts.pacifico(fontSize: 30),
-//                            TextStyle(
-//                                fontSize: 30, fontWeight: FontWeight.bold),
-
-      );
+          height: 150,
+          width: 150,
+          child:  NeuStartButton(),
+        ),
+        EnterTimeButton(reload)
+      ],
+    );
   }}
 
 class NeuStartButton extends StatefulWidget {
@@ -54,7 +66,14 @@ class NeuStartButton extends StatefulWidget {
 
 class NeuStartButtonState extends State<NeuStartButton> {
   bool _isPressed = false;
-  static bool isRunning = false;
+  static bool isRunning = true;
+
+
+  void reloadNeuStartButtonState(){
+    setState(() {});
+  }
+
+
 
   void _onPointerDown() {
     setState(() {
@@ -68,6 +87,21 @@ class NeuStartButtonState extends State<NeuStartButton> {
     });
   }
 
+
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => Provider.of<TimerService>(context, listen: false).start());
+  }
+
+  @override
+  void dispose() {
+    isRunning=true;
+    Provider.of<TimerService>(context, listen: false).stop();
+    super.dispose();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Listener(
@@ -78,19 +112,18 @@ class NeuStartButtonState extends State<NeuStartButton> {
             : Provider.of<TimerService>(context, listen: false).start();
         setState((){
           isRunning = !isRunning;
-
-      });
+        }
+      );
       },
       onPointerUp: _onPointerUp,
-      child: Container(
-            child:Text(
-              isRunning ? "Pause" : "Start",textAlign: TextAlign.center,
-              style: GoogleFonts.meriendaOne(fontSize: 30, fontWeight: FontWeight.bold),
-            )),
-
+      child:Container(
+          child: isRunning? Icon(Icons.pause,size: 50,):Icon(Icons.play_arrow,size: 50,)
+      ),
     );
   }
+
 }
+
 
 extension ColorUtils on Color {
   Color mix(Color another, double amount) {

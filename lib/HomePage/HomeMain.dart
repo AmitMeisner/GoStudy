@@ -13,7 +13,7 @@ import 'Timer/enterTime.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
 import 'Timer/digitalClock.dart';
 import 'Timer/progress_pie_bar.dart';
-import 'Timer/buttomButtons.dart';
+import 'Timer/bottomButtons.dart';
 import 'package:provider/provider.dart';
 
 
@@ -89,7 +89,7 @@ class HomeMainPageState extends State<HomeMainPage> {
                             ),
                             height: 150,
                             width: 150,
-                            child: Center(child: Text("LETS GO STUDY",
+                            child: Center(child: Text("LET'S GO STUDY",
                               textAlign: TextAlign.center,
                               style: GoogleFonts.meriendaOne(fontSize: 25, fontWeight: FontWeight.bold),
 //                            GoogleFonts.pacifico(fontSize: 30),
@@ -101,7 +101,8 @@ class HomeMainPageState extends State<HomeMainPage> {
                         ),
                         onTap: (){
                           firstInit = false;
-                          setState(() {});
+                          setState(() {
+                          });
                         },
                       )
                     ]),
@@ -151,14 +152,15 @@ class HomeMainPageState extends State<HomeMainPage> {
                   style: TextStyle(fontSize: 28, color: Colors.black),),
                 SizedBox(height: MediaQuery.of(context).size.height / 8),
                 NeuProgressPieBar(),
+//                NeuProgressPieBar(),
                 SizedBox(height: MediaQuery.of(context).size.height / 30),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                  NeuResetButton(),
-                  SizedBox(height: MediaQuery.of(context).size.height / 30),
-                  EnterTimeButton(),
-                  ],),
+//                Row(
+//                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                  children: <Widget>[
+//                  NeuResetButton(),
+//                  SizedBox(height: MediaQuery.of(context).size.height / 30),
+//                  EnterTimeButton(),
+//                  ],),
                 SizedBox(height: MediaQuery.of(context).size.height / 25),
                 //MsgError(),
 //                MotivationSentence(),
@@ -169,6 +171,14 @@ class HomeMainPageState extends State<HomeMainPage> {
         ),
       ),
     );
+  }
+
+
+
+
+  void reloadHomeMain(){
+    setState(() { firstInit=false;
+    });
   }
 
   void newRankDialog(){
