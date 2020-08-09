@@ -708,10 +708,36 @@ class UserProgress{
     return 10.0;
   }
 
-//  void setGoalForCourse(String course , String activity, String time){
-//    CollectionReference usersCollection= Firestore.instance.collection("Progress");
-//    usersCollection.document(FirebaseAPI().getUid()).get().
-//  }
+  // updating course goal by resource
+
+  void setGoalForCourse(String course , String activity, String time, String current) async{
+    List<String> goals;
+    CollectionReference usersCollection= Firestore.instance.collection("Progress");
+    await usersCollection.document(FirebaseAPI().getUid()).get().then((value){
+     goals = List.from(value.data["goals"]);
+     print(goals);
+    }).then((_) {
+      activity == "Homework" ? activity = "HomeWork" : null;
+      String name = course+"_"+activity+"_"+current;
+      String newName = course+"_"+activity+"_"+time;
+      int index;
+      for (int i=0;i<goals.length;i++){
+        if (goals.elementAt(i) == name) index = i;;
+      }
+      goals.replaceRange(index, index+1, [newName]);
+      updateGoals(goals, name);
+    });
+  }
+
+  void updateGoals(List<String> goals,String oldName) async{
+    CollectionReference usersCollection= Firestore.instance.collection("Progress");
+    await usersCollection.document(FirebaseAPI().getUid()).updateData({
+      "goals": FieldValue.arrayRemove([oldName]),
+    });
+    await usersCollection.document(FirebaseAPI().getUid()).updateData({
+      "goals": FieldValue.arrayUnion(goals)
+    });
+  }
 
   List<String> getGoals(){
     return _goals;

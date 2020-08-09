@@ -586,7 +586,7 @@ class editDialogState extends State<editDialog> {
                 color: Colors.blueAccent, fontWeight: FontWeight.bold),
           ),
           onPressed: () {
-//                  widget.userProgress.setGoalForCourse(widget.course,widget.activity, hoursGoalController.text);
+                  widget.userProgress.setGoalForCourse(widget.course,widget.activity, hoursGoalController.text, widget.hoursGoal.toString());
             Navigator.pop(context);
           },
         ),
