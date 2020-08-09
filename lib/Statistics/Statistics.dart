@@ -193,14 +193,24 @@ class _HomeScreenState extends State<HomeScreen> {
     ];
     return Scaffold(
       appBar: AppBar(
-        title:Container(
-          padding: EdgeInsets.only(left: 10),
-          child: Center(
-            child:
-            DropdownButton<String>(
+         title: new Center(child: new Text("STATISTICS PAGE ", textAlign: TextAlign.center)),
+
+
+        ),
+
+
+
+      body:xAxisValues==null||yAxisValues==null||xAxisValues.isEmpty || yAxisValues.isEmpty ?Center(child: CircularProgressIndicator(),) :SingleChildScrollView(
+        child: Column(
+          children: [
+        Container(
+              color: Global.getBackgroundColor(100),
+          alignment: Alignment(0.5, 0.0),
+          width: MediaQuery.of(context).size.width,
+            child: DropdownButton<String>(
                 value: course,
-                icon: Icon(Icons.arrow_drop_down,color: Colors.white,),
-                dropdownColor: Colors.blue,
+                icon: Icon(Icons.arrow_drop_down,color: Colors.black,),
+                dropdownColor: Colors.white,
                 underline: Container(),
                 items:
                 Global().getAllCourses().map((e) => DropdownMenuItem<String>(
@@ -209,21 +219,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 )
                 ).toList(),
                 onChanged:(value){
-                    setState(() {
-                        reload=true;
-                        course=value;
+                  setState(() {
+                    reload=true;
+                    course=value;
 //                        subject=value=="Overall Average"?"Logic":value;
-                    });
+                  });
                 }
-            ),
-          ),
-        ),
-
-      ),
-
-      body:xAxisValues==null||yAxisValues==null||xAxisValues.isEmpty || yAxisValues.isEmpty ?Center(child: CircularProgressIndicator(),) :SingleChildScrollView(
-        child: Column(
-          children: [
+            ),),
 //            ListTile(
 //              leading: Text("X-Axis"),
 //              trailing: DropdownButton(
@@ -257,9 +259,9 @@ class _HomeScreenState extends State<HomeScreen> {
 //                });
 //              }),
 //            ),
-            Divider(height: 1,),
+            Divider(height: 10,),
             Padding(
-              padding: const EdgeInsets.only(left: 10),
+              padding: const EdgeInsets.only(left: 30, right:30),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
