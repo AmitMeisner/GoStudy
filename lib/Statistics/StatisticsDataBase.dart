@@ -132,9 +132,9 @@ class OrdinalSales {
 
 
 class StatisticsDataBase {
-  final int itemsCount;
-  final List<String> coursesSelected;
-  final List<String> criteriasSelected;
+   int itemsCount;
+   List<String> coursesSelected;
+   List<String> criteriasSelected;
   double total = 0.0;
   StatisticsDataBase(this.itemsCount, this.coursesSelected,
       this.criteriasSelected);
@@ -146,25 +146,43 @@ class StatisticsDataBase {
     }
     return result;
   }
-  static Future<String> queryValues(String course, String resource) async{
-    String total = "";
-    String tempString;
-    String tempTotal2;
-    Firestore.instance
-        .collection('AllUsers')
-        .where('course', isEqualTo: course)
-        .snapshots()
-        .listen((snapshot) {
-      String tempTotal = snapshot.documents.fold("", (tot, doc) => tot +"," +doc.data[resource].toString());
-      tempTotal2 = removeFirstCharacter(tempTotal);
-      tempTotal = "["+tempTotal2+"]";
-      tempString=tempTotal;
-      print(tempTotal);
-      return tempTotal;
 
-    });
-    print(tempString);
-    return tempString;
+
+
+  static Future<List<int>> queryValues(String course, String resource) async{
+    String total = "";
+    List<int> res=[];
+//    Firestore.instance
+//        .collection('AllUsers')
+//        .where('course', isEqualTo: course)
+//        .snapshots()
+//        .listen((snapshot){
+//      String tempTotal = snapshot.documents.fold("", (tot, doc) => tot.toString() +"," +doc.data[resource].toString());
+//      tempTotal2 = removeFirstCharacter(tempTotal);
+//      tempTotal = "["+tempTotal2.toString()+"]";
+//      tempString=tempTotal;
+//      print("tempTotal");
+//      print(tempTotal);
+//      return tempTotal;
+//
+//    });
+
+
+    res= List<int>.from((await Firestore.instance.collection('AllUsers').where('course', isEqualTo: course).getDocuments()).documents.map((snapshot) => snapshot.data[resource]).toList());
+//    print("///////////////");
+//    print(res);
+//    tempTotal2 = removeFirstCharacter(tempTotal);
+//    tempTotal = "["+tempTotal2.toString()+"]";
+//    tempString=tempTotal;
+//    print("tempTotal");
+//    print(tempTotal);
+//
+//
+//
+//    print("tempString");
+//    print(tempString);
+//    return tempString;
+    return res;
   }
 
 
@@ -188,8 +206,11 @@ class DataService {
   Firestore firestore = Firestore.instance;
 
   Stream<List<DataModel>> getData() {
-    return firestore.collection("Statistics").snapshots().map((sanpshot) =>
+//    return firestore.collection("Statistics").snapshots().map((sanpshot) =>
+//        sanpshot.documents.map((e) => DataModel.fromJson(e.data,e.documentID)).toList());
+    return firestore.collection("AllUsers").snapshots().map((sanpshot) =>
         sanpshot.documents.map((e) => DataModel.fromJson(e.data,e.documentID)).toList());
+
   }
 }
 

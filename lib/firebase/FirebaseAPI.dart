@@ -496,13 +496,13 @@ class AllUserDataBase {
     return snapshot.documents.map((doc){
       return UserStatForCourse(
         doc.data['course'],
-        doc.data['avg'],
-        doc.data['hwTime'],
-        doc.data['lectureTime'],
-        doc.data['recTime'],
-        doc.data['examTime'],
-        doc.data['extraTime'],
-        doc.data['grade'],
+        doc.data['avg']==null? 1.0:doc.data['avg'].toDouble(),
+        doc.data['hwTime']==null? 1.0:doc.data['hwTime'].toDouble(),
+        doc.data['lectureTime']==null? 1.0:doc.data['lectureTime'].toDouble(),
+        doc.data['recTime']==null? 1.0:doc.data['recTime'].toDouble(),
+        doc.data['examTime']==null? 1.0:doc.data['examTime'].toDouble(),
+        doc.data['extraTime']==null? 1.0:doc.data['extraTime'].toDouble(),
+        doc.data['grade']==null? 1.0:doc.data['grade'].toDouble(),
         doc.data['userId'],
       );
     }).toList();
