@@ -138,20 +138,24 @@ class SignInState extends State<SignIn> {
       return Loading();
     }
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Global.getBackgroundColor(0),
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Image.asset('images/go_study_logo.jpg'),
-            FlatButton(
-              child: Image.asset(
-                'images/google_sign_in_button.png',
-                width: MediaQuery.of(context).size.width *2/3,
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          color: Colors.white,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Image.asset('images/go_study_logo.jpg'),
+              FlatButton(
+                child: Image.asset(
+                  'images/google_sign_in_button.png',
+                  width: MediaQuery.of(context).size.width *2/3,
+                ),
+                onPressed: _handleSignIn,
               ),
-              onPressed: _handleSignIn,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

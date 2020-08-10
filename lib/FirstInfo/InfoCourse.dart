@@ -54,111 +54,118 @@ class InfoCourseState extends State<InfoCourse> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      backgroundColor: Global.getBackgroundColor(0),
       body: buildChild(context, 1),
     );
   }
 
 
   Widget buildChild(BuildContext context, int courseIndex) {
-    return ListView(
-      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 4),
-      children: <Widget>[
-        Container(
-           margin: EdgeInsets.fromLTRB(0.0, 90.0, 0.0, 0.0),
-          child: Text('HOW LONG IN TOTAL(HOURS) DID YOU STUDY FOR THE...',
-            style: GoogleFonts.cabin(fontSize: 30,
-              fontWeight: FontWeight.bold,
-              color: Colors.blueGrey,
-            ),
-            textAlign: TextAlign.center
-            ,),
-        )
+    return SafeArea(
+      child: Container(
+        color: Colors.white,
+        height: MediaQuery.of(context).size.height,
+        child: ListView(
 
-        ,SizedBox(height: 40,),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 4),
           children: <Widget>[
-            Text('EXAM',
-              style: GoogleFonts.cabin(fontSize: 20,fontWeight: FontWeight.bold,
-    color: Colors.blueGrey,),),
-            totalHoursExam(),
+            Container(
+              child: Text('HOW LONG IN TOTAL(HOURS) DID YOU STUDY FOR THE...',
+                style: GoogleFonts.cabin(fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blueGrey,
+                ),
+                textAlign: TextAlign.center
+                ,),
+            )
+
+            ,SizedBox(height: 40,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Text('EXAM',
+                  style: GoogleFonts.cabin(fontSize: 20,fontWeight: FontWeight.bold,
+                  color: Colors.blueGrey,),),
+                totalHoursExam(),
+              ],
+            ),
+            SizedBox(height: 40,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Text('HOMEWORKS',
+                  style: GoogleFonts.cabin(fontSize: 20,fontWeight: FontWeight.bold,
+                    color: Colors.blueGrey,),),
+                totalHoursHomework(),
+              ],
+            ),
+            SizedBox(height: 40,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Text('RECITATIONS',
+                  style: GoogleFonts.cabin(fontSize: 20,fontWeight: FontWeight.bold,
+                    color: Colors.blueGrey,),),
+                totalHoursRecitations(),
+              ],
+            ),
+            SizedBox(height: 40,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Text('LECTURES ',
+                  style: GoogleFonts.cabin(fontSize: 20,fontWeight: FontWeight.bold,
+                    color: Colors.blueGrey,),),
+                totalHoursLectures(),
+              ],
+            ),
+            SizedBox(height: 40,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Text('EXTRA MATERIALS',
+                  style: GoogleFonts.cabin(fontSize: 20,fontWeight: FontWeight.bold,
+                    color: Colors.blueGrey,),),
+                totalHoursExtra(),
+              ],
+            ),
+            SizedBox(height: 40,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Text('FINAL GRADE   ',
+                  style: GoogleFonts.cabin(fontSize: 20,fontWeight: FontWeight.bold,
+                    color: Colors.blueGrey,),),
+                total(),
+              ],
+            ),
+            SizedBox(height: 40,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                RaisedButton(
+                  onPressed: () {
+                    return Navigator.of(context).pop(true);
+                  },
+                  child: Text('BACK', style: TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 12)),
+                  color: Global.backgroundPageColor,
+                  textColor: Colors.blueGrey,),
+                RaisedButton(
+                    splashColor: Global.getBackgroundColor(0),
+                    onPressed: () {
+                      onClick(context);
+                      GridDashboardState();
+                    },
+                    child: Text('ENTER INFO', style: TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 12)),
+                    color: Global.backgroundPageColor,
+                    textColor: Colors.blueGrey)
+              ],
+            ),
           ],
         ),
-        SizedBox(height: 40,),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Text('HOMEWORKS',
-              style: GoogleFonts.cabin(fontSize: 20,fontWeight: FontWeight.bold,
-                color: Colors.blueGrey,),),
-            totalHoursHomework(),
-          ],
-        ),
-        SizedBox(height: 40,),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Text('RECITATIONS',
-              style: GoogleFonts.cabin(fontSize: 20,fontWeight: FontWeight.bold,
-                color: Colors.blueGrey,),),
-            totalHoursRecitations(),
-          ],
-        ),
-        SizedBox(height: 40,),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Text('LECTURES ',
-              style: GoogleFonts.cabin(fontSize: 20,fontWeight: FontWeight.bold,
-                color: Colors.blueGrey,),),
-            totalHoursLectures(),
-          ],
-        ),
-        SizedBox(height: 40,),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Text('EXTRA MATERIALS',
-              style: GoogleFonts.cabin(fontSize: 20,fontWeight: FontWeight.bold,
-                color: Colors.blueGrey,),),
-            totalHoursExtra(),
-          ],
-        ),
-        SizedBox(height: 40,),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Text('FINAL GRADE   ',
-              style: GoogleFonts.cabin(fontSize: 20,fontWeight: FontWeight.bold,
-                color: Colors.blueGrey,),),
-            total(),
-          ],
-        ),
-        SizedBox(height: 40,),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            RaisedButton(
-              onPressed: () {
-                return Navigator.of(context).pop(true);
-              },
-              child: Text('BACK', style: TextStyle(
-                  fontWeight: FontWeight.bold, fontSize: 12)),
-              color: Global.backgroundPageColor,
-              textColor: Colors.blueGrey,),
-            RaisedButton(
-                splashColor: Global.getBackgroundColor(0),
-                onPressed: () {
-                  onClick(context);
-                  GridDashboardState();
-                },
-                child: Text('ENTER INFO', style: TextStyle(
-                    fontWeight: FontWeight.bold, fontSize: 12)),
-                color: Global.backgroundPageColor,
-                textColor: Colors.blueGrey)
-          ],
-        ),
-      ],
+      ),
     );
   }
 
