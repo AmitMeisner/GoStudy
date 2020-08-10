@@ -1,4 +1,4 @@
-package com.example.flutterapp
+package google.workshop.gostudy
 
 import io.flutter.embedding.android.FlutterActivity
 
