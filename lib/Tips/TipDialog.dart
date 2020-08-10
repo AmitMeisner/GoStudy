@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutterapp/Global.dart';
 import 'package:flutterapp/Tips/CoursesMultiChoice.dart';
 import 'package:flutterapp/Tips/Cards.dart';
-import 'package:flutterapp/Tips/Tips.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class TipDialog extends StatefulWidget {

@@ -1,19 +1,12 @@
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutterapp/FirstInfo/InformationPage.dart';
-import 'package:flutterapp/HomePage/HomeMain.dart';
 import 'package:flutterapp/Tips/CoursesMultiChoice.dart';
 import 'package:flutterapp/Tips/Cards.dart';
 import 'package:flutterapp/Tips/TipDialog.dart';
-
-
-
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
 import 'package:provider/provider.dart';
-
 import '../Global.dart';
 
 class TipsPage extends StatefulWidget {
@@ -149,22 +142,8 @@ class _TipsPageState extends State<TipsPage> {
           label: Text("Add Tip"),
           backgroundColor:  Global.getBackgroundColor(0),
           icon: Icon(Icons.add),
-//            shape: new CircleBorder(),
         ),
-//        fabReload(context),
       ],
-    );
-  }
-
-
-  //creating the floating action button for reloading.
-  Widget fabReload(BuildContext context){
-    return FloatingActionButton.extended(
-      onPressed: (){updateState();},
-      label: Icon(Icons.autorenew),
-      backgroundColor:  Global.getBackgroundColor(0),
-      shape: new CircleBorder(),
-      focusElevation: 30.0,
     );
   }
 

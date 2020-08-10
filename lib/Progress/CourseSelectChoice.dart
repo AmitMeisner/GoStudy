@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../Global.dart';
 
 class CourseSelectChoice extends StatefulWidget {
@@ -18,7 +17,6 @@ class _CoursesSelectChoiceState extends State<CourseSelectChoice> {
 
   _CoursesSelectChoiceState(this.initialProgressPage);
 
-//  List<String> courses=["general"]+Courses.getUserCourses();
   List<String> courses = Global().getUserCourses();
   int _currChip = 0;
   @override
@@ -32,7 +30,6 @@ class _CoursesSelectChoiceState extends State<CourseSelectChoice> {
     return Container(
       height: 70,
       child: Scaffold(
-//        backgroundColor: Colors.blueAccent,
         body: Container(
             height: 70.0,
             child: ListView(

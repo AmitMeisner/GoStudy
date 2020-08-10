@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../Global.dart';
 import 'enterTime.dart';
-import 'progress_painter.dart';
 import '../HomeMain.dart';
 import 'package:provider/provider.dart';
 
 class NeuProgressPieBar extends StatefulWidget {
-
   @override
   _NeuProgressPieBarState createState() => _NeuProgressPieBarState();
 }
@@ -68,12 +65,9 @@ class NeuStartButtonState extends State<NeuStartButton> {
   bool _isPressed = false;
   static bool isRunning = true;
 
-
   void reloadNeuStartButtonState(){
     setState(() {});
   }
-
-
 
   void _onPointerDown() {
     setState(() {
@@ -122,11 +116,4 @@ class NeuStartButtonState extends State<NeuStartButton> {
     );
   }
 
-}
-
-
-extension ColorUtils on Color {
-  Color mix(Color another, double amount) {
-    return Color.lerp(this, another, amount);
-  }
 }

@@ -29,25 +29,7 @@ class TimeConfirmationDialog extends StatelessWidget {
     child: SingleChildScrollView(
       child: Column(
         children: <Widget>[
-//          Container(
-//            child: Padding(
-//              padding: const EdgeInsets.all(12.0),
-//              child: Image.asset('images/time.png', height:130 , width: 130,),
-//            ),
-//            width: double.infinity,
-//            decoration: BoxDecoration(
-//                color: Colors.white,
-//                shape: BoxShape.rectangle,
-//                borderRadius: BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12))
-//            ),
-//          ),
           SizedBox(height: 25,),
-//          Padding(
-//            padding: const EdgeInsets.only(right: 10, left: 10),
-//            child: Text('Do you want to enter time?  you can always delete/update the time entered later',
-//            style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),),
-//          ),
-         // SizedBox(height: 30,),
           ShowHideDropdown(),
           SizedBox(height: 40,),
           Row(

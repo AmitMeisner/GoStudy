@@ -1,14 +1,11 @@
-
 import 'package:flutter/material.dart';
-import '../../Global.dart';
 import 'digital_colon.dart';
 import '../HomeMain.dart';
 import 'package:provider/provider.dart';
-
 import 'digital_number.dart';
 
-class neuDigitalClock extends StatelessWidget {
-  const neuDigitalClock({
+class NeuDigitalClock extends StatelessWidget {
+  const NeuDigitalClock({
     Key key,
   }) : super(key: key);
 
@@ -24,7 +21,6 @@ class neuDigitalClock extends StatelessWidget {
       height: MediaQuery.of(context).size.height/12,
       decoration: BoxDecoration(
         color: Colors.transparent,
-//        Global.getBackgroundColor(0),
         borderRadius: BorderRadius.circular(50),
         boxShadow: [
           BoxShadow(

@@ -1,9 +1,6 @@
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Rank/Rank.dart';
-
 import '../Global.dart';
 import 'Progress.dart';
 
@@ -77,7 +74,6 @@ class _ProgressPageNavState extends State<ProgressPageNav> {
                 Rank(),
               ],
           )
-//            body: ProgressPage(),
             ),
       ),
     );

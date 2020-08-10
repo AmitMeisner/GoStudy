@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +15,7 @@ class InfoCourse extends StatefulWidget {
   InfoCourseState createState() => InfoCourseState(courseIndex);
 }
 
+/// update course times page.
 class InfoCourseState extends State<InfoCourse> {
   int courseIndex;
    String examHours = "Select Value";

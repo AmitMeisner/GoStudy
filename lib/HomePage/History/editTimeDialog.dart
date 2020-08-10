@@ -7,19 +7,19 @@ import 'package:flutterapp/HomePage/Timer/fireBase/fireBase_api.dart';
 import '../../Global.dart';
 import 'courseChoice.dart';
 
-class editTimeDialog extends StatefulWidget {
+class EditTimeDialog extends StatefulWidget {
   final Function timesPageSetState;
   TimeCard card;
-  editTimeDialog(this.timesPageSetState, this.card);
+  EditTimeDialog(this.timesPageSetState, this.card);
   @override
-  editTimeDialogState createState() => editTimeDialogState(timesPageSetState,card);
+  EditTimeDialogState createState() => EditTimeDialogState(timesPageSetState,card);
 }
 
-class editTimeDialogState extends State<editTimeDialog> {
+class EditTimeDialogState extends State<EditTimeDialog> {
   //  for calling call setState in the tips page
   Function timesPageSetState;
   TimeCard card;
-  editTimeDialogState(this.timesPageSetState,this.card);
+  EditTimeDialogState(this.timesPageSetState,this.card);
 
   //list of the users courses and resources
   List<String> userCourse=[""];

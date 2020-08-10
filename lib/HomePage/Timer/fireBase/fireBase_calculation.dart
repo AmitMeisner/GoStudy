@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
 
-class calculation extends StatefulWidget {
+class Calculation extends StatefulWidget {
 
   @override
-  calculationState createState() => calculationState();
+  CalculationState createState() => CalculationState();
 }
 
-class calculationState extends State<calculation> {
+class CalculationState extends State<Calculation> {
+
   int hoursTotal =0;
   int minutesTotal = 0;
   int secondsTotal = 0;
@@ -135,7 +136,6 @@ class calculationState extends State<calculation> {
           ),
 
           ]
-    //body: Text(queryTimeSumForCourse("Calculus 2").toString())
     );
   }
 }

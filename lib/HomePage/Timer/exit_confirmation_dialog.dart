@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/signIn/google_sign_in.dart';
-
 import '../../Global.dart';
 
 class ExitConfirmationDialog extends StatelessWidget {

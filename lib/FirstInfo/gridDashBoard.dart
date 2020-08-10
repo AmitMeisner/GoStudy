@@ -1,15 +1,7 @@
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Global.dart';
-import 'package:flutterapp/firebase/FirebaseAPI.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'InfoCourse.dart';
-import 'InfoCourse.dart';
-import 'InformationPage.dart';
 
 
 class GridDashboard extends StatefulWidget {
@@ -22,22 +14,8 @@ class GridDashboardState extends State<GridDashboard> {
   static bool updated=false;
   static List<String> oldCourses=  oldCourses = Global().allCourses ;
 
-//  Future<void>  updateCourses() async {
-//    oldCourses= await InformationPageState.getOldCourses();
-//    updated=true;
-//    setState(() {});
-//  }
-
-
 
   Widget build(BuildContext context) {
-//    if(!updated){
-//      oldCourses=Global.getAllCourses();
-//      updateCourses();
-//      return Loading();
-//    }
-  //  updated=false;
-    setState(() {});
     var myGridView = new GridView.builder(
       itemCount: oldCourses.length,
       gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
@@ -61,11 +39,6 @@ class GridDashboardState extends State<GridDashboard> {
     );
 
     return  Scaffold(
-//      appBar: new PreferredSize(
-//        preferredSize: Size.fromHeight(48.0),
-//        child: AppBar(
-//          backgroundColor: Global.getBackgroundColor(0),
-//        ),),
       backgroundColor: Global.getBackgroundColor(0),
       body: SafeArea(
           child: Container(
@@ -78,15 +51,9 @@ class GridDashboardState extends State<GridDashboard> {
 
 }
 
-
+// navigate to the chosen page.
 Future navigateToInfoPage(context,index) async {
   Navigator.push(context, MaterialPageRoute(builder: (context) => InfoCourse(index)));
-//  InfoCourseState.grade = "choose value";
-//  InfoCourseState.homeworkHours = "choose value";
-//  InfoCourseState.recitationHours = "choose value";
-//  InfoCourseState.lecturesHours = "choose value";
-//  InfoCourseState.examHours = "choose value";
-//  InfoCourseState.extraHours = "choose value";
 }
 
 

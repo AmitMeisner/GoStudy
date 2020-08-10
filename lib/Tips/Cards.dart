@@ -1,16 +1,11 @@
-import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_card/animated_card.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:async';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
-
 import '../Global.dart';
 
 
@@ -38,7 +33,6 @@ class Cards extends StatelessWidget {
       _tipCards=_firstTip+_tipCards;
       return Container(
         color: Global.backgroundPageColor,
-//        height: 535.0,
         height: MediaQuery.of(context).size.height/1.35,
         padding: EdgeInsets.only(bottom: 50.0),
         child: ListView.builder(
@@ -113,17 +107,6 @@ class Cards extends StatelessWidget {
         padding: EdgeInsets.only(bottom: 10),
         child: Row(
           children: <Widget>[
-//            Row(
-//              mainAxisAlignment: MainAxisAlignment.spaceAround,
-//              children: <Widget>[
-//                Container(
-//                    decoration: BoxDecoration(
-//                        border: Border.all(width: 2),
-//                        borderRadius: BorderRadius.circular(5),
-//                    ),
-//                    child: Text(" tags ", style: TextStyle(backgroundColor: Colors.white))),
-//              ],
-//            ),
             Row(
               children: _createChildren(_tipCards[index].getTags()),
             ),
