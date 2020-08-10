@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Global.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'InfoCourse.dart';
 
 
@@ -23,12 +24,12 @@ class GridDashboardState extends State<GridDashboard> {
         return new GestureDetector(
           child: new Card(
             elevation: 8.0,
-            color:  (index % 2 == 0) ? Global.getBackgroundColor(200): Global.getBackgroundColor(50),
+            color:   Global.getBackgroundColor(10),
             shadowColor: Global.getBackgroundColor(0),
             child: new Container(
               alignment: Alignment.center,
               margin: new EdgeInsets.only(top: 10.0, bottom: 10.0,left: 10.0),
-              child: new Text(oldCourses[index], style:  TextStyle(fontFamily: 'Piedra', fontSize: 16.0),),
+              child: new Text(oldCourses[index],style: GoogleFonts.cabin(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.blueGrey),textAlign: TextAlign.center,),
             ),
           ),
           onTap: () {
@@ -42,7 +43,7 @@ class GridDashboardState extends State<GridDashboard> {
       backgroundColor: Global.getBackgroundColor(0),
       body: SafeArea(
           child: Container(
-              color: Colors.white,
+              color: Colors.white54,
               child: myGridView)
       ),
     );

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/Global.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'InformationPage.dart';
 import 'gridDashBoard.dart';
 
@@ -64,10 +65,10 @@ class InfoCourseState extends State<InfoCourse> {
       children: <Widget>[
         Container(
            margin: EdgeInsets.fromLTRB(0.0, 90.0, 0.0, 0.0),
-          child: Text('how long in total(hours) did you study for....',
-            style: TextStyle(fontSize: 30,
-              color: Colors.black,
-              fontFamily: 'Piedra',
+          child: Text('HOW LONG IN TOTAL(HOURS) DID YOU STUDY FOR THE...',
+            style: GoogleFonts.cabin(fontSize: 30,
+              fontWeight: FontWeight.bold,
+              color: Colors.blueGrey,
             ),
             textAlign: TextAlign.center
             ,),
@@ -77,11 +78,9 @@ class InfoCourseState extends State<InfoCourse> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            Text('the exam',
-              style: TextStyle(fontSize: 20,
-                color: Colors.black,
-                fontFamily: 'Piedra',
-              ),),
+            Text('EXAM',
+              style: GoogleFonts.cabin(fontSize: 20,fontWeight: FontWeight.bold,
+    color: Colors.blueGrey,),),
             totalHoursExam(),
           ],
         ),
@@ -89,11 +88,9 @@ class InfoCourseState extends State<InfoCourse> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            Text('the homeworks',
-              style: TextStyle(fontSize: 20,
-                color: Colors.black,
-                fontFamily: 'Piedra',
-              ),),
+            Text('HOMEWORKS',
+              style: GoogleFonts.cabin(fontSize: 20,fontWeight: FontWeight.bold,
+                color: Colors.blueGrey,),),
             totalHoursHomework(),
           ],
         ),
@@ -101,11 +98,9 @@ class InfoCourseState extends State<InfoCourse> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            Text('the recitations',
-              style: TextStyle(fontSize: 20,
-                color: Colors.black,
-                fontFamily: 'Piedra',
-              ),),
+            Text('RECITATIONS',
+              style: GoogleFonts.cabin(fontSize: 20,fontWeight: FontWeight.bold,
+                color: Colors.blueGrey,),),
             totalHoursRecitations(),
           ],
         ),
@@ -113,11 +108,9 @@ class InfoCourseState extends State<InfoCourse> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            Text('the lectures',
-              style: TextStyle(fontSize: 20,
-                color: Colors.black,
-                fontFamily: 'Piedra',
-              ),),
+            Text('LECTURES ',
+              style: GoogleFonts.cabin(fontSize: 20,fontWeight: FontWeight.bold,
+                color: Colors.blueGrey,),),
             totalHoursLectures(),
           ],
         ),
@@ -125,11 +118,9 @@ class InfoCourseState extends State<InfoCourse> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            Text('using extra materials',
-              style: TextStyle(fontSize: 20,
-                color: Colors.black,
-                fontFamily: 'Piedra',
-              ),),
+            Text('EXTRA MATERIALS',
+              style: GoogleFonts.cabin(fontSize: 20,fontWeight: FontWeight.bold,
+                color: Colors.blueGrey,),),
             totalHoursExtra(),
           ],
         ),
@@ -137,11 +128,9 @@ class InfoCourseState extends State<InfoCourse> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            Text('your final grade is',
-              style: TextStyle(fontSize: 20,
-                color: Colors.black,
-                fontFamily: 'Piedra',
-              ),),
+            Text('FINAL GRADE   ',
+              style: GoogleFonts.cabin(fontSize: 20,fontWeight: FontWeight.bold,
+                color: Colors.blueGrey,),),
             total(),
           ],
         ),
@@ -155,8 +144,8 @@ class InfoCourseState extends State<InfoCourse> {
               },
               child: Text('BACK', style: TextStyle(
                   fontWeight: FontWeight.bold, fontSize: 12)),
-              color: Colors.white,
-              textColor: Colors.black,),
+              color: Global.backgroundPageColor,
+              textColor: Colors.blueGrey,),
             RaisedButton(
                 splashColor: Global.getBackgroundColor(0),
                 onPressed: () {
@@ -165,8 +154,8 @@ class InfoCourseState extends State<InfoCourse> {
                 },
                 child: Text('ENTER INFO', style: TextStyle(
                     fontWeight: FontWeight.bold, fontSize: 12)),
-                color: Colors.white,
-                textColor: Colors.black)
+                color: Global.backgroundPageColor,
+                textColor: Colors.blueGrey)
           ],
         ),
       ],

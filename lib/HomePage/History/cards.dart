@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_card/animated_card.dart';
 import 'package:flutterapp/HomePage/Timer/fireBase/TimeCard.dart';
@@ -45,8 +46,10 @@ class _CardsState extends State<Cards> {
     updateTimeList(context);
     //if no activity history show a text
     if (_timeCards==null || _timeCards.isEmpty) {
-      return (Text("NO TIME HISTORY IN THIS COURSE",   style: GoogleFonts.meriendaOne(fontSize: 20, fontWeight: FontWeight.bold)));
-    }
+      return (Container(
+          height: 650.0,
+         child: Center(child:Text("NO TIME HISTORY IN THIS COURSE",  textAlign: TextAlign.center, style:  GoogleFonts.cabin(fontSize: 20, fontWeight: FontWeight.bold, color: Global.getBackgroundColor(0)))))
+      );}
 
 
     return Container(

@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_card/animated_card.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:async';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -253,7 +254,7 @@ Widget showTagsAndLike(BuildContext context,Function tags, int index , List<TipC
     children: <Widget>[
       Center(
           child: Text(tips[index].getTip(),
-            style:TextStyle(fontFamily: 'Piedra', fontSize: MediaQuery.of(context).size.width/19),
+            style:GoogleFonts.cabin( fontWeight: FontWeight.bold, fontSize: MediaQuery.of(context).size.width/19),
         )
       ),
     ],
