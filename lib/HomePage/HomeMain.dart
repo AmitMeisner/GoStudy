@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,11 +8,9 @@ import 'package:flutterapp/pushNotifications.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../Global.dart';
 import 'Timer/dialog_helper.dart';
-import 'Timer/enterTime.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
 import 'Timer/digitalClock.dart';
 import 'Timer/progress_pie_bar.dart';
-import 'Timer/bottomButtons.dart';
 import 'package:provider/provider.dart';
 
 
@@ -53,8 +50,6 @@ class HomeMainPageState extends State<HomeMainPage> {
                   children: <Widget>[
                     Row(
                       children: <Widget>[
-//                        SizedBox(width: 6.0,),
-//                        Notification(),
                         SizedBox(width: 6.0,),
                         FriendsButton(),
                       ],
@@ -77,7 +72,6 @@ class HomeMainPageState extends State<HomeMainPage> {
                                 BoxShadow(
                                   blurRadius: 15,
                                   spreadRadius: 5,
-//                                  offset: Offset(10.5,10.5),
                                   color: Global.getBackgroundColor(50),
                                 ),
                                 BoxShadow(
@@ -92,9 +86,6 @@ class HomeMainPageState extends State<HomeMainPage> {
                             child: Center(child: Text("LET'S GO STUDY",
                               textAlign: TextAlign.center,
                               style: GoogleFonts.meriendaOne(fontSize: 25, fontWeight: FontWeight.bold),
-//                            GoogleFonts.pacifico(fontSize: 30),
-//                            TextStyle(
-//                                fontSize: 30, fontWeight: FontWeight.bold),
                             )
                             ),
                           ),
@@ -131,8 +122,6 @@ class HomeMainPageState extends State<HomeMainPage> {
                   children: <Widget>[
                     Row(
                       children: <Widget>[
-//                        SizedBox(width: 6.0,),
-//                        Notification(),
                         SizedBox(width: 6.0,),
                         FriendsButton(),
                       ],
@@ -143,7 +132,7 @@ class HomeMainPageState extends State<HomeMainPage> {
                 SizedBox(height: MediaQuery.of(context).size.height / 25),
                 Text("Time", textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 20, color: Colors.grey, fontWeight: FontWeight.bold),),
-                neuDigitalClock(),
+                NeuDigitalClock(),
                 SizedBox(height: MediaQuery.of(context).size.height / 30),
                 Text("Daily Goal", textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 20, color: Colors.grey,fontWeight: FontWeight.bold),),
@@ -152,18 +141,8 @@ class HomeMainPageState extends State<HomeMainPage> {
                   style: TextStyle(fontSize: 28, color: Colors.black),),
                 SizedBox(height: MediaQuery.of(context).size.height / 8),
                 NeuProgressPieBar(),
-//                NeuProgressPieBar(),
                 SizedBox(height: MediaQuery.of(context).size.height / 30),
-//                Row(
-//                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                  children: <Widget>[
-//                  NeuResetButton(),
-//                  SizedBox(height: MediaQuery.of(context).size.height / 30),
-//                  EnterTimeButton(),
-//                  ],),
                 SizedBox(height: MediaQuery.of(context).size.height / 25),
-                //MsgError(),
-//                MotivationSentence(),
               ],
               // ),
             ),
@@ -173,40 +152,6 @@ class HomeMainPageState extends State<HomeMainPage> {
     );
   }
 
-
-
-
-  void reloadHomeMain(){
-    setState(() { firstInit=false;
-    });
-  }
-
-  void newRankDialog(){
-    showDialog(context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-            title: Text('Congratulations', textAlign: TextAlign.center,),
-            content: SingleChildScrollView(
-              child: ListBody(
-                children: <Widget>[
-                  Text('New Rank!', textAlign: TextAlign.center,),
-                  Image(image: AssetImage('images/Success.jpg'),),
-                ],
-              ),
-            ),
-            actions: <Widget>[
-              FlatButton(
-                child: Text('Close'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        }
-    );
-  }
 }
 
 class MotivationSentence extends StatefulWidget {
@@ -239,17 +184,7 @@ class MotivationSentenceState extends State<MotivationSentence> {
     sentence = sentence.replaceAll("-userName-", FirebaseAPI().getUserFirstName());
   }
 
-  Future<String> getRaghd() async{
-    CollectionReference statsCollection= Firestore.instance.collection("Statistics");
-    var x =  statsCollection.document("Overall Average").get().then((value) {
-      print(value.data['Overall Average']);
-      //List x = value.data['Overall Average'];
-      //print(x[0]);
-      //print('sup mah man');
-    });
-    return x;
 
-  }
   @override
   void initState(){
     super.initState();
@@ -261,7 +196,6 @@ class MotivationSentenceState extends State<MotivationSentence> {
     return Text(sentence,
       textAlign: TextAlign.center,
       style:
-//    GoogleFonts.cabin(fontSize: 35, fontWeight: FontWeight.bold),
       TextStyle(fontFamily: 'Piedra', fontSize: 30.0),
     );
   }
@@ -288,8 +222,6 @@ class TimerService extends ChangeNotifier {
   }
 
   void start() {
-    //if (_timer != null) return;
-
     _timer = Timer.periodic(Duration(seconds: 1), _onTick);
     watch.start();
 
@@ -375,7 +307,6 @@ class _SettingsState extends State<Settings> {
 
   Widget menuEntry(String title,Icon icn){
     return Row(
-//      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         icn,
         SizedBox(width: 6.0,),

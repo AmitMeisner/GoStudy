@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutterapp/HomePage/HomeMain.dart';
 import 'package:flutterapp/Global.dart';
-import 'progress_pie_bar.dart';
 
+/// Course and resource selection widgets.
 class ShowHideDropdown extends StatefulWidget {
   @override
   ShowHideDropdownState createState() {
@@ -11,118 +10,52 @@ class ShowHideDropdown extends StatefulWidget {
 }
 
 class ShowHideDropdownState extends State<ShowHideDropdown> {
+
   final List<String> _dropdownValues = Global().getUserCourses(); //The list of values we want on the dropdown
   final List<String> _dropdownResources = Global().allResources;
   static String selectedValue = "Select course";
   static bool notRunning = false;
   static String resource = " Select resource";
+
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: new EdgeInsets.symmetric(horizontal: 20.0),
         child: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        DropdownButton<String>(
-          items: _dropdownValues
-              .map((data) => DropdownMenuItem<String>(
-            child: Text(data),
-            value: data,
-          ))
-              .toList(),
-          onChanged: (String value) {
-            setState(() => selectedValue = value);
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+              DropdownButton<String>(
+                items: _dropdownValues
+                    .map((data) => DropdownMenuItem<String>(
+                  child: Text(data),
+                  value: data,
+                ))
+                    .toList(),
+                onChanged: (String value) {
+                  setState(() => selectedValue = value);
 
-          },
-          hint: Text(selectedValue),
-          // value: _selectedValue,
+                },
+                hint: Text(selectedValue),
+              ),
+              SizedBox(height: 15,),
+              DropdownButton<String>(
+                items: _dropdownResources
+                    .map((data) => DropdownMenuItem<String>(
+                  child: Text(data),
+                  value: data,
+                ))
+                    .toList(),
+                onChanged: (String value) {
+                  setState(() => resource = value);
+
+                },
+                hint: Text(resource),
+                // value: _selectedValue,
+              ),
+            ],
         ),
-        SizedBox(height: 15,),
-        DropdownButton<String>(
-          items: _dropdownResources
-              .map((data) => DropdownMenuItem<String>(
-            child: Text(data),
-            value: data,
-          ))
-              .toList(),
-          onChanged: (String value) {
-            setState(() => resource = value);
-
-          },
-          hint: Text(resource),
-          // value: _selectedValue,
-        ),
-//        Wrap(
-//          spacing: 10.0,
-//          children: <Widget>[
-//            ActionChip(
-//
-//              label: Text( resource ),
-//              backgroundColor: Color(0xffededed),
-//
-//              labelStyle: TextStyle(color: Color(0xff000000),
-//                  fontSize: 14.0,
-//                  fontWeight: FontWeight.bold),
-//              onPressed: () {
-//                showDialog(
-//                  context: context,
-//                  builder: (BuildContext context) {
-//                    // return object of type Dialog
-//                    return AlertDialog(
-//                      actions: <Widget>[
-//                        new FlatButton(
-//                          child: Text(
-//                              "Lectures"
-//                          ),
-//                          onPressed: () {
-//                            setState(() => resource = "Lectures");
-//                            Navigator.of(context).pop();
-//                          },
-//                        ),
-//                        new FlatButton(
-//                          child: Text("Recitations"),
-//                          onPressed: () {
-//                            setState(() => resource = "Recitations");
-//                            Navigator.of(context).pop();
-//                          },
-//
-//                        ),
-//                        new FlatButton(
-//                          child: Text("HomeWorks"),
-//                          onPressed: () {
-//                            setState(() => resource = "HomeWorks");
-//                            Navigator.of(context).pop();
-//                          },
-//                        ),
-//                        new FlatButton(
-//                          child: Text("Exams"),
-//                          onPressed: () {
-//                            setState(() => resource = "Exams");
-//                            Navigator.of(context).pop();
-//                          },
-//                        ),
-//                        new FlatButton(
-//                          child: Text("Extra"),
-//                          onPressed: () {
-//                            setState(() => resource = "Extra");
-//                            Navigator.of(context).pop();
-//                          },
-//                        ),
-//                      ],
-//                    );
-//                  },
-//                );
-//              },
-//            ),
-//          ],),
-
-
-
-      ],
-
-
-    ),);
+    );
 
   }
 

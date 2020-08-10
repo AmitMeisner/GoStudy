@@ -4,11 +4,10 @@ import 'package:flutterapp/FirstInfo/InformationPage.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
 import 'dart:async';
 import 'package:provider/provider.dart';
-
 import '../Global.dart';
 
 
-
+/// Friends card object
 class FriendsCards extends StatefulWidget {
   static List<User> _users=[];
   final Function initialFriendPage;
@@ -18,12 +17,14 @@ class FriendsCards extends StatefulWidget {
 }
 
 class _FriendsCardsState extends State<FriendsCards> {
+
   static List<String> friends=[];
 
+  // Get friends from firebase.
   void initial()async{
-    List<String> friendsuid=await UserDataBase().getUserFriendsList(FirebaseAPI().getUid());
+    List<String> friendsUid=await UserDataBase().getUserFriendsList(FirebaseAPI().getUid());
     friends.clear();
-    for(String user in friendsuid) {
+    for(String user in friendsUid) {
       friends.add(user);
     }
     setState(() {});
@@ -35,6 +36,7 @@ class _FriendsCardsState extends State<FriendsCards> {
     super.initState();
   }
 
+  // Reload Friends page.
   final Function initialFriendPage;
   _FriendsCardsState(this.initialFriendPage);
 
@@ -46,7 +48,6 @@ class _FriendsCardsState extends State<FriendsCards> {
       return Loading();
     }
     return Container(
-//      color: Colors.grey[300],
       height: MediaQuery.of(context).size.height*2/3,
       padding: EdgeInsets.only(bottom: 50.0),
       child: ListView.builder(
@@ -70,6 +71,7 @@ class _FriendsCardsState extends State<FriendsCards> {
     );
   }
 
+  // Get users from firebase.
   Future<List<User>> updateUsersList(BuildContext context) async{
     FriendsCards._users=Provider.of<List<User>>(context);
     return FriendsCards._users;
@@ -77,7 +79,7 @@ class _FriendsCardsState extends State<FriendsCards> {
 }
 
 
-// creating the cards content.
+/// creating the cards content.
 Widget cardContent(BuildContext context, int index , List<User> users,Function initialFriendPage){
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 10),
@@ -96,6 +98,7 @@ Widget cardContent(BuildContext context, int index , List<User> users,Function i
   );
 }
 
+/// Adding friend to user's friends list.
 IconButton addFriend(List<User> users, int index,Function initialFriendPage){
   bool contain=(_FriendsCardsState.friends.contains(users[index].getUid()) || users[index].getUid()==FirebaseAPI().getUid());
   if (contain){

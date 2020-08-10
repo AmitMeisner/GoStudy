@@ -1,19 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Progress/PlanBuild.dart';
-import 'package:flutterapp/Rank/Rank.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:nice_button/nice_button.dart';
 import 'package:flutterapp/FirstInfo/InformationPage.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_progress_bar/progress_bar.dart';
-
 import '../Global.dart';
 import 'CourseSelectChoice.dart';
 
 class ProgressData extends StatefulWidget {
+
   final Function updateProgressPage;
   ProgressData(this.updateProgressPage);
   @override
@@ -23,6 +21,7 @@ class ProgressData extends StatefulWidget {
 }
 
 class _ProgressDataState extends State<ProgressData> {
+
   static List<UserStatForCourse> _users;
   String currentCourse = "";
   double hw = 0.0;
@@ -48,7 +47,6 @@ class _ProgressDataState extends State<ProgressData> {
   void initial(String course) async {
     currentCourse = course;
     user = await UserProgressDataBase().getUser(FirebaseAPI().getUid());
-//    week=await AllUserDataBase().getWeek();
     setState(() {
       hw = user.getGoal(course, Activities.HomeWork);
       recitation = user.getGoal(course, Activities.Recitation);
@@ -103,7 +101,6 @@ class _ProgressDataState extends State<ProgressData> {
     return Column(
       children: [
         SingleChildScrollView(
-//        height: MediaQuery.of(context).size.height - 150,
             child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -114,20 +111,16 @@ class _ProgressDataState extends State<ProgressData> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
-//                        rankStars(rank),
                   ],
                 ),
               ),
               Container(
-//                height: 50,
-//                width: MediaQuery.of(context).size.width * 20,
                 child: Column(
                   children: [
                     Center(
                         child: Text(
                       "Weekly Progress",
                       style: GoogleFonts.cabin(fontSize: 35, fontWeight: FontWeight.bold),
-//                      TextStyle(fontFamily: 'Piedra', fontSize: 35),
                     )),
                   ],
                 ),
@@ -204,7 +197,6 @@ class _ProgressDataState extends State<ProgressData> {
                   child: Text(
                 "Total Progress",
                 style: GoogleFonts.cabin(fontSize: 35, fontWeight: FontWeight.bold)
-//                TextStyle(fontFamily: 'Piedra', fontSize: 35),
               )),
               SizedBox(
                 height: 6.0,
@@ -257,8 +249,6 @@ class _ProgressDataState extends State<ProgressData> {
               ),
               SizedBox(height: MediaQuery.of(context).size.height / 20),
               Row(
-//                mainAxisSize: MainAxisSize.max,
-//                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Expanded(child: DedicationInput()),
                   IconButton(
@@ -295,24 +285,6 @@ class _ProgressDataState extends State<ProgressData> {
                   )
                 ],
               ),
-//              Padding(
-//                padding: const EdgeInsets.all(24.0),
-//                child: NiceButton(
-//                  background: Colors.grey[300],
-//                  radius: 40,
-//                  padding: EdgeInsets.all(5),
-//                  text: "Set New Plan",
-//                  icon: Icons.account_box,
-//                  gradientColors: [
-//                    Global.getBackgroundColor(400),
-//                    Global.getBackgroundColor(500),
-//                    Global.getBackgroundColor(400)
-//                  ],
-//                  onPressed: () {
-//                    setNewPlanDialog(context);
-//                  },
-//                ),
-//              ),
             ],
           ),
         )),
@@ -366,7 +338,7 @@ class _ProgressDataState extends State<ProgressData> {
             onPressed: () {
               showDialog(
                   context: context,
-                  child: editDialog(
+                  child: EditDialog(
                     course: currentCourse,
                     activity: title,
                     userProgress: user,
@@ -379,202 +351,27 @@ class _ProgressDataState extends State<ProgressData> {
     );
   }
 
-  Widget rankStars(int rank) {
-    switch (rank) {
-      case 1:
-        return buildStars(context, Colors.black, Colors.black, Colors.black,
-            Colors.black, Global.goldStars);
-      case 2:
-        return buildStars(context, Colors.black, Colors.black, Colors.black,
-            Global.goldStars, Global.goldStars);
-      case 3:
-        return buildStars(context, Colors.black, Colors.black, Global.goldStars,
-            Global.goldStars, Global.goldStars);
-      case 4:
-        return buildStars(context, Colors.black, Global.goldStars,
-            Global.goldStars, Global.goldStars, Global.goldStars);
-      case 5:
-        return buildStars(context, Global.goldStars, Global.goldStars,
-            Global.goldStars, Global.goldStars, Global.goldStars);
-    }
-    return buildStars(context, Colors.black, Colors.black, Colors.black,
-        Colors.black, Global.goldStars);
-  }
-
-  Widget buildStars(BuildContext context, Color color1, Color color2,
-      Color color3, Color color4, Color color5) {
-    return Wrap(
-      spacing: 0,
-      children: <Widget>[
-        starIcon(context, color1),
-        starIcon(context, color2),
-        starIcon(context, color3),
-        starIcon(context, color4),
-        starIcon(context, color5)
-      ],
-    );
-  }
-
-  starIcon(BuildContext context, Color color) {
-    return Align(
-        alignment: Alignment.topRight,
-        child: IconButton(
-          icon: Icon(
-            color == Colors.black ? Icons.star_border : Icons.star,
-            color: color,
-          ),
-          onPressed: () {
-            showStarDialog(context);
-          },
-        ));
-  }
-
-  showStarDialog(BuildContext context) {
-    // set up the button
-    Widget okButton = FlatButton(
-      child: Text(
-        "OK",
-        style: TextStyle(color: Colors.black),
-      ),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text("Rank"),
-      backgroundColor: Global.getBackgroundColor(0),
-      shape:
-          RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15)),
-      content: Text(
-          "You're 43 hours away of goStudying Logic to get 90 on average.\n\n GoStudy Tip: 53 hours from next Rank."),
-      actions: [
-        okButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-  setNewPlanDialog(BuildContext context) {
-    TextEditingController controller = TextEditingController();
-
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return SingleChildScrollView(
-            child: AlertDialog(
-              title: Text(
-                "Set A New Plan",
-                style: GoogleFonts.habibi(fontSize: 35, fontWeight: FontWeight.bold),
-//                TextStyle(fontFamily: 'Piedra', fontSize: 35),
-              ),
-              content: Container(
-                height: MediaQuery.of(context).size.height / 3,
-                child: Column(
-                  children: [
-                    SizedBox(height: MediaQuery.of(context).size.height / 25),
-//                    Text('Enter Excepted Average:'),
-//                    TextField(
-//                      controller: controller,
-//                      keyboardType: TextInputType.number,
-//                      decoration: InputDecoration(
-//                        hintText: "hint: 100",
-//                      ),
-//                    ),
-                    //              SizedBox(height: MediaQuery.of(context).size.height / 25),
-                    Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Text(
-                          "We will build you a study plan according to the time you are planning to dedicate this semester.\n"
-                          "Choose your dedication this semester:"),
-                    ),
-                    DedicationInput(),
-                  ],
-                ),
-              ),
-              actions: <Widget>[
-                MaterialButton(
-                  child: Text("Cancel"),
-                  onPressed: () {
-                    Navigator.of(context).pop(context);
-                  },
-                ),
-                MaterialButton(
-                  child: Text("Submit"),
-                  onPressed: () async {
-                    setPlan();
-                    Navigator.of(context).pop(context);
-                  },
-                )
-              ],
-            ),
-          );
-//      return SingleChildScrollView(
-//        child: AlertDialog(
-//          title: Text("Set New Plan"),
-//          content: Container(
-//            height: MediaQuery.of(context).size.height/3.2,
-//            child: Column(
-//              children: [
-//                SizedBox(height: MediaQuery.of(context).size.height / 25),
-//                Text('Enter Excepted Average:'),
-//                TextField(
-//                  controller: controller,
-//                  keyboardType: TextInputType.number,
-//                  decoration: InputDecoration(
-//                    hintText: "hint: 100",
-//                  ),
-//                ),
-////              SizedBox(height: MediaQuery.of(context).size.height / 25),
-//                Padding(
-//                  padding: const EdgeInsets.all(18.0),
-//                  child: Text("Be Dedicated, set your's:"),
-//                ),
-//                DedicationInput(),
-//              ],
-//            ),
-//          ),
-//          actions: <Widget>[
-//            MaterialButton(
-//              child: Text("Submit"),
-//              onPressed: ()async{
-//                await updateUsersData(context);
-//                pBuild=PlanBuild(_users);
-//                pBuild.setAvg();
-//                Navigator.of(context).pop(context);},
-//            )
-//          ],
-//        ),
-//      );
-        });
-  }
 }
 
-class editDialog extends StatefulWidget {
+class EditDialog extends StatefulWidget {
+
   final String course;
   final String activity;
   final double hoursGoal;
   final UserProgress userProgress;
 
-  const editDialog(
+  const EditDialog(
       {Key key, this.course, this.activity, this.userProgress, this.hoursGoal})
       : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return editDialogState();
+    return EditDialogState();
   }
 }
 
-class editDialogState extends State<editDialog> {
+class EditDialogState extends State<EditDialog> {
+
   TextEditingController hoursGoalController;
 
   @override
@@ -633,6 +430,7 @@ class editDialogState extends State<editDialog> {
       ],
     );
   }
+
 }
 
 class DedicationInput extends StatefulWidget {

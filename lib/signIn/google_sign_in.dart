@@ -1,9 +1,6 @@
 import 'dart:async';
 import 'dart:convert' show json;
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutterapp/FirstInfo/InformationPage.dart';
-//import 'package:firebase_helpers/firebase_helpers.dart';
 import "package:http/http.dart" as http;
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -152,7 +149,6 @@ class SignInState extends State<SignIn> {
                 'images/google_sign_in_button.png',
                 width: MediaQuery.of(context).size.width *2/3,
               ),
-//                  padding: EdgeInsets.all(0.0),
               onPressed: _handleSignIn,
             ),
           ],
@@ -160,47 +156,6 @@ class SignInState extends State<SignIn> {
       ),
     );
 
-
-
-//    if (_currentUser != null) {
-//      return Column(
-//        mainAxisAlignment: MainAxisAlignment.spaceAround,
-//        children: <Widget>[
-//          ListTile(
-//            leading: GoogleUserCircleAvatar(
-//              identity: _currentUser,
-//            ),
-//            title: Text(_currentUser.displayName ?? ''),
-//            subtitle: Text(_currentUser.email ?? ''),
-//          ),
-//          const Text("Signed in successfully."),
-//          Text(_contactText ?? ''),
-//          RaisedButton(
-//            child: const Text('SIGN OUT'),
-//            onPressed: _handleSignOut,
-//          ),
-//          RaisedButton(
-//            child: const Text('REFRESH'),
-//            onPressed: _handleGetContact,
-//          ),
-//        ],
-//      );
-//    } else {
-//      return Column(
-//        mainAxisAlignment: MainAxisAlignment.spaceAround,
-//        children: <Widget>[
-//          Image.asset('images/go_study_logo.jpg'),
-//          FlatButton(
-//            child: Image.asset(
-//              'images/google_sign_in_button.png',
-//              width: 200.0,
-//            ),
-//            padding: EdgeInsets.all(0.0),
-//            onPressed: _handleSignIn,
-//          ),
-//        ],
-//      );
-//    }
   }
 
   @override
@@ -213,16 +168,6 @@ class SignInState extends State<SignIn> {
         ));
   }
 
-
-//  String getUserName(){
-//    print("user name is ${_currentUser.displayName ?? ''}");
-//    return _currentUser.displayName ?? '';
-//  }
-//
-//  String getUserEmail(){
-//    print("user mail is ${_currentUser.email ?? ''}");
-//    return _currentUser.email ?? '';
-//  }
 
   void signOut(BuildContext context){
     _handleSignOut();

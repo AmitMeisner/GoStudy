@@ -3,6 +3,7 @@ import 'package:flutterapp/Global.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
 
 class PlanBuild{
+
   List<UserStatForCourse> users=[];
   double hw=1.0;
   double recitation=1.0;

@@ -1,9 +1,7 @@
 
-
-
-import 'package:flutterapp/Tips/Cards.dart';
-
+/// Time Card object.
 class TimeCard {
+
   String course;
   String resource;
   String uid;

@@ -1,19 +1,9 @@
-
-//import 'dart:html';
-import 'dart:io';
-
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutterapp/HomePage/History/cards.dart';
 import 'package:flutterapp/Tips/Cards.dart';
-import 'package:flutterapp/Tips/Tips.dart';
 import 'package:flutterapp/FirstInfo/InformationPage.dart';
-import 'dart:math';
 
-
+/// get user information from firebase.
 class FirebaseAPI{
 
   static FirebaseUser user ;
@@ -50,20 +40,7 @@ class FirebaseAPI{
 
 }
 
-class statisticsDataBase{
-  static  CollectionReference statsCollection= Firestore.instance.collection("Statistics");
-  Future<String> getData(String document, String field) async {
-    //Returns the data from the relevant (Statistics).document.field
-    String data;
-    var x = statsCollection.document(document).get().then((value){
-      data = value.data[field];
-    });
-    return data;
-  }
-
-
-}
-
+/// get tips from firebase.
 class TipDataBase{
 
   //collection reference.
@@ -71,8 +48,7 @@ class TipDataBase{
   static Stream<QuerySnapshot> tipsCollectionQuery = tipsCollection.orderBy(sort, descending: true)
   .where('tags',arrayContainsAny: selectedTags).snapshots();
 
-//  Stream<QuerySnapshot> tipsCollectionQuery = tipsCollection.orderBy('date', descending: true)
-//      .where('tags',arrayContainsAny: selectedTags).snapshots();
+
 
    static List<String> selectedTags=["general"];
    static bool firstCall=true;
@@ -104,7 +80,7 @@ class TipDataBase{
       return tipsCollectionQuery.map(_tipCardsFromSnapshot);
   }
 
-
+  // convert data from firebase to TipCard format.
   List<TipCard> _tipCardsFromSnapshot(QuerySnapshot snapshot){
     return snapshot.documents.map((doc){
       return TipCard(
@@ -123,7 +99,7 @@ class TipDataBase{
     }).toList();
   }
 
-  //like tip card
+  //  like tip card
   void addLike(TipCard card)async{
     DocumentReference doc = tipsCollection.document(card.getDocId());
     List<String> likes=card.getLikes();
@@ -132,6 +108,7 @@ class TipDataBase{
     return;
   }
 
+  // remove like from a tip.
   void removeLike(TipCard card)async{
     DocumentReference doc = tipsCollection.document(card.getDocId());
     List<String> likes=card.getLikes();
@@ -141,7 +118,7 @@ class TipDataBase{
     return;
   }
 
-
+  // check if the user liked this tip.
   bool isLiked(TipCard card){
     if(card.getLikes()!=null && card.getLikes().contains(FirebaseAPI().getUid())){
       return true;
@@ -149,6 +126,7 @@ class TipDataBase{
     return false;
   }
 
+  // get tips for the selected course from firebase.
   void setUserSelectedTags(List<String> userSelectedTags, Function updateTipsPageState){
     selectedTags=userSelectedTags;
     if(userSelectedTags.isEmpty){selectedTags=["general"];}
@@ -162,6 +140,7 @@ class TipDataBase{
     doc.delete();
   }
 
+  // sort the tips by like count or by date.
   void sortBy(int index,Function setTipsPageState, bool isSearch){
     switch(index){
       case 0:
@@ -187,6 +166,7 @@ class TipDataBase{
 
   }
 
+  // search in tips database.
   void search(String searchInput, Function setTipsPageState){
     tipsCollectionQuery = tipsCollection.orderBy(sort, descending: true).where("search",arrayContainsAny: [searchInput.toUpperCase()]).snapshots();
     setTipsPageState();
@@ -194,6 +174,7 @@ class TipDataBase{
 
 }
 
+/// get users data from firebase.
 class UserDataBase {
 
   //collection reference.
@@ -243,7 +224,7 @@ class UserDataBase {
   }
 
 
-
+  // check if a user exist already.
   Future<bool> hasData()async{
     DocumentReference userDoc=  usersCollection.document(FirebaseAPI().getUid());
     bool exist=false;
@@ -253,13 +234,14 @@ class UserDataBase {
     return exist;
   }
 
-
+  // update user information in firebase.
   Future<void> updateUser(User user) async{
     DocumentReference userDoc=  usersCollection.document(FirebaseAPI().getUid());
     await addUser(user);
     return;
   }
 
+  // check if nickname isn't already exists.
   Future<bool> validNickname(String nickname)async {
     Stream<QuerySnapshot> userDoc=usersCollection.where("nickname",isEqualTo: nickname).snapshots();
     QuerySnapshot l=await userDoc.first;
@@ -267,7 +249,7 @@ class UserDataBase {
     return false;
   }
 
-
+  // return the user's nickname.
   Future<String> getUserNickname(String uid)async{
     DocumentReference userDoc=  usersCollection.document(uid);
     String res;
@@ -277,6 +259,7 @@ class UserDataBase {
     return res;
   }
 
+  // return the user's friends list.
   Future<List<String>> getUserFriendsList(String uid)async{
     DocumentReference userDoc=  usersCollection.document(uid);
     List<String> res=[];
@@ -286,7 +269,7 @@ class UserDataBase {
     return res;
   }
 
-
+  // return the user's friend requests that he received.
   Future<List<String>> getUserFriendReqReceive(String uid)async{
     DocumentReference userDoc=  usersCollection.document(uid);
     List<String> res=[];
@@ -296,7 +279,7 @@ class UserDataBase {
     return res;
   }
 
-
+  // return the user's friend requests that he sent.
   Future<List<String>> getUserFriendReqSent(String uid)async{
     DocumentReference userDoc=  usersCollection.document(uid);
     List<String> res=[];
@@ -308,6 +291,7 @@ class UserDataBase {
 
 }
 
+/// get friends data from firebase.
 class FriendsDataBase{
   //collection reference.
   static  CollectionReference usersCollection= Firestore.instance.collection("Users");
@@ -318,6 +302,7 @@ class FriendsDataBase{
     return usersCollectionQuery.map(_usersCardsFromSnapshot);
   }
 
+  // convert data from firebase to User format.
   List<User> _usersCardsFromSnapshot(QuerySnapshot snapshot){
     return snapshot.documents.map((doc){
       return User(
@@ -337,12 +322,14 @@ class FriendsDataBase{
     }).toList();
   }
 
+  // search users in firebase.
   void searchUsers(String searchInput, Function setFriendPageState){
     usersCollectionQuery= searchInput.isEmpty?
     usersCollection.orderBy('nickname').snapshots():usersCollection.where('searchNickname',arrayContainsAny: [searchInput.toUpperCase()]).snapshots();
     setFriendPageState();
   }
 
+  // send friend request.
   void sendFriendRequest(User friendUser, Function setFriendsPageStat)async{
      DocumentReference friend=usersCollection.document(friendUser.getUid());
      List<String> freindReqRecieve = friendUser.getFriendRequestReceive();
@@ -362,6 +349,7 @@ class FriendsDataBase{
      await setFriendsPageStat();
   }
 
+  // search nickanme.
   List<String> nicknameSearch(String nickname){
     List<String> res=[];
     int len=nickname.length;
@@ -373,6 +361,7 @@ class FriendsDataBase{
     return res;
   }
 
+  // answer to a friend request.
   void friendRequestAnswer(bool accept, String friendUid, Function initialFriendPage)async{
     DocumentReference friend=usersCollection.document(friendUid);
     DocumentReference user=usersCollection.document(FirebaseAPI().getUid());
@@ -400,6 +389,7 @@ class FriendsDataBase{
     return;
   }
 
+  // delete friend from friend list.
   void removeFriend( String friendUid, Function initialFriendPage)async{
     DocumentReference friend=usersCollection.document(friendUid);
     DocumentReference user=usersCollection.document(FirebaseAPI().getUid());
@@ -416,54 +406,9 @@ class FriendsDataBase{
 
     return;
   }
-
-
-//  Future<double> getFriendProgress(String uid)async{
-//    DocumentReference doc=usersCollection.document(uid);
-//    List<String> times=[];
-//    List<String> goals=[];
-//    List<String> tmp=[];
-//    double res=0.0;
-//    await doc.get().then((value){
-//      times=List.from(value.data["Times"]);
-//      goals=List.from(value.data["Goals"]);
-//    });
-//
-//
-//    for(String elem in times){
-//      tmp=elem.split("_");
-//      if(tmp[0]=="totalTime"){
-//        res=double.parse(tmp[1]);
-//        break;
-//      }
-//    }
-//
-//
-//    for(String elem in goals){
-//      tmp=elem.split("_");
-//      if(tmp[0]=="SemesterHours"){
-//        res=double.parse((res/double.parse(tmp[1])).toStringAsFixed(2));
-//        break;
-//      }
-//    }
-//    return res*100;
-//
-//
-//  }
-//
-//  Future<int> getFriendRank(String uid)async{
-//    DocumentReference doc=usersCollection.document(uid);
-//    int res=1;
-//    await doc.get().then((value){
-//      res=value.data["Rank"];
-//    });
-//
-//    return res;
-//  }
-
 }
 
-
+/// get users data from firebase.
 class AllUserDataBase {
 
   //collection reference.
@@ -487,11 +432,12 @@ class AllUserDataBase {
     return await usersDataCollection.document().setData(userMap);
   }
 
-
+  // stream of data from firebase.
   Stream<List<UserStatForCourse>> get usersStats{
     return usersDataCollectionQuery.map(_usersDataCardsFromSnapshot);
   }
 
+  // convert data from firebase to UserStatForCourse format.
   List<UserStatForCourse> _usersDataCardsFromSnapshot(QuerySnapshot snapshot){
     return snapshot.documents.map((doc){
       return UserStatForCourse(
@@ -508,6 +454,7 @@ class AllUserDataBase {
     }).toList();
   }
 
+  // sort users data by their grades.
   Future<void> sortUsersDataByGrades(int dedication, Function updateProgressPage)async{
     usersDataCollectionQuery=null;
     switch(dedication){
@@ -528,20 +475,15 @@ class AllUserDataBase {
     await usersDataCollectionQuery.first;
   }
 
-  Future<String> getWeek()async{
-    DocumentReference week=Firestore.instance.collection("AllUsers").document("week");
-    String res="";
-    await week.get().then((value) => res=value.data["weekNumber"].toString());
-    return res;
-  }
 
 }
 
-
+/// get user progress data from firebase.
 class UserProgressDataBase{
 
   static CollectionReference usersCollection= Firestore.instance.collection("Progress");
 
+  // add user to firebase.
   Future<void> addUser(UserProgress userProgress) async{
     Map<String, dynamic> userMap = {
       "avg":userProgress.getAvg(),
@@ -553,7 +495,7 @@ class UserProgressDataBase{
     return await usersCollection.document(FirebaseAPI().getUid()).setData(userMap);
   }
 
-
+  // get user from firebase.
   Future<UserProgress> getUser(String uid)async{
     DocumentReference doc=usersCollection.document(uid);
     UserProgress user=UserProgress(0, 1, [], [],3);
@@ -568,7 +510,7 @@ class UserProgressDataBase{
     return user;
   }
 
-
+  // check if the user exist in firebase.
   Future<bool> hasData()async{
     DocumentReference userDoc=  usersCollection.document(FirebaseAPI().getUid());
     bool exist=false;
@@ -578,10 +520,12 @@ class UserProgressDataBase{
     return exist;
   }
 
+  // update user information in firebase.
   Future<void> updateUser(UserProgress user){
     return addUser(user);
   }
 
+  // get friend's rank from firebase.
   Future<int> getFriendRank(String uid)async{
     DocumentReference doc=usersCollection.document(uid);
     int res=1;
@@ -592,7 +536,7 @@ class UserProgressDataBase{
     return res;
   }
 
-
+  // get friend's progress from firebase.
   Future<double> getFriendProgress(String uid)async{
     DocumentReference doc=usersCollection.document(uid);
     List<String> times=[];
@@ -629,7 +573,7 @@ class UserProgressDataBase{
 
 }
 
-
+/// user's progress object.
 class UserProgress{
   double _avg;
   List<String> _goals=[];
@@ -843,7 +787,7 @@ class UserProgress{
 
 
 
-
+/// user's statistics of a course object.
 class UserStatForCourse{
   String _course;
   double _avg;

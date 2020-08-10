@@ -1,30 +1,27 @@
-//import 'package:charts_flutter/flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/FirstInfo/InformationPage.dart';
 import 'package:flutterapp/Global.dart';
-import 'package:flutterapp/Tips/Cards.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'package:provider/provider.dart';
-
 import '../NavigationButtom.dart';
 import 'FriendsCards.dart';
 
-
+/// Friends page widget.
 class Friends extends StatefulWidget {
   @override
   _FriendsState createState() => _FriendsState();
 }
 
 class _FriendsState extends State<Friends> {
+
   TextEditingController searchController=TextEditingController();
   bool isSearch=false;
   List<String> friendReqNames=[];
   List<String> friends=[];
   List<String> friendsUid=[];
 
-
+  // Get friends list from firebase.
   void initial()async{
     friends.clear();
     friendReqNames.clear();
@@ -74,11 +71,13 @@ class _FriendsState extends State<Friends> {
     );
   }
 
+  // Return button returns to home page.
   Future<T> pushPage<T>(BuildContext context, Widget page) {
     return Navigator.of(context)
         .pushReplacement(MaterialPageRoute(builder: (context) => page));
   }
 
+  //friends list widget.
   Widget friendsList(){
     return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -95,6 +94,7 @@ class _FriendsState extends State<Friends> {
     );
   }
 
+  // Search input decoration.
   Widget inputDecoration(String hint,TextEditingController controller, double borderRadius, TextInputType type){
     return Container(
       padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
@@ -153,6 +153,7 @@ class _FriendsState extends State<Friends> {
     );
   }
 
+  // Friend requests widget.
   Widget friendRequest(){
     return Card(
       child: friendReqNames.isEmpty? emptyCardMessage("There are no friend requests"):Column(
@@ -161,7 +162,7 @@ class _FriendsState extends State<Friends> {
     );
   }
 
-
+  // Friends list widget.
   Widget friendsListCards(){
     return Card(
       child: friends.isEmpty? emptyCardMessage("Search friends and add them to your friends list"):Column(
@@ -170,7 +171,7 @@ class _FriendsState extends State<Friends> {
     );
   }
 
-
+  // empty card message.
   Widget emptyCardMessage(String msg){
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -178,7 +179,7 @@ class _FriendsState extends State<Friends> {
     );
   }
 
-  // creating list of the users tags.
+  //  List of the friends / friend requests.
   List<Widget> _createChildren(List<String> lst, bool friendReq) {
     return new List<Widget>.generate(lst.length, (int index) {
       return Container(
@@ -257,7 +258,7 @@ class _FriendsState extends State<Friends> {
 
 
 
-
+  // Reload page.
   void setFriendPageState(){
     setState(() {
     });

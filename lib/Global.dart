@@ -1,6 +1,3 @@
-
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -10,13 +7,12 @@ class Global {
                                 "Statistics", "Computer Structure", "Algorithms", "Software Project", "Computational models",
                                 "Operating Systems", "Logic","Complexity","Compilation"];
   static List<String> userCourses=[];
-  final List<double> allHours = [32.5,38,43,48,53,58,63,67,85];
-  final List<double> allGrades = [62,67,72,77,82,87,92,97];
+//
 
 
   static Color backgroundPageColor=Colors.white;
   static Color backgroundUserTipColor=Colors.blue[100];
-  static Color goldStars=Colors.yellow[600];
+  static Color emptyHat=Colors.transparent;
 
 
 
@@ -118,9 +114,9 @@ class Loading extends StatelessWidget {
       color: Colors.white,
       child: Padding(
         padding: const EdgeInsets.all(150.0),
-        child: SpinKitSpinningCircle(
+        child: SpinKitRipple(
           color:  Global.getBackgroundColor(0),
-          size: 50.0,
+          size: 200.0,
         ),
       ),
 

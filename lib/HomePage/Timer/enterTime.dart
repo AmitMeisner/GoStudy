@@ -2,14 +2,10 @@ import 'package:flutterapp/FirstInfo/InformationPage.dart';
 import 'package:flutterapp/HomePage/Timer/progress_pie_bar.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 import '../../Global.dart';
-import '../../Tips/TipDialog.dart';
 import 'package:flutter/material.dart';
 import '../HomeMain.dart';
 import 'package:provider/provider.dart';
-import '../History/cards.dart';
 import 'coursesResources.dart';
 import 'dialog_helper.dart';
 import 'enterTimeDialog.dart';
@@ -48,9 +44,7 @@ void showColoredToast(String msg) {
 class EnterTimeState extends State<EnterTimeButton> {
   static String course ;
   static String resource ;
-//  String date = getDate();
   DateTime date= DateTime.now();
-  //String date =  TipDialogState.getDate();
   String uid=  FirebaseAPI().getUid();
   int hours; int minutes; int seconds;
   String docId = "" ;
@@ -80,12 +74,7 @@ class EnterTimeState extends State<EnterTimeButton> {
     while (TimeConfirmationDialog.toEnterTime == true) {
       if(course== "Select course" || resource == "Select resource" || !checkValidTime(hours, minutes, seconds)){
         TimeConfirmationDialog.toEnterTime =false;
-
-        //await DialogHelperMissingData.showError(context);
         await DialogHelperTime.enterTime(context);
-        //showColoredToast("Data is missing") ;
-        //await DialogHelperTime.enterTime(context);
-
         continue;
       }
       TimeCard newTime = new TimeCard(
@@ -132,10 +121,8 @@ class EnterTimeState extends State<EnterTimeButton> {
       onPointerUp: _onPointerUp,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 150),
-//        height: MediaQuery.of(context).size.height/14,
         height: 150,
         width: 150,
-//        padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: Colors.white24,
@@ -143,7 +130,6 @@ class EnterTimeState extends State<EnterTimeButton> {
             BoxShadow(
               blurRadius: 15,
               spreadRadius: 5,
-//                                  offset: Offset(10.5,10.5),
               color: Global.getBackgroundColor(50),
             ),
             BoxShadow(

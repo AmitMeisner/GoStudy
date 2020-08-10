@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutterapp/Progress/ProgressData.dart';
 import 'package:horizontal_data_table/horizontal_data_table.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
 
@@ -11,13 +10,14 @@ class Rank extends StatefulWidget {
 }
 
 class _RankState extends State<Rank> {
+
   List<String> friends=[];
   List<String> friendsUid=[];
   List<int> rank=[];
   List<double> progress=[];
   double semesterHours=0.0;
   double semesterHoursDone=0.0;
-  int starRank =1;
+  int hatRank =1;
   static bool sortProgress=true;
   bool initializing=true;
 
@@ -35,11 +35,11 @@ class _RankState extends State<Rank> {
     }
     semesterHours=user.getGoal("SemesterHours",null);
     semesterHoursDone=user.getCourseTime("totalTime",null);
-    if((semesterHoursDone/semesterHours)>0.15){starRank=2;}
-    if((semesterHoursDone/semesterHours)>0.35){starRank=3;}
-    if((semesterHoursDone/semesterHours)>0.65){starRank=4;}
-    if((semesterHoursDone/semesterHours)>0.9){starRank=5;}
-    user.setRank(starRank);
+    if((semesterHoursDone/semesterHours)>0.15){hatRank=2;}
+    if((semesterHoursDone/semesterHours)>0.35){hatRank=3;}
+    if((semesterHoursDone/semesterHours)>0.65){hatRank=4;}
+    if((semesterHoursDone/semesterHours)>0.9){hatRank=5;}
+    user.setRank(hatRank);
     initializing=false;
     setState(() {});
 
@@ -86,7 +86,7 @@ class _RankState extends State<Rank> {
                 )
                 );
               },
-                child: rankStars(starRank)
+                child: rankHats(hatRank)
             ),
             _getBodyWidget()
           ]),
@@ -173,7 +173,7 @@ class _RankState extends State<Rank> {
     return Row(
       children: <Widget>[
         Container(
-          child: stars(currentRank),
+          child: hats(currentRank),
           width: 150,
           height: 52,
           padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
@@ -190,7 +190,7 @@ class _RankState extends State<Rank> {
     );
   }
 
-  Widget rankStars(int rank){
+  Widget rankHats(int rank){
     switch(rank){
       case 1:
         return Padding(
@@ -204,7 +204,7 @@ class _RankState extends State<Rank> {
                 color: Global.getBackgroundColor(600))),
               ),
               Spacer(),
-              buildStars(context,Colors.black,Colors.black,Colors.black,Colors.black,Global.goldStars),
+              buildHats(context,Colors.black,Colors.black,Colors.black,Colors.black,Global.emptyHat),
             ],
           ),
         );
@@ -220,7 +220,7 @@ class _RankState extends State<Rank> {
                         color: Global.getBackgroundColor(600))),
               ),
               Spacer(),
-              buildStars(context,Colors.black,Colors.black,Colors.black,Global.goldStars,Global.goldStars),
+              buildHats(context,Colors.black,Colors.black,Colors.black,Global.emptyHat,Global.emptyHat),
             ],
           ),
         );
@@ -236,7 +236,7 @@ class _RankState extends State<Rank> {
                         color: Global.getBackgroundColor(600))),
               ),
               Spacer(),
-              buildStars(context,Colors.black,Colors.black,Global.goldStars,Global.goldStars,Global.goldStars),
+              buildHats(context,Colors.black,Colors.black,Global.emptyHat,Global.emptyHat,Global.emptyHat),
             ],
           ),
         );
@@ -252,7 +252,7 @@ class _RankState extends State<Rank> {
                         color: Global.getBackgroundColor(600))),
               ),
               Spacer(),
-              buildStars(context,Colors.black,Global.goldStars,Global.goldStars,Global.goldStars,Global.goldStars),
+              buildHats(context,Colors.black,Global.emptyHat,Global.emptyHat,Global.emptyHat,Global.emptyHat),
             ],
           ),
         );
@@ -268,27 +268,27 @@ class _RankState extends State<Rank> {
                         color: Global.getBackgroundColor(600))),
               ),
               Spacer(),
-              buildStars(context,Global.goldStars,Global.goldStars,Global.goldStars,Global.goldStars,Global.goldStars),
+              buildHats(context,Global.emptyHat,Global.emptyHat,Global.emptyHat,Global.emptyHat,Global.emptyHat),
             ],
           ),
         );
     }
-    return buildStars(context,Colors.black,Colors.black,Colors.black,Colors.black,Global.goldStars);
+    return buildHats(context,Colors.black,Colors.black,Colors.black,Colors.black,Global.emptyHat);
   }
 
-  Widget buildStars(BuildContext context, Color color1, Color color2,Color color3,Color color4,Color color5){
+  Widget buildHats(BuildContext context, Color color1, Color color2,Color color3,Color color4,Color color5){
     return Row(
       children: <Widget>[
-        starIcon(context , color1),
-        starIcon(context , color2),
-        starIcon(context , color3),
-        starIcon(context , color4),
-        starIcon(context , color5)
+        hatIcon(context , color1),
+        hatIcon(context , color2),
+        hatIcon(context , color3),
+        hatIcon(context , color4),
+        hatIcon(context , color5)
       ],
     );
   }
 
-  starIcon(BuildContext context, Color color) {
+  hatIcon(BuildContext context, Color color) {
     return Align(
         alignment: Alignment.topRight,
         child: color == Colors.black ? Padding(
@@ -298,30 +298,20 @@ class _RankState extends State<Rank> {
           padding: const EdgeInsets.all(2),
           child: ImageIcon(AssetImage("images/hat.png")),
         ),
-//        IconButton(
-//          icon: color == Colors.black ? ImageIcon(AssetImage("images/hat_border.png")) : ImageIcon(AssetImage("images/hat.png")),
-////          Icon(color == Colors.black ? Icons.star_border : Icons.star,color: color,),
-////          onPressed: () {
-//////            showStarDialog(context);
-////          },
-//        )
     );
   }
 }
 
 
-Widget stars(int rank){
+Widget hats(int rank){
   switch(rank){
     case 1:
       return ImageIcon(AssetImage("images/hat.png"));
-//        Icon(Icons.star,color: Global.goldStars,);
     case 2:
       return Row(
         children: <Widget>[
           ImageIcon(AssetImage("images/hat.png")),
           ImageIcon(AssetImage("images/hat.png")),
-//          Icon(Icons.star,color: Global.goldStars),
-//          Icon(Icons.star,color: Global.goldStars),
         ],
       );
     case 3:
@@ -330,9 +320,6 @@ Widget stars(int rank){
           ImageIcon(AssetImage("images/hat.png")),
           ImageIcon(AssetImage("images/hat.png")),
           ImageIcon(AssetImage("images/hat.png")),
-//          Icon(Icons.star,color: Global.goldStars),
-//          Icon(Icons.star,color: Global.goldStars),
-//          Icon(Icons.star,color: Global.goldStars),
         ],
       );
     case 4:
@@ -342,10 +329,6 @@ Widget stars(int rank){
           ImageIcon(AssetImage("images/hat.png")),
           ImageIcon(AssetImage("images/hat.png")),
           ImageIcon(AssetImage("images/hat.png")),
-//          Icon(Icons.star,color: Global.goldStars),
-//          Icon(Icons.star,color: Global.goldStars),
-//          Icon(Icons.star,color: Global.goldStars),
-//          Icon(Icons.star,color: Global.goldStars),
         ],
       );
     case 5:
@@ -356,16 +339,10 @@ Widget stars(int rank){
           ImageIcon(AssetImage("images/hat.png")),
           ImageIcon(AssetImage("images/hat.png")),
           ImageIcon(AssetImage("images/hat.png")),
-//          Icon(Icons.star,color: Global.goldStars),
-//          Icon(Icons.star,color: Global.goldStars),
-//          Icon(Icons.star,color: Global.goldStars),
-//          Icon(Icons.star,color: Global.goldStars),
-//          Icon(Icons.star,color: Global.goldStars),
         ],
       );
     default:
       return ImageIcon(AssetImage("images/hat.png"));
-//        Icon(Icons.star,color: Global.goldStars);
   }
 }
 

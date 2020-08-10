@@ -1,22 +1,15 @@
 import 'dart:async';
-import 'dart:convert';
-
 import 'dart:math';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutterapp/Statistics/StatisticsDataBase.dart';
 import 'package:flutter/src/painting/edge_insets.dart';
 import 'package:provider/provider.dart';
 import '../Global.dart';
-import 'package:number_display/number_display.dart';
 import 'package:charts_flutter/flutter.dart' as chart;
 
-
-final display = createDisplay(decimal: 2);
-
-
 class StatisticsPage extends StatelessWidget {
+
   DataService data=DataService();
   @override
   Widget build(BuildContext context) {
@@ -47,11 +40,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 
-
-
 getLength(){
-//  var t=min(_HomeScreenState.exams.length, _HomeScreenState.grades.length);
-//  return min(t,_HomeScreenState.homework.length);
   if(_HomeScreenState.xAxisValues!=null && _HomeScreenState.yAxisValues!=null)
     {return min(_HomeScreenState.xAxisValues.length,_HomeScreenState.yAxisValues.length);}
   return 0;
@@ -60,23 +49,14 @@ getLength(){
 
 class _HomeScreenState extends State<HomeScreen> {
   static String course;
-//  static String subject="";
   static String xAxis="examTime";
   static String Yaxis="grade";
-//  static String currentChart="Bar";
-//  static List<int> exams=[]; //should be removed
-//  static List<int> grades=[]; //should be removed
-//  static List<int> homework=[]; //should be removed
   static List<int> xAxisValues; //should include the data that is display in the X Axis, replacing the above exams,grades, homework
   static List<int> yAxisValues; //kanal
-//  static List<DataModel> data;
-//  static String test = "testString";
   bool reload=true;
 
 
   List<List<int>> sortDataForGraph(List<int> XAxis, List<int> YAxis){
-//    List<int> currentX = XAxis=="Exam"?exams:XAxis=="Grade"?grades:homework;
-//    List<int> currentY = YAxis=="Exam"?exams:YAxis=="Grade"?grades:homework;
     var newList=List.generate(getLength(), (i) =>[xAxisValues[i],yAxisValues[i]]);
     newList.sort((a,b){
       if(a[0]==null && b[0]==null){return 0;}
@@ -97,48 +77,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return [newCurrentX, newCurrentY]; //could hold more than only two parameters. thats why its a List.
 
   }
-//
-//  getExamValue(DataModel data){
-//    List<int>value=[];
-//    var exam=data!=null?data.exam.split(","):[];
-//    exam.forEach((element) {
-//      var e=element.replaceAll("[","").replaceAll("]","");
-//      if(e!="null"){
-//        value.add(int.parse(e));
-//      }
-//    });
-//
-//    return value;
-//  }
-//  getGradeValue(DataModel data){
-//    List<int>value=[];
-//    var exam=data!=null?data.grade.split(","):[];
-//    exam.forEach((element) {
-//      var e=element.replaceAll("[","").replaceAll("]","");
-//      if(e!="null"){
-//        value.add(int.parse(e));
-//      }
-//    });
-//
-//    return value;
-//  }
-//  getHomeWorkValue(String data){
-//    List<int>value=[];
-//    var exam=data!=null?data.split(","):[];
-//    exam.forEach((element) {
-//      var e=element.replaceAll("[","").replaceAll("]","");
-//      if(e!="null"){
-//        value.add(int.parse(e));
-//      }
-//    });
-//
-//    return value;
-//  }
+
 
   Future<void> loadData(BuildContext context) async {
-    //exams, grades, homework are List<int> that include the current-chosen-course, its returned and parsed from string representation using the above 3 functions.
-//    data=Provider.of<List<DataModel>>(context);
-
     if(course==null){
       course= Global().getAllCourses()[0];
     }
@@ -191,131 +132,91 @@ class _HomeScreenState extends State<HomeScreen> {
           colorFn: (Chart series, _) => series.barColor
       )
     ];
-    return Scaffold(
-      appBar: AppBar(
-         title: new Center(child: new Text("STATISTICS PAGE ", textAlign: TextAlign.center)),
-
-
-        ),
-
-
-
-      body:xAxisValues==null||yAxisValues==null||xAxisValues.isEmpty || yAxisValues.isEmpty ?Center(child: CircularProgressIndicator(),) :SingleChildScrollView(
-        child: Column(
-          children: [
-        Container(
-              color: Global.getBackgroundColor(100),
-          alignment: Alignment(0.5, 0.0),
-          width: MediaQuery.of(context).size.width,
-            child: DropdownButton<String>(
-                value: course,
-                icon: Icon(Icons.arrow_drop_down,color: Colors.black,),
-                dropdownColor: Colors.white,
-                underline: Container(),
-                items:
-                Global().getAllCourses().map((e) => DropdownMenuItem<String>(
-                  child: Text(e),
-                  value: e,
-                )
-                ).toList(),
-                onChanged:(value){
-                  setState(() {
-                    reload=true;
-                    course=value;
-//                        subject=value=="Overall Average"?"Logic":value;
-                  });
-                }
-            ),),
-//            ListTile(
-//              leading: Text("X-Axis"),
-//              trailing: DropdownButton(
-//                  value: xAxis,
-//                  underline: Container(),
-//                  items: [
-//                    DropdownMenuItem(child: Text("Exam Time"),value: "examTime",),
-//                    DropdownMenuItem(child: Text("Final Grade"),value: "grade",),
-//                    DropdownMenuItem(child: Text("Homework Time"),value: "hwTime",),
-//                  ], onChanged:(value){
-//                setState(() {
-//                  reload=true;
-//                  xAxis=value;
-//                });
-//              }),
-//            ),
-//            ListTile(
-//              leading: Text("Y-Axis"),
-//              trailing: DropdownButton(
-//                  value: Yaxis,
-//                  underline: Container(),
-//                  items: [
-//                    DropdownMenuItem(child: Text("Exam Time"),value: "examTime",),
-//                    DropdownMenuItem(child: Text("Average"),value: "avg",),
-//                    DropdownMenuItem(child: Text("Final Grade"),value: "grade",),
-//                    DropdownMenuItem(child: Text("Homework Time"),value: "hwTime",),
-//                  ], onChanged:(value){
-//                setState(() {
-//                  reload=true;
-//                  Yaxis=value;
-//                });
-//              }),
-//            ),
-            Divider(height: 10,),
-            Padding(
-              padding: const EdgeInsets.only(left: 30, right:30),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  DropdownButton(
-                      value: Yaxis,
-                      underline: Container(),
-                      items: [
-                        DropdownMenuItem(child: Text("Exam Time"),value: "examTime",),
-                        DropdownMenuItem(child: Text("Average"),value: "avg",),
-                        DropdownMenuItem(child: Text("Final Grade"),value: "grade",),
-                        DropdownMenuItem(child: Text("Homework Time"),value: "hwTime",),
-                      ], onChanged:(value){
+    return SafeArea(
+      child: Scaffold(
+        body:xAxisValues==null||yAxisValues==null ?Center(child: CircularProgressIndicator(),) :SingleChildScrollView(
+          child: Column(
+            children: [
+          Container(
+                color: Global.getBackgroundColor(100),
+            alignment: Alignment(0.5, 0.0),
+            width: MediaQuery.of(context).size.width,
+              child: DropdownButton<String>(
+                  value: course,
+                  icon: Icon(Icons.arrow_drop_down,color: Colors.black,),
+                  dropdownColor: Colors.white,
+                  underline: Container(),
+                  items:
+                  Global().getAllCourses().map((e) => DropdownMenuItem<String>(
+                    child: Text(e),
+                    value: e,
+                  )
+                  ).toList(),
+                  onChanged:(value){
                     setState(() {
                       reload=true;
-                      Yaxis=value;
+                      course=value;
                     });
-                  })
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 10,top: 25),
-              height: MediaQuery.of(context).size.height*0.6,
-              child: chart.BarChart(
-                series,
-                animate: true,behaviors: [
-                  chart.SlidingViewport(),
-                  chart.PanAndZoomBehavior(),
+                  }
+              ),),
+              Divider(height: 10,),
+              Padding(
+                padding: const EdgeInsets.only(left: 30, right:30),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    DropdownButton(
+                        value: Yaxis,
+                        underline: Container(),
+                        items: [
+                          DropdownMenuItem(child: Text("Exam Time"),value: "examTime",),
+                          DropdownMenuItem(child: Text("Average"),value: "avg",),
+                          DropdownMenuItem(child: Text("Final Grade"),value: "grade",),
+                          DropdownMenuItem(child: Text("Homework Time"),value: "hwTime",),
+                        ], onChanged:(value){
+                      setState(() {
+                        reload=true;
+                        Yaxis=value;
+                      });
+                    })
                   ],
+                ),
               ),
-            ),
-            Center(
-              child: DropdownButton(
-                  value: xAxis,
-                  underline: Container(),
-                  items: [
-                    DropdownMenuItem(child: Text("Exam Time"),value: "examTime",),
-                    DropdownMenuItem(child: Text("Final Grade"),value: "grade",),
-                    DropdownMenuItem(child: Text("Homework Time"),value: "hwTime",),
-                  ], onChanged:(value){
-                setState(() {
-                  reload=true;
-                  xAxis=value;
-                });
-              }),
-            ),
-           
+              Container(
+                margin: EdgeInsets.only(left: 10,top: 25),
+                height: MediaQuery.of(context).size.height*0.6,
+                child: chart.BarChart(
+                  series,
+                  animate: true,behaviors: [
+                    chart.SlidingViewport(),
+                    chart.PanAndZoomBehavior(),
+                    ],
+                ),
+              ),
+              Center(
+                child: DropdownButton(
+                    value: xAxis,
+                    underline: Container(),
+                    items: [
+                      DropdownMenuItem(child: Text("Exam Time"),value: "examTime",),
+                      DropdownMenuItem(child: Text("Final Grade"),value: "grade",),
+                      DropdownMenuItem(child: Text("Homework Time"),value: "hwTime",),
+                    ], onChanged:(value){
+                  setState(() {
+                    reload=true;
+                    xAxis=value;
+                  });
+                }),
+              ),
 
-          ],
-        ),
-      )
-      ,
+
+            ],
+          ),
+        )
+        ,
 
 
+      ),
     );
   }
 

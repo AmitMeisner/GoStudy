@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:animated_card/animated_card.dart';
 import 'package:flutterapp/HomePage/Timer/fireBase/TimeCard.dart';
 import 'package:flutterapp/HomePage/Timer/fireBase/fireBase_api.dart';
-import 'package:flutterapp/Statistics/StatisticsDataBase.dart';
 import 'package:flutterapp/firebase/FirebaseAPI.dart';
 import 'dart:async';
 import 'package:google_fonts/google_fonts.dart';
@@ -80,11 +79,13 @@ class _CardsState extends State<Cards> {
      await TimeDataBase().deleteTimeCard(timeCard);
      updateTimesPageState();
   }
+
 //update the list according to the firebase
   Future<List<TimeCard>> updateTimeList(BuildContext context) async {
     _timeCards = Provider.of<List<TimeCard>>(context);
     return _timeCards;
   }
+
 // add a time history to the firebase
   void addCard(String course, String resource, DateTime date, int hours,
       int minutes, int seconds) {
@@ -120,6 +121,7 @@ class _CardsState extends State<Cards> {
       ),
     );
   }
+
 }
 
 
@@ -161,7 +163,6 @@ Widget cardContent(BuildContext context,Function course, int index , List<TimeCa
 }
 
 
-
 // creating the cards course and resource tags, date and time for the all the cards.
 Widget showInfo(BuildContext context,Function course, int index , List<TimeCard> times, Function updateTimesPageState){
   String date=dateTimeToString(times[index].getDate());
@@ -195,6 +196,7 @@ Widget showInfo(BuildContext context,Function course, int index , List<TimeCard>
   );
 
 }
+
 // return the date as a string
 String dateTimeToString(DateTime date) {
   String day=date.day.toString();
@@ -202,6 +204,7 @@ String dateTimeToString(DateTime date) {
   String year=date.year.toString();
   return(day+"/"+month+"/"+year);
 }
+
 // return the time in the right form
 String timeString(int time){
   if(time<10){
@@ -209,12 +212,13 @@ String timeString(int time){
   }return time.toString();
 
 }
+
 // create the edit icon
 void editTime(BuildContext context, Function updateTimesPageState, TimeCard times) {
   showModalBottomSheet(
     context: context,
     builder: (context) {
-      return editTimeDialog(updateTimesPageState,times);
+      return EditTimeDialog(updateTimesPageState,times);
     },
     isScrollControlled: true,
     shape: RoundedRectangleBorder(

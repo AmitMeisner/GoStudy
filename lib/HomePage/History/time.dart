@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../Global.dart';
@@ -23,7 +21,6 @@ class TimesPageState extends State<TimesPage> {
 
 
   @override
-
   Widget build(BuildContext context) {
     return StreamProvider<List<TimeCard>>.value(
       value: TimeDataBase().times,
@@ -55,39 +52,6 @@ class TimesPageState extends State<TimesPage> {
   }
 
 
-//  //creating the floating action button for add tip.
-//  Widget fabAddTip(BuildContext context) {
-//    return Row(
-//      mainAxisAlignment: MainAxisAlignment.center,
-//      children: <Widget>[
-//        FloatingActionButton.extended(
-//          onPressed: () {
-          // addTip(context, updateState);
-//          },
-//          label: Text("Add Time Manually"),
-//          backgroundColor: Colors.blueAccent,
-//          icon: Icon(Icons.add),
-////            shape: new CircleBorder(),
-//        ),
-////        fabReload(context),
-//      ],
-//    );
-//  }
-
-
-  //creating the floating action button for reloading.
-  Widget fabReload(BuildContext context) {
-    return FloatingActionButton.extended(
-      onPressed: () {
-        updateState();
-      },
-      label: Icon(Icons.autorenew),
-      backgroundColor: Colors.blueAccent,
-      shape: new CircleBorder(),
-      focusElevation: 30.0,
-    );
-  }
-
 
   //updating the state of the tips page, to be used in other classes.
   void updateState(){
@@ -99,15 +63,6 @@ class TimesPageState extends State<TimesPage> {
     userCourse.clear();
     for(int i=0;i<newUserCourse.length;i++){
       userCourse.add(newUserCourse[i]);
-    }
-
-  }
-
-  //updating the users courses choice in the tip page.
-  void updateUserResource(List<String> newUserResource) {
-    userCourse.clear();
-    for(int i=0;i<newUserResource.length;i++){
-      userCourse.add(newUserResource[i]);
     }
 
   }
