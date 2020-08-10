@@ -23,8 +23,10 @@ class _RankState extends State<Rank> {
 
 
   void initial()async{
-    UserProgress user = await UserProgressDataBase().getUser(FirebaseAPI().getUid());
+    String userUid = FirebaseAPI().getUid();
+    UserProgress user = await UserProgressDataBase().getUser(userUid);
     friendsUid=await UserDataBase().getUserFriendsList(FirebaseAPI().getUid());
+    friendsUid.add(userUid);
     friends.clear();
     for(String user in friendsUid) {
       friends.add(await UserDataBase().getUserNickname(user));
@@ -33,9 +35,9 @@ class _RankState extends State<Rank> {
     }
     semesterHours=user.getGoal("SemesterHours",null);
     semesterHoursDone=user.getCourseTime("totalTime",null);
-    if((semesterHoursDone/semesterHours)>0.2){starRank=2;}
-    if((semesterHoursDone/semesterHours)>0.5){starRank=3;}
-    if((semesterHoursDone/semesterHours)>0.75){starRank=4;}
+    if((semesterHoursDone/semesterHours)>0.15){starRank=2;}
+    if((semesterHoursDone/semesterHours)>0.35){starRank=3;}
+    if((semesterHoursDone/semesterHours)>0.65){starRank=4;}
     if((semesterHoursDone/semesterHours)>0.9){starRank=5;}
     user.setRank(starRank);
     initializing=false;
@@ -58,7 +60,34 @@ class _RankState extends State<Rank> {
     return Scaffold(
       body: ListView(
           children: [
-            rankStars(starRank),
+            GestureDetector(
+              onTap: (){
+                showDialog(context: context,
+                child: AlertDialog(
+                  content: Text("\nJunior level unlocked at 15%\n\n"
+                      "Intermediate level unlocked at 35%\n\n"
+                      "Doctor level unlocked at 65%\n\n"
+                      "Professor level unlocked at 90%"
+                      ),
+                  shape:
+                  RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15)),
+                  actions: [
+                    FlatButton(
+                      child: Text(
+                        "cancel",
+                        style: TextStyle(
+                            color: Colors.blueAccent, fontWeight: FontWeight.bold),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                )
+                );
+              },
+                child: rankStars(starRank)
+            ),
             _getBodyWidget()
           ]),
     );
@@ -132,10 +161,19 @@ class _RankState extends State<Rank> {
   }
 
   Widget _generateRightHandSideColumnRow(BuildContext context, int index) {
+    int currentRank =1;
+    if (user.userInfo[index].progress >= 15)
+      currentRank =2;
+    if (user.userInfo[index].progress >= 35)
+      currentRank =3;
+    if (user.userInfo[index].progress >= 65)
+      currentRank =4;
+    if (user.userInfo[index].progress >= 90)
+      currentRank =5;
     return Row(
       children: <Widget>[
         Container(
-          child: stars(user.userInfo[index].rank),
+          child: stars(currentRank),
           width: 150,
           height: 52,
           padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
