@@ -125,7 +125,7 @@ class _ProgressDataState extends State<ProgressData> {
                   children: [
                     Center(
                         child: Text(
-                      "Week " + "5" + " Progress",
+                      "Weekly Progress",
                       style: GoogleFonts.cabin(fontSize: 35, fontWeight: FontWeight.bold),
 //                      TextStyle(fontFamily: 'Piedra', fontSize: 35),
                     )),
@@ -221,8 +221,9 @@ class _ProgressDataState extends State<ProgressData> {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: semesterHoursDone == 0.0
-                                    ? LinearPercentIndicator(
+                                    ?   LinearPercentIndicator(
                                         animation: true,
+                                        width: MediaQuery.of(context).size.width-100,
                                         lineHeight: 40.0,
                                         animationDuration: 2000,
                                         percent: 0.0,
@@ -255,24 +256,63 @@ class _ProgressDataState extends State<ProgressData> {
                 ),
               ),
               SizedBox(height: MediaQuery.of(context).size.height / 20),
-              Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: NiceButton(
-                  background: Colors.grey[300],
-                  radius: 40,
-                  padding: EdgeInsets.all(5),
-                  text: "Set New Plan",
-                  icon: Icons.account_box,
-                  gradientColors: [
-                    Global.getBackgroundColor(400),
-                    Global.getBackgroundColor(500),
-                    Global.getBackgroundColor(400)
-                  ],
-                  onPressed: () {
-                    setNewPlanDialog(context);
-                  },
-                ),
+              Row(
+//                mainAxisSize: MainAxisSize.max,
+//                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Expanded(child: DedicationInput()),
+                  IconButton(
+                    icon: Icon(Icons.forward),
+                    onPressed: () {
+                      showDialog(context: context,
+                    child: AlertDialog(
+                      title: Text("Are you sure you want to update Dedication level?"),
+                      actions: [
+                        FlatButton(
+                          child: Text(
+                            "No",
+                            style: TextStyle(
+                                color: Colors.blueAccent, fontWeight: FontWeight.bold),
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        FlatButton(
+                          child: Text(
+                            "Yes",
+                            style: TextStyle(
+                                color: Colors.blueAccent, fontWeight: FontWeight.bold),
+                          ),
+                          onPressed: () {
+                            setPlan();
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ],
+                    )
+                    );},
+                  )
+                ],
               ),
+//              Padding(
+//                padding: const EdgeInsets.all(24.0),
+//                child: NiceButton(
+//                  background: Colors.grey[300],
+//                  radius: 40,
+//                  padding: EdgeInsets.all(5),
+//                  text: "Set New Plan",
+//                  icon: Icons.account_box,
+//                  gradientColors: [
+//                    Global.getBackgroundColor(400),
+//                    Global.getBackgroundColor(500),
+//                    Global.getBackgroundColor(400)
+//                  ],
+//                  onPressed: () {
+//                    setNewPlanDialog(context);
+//                  },
+//                ),
+//              ),
             ],
           ),
         )),
@@ -586,7 +626,7 @@ class editDialogState extends State<editDialog> {
                 color: Colors.blueAccent, fontWeight: FontWeight.bold),
           ),
           onPressed: () {
-//                  widget.userProgress.setGoalForCourse(widget.course,widget.activity, hoursGoalController.text);
+                  widget.userProgress.setGoalForCourse(widget.course,widget.activity, hoursGoalController.text, widget.hoursGoal.toString());
             Navigator.pop(context);
           },
         ),
