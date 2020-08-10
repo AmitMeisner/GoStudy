@@ -297,7 +297,7 @@ class _SettingsState extends State<Settings> {
         itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
           PopupMenuItem(value:'0',child: menuEntry("Personal Information", Icon(Icons.assignment_ind,color: Colors.black,))),
           PopupMenuItem(value:'1',child: menuEntry("Activity History", Icon(Icons.alarm,color: Colors.black))),
-          PopupMenuItem(value:'2',child: menuEntry("Old Courses Info", Icon(Icons.history,color: Colors.black))),
+          PopupMenuItem(value:'2',child: menuEntry("Previous Courses Info", Icon(Icons.history,color: Colors.black))),
           PopupMenuItem(value:'3',child: menuEntry("Log Out", Icon(Icons.exit_to_app,color: Colors.black))),
         ],
       ),
