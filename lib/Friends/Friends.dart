@@ -50,18 +50,21 @@ class _FriendsState extends State<Friends> {
       child: StreamProvider<List<User>>.value(
         value: FriendsDataBase().users,
         child: Scaffold(
-          backgroundColor: Global.backgroundPageColor,
+          backgroundColor: Global.getBackgroundColor(0),
           body: SafeArea(
             child: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  inputDecoration("Search",searchController, 50.0,TextInputType.text ),
-                  isSearch? FriendsCards(initial):friendsList(),
-                ],
+              child: Container(
+                height: MediaQuery.of(context).size.height,
+                color: Colors.white,
+                child: Column(
+                  children: <Widget>[
+                    inputDecoration("Search",searchController, 50.0,TextInputType.text ),
+                    isSearch? FriendsCards(initial):friendsList(),
+                  ],
+                ),
               ),
             ),
           ),
-//        floatingActionButton: fabAddTip(context),
         ),
       ),
       onWillPop: ()async{
@@ -83,11 +86,9 @@ class _FriendsState extends State<Friends> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Text("Friend Requests", style: GoogleFonts.habibi(fontSize: 35, fontWeight: FontWeight.bold),
-//          TextStyle(fontFamily: 'Piedra',fontSize: 35)
           ),
           friendRequest(),
           Text("Friends List", style: GoogleFonts.habibi(fontSize: 35, fontWeight: FontWeight.bold),
-//          TextStyle(fontFamily: 'Piedra',fontSize: 35)
           ),
           friendsListCards(),
         ],
