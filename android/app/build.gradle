@@ -47,14 +47,30 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
 //        applicationId "com.example.flutterapp"
-        applicationId "google.workshop.gostudy"
+        applicationId "gostudy.google.workshop"
         minSdkVersion 16
         targetSdkVersion 29
-        versionCode flutterVersionCode.toInteger()
+//        versionCode flutterVersionCode.toInteger()
+        versionCode 3
         versionName flutterVersionName
         multiDexEnabled true
 
     }
+
+
+//    signingConfigs {
+//        release {
+//            keyAlias keystoreProperties['keyAlias']
+//            keyPassword keystoreProperties['keyPassword']
+//            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+//            storePassword keystoreProperties['storePassword']
+//        }
+//    }
+//    buildTypes {
+//        release {
+//            signingConfig signingConfigs.release
+//        }
+//    }
 
 
 
