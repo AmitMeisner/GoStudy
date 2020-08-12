@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "725457961142-2t8qgvp4t4que23suoch89bbg5a2vjp5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flutterapp",
+            "certificate_hash": "de1c247b084be9f5c87cb0a3aa35d7b9c6674d9c"
+          }
+        },
+        {
+          "client_id": "725457961142-3dorbk5ooe5dvieetqs86hukh2ut7qja.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flutterapp",
+            "certificate_hash": "ce23e7f28e62a06db91c0fab519bb9bb9d652844"
+          }
+        },
+        {
           "client_id": "725457961142-maue9tn96fovdha4906kgk84df1lcr7p.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -92,10 +108,95 @@
       },
       "oauth_client": [
         {
+          "client_id": "725457961142-rrjon2khbho3uehnbddo3h9vilkb8f69.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "google.workshop.gostudy",
+            "certificate_hash": "d09da147e086f6cf7b84ce4e904d0f9fe542d418"
+          }
+        },
+        {
+          "client_id": "725457961142-iuvu0oumjdjd99l0rqhd9769s7iv9tab.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "google.workshop.gostudy",
+            "certificate_hash": "ebb262057aef96535ee0f953954c647f34a7b883"
+          }
+        },
+        {
+          "client_id": "725457961142-f6amst6s2n00sl9b6mb3423ug8b6ao44.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "google.workshop.gostudy",
+            "certificate_hash": "c1f2731e5742f295d2897397b24604d684230934"
+          }
+        },
+        {
+          "client_id": "725457961142-3rhoqv6lhf215t1u8kckiau9tuui7k0b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "google.workshop.gostudy",
+            "certificate_hash": "de6346e90b610f046e0c4cf578cbdeec6baf8561"
+          }
+        },
+        {
           "client_id": "725457961142-gics7db8vb66kho7fl6fsp3tki0j8cjg.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "google.workshop.gostudy",
+            "certificate_hash": "4c6f218e82a34846592479f05c5fb92856b45fe4"
+          }
+        },
+        {
+          "client_id": "725457961142-evsvrtdceh71nbkstfg846jqot0dl3u8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "google.workshop.gostudy",
+            "certificate_hash": "92bc28f5bde12fdf31e41b6e0bf49d6a7779292a"
+          }
+        },
+        {
+          "client_id": "725457961142-kjdoq2t8e99tsnm6hj5vn2h2bu6342jt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3maPBZ-t3tmdLzGKJpbvsJnBhg4WJ36s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "725457961142-kjdoq2t8e99tsnm6hj5vn2h2bu6342jt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:725457961142:android:0514a5c67b89a577f02617",
+        "android_client_info": {
+          "package_name": "gostudy.google.workshop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "725457961142-it1cuc85dl5qp3s3kipq5h43b4jhr7uh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "gostudy.google.workshop",
+            "certificate_hash": "6bbc14f7ffea9729875e9c8e65b3c7032c89abff"
+          }
+        },
+        {
+          "client_id": "725457961142-4015hn37f8sf1v1j4a57g420pi3luc75.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "gostudy.google.workshop",
             "certificate_hash": "4c6f218e82a34846592479f05c5fb92856b45fe4"
           }
         },
